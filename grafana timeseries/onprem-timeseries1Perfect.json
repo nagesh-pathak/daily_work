@@ -721,7 +721,7 @@
     }
 
   ],
-  "refresh": "",
+  "refresh": "10m",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],

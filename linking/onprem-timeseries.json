@@ -621,7 +621,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) / \n  (onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) * 100",
+          "expr": "(onprem_host_memory_usage_used{}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) / \n  (onprem_host_memory_usage_total{}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) * 100",
           "legendFormat": "{{ophid}}",
           "range": true,
           "refId": "A"
@@ -805,7 +805,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "(onprem_cpu_percentage{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})",
+          "expr": "(onprem_cpu_percentage{}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})",
           "legendFormat": "{{ophid}}",
           "range": true,
           "refId": "A"
@@ -989,7 +989,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "(onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})",
+          "expr": "(onprem_cdc_volume_used_percent{}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})",
           "legendFormat": "{{ophid}} - {{device}}",
           "range": true,
           "refId": "A"

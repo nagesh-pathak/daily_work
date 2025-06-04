@@ -187,7 +187,7 @@
           "refId": "A"
         }
       ],
-      "title": "CDC Container CPU Usage",
+      "title": "CDC Container CPU Usage %",
       "type": "graph",
       "xaxis": {
         "mode": "time",
@@ -271,7 +271,7 @@
               }
             ]
           },
-          "unit": "bytes"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -281,7 +281,7 @@
         "x": 0,
         "y": 11
       },
-      "id": 3,
+      "id": 4,
       "hiddenSeries": false,
       "legend": {
         "alignAsTable": true,
@@ -325,14 +325,14 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "onprem_container_memory_working_set_bytes{account_id=~\"$account_id\", ophid=\"$ophid\",onprem_namespace=\"infoblox\",onprem_pod=~\"cdc.*\"}",
+          "expr": "(\n  onprem_container_memory_working_set_bytes{\n    account_id=~\"$account_id\",\n    ophid=\"$ophid\",\n    onprem_namespace=\"infoblox\",\n    onprem_pod=~\"cdc.*\"\n  }\n  /\n  on(ophid) group_left()\n  onprem_host_memory_usage_total{\n    account_id=~\"$account_id\",\n    ophid=\"$ophid\"\n  }\n) * 100",
           "instant": false,
           "interval": "",
           "legendFormat": "{{onprem_pod}} , {{onprem_container}}",
           "refId": "A"
         }
       ],
-      "title": "CDC Container Memory Usage",
+      "title": "CDC Container Memory Usage %",
       "type": "graph",
       "xaxis": {
         "mode": "time",
@@ -341,7 +341,7 @@
       },
       "yaxes": [
         {
-          "format": "bytes",
+          "format": "percent",
           "logBase": 1,
           "min": "0",
           "show": true
@@ -425,8 +425,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CDC Onprem Resource Dashboard",
-  "uid": "cdc-onprem-cpu",
+  "title": "CDC Onprem Pods Resources Timeseries",
+  "uid": "cdc-onprem-pods-resources-timeseries",
   "version": 1,
   "weekStart": ""
 }

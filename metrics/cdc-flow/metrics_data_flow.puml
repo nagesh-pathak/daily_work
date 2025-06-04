@@ -1,0 +1,88 @@
+@startuml CDC_Flow_API_Metrics_Data_Flow
+
+' Title
+title CDC Flow API Service - Metrics Data Flow
+
+' Define components
+skinparam componentStyle uml2
+
+' Define main layers
+node "Data Producers" as producers {
+  [CDC Flow API Service] as api
+  [grpc_in Pod] as grpc
+  [syslog_out Pod] as syslog
+  [soar_light Pod] as soar
+  [http_out Pod] as http
+}
+
+node "Metrics Collection" as collection {
+  [Prometheus Scraper] as scraper
+  database "Time Series DB" as tsdb
+}
+
+node "Metrics Processing" as processing {
+  [Status Evaluator] as evaluator
+  [Flow Controller] as controller
+  [Alerting System] as alerting
+}
+
+node "Visualization" as viz {
+  [Dashboard] as dashboard
+}
+
+' Define data types
+card "Metrics Types" as metrics {
+  card "Infrastructure Metrics" as infra {
+    card "CPU & Memory" as resources
+    card "Network I/O" as network
+  }
+  
+  card "Service Metrics" as service_metrics {
+    card "cloud_cdc_timestamp" as timestamp_metric
+    card "cloud_cdc_pod_error" as error_metric
+  }
+  
+  card "API Metrics" as api_metrics {
+    card "cloud_cdc_api_request_count" as req_count
+    card "cloud_cdc_api_request_duration" as req_duration
+    card "cloud_cdc_api_error_count" as error_count
+  }
+}
+
+' Define data flows
+producers --> collection: Expose metrics
+api ..> api_metrics: Produces
+grpc ..> service_metrics: Produces
+syslog ..> service_metrics: Produces
+soar ..> service_metrics: Produces
+http ..> service_metrics: Produces
+
+scraper -> tsdb: Stores
+tsdb --> evaluator: Provides
+evaluator -> controller: Updates status
+
+api_metrics ---> scraper: Collected
+service_metrics ---> scraper: Collected
+infra ---> scraper: Collected
+
+evaluator --> alerting: Triggers
+alerting --> dashboard: Displays
+evaluator --> dashboard: Visualizes
+
+legend
+  <b>CDC Flow API Service Metrics Flow</b>
+  
+  The system has two primary metrics flows:
+  
+  1. <b>Service Metrics:</b> Pod metrics for determining flow health status
+     - Source timestamp metrics (grpc_in)
+     - Destination timestamp metrics (syslog_out, http_out)
+     - Error metrics for all pods
+  
+  2. <b>API Metrics:</b> Service performance metrics
+     - Request counts
+     - Request durations
+     - Error counts
+endlegend
+
+@enduml

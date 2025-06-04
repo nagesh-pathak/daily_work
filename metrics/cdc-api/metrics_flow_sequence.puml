@@ -1,0 +1,83 @@
+@startuml Metrics Flow Sequence
+
+!define RECTANGLE class
+
+skinparam sequenceActorBorderColor Black
+skinparam sequenceActorBackgroundColor LightBlue
+skinparam participantBorderColor Black
+skinparam participantBackgroundColor LightBlue
+skinparam noteBorderColor Gray
+skinparam noteFontSize 10
+
+' Define actors and participants
+actor "Administrator" as admin
+participant "CDC API\nService" as cdcApi
+participant "Status\nReporter" as statusReporter
+participant "Flow Status\nAggregator" as flowAggregator
+participant "CDC Containers" as cdcContainers
+participant "Prometheus" as prometheus
+participant "Metrics\nController" as metricsController
+participant "Status\nService" as statusService
+participant "Host App\nService" as hostApp
+
+' Define the flow sequence
+autonumber
+group Metrics Collection Setup
+    admin -> cdcApi: Create/Update Flow Configuration
+    cdcApi -> cdcContainers: Apply Configuration
+    cdcContainers -> cdcContainers: Start collecting metrics
+end
+
+group Metrics Exposition
+    cdcContainers -> metricsController: Export container metrics (timestamps)
+    metricsController -> prometheus: Store container metrics
+    note over metricsController, prometheus
+        Metrics format: onprem_cdc_[container]_timestamp
+        or: onprem_cdc_[dest_container]_[src_container]_timestamp
+    end note
+end
+
+group Periodic Status Checking
+    statusReporter -> flowAggregator: Initiate flow status check
+    flowAggregator -> hostApp: Fetch CDC host information
+    flowAggregator <- hostApp: Return CDC host data (health status)
+    
+    flowAggregator -> cdcApi: Get Flow Mappings
+    flowAggregator <- cdcApi: Return Flow to Host mappings
+    
+    flowAggregator -> cdcApi: Get Container Config Status
+    flowAggregator <- cdcApi: Return Container Configuration Status
+    
+    flowAggregator -> prometheus: Query metrics timestamps (GetRecentTimestamp)
+    flowAggregator <- prometheus: Return timestamp metrics for containers
+    
+    flowAggregator -> flowAggregator: AggregateFlowStatus()
+    note right of flowAggregator
+        1. For each flow and its CDC hosts
+        2. Check CDC service state
+        3. For each container:
+           - Check config status
+           - Check health status
+           - Get timestamp metrics
+        4. Calculate final flow status
+    end note
+    
+    flowAggregator -> statusReporter: Return Status Events
+    statusReporter -> statusService: SendFlowStatus()
+    
+    statusReporter -> cdcApi: SetCDCFlowStatus() (update Prometheus metrics)
+    note right of cdcApi
+        Update cdc_flow_status gauge metric with:
+        - 1.0 = HEALTHY
+        - 0.5 = PENDING
+        - 0.0 = UNHEALTHY
+        - -1.0 = UNKNOWN
+    end note
+end
+
+group Metrics Querying
+    admin -> prometheus: Query flow status and container metrics
+    admin <- prometheus: Return metrics data
+end
+
+@enduml

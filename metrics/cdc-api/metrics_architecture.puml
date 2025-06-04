@@ -1,0 +1,109 @@
+@startuml Metrics Architecture
+
+' Define styles
+skinparam componentStyle rectangle
+skinparam monochrome false
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam classFontStyle bold
+
+' Define component colors
+skinparam component {
+    BackgroundColor<<CDC>> LightBlue
+    BackgroundColor<<External>> LightGray
+    BackgroundColor<<Metrics>> LightYellow
+    BorderColor Black
+}
+
+' Define node types
+component "CDC API Service" as cdcApi<<CDC>> {
+    component "Metrics Module" as metricsModule {
+        component "Flow Status Metrics" as flowStatusMetrics
+        component "Prometheus Client" as promClient
+    }
+    component "Flow Status" as flowStatus {
+        component "Flow Data Timestamp" as flowDataTimestamp
+        component "Aggregate Status" as aggregateStatus
+    }
+}
+
+component "CDC Containers" as cdcContainers<<CDC>> {
+    component "Source Containers" as sourceContainers {
+        component "dns_in" as dnsIn
+        component "ipmeta_in" as ipmetaIn
+        component "rpz_in" as rpzIn
+        component "grpc_in" as grpcIn
+    }
+    component "Destination Containers" as destContainers {
+        component "grpc_out" as grpcOut
+        component "siem_out" as siemOut
+        component "splunk_out" as splunkOut
+        component "splunkcloud_out" as splunkCloudOut
+        component "reporting_out" as reportingOut
+        component "soar_light" as soarLight
+        component "http_out" as httpOut
+    }
+    component "Processing Container" as processingContainer {
+        component "flume" as flume
+    }
+}
+
+component "Metrics Infrastructure" as metricsInfra<<Metrics>> {
+    component "Prometheus" as prometheus
+    component "Metrics Controller" as metricsController
+    component "On-premise Monitor" as onpremMonitor
+}
+
+component "External Services" as externalServices<<External>> {
+    component "Status Service" as statusService
+    component "Host App Service" as hostAppService
+    component "Flow API Service" as flowApiService
+}
+
+' Define relationships
+cdcApi --> prometheus : Exposes metrics
+cdcContainers --> onpremMonitor : Sends metrics
+onpremMonitor --> metricsController : Forwards metrics
+metricsController --> prometheus : Stores metrics
+cdcApi --> prometheus : Queries metrics
+
+flowStatus --> statusService : Sends flow status
+flowStatus --> hostAppService : Gets CDC host info
+flowStatus --> flowApiService : Gets flow configuration
+flowStatus --> prometheus : Retrieves metrics timestamps
+
+' Specific metrics flow
+metricsModule --> promClient : Uses
+flowStatus --> metricsModule : Updates metrics
+flowDataTimestamp --> prometheus : Queries timestamps
+aggregateStatus --> flowDataTimestamp : Uses timestamp data
+
+' Conditional flow
+flowStatus --> prometheus : "GetRecentTimestamp()"
+
+' Define metric types
+note right of flowStatusMetrics
+  Metrics exported:
+  - cdc_flow_status (gauge): Tracks CDC flow health
+    Labels: 
+      - account_id
+      - ophid 
+      - flow_id
+    Values:
+      - 1.0 = HEALTHY
+      - 0.5 = PENDING
+      - 0.0 = UNHEALTHY
+      - -1.0 = UNKNOWN
+endnote
+
+note right of prometheus
+  Container metrics:
+  - onprem_cdc_[container]_timestamp
+  - onprem_cdc_[dest_container]_[src_container]_timestamp
+  Example:
+  - onprem_cdc_dns_in_timestamp
+  - onprem_cdc_grpc_out_dns_in_timestamp
+endnote
+
+@enduml

@@ -1,0 +1,136 @@
+@startuml Metrics Data Model
+
+!define TABLE class
+!define COLUMN_PRIMARY_KEY column<<PK>> 
+!define COLUMN_FOREIGN_KEY column<<FK>> 
+
+skinparam class {
+    BackgroundColor LightBlue
+    ArrowColor Black
+    BorderColor Black
+}
+
+skinparam linetype ortho
+
+skinparam package {
+    BackgroundColor White
+    BorderColor Black
+}
+
+package "Container Metrics" {
+    class "Source Container Metrics" as SourceMetrics {
+        + onprem_cdc_dns_in_timestamp
+        + onprem_cdc_ipmeta_in_timestamp
+        + onprem_cdc_rpz_in_timestamp
+        + onprem_cdc_grpc_in_timestamp
+        ---
+        labels:
+        + ophid: string
+        + flow_id: string (optional)
+        ---
+        timestamp value (float)
+    }
+
+    class "Destination Container Metrics" as DestMetrics {
+        + onprem_cdc_grpc_out_timestamp
+        + onprem_cdc_siem_out_timestamp
+        + onprem_cdc_splunk_out_timestamp
+        + onprem_cdc_splunkcloud_out_timestamp
+        + onprem_cdc_reporting_out_timestamp
+        + onprem_cdc_soar_light_timestamp
+        + onprem_cdc_http_out_timestamp
+        ---
+        labels:
+        + ophid: string
+        + flow_id: string (optional)
+        ---
+        timestamp value (float)
+    }
+
+    class "Combined Metrics" as CombinedMetrics {
+        + onprem_cdc_[dest]_[src]_timestamp
+        examples:
+        + onprem_cdc_grpc_out_dns_in_timestamp
+        + onprem_cdc_siem_out_grpc_in_timestamp
+        ---
+        labels:
+        + ophid: string
+        + flow_id: string (optional)
+        ---
+        timestamp value (float)
+    }
+}
+
+package "Flow Status Metrics" {
+    class "CDC Flow Status" as FlowStatusMetric {
+        + cdc_flow_status
+        ---
+        labels:
+        + account_id: string
+        + ophid: string
+        + flow_id: string
+        ---
+        gauge value:
+        + 1.0: HEALTHY
+        + 0.5: PENDING
+        + 0.0: UNHEALTHY
+        + -1.0: UNKNOWN
+    }
+}
+
+package "Status Service Data" {
+    class "Status Event" as StatusEvent {
+        + account_id: int64
+        + object_id: string (flow_id)
+        + timestamp: int64 (unix time)
+        + metadata: FlowStatus (JSON)
+    }
+
+    class "Flow Status" as FlowStatus {
+        + status: string (HEALTHY/UNHEALTHY/PENDING)
+        + timestamp: string
+        + host: []HostStatus
+    }
+
+    class "Host Status" as HostStatus {
+        + ophid: string
+        + status: string
+        + state: string (START/STOP)
+        + message: string
+        + source: []SourceStatus
+        + destination: []DestinationStatus
+        + etl: EtlStatus
+    }
+
+    class "Source Status" as SourceStatus {
+        + type: string
+        + status: string
+        + timestamp: string
+        + logType: []LogType
+    }
+
+    class "Destination Status" as DestinationStatus {
+        + type: string
+        + status: string
+        + timestamp: string
+        + logType: []LogType
+    }
+
+    class "Etl Status" as EtlStatus {
+        + status: string
+    }
+}
+
+StatusEvent *-- FlowStatus
+FlowStatus *-- HostStatus
+HostStatus *-- SourceStatus
+HostStatus *-- DestinationStatus
+HostStatus *-- EtlStatus
+
+note "Metrics used to determine flow status" as N1
+N1 .. FlowStatusMetric
+N1 .. SourceMetrics
+N1 .. DestMetrics
+N1 .. CombinedMetrics
+
+@enduml

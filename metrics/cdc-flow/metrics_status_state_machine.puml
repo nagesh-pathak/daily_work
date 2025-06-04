@@ -1,0 +1,64 @@
+@startuml CDC_Flow_API_Status_State_Machine
+
+' Title
+title CDC Flow API Service - Status State Machine
+
+' Define states
+[*] --> Intermediate : New flow created
+
+state "Intermediate" as interm {
+  state "No data" as no_data
+  state "Starting" as starting
+  
+  no_data -right-> starting : Pod creation initiated
+}
+
+state "Active" as active {
+  state "Normal operation" as normal
+  state "Data flowing" as flowing
+  
+  normal -down-> flowing : Events processed
+}
+
+state "Inactive" as inactive {
+  state "Error state" as error
+  state "Connection failure" as conn_fail
+  
+  error -left-> conn_fail : Connection lost
+}
+
+' Define transitions
+interm --> active : Recent timestamps,\nNo errors
+active --> inactive : Error count > 0 or\nConnection issue
+inactive --> active : Error resolved,\nConnection restored
+inactive --> interm : Service restarted
+
+' Define notes
+note bottom of interm
+  <b>Intermediate State</b>
+  - New flow or service starting
+  - No metric data available
+  - Default state after creation
+  - No timestamp data yet
+end note
+
+note right of active
+  <b>Active State</b>
+  - Normal operation
+  - Recent timestamps from both source and destination
+  - No errors reported
+  - Data is flowing through the pipeline
+end note
+
+note left of inactive
+  <b>Inactive State</b>
+  - Error count > 0
+  - Connection issues detected
+  - Failed to send/receive data
+  - Requires intervention
+end note
+
+' Status determination logic
+note "Status Determination:\n\nflow.Status = determineFlowStatus(dstHealthStatus, sourceHealthStatus)" as logic
+
+@enduml

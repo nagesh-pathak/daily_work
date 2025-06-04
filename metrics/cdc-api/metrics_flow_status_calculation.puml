@@ -1,0 +1,108 @@
+@startuml Metrics Flow Status Calculation
+
+!define RECTANGLE class
+
+skinparam monochrome false
+skinparam classFontStyle bold
+skinparam classFontSize 12
+skinparam classBackgroundColor LightBlue
+skinparam classBorderColor Black
+
+' Main activity diagram
+start
+
+:DoFlowStatus();
+
+partition "Flow Status Collection" {
+  :Fetch CDC hosts from Host App;
+  :Get Flow Mappings from DB;
+  :Get Recent Config Status from DB;
+  :Get Recent Timestamp metrics from Prometheus;
+  
+  :Call AggregateFlowStatus();
+}
+
+partition "AggregateFlowStatus" {
+  :Initialize flow specific variables;
+
+  while (More flows to process?) is (Yes)
+    :Process next flow;
+    
+    while (More CDC hosts (ophids) in flow?) is (Yes)
+      :Process next ophid;
+      :Get container times for ophid;
+      
+      note right
+        ContainerTimes is a map:
+        map[string]float64
+        - key: container name
+        - value: timestamp
+      end note
+      
+      :Check CDC service state;
+      
+      if (CDC service state is "stopped"?) then (Yes)
+        :Mark flow as UNHEALTHY;
+        :Set host status to STOPPED;
+        :Skip container processing;
+      else (No)
+        while (More containers in host?) is (Yes)
+          :Process next container;
+          
+          :Get recent source and destination timestamps;
+          
+          :Check container config status;
+          if (Config status has error code?) then (Yes)
+            if (Status code = 99 or DeleteStatusCode?) then (Yes)
+              :Mark as PENDING;
+            else (No)
+              :Mark as UNHEALTHY;
+            endif
+          else (No)
+            :Check container health status;
+            
+            if (Container health status not found?) then (Yes)
+              :Mark as UNHEALTHY;
+            else if (Health status != RUNNING?) then (Yes)
+              :Check for container error messages;
+              if (Error messages found?) then (Yes)
+                :Mark as UNHEALTHY with error message;
+              endif
+            else (Healthy)
+              :Container is healthy, continue;
+            endif
+          endif
+        endwhile
+        
+        :Calculate host status based on container status;
+        :Format timestamps for display;
+        :Create HostStatus object;
+        :Add to list of host statuses;
+      endif
+    endwhile
+    
+    :Create flow status event;
+    :Update flow status based on host statuses;
+    
+    :Add flow status to status events list;
+  endwhile
+}
+
+partition "Status Reporting" {
+  :Call SendFlowStatus;
+  
+  :Set CDC Flow Status metrics;
+  note right
+    Update cdc_flow_status metric:
+    - 1.0 = HEALTHY
+    - 0.5 = PENDING
+    - 0.0 = UNHEALTHY
+    - -1.0 = UNKNOWN
+  end note
+  
+  :Send status events to Status Service;
+}
+
+stop
+
+@enduml

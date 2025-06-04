@@ -1,0 +1,97 @@
+@startuml CDC_Flow_API_Metrics_Architecture
+
+' Define components
+skinparam componentStyle rectangle
+skinparam backgroundColor white
+skinparam defaultTextAlignment center
+
+' Title
+title CDC Flow API Service - Metrics Architecture
+
+' Define main components
+package "CDC Flow API Service" as cdc {
+    component "API Server" as api
+    component "Metrics Collection" as metrics
+    component "Status Evaluator" as status
+    component "Flow Controller" as controller
+    
+    api -down-> metrics: Provides data
+    metrics -down-> status: Reports metrics
+    status -down-> controller: Updates status
+}
+
+' Define pods
+package "Pod Services" {
+    component "grpc_in" as grpc {
+        component "grpc_in metrics endpoint" as grpc_metrics
+    }
+    component "syslog_out" as syslog {
+        component "syslog_out metrics endpoint" as syslog_metrics
+    }
+    component "soar_light" as soar {
+        component "soar_light metrics endpoint" as soar_metrics
+    }
+    component "http_out" as http {
+        component "http_out metrics endpoint" as http_metrics
+    }
+}
+
+' Define monitoring components
+component "Prometheus" as prom {
+    component "Metrics Scraper" as scraper
+    component "Time Series DB" as tsdb
+    component "Query API" as query
+    
+    scraper -down-> tsdb: Stores metrics
+    tsdb -left-> query: Provides data
+}
+
+component "Dashboard" as dash {
+    component "Visualization" as viz
+    component "Alerting" as alert
+}
+
+' Define relationships
+cdc -down-> grpc: Manages
+cdc -down-> syslog: Manages
+cdc -down-> soar: Manages
+cdc -down-> http: Manages
+
+grpc_metrics -up-> scraper: Exposes /metrics (port 9152)
+syslog_metrics -up-> scraper: Exposes /metrics (port 9152)
+soar_metrics -up-> scraper: Exposes /metrics (port 9152)
+http_metrics -up-> scraper: Exposes /metrics (port 9152)
+
+api -up-> query: Fetches metrics
+prom -up-> viz: Provides metrics
+alert -right-> cdc: Sends alerts
+
+cdc -up-> prom: Exposes /metrics (port 8080)
+
+' Define custom metrics
+note right of metrics
+  <b>Custom Metrics:</b>
+  
+  <u>API Service Metrics:</u>
+  - cloud_cdc_api_request_count: API request count
+  - cloud_cdc_api_request_duration: API request latency 
+  - cloud_cdc_api_error_count: API error count
+  
+  <u>Pod Service Metrics:</u>
+  - cloud_cdc_timestamp: Event timing data
+  - cloud_cdc_pod_error: Error tracking
+end note
+
+' Define service status determination
+note right of status
+  <b>Service Status Logic:</b>
+  
+  - <b>Active:</b> No errors, recent timestamps
+  - <b>Inactive:</b> Error count > 0 or connection issues
+  - <b>Intermediate:</b> Starting or no data
+  
+  Status determined by examining both source
+  and destination service metrics
+end note
+
+@enduml

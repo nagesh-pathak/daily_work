@@ -1,0 +1,66 @@
+@startuml Metrics Timestamp Collection Process
+
+!define RECTANGLE class
+
+skinparam activityDiamondBackgroundColor LightGrey
+skinparam activityBackgroundColor LightBlue
+skinparam activityBorderColor Black
+skinparam noteBorderColor Grey
+skinparam noteBackgroundColor LightYellow
+
+start
+
+:cdcDataTimestamp.GetRecentTimestamp();
+
+note right
+  Input:
+  - Prometheus address
+  - List of metric names to query
+end note
+
+:Create Prometheus client;
+
+while (For each metric name) is (more metrics)
+  :Extract base metric name;
+  :Build Prometheus query;
+  
+  note right
+    Query example:
+    {__name__=~"onprem_cdc_dns_in(_[0-9]+)?_timestamp"}
+  end note
+  
+  :Execute Prometheus query;
+  
+  if (Query successful?) then (yes)
+    :Process query results;
+    if (Result type is Vector?) then (yes)
+      :Cast results to model.Vector;
+      
+      :Process each vector (addRecentTime);
+      while (For each vector in results) is (more vectors)
+        :Extract metric name;
+        :Extract container name from metric;
+        :Extract ophid label;
+        :Extract timestamp value;
+        
+        if (Value > 0?) then (yes)
+          :Add to recentTimes map;
+          note right
+            recentTimes[ophid][containerName] = value
+          end note
+        else (skip)
+        endif
+      endwhile
+    else (not vector)
+      :Log error and continue;
+    endif
+  else (error)
+    :Log error and continue to next query;
+  endif
+endwhile
+
+:Return recentTimes map;
+
+stop
+
+@enduml

@@ -1,0 +1,86 @@
+@startuml CDC_Flow_API_Components
+
+' Title
+title CDC Flow API Service - Components and Metrics Integration
+
+' Define package style
+skinparam packageStyle rectangle
+skinparam componentStyle uml2
+
+' Define main components
+package "CDC Flow API Service" {
+  component "API Server" as api
+  component "Flow Controller" as flow_controller
+  component "Status Manager" as status_manager
+  component "Metrics Collector" as metrics_collector
+  component "Config API Server" as config_api
+  
+  api --> flow_controller
+  flow_controller --> status_manager
+  status_manager --> metrics_collector
+  metrics_collector --> config_api
+}
+
+' Define external systems
+cloud "Kubernetes Cluster" {
+  package "Infrastructure" {
+    component "StatefulSets" as statefulsets
+    component "ConfigMaps" as configmaps
+    component "Services" as services
+  }
+  
+  package "Pod Services" {
+    component "grpc_in" as grpc_in
+    component "syslog_out" as syslog_out
+    component "soar_light" as soar_light
+    component "http_out" as http_out
+  }
+}
+
+database "Prometheus" as prometheus
+component "Dashboard" as dashboard
+
+' Define flows
+flow_controller -down-> statefulsets : Manages
+flow_controller -down-> configmaps : Configures
+flow_controller -down-> services : Exposes
+
+grpc_in -up-> prometheus : Reports metrics
+syslog_out -up-> prometheus : Reports metrics
+soar_light -up-> prometheus : Reports metrics
+http_out -up-> prometheus : Reports metrics
+
+metrics_collector -right-> prometheus : Queries metrics
+prometheus -up-> dashboard : Visualizes
+
+' Define notes for key components
+note right of flow_controller
+  <b>Flow Controller</b>
+  - Creates/updates/deletes flow components
+  - Syncs CDC flows 
+  - Manages Kubernetes resources
+end note
+
+note right of status_manager
+  <b>Status Manager</b>
+  - Determines flow status
+  - Uses timestamp and error metrics
+  - Updates flow.Status
+end note
+
+note right of metrics_collector
+  <b>Metrics Collector</b>
+  - Fetches metrics from Prometheus
+  - Collects timestamp data
+  - Detects error conditions
+  - Integrates with cloud_metrics.go
+end note
+
+note top of prometheus
+  <b>Key Metrics:</b>
+  - cloud_cdc_timestamp: Event timing
+  - cloud_cdc_pod_error: Error tracking
+  - cloud_cdc_api_*: API metrics
+end note
+
+@enduml

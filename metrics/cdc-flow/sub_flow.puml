@@ -1,0 +1,55 @@
+@startuml
+
+class TableFlow {
+    +file_id
+}
+
+class TableSource {
+    +file_id
+}
+
+class TableDestination {
+    +Field1
+    +Field2
+}
+
+class TableApplication {
+    +file_id
+}
+
+class TableDestinationApplication {
+    +Field1
+    +Field2
+}
+
+class TableSubscription {
+    +file_id
+}
+
+class TableApplicationScripts {
+    +file_id
+}
+
+class ReuqestForCreateSubscription {
+    +file_id
+}
+
+class CreateScript {
+    +file_id
+}
+
+ReuqestForCreateSubscription --> TableSubscription: 1
+ReuqestForCreateSubscription --> TableDestination: 2
+ReuqestForCreateSubscription --> TableFlow: 3
+
+TableFlow --> TableSource: 3
+TableFlow --> TableDestination: 3
+CreateScript --> TableApplicationScripts: 0: create script
+TableSubscription --> TableApplication: 1: create application with file_id
+TableApplication -->  TableApplicationScripts: 1: link to script
+TableApplication --> TableDestinationApplication: 2
+TableDestination --> TableDestinationApplication: 2
+
+
+
+@enduml

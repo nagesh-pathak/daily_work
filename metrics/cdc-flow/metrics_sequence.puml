@@ -1,0 +1,68 @@
+@startuml CDC_Flow_API_Metrics_Sequence
+
+' Title
+title CDC Flow API Service - Metrics Flow Sequence
+
+' Define participants
+participant "Client" as client
+participant "CDC Flow API\nService" as cdc
+participant "Pod Services" as pods
+participant "Prometheus" as prom
+participant "Status Evaluator" as status
+participant "Dashboard" as dash
+
+' Define the sequence
+== Metrics Collection Initialization ==
+cdc -> cdc: Start metrics collection service
+cdc -> pods: Deploy and configure pods
+activate pods
+pods -> pods: Initialize metrics endpoints
+
+== Metrics Collection Cycle ==
+loop Every scrape interval
+    prom -> cdc: Scrape API service metrics (/metrics:8080)
+    prom -> pods: Scrape Pod service metrics (/metrics:9152)
+end
+
+== Flow Status Determination ==
+client -> cdc: Request flow status
+activate cdc
+    cdc -> prom: Query for service metrics
+    activate prom
+        prom -> prom: Process query
+        prom --> cdc: Return metrics data
+    deactivate prom
+    
+    cdc -> status: Evaluate metrics data
+    activate status
+        note over status
+          1. Extract timestamps from metrics
+          2. Check for errors
+          3. Determine flow status
+        end note
+        
+        status --> cdc: Return status (Active/Inactive/Intermediate)
+    deactivate status
+    
+    cdc --> client: Return flow status
+deactivate cdc
+
+== Status Update on Metrics Change ==
+prom -> prom: Detect metrics change
+prom -> dash: Update visualizations
+dash -> dash: Check alert conditions
+
+alt Alert Triggered
+    dash -> client: Send alert notification
+end
+
+== Error Handling ==
+pods -> pods: Error occurs
+pods -> pods: Increment error metric
+prom -> prom: Detect error metric
+prom -> status: Evaluate status with error
+
+status -> cdc: Update flow status to Inactive
+cdc -> client: Notify of status change
+
+@enduml

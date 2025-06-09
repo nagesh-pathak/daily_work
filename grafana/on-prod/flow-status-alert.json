@@ -17,102 +17,54 @@
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "id": 271647,
-  "links": [],
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "support"
+      ],
+      "targetBlank": true,
+      "title": "Other Dashboards",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "CDC Metrics",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://docs.google.com/spreadsheets/d/10Ojv8AS_i3yP25AqL9oHzNiWaAju6PU6wRbJdlWizRY/edit#gid=0"
+    }
+  ],
   "liveNow": false,
   "panels": [
     {
+      "collapsed": false,
       "datasource": {
         "type": "prometheus",
         "uid": "iUkfVzqGz"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "percentage",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 50
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
       "gridPos": {
-        "h": 8,
+        "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "id": 1,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"}",
-          "legendFormat": "Account: {{account_id}} - Flow: {{flow_id}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "CDC Flow Status by Account and Flow ID",
-      "type": "timeseries"
+      "id": 100,
+      "panels": [],
+      "title": "CDC Onprem Flow Status Monitoring",
+      "type": "row"
     },
     {
       "datasource": {
@@ -281,9 +233,9 @@
       },
       "gridPos": {
         "h": 12,
-        "w": 24,
+        "w": 12,
         "x": 0,
-        "y": 8
+        "y": 9
       },
       "id": 2,
       "options": {
@@ -301,7 +253,8 @@
         ],
         "frameIndex": 0
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "9.5.10",
+      "transparent": true,
       "targets": [
         {
           "datasource": {
@@ -363,8 +316,8 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -407,21 +360,44 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 16
+        "y": 29
       },
       "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+      "hiddenSeries": false,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
       },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.5.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
       "targets": [
         {
           "datasource": {
@@ -432,11 +408,34 @@
           "expr": "count by(account_id) (cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"})",
           "legendFormat": "Flows for Account {{account_id}}",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "interval": "10m",
+          "minInterval": "10m"
         }
       ],
       "title": "Number of Flows by Account",
-      "type": "timeseries"
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "datasource": {
@@ -455,28 +454,85 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 0
               }
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Flows"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Active Flows"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Pending Flows"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Review Details"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 12,
         "w": 12,
-        "x": 0,
-        "y": 24
+        "x": 12,
+        "y": 9
       },
       "id": 5,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -484,70 +540,12 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "displayMode": "gradient",
+        "showUnfilled": true
       },
-      "pluginVersion": "9.5.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"} == 0)",
-          "legendFormat": "Error Count",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Flows in Error State",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "iUkfVzqGz"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 24
-      },
-      "id": 6,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "9.5.10",
+      "transparent": true,
       "targets": [
         {
           "datasource": {
@@ -559,9 +557,45 @@
           "legendFormat": "Total Flows",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"} == 1)",
+          "hide": false,
+          "legendFormat": "Active Flows",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"} == 0.5)",
+          "hide": false,
+          "legendFormat": "Pending Flows",
+          "range": true,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"} == 0)",
+          "hide": false,
+          "legendFormat": "Review Details",
+          "range": true,
+          "refId": "C"
         }
       ],
-      "title": "Total Flows",
+      "title": "Flow Status Summary",
       "type": "stat"
     },
     {
@@ -581,8 +615,8 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -604,7 +638,25 @@
               "mode": "off"
             }
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "Review Details"
+                },
+                "0.5": {
+                  "color": "yellow",
+                  "text": "Pending"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "Active"
+                }
+              }
+            }
+          ],
           "thresholds": {
             "mode": "percentage",
             "steps": [
@@ -625,22 +677,44 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 21
       },
       "id": 7,
-      "options": {
-        "alertThreshold": true,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+      "hiddenSeries": false,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
       },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.5.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
       "targets": [
         {
           "datasource": {
@@ -648,14 +722,48 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"}",
+          "expr": "cdc_flow_status",
           "legendFormat": "Account: {{account_id}} - Flow: {{flow_id}}",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "intervalFactor": 1,
+          "interval": "30s",
+          "minInterval": "30s"
         }
       ],
       "title": "CDC Flow Status Alert",
-      "type": "timeseries",
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "lt",
+          "value": 0.5,
+          "visible": true
+        }
+      ],
       "alert": {
         "alertRuleTags": {},
         "conditions": [
@@ -672,7 +780,7 @@
             "query": {
               "params": [
                 "A",
-                "1m",
+                "30s",
                 "now"
               ]
             },
@@ -684,12 +792,17 @@
           }
         ],
         "executionErrorState": "alerting",
-        "for": "1m",
-        "frequency": "1m",
+        "for": "30s",
+        "frequency": "30s",
         "handler": 1,
-        "name": "Flow Error Alert",
-        "noDataState": "no_data",
-        "notifications": []
+        "message": "CDC Flow Status Alert: One or more flows are in Review Details state. Please check the dashboard for details.",
+        "name": "Flow Status Alert",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "uid": "ac719282-1563-40ee-a427-d30b5776a518"
+          }
+        ]
       }
     }
   ],
@@ -768,7 +881,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},

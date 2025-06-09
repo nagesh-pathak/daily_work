@@ -682,17 +682,17 @@
       "id": 7,
       "hiddenSeries": false,
       "legend": {
-        "alignAsTable": true,
+        "alignAsTable": false,
         "avg": false,
-        "current": true,
+        "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
-        "show": true,
-        "sort": "current",
-        "sortDesc": true,
+        "rightSide": false,
+        "show": false,
+        "sort": "none",
+        "sortDesc": false,
         "total": false,
-        "values": true
+        "values": false
       },
       "lines": true,
       "linewidth": 1,
@@ -722,13 +722,13 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "cdc_flow_status",
-          "legendFormat": "Account: {{account_id}} - Flow: {{flow_id}}",
+          "expr": "count(cdc_flow_status == 0)",
+          "legendFormat": "",
           "range": true,
           "refId": "A",
           "intervalFactor": 1,
-          "interval": "30s",
-          "minInterval": "30s"
+          "interval": "5m",
+          "minInterval": "5m"
         }
       ],
       "title": "CDC Flow Status Alert",
@@ -772,7 +772,7 @@
               "params": [
                 0
               ],
-              "type": "equal"
+              "type": "gt"
             },
             "operator": {
               "type": "and"
@@ -780,20 +780,20 @@
             "query": {
               "params": [
                 "A",
-                "30s",
+                "5m",
                 "now"
               ]
             },
             "reducer": {
               "params": [],
-              "type": "avg"
+              "type": "last"
             },
             "type": "query"
           }
         ],
         "executionErrorState": "alerting",
         "for": "30s",
-        "frequency": "30s",
+        "frequency": "5m",
         "handler": 1,
         "message": "CDC Flow Status Alert: One or more flows are in Review Details state. Please check the dashboard for details.",
         "name": "Flow Status Alert",

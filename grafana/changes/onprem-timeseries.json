@@ -491,27 +491,28 @@
             "query": {
               "params": [
                 "A",
-                "1h",
+                "10m",
                 "now"
               ]
             },
             "reducer": {
               "params": [],
-              "type": "avg"
+              "type": "max"
             },
             "type": "query"
           }
         ],
         "executionErrorState": "alerting",
-        "for": "5m",
-        "frequency": "1m",
+        "for": "10m",
+        "frequency": "10m",
         "handler": 1,
         "message": "High Memory Usage Alert - memory usage is above 50%",
         "name": "CDC Onprem Memory Usage alert",
-        "noDataState": "no_data",
+        "noDataState": "keep_state",
+        "timeoutState": "keep_state",
         "notifications": [
           {
-            "uid": "fec98506-21a2-4704-bd51-73682a348bf4"
+            "uid": "ac719282-1563-40ee-a427-d30b5776a518"
           }
         ]
       },
@@ -582,8 +583,8 @@
       "legend": {
         "alignAsTable": true,
         "avg": false,
-        "current": true,
-        "max": true,
+        "current": false,
+        "max": false,
         "min": false,
         "rightSide": true,
         "show": true,
@@ -676,27 +677,28 @@
             "query": {
               "params": [
                 "A",
-                "1h",
+                "10m",
                 "now"
               ]
             },
             "reducer": {
               "params": [],
-              "type": "avg"
+              "type": "max"
             },
             "type": "query"
           }
         ],
         "executionErrorState": "alerting",
-        "for": "5m",
-        "frequency": "1m",
+        "for": "10m",
+        "frequency": "10m",
         "handler": 1,
         "message": "High CPU Usage Alert - CPU usage is above 60%",
         "name": "CDC Onprem CPU Usage alert",
-        "noDataState": "no_data",
+        "noDataState": "keep_state",
+        "timeoutState": "keep_state",
         "notifications": [
           {
-            "uid": "fec98506-21a2-4704-bd51-73682a348bf4"
+            "uid": "ac719282-1563-40ee-a427-d30b5776a518"
           }
         ]
       },
@@ -767,8 +769,8 @@
       "legend": {
         "alignAsTable": true,
         "avg": false,
-        "current": true,
-        "max": true,
+        "current": false,
+        "max": false,
         "min": false,
         "rightSide": true,
         "show": true,
@@ -860,27 +862,27 @@
             "query": {
               "params": [
                 "A",
-                "3h",
+                "10m",
                 "now"
               ]
             },
             "reducer": {
               "params": [],
-              "type": "avg"
+              "type": "max"
             },
             "type": "query"
           }
         ],
         "executionErrorState": "alerting",
         "for": "10m",
-        "frequency": "5m",
+        "frequency": "10m",
         "handler": 1,
         "message": "High Disk Usage Alert - volume usage is above 50%",
         "name": "CDC Onprem Volume Usage alert",
         "noDataState": "no_data",
         "notifications": [
           {
-            "uid": "fec98506-21a2-4704-bd51-73682a348bf4"
+            "uid": "ac719282-1563-40ee-a427-d30b5776a518"
           }
         ]
       },
@@ -951,8 +953,8 @@
       "legend": {
         "alignAsTable": true,
         "avg": false,
-        "current": true,
-        "max": true,
+        "current": false,
+        "max": false,
         "min": false,
         "rightSide": true,
         "show": true,

@@ -27,6 +27,160 @@
         "type": "prometheus",
         "uid": "iUkfVzqGz"
       },
+      "description": "Summary of onprem hosts with CDC services",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "yellow",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Hosts"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "yellow"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Active Hosts"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Inactive Hosts"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 28
+        },
+        "textMode": "value_and_name"
+      },
+      "styles": {
+        "panel": {
+          "border": "5px solid #8F3BB8",
+          "borderRadius": "10px",
+          "padding": "8px",
+          "background": "linear-gradient(180deg, rgba(143,59,184,0.1) 0%, rgba(143,59,184,0.01) 100%)",
+          "boxShadow": "0 4px 6px rgba(143,59,184,0.2)"
+        }
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(ophid) (onprem_host_service_status{account_id=~\"$account_id\", ophid=~\"$ophid\", service=~\"cdc.*\"}))",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "Total Hosts",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(ophid) (onprem_host_service_status{account_id=~\"$account_id\", ophid=~\"$ophid\", service=~\"cdc.*\"} == 1))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Active Hosts",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(ophid) (onprem_host_service_status{account_id=~\"$account_id\", ophid=~\"$ophid\", service=~\"cdc.*\"} == 0))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Inactive Hosts",
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "CDC Onprem Services Summary",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
       "description": "Shows all onprem hosts with memory usage > $threshold% and CDC service running",
       "fieldConfig": {
         "defaults": {
@@ -134,7 +288,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 0
+        "y": 4
       },
       "id": 1,
       "options": {
@@ -329,7 +483,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 10
+        "y": 14
       },
       "id": 2,
       "options": {
@@ -536,7 +690,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 20
+        "y": 24
       },
       "id": 3,
       "options": {
@@ -763,7 +917,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 0
+        "y": 4
       },
       "id": 5,
       "options": {
@@ -1015,7 +1169,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 10
+        "y": 14
       },
       "id": 6,
       "options": {
@@ -1279,7 +1433,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 20
+        "y": 24
       },
       "id": 7,
       "options": {
@@ -1515,7 +1669,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 34
       },
       "id": 8,
       "options": {

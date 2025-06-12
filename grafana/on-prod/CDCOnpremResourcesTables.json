@@ -93,9 +93,9 @@
         ]
       },
       "gridPos": {
-        "h": 4,
-        "w": 24,
-        "x": 0,
+        "h": 9,
+        "w": 12,
+        "x": 12,
         "y": 0
       },
       "id": 9,
@@ -181,7 +181,7 @@
         "type": "prometheus",
         "uid": "iUkfVzqGz"
       },
-      "description": "Shows all onprem hosts with memory usage > $threshold% and CDC service running",
+      "description": "Shows all onprem hosts with memory usage > $memory_threshold% and CDC service running",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -288,7 +288,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 4
+        "y": 9
       },
       "id": 1,
       "options": {
@@ -319,7 +319,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) /\n(onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) *100 > $threshold",
+          "expr": "(onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) /\n(onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) *100 > $memory_threshold",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -327,7 +327,7 @@
           "refId": "A"
         }
       ],
-      "title": "Onprem Hosts with Memory Usage > $threshold% (CDC Service)",
+      "title": "Onprem Hosts with Memory Usage > $memory_threshold% (CDC Service)",
       "titleSize": "h3",
       "transparent": false,
       "libraryPanel": {
@@ -376,7 +376,7 @@
         "type": "prometheus",
         "uid": "iUkfVzqGz"
       },
-      "description": "Shows all onprem hosts with CPU usage > $threshold% and CDC service running",
+      "description": "Shows all onprem hosts with CPU usage > $cpu_threshold% and CDC service running",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -483,7 +483,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 18
       },
       "id": 2,
       "options": {
@@ -514,7 +514,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(onprem_cpu_percentage{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) > $threshold",
+          "expr": "(onprem_cpu_percentage{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) > $cpu_threshold",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -522,7 +522,7 @@
           "refId": "A"
         }
       ],
-      "title": "Onprem Hosts with CPU Usage > $threshold% (CDC Service)",
+      "title": "Onprem Hosts with CPU Usage > $cpu_threshold% (CDC Service)",
       "titleSize": "h3",
       "transparent": false,
       "libraryPanel": {
@@ -571,7 +571,7 @@
         "type": "prometheus",
         "uid": "iUkfVzqGz"
       },
-      "description": "Shows all onprem hosts with volume/disk usage > $threshold% and CDC service running",
+      "description": "Shows all onprem hosts with volume/disk usage > $disk_threshold% and CDC service running",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -690,7 +690,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 27
       },
       "id": 3,
       "options": {
@@ -721,7 +721,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) > $threshold",
+          "expr": "(onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -729,7 +729,7 @@
           "refId": "A"
         }
       ],
-      "title": "Onprem Hosts with Volume Usage > $threshold% (CDC Service)",
+      "title": "Onprem Hosts with Volume Usage > $disk_threshold% (CDC Service)",
       "titleSize": "h3",
       "transparent": false,
       "libraryPanel": {
@@ -917,7 +917,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 4
+        "y": 9
       },
       "id": 5,
       "options": {
@@ -1169,7 +1169,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 18
       },
       "id": 6,
       "options": {
@@ -1433,7 +1433,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 24
+        "y": 27
       },
       "id": 7,
       "options": {
@@ -1667,9 +1667,9 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 24,
+        "w": 12,
         "x": 0,
-        "y": 34
+        "y": 0
       },
       "id": 8,
       "options": {
@@ -1833,12 +1833,90 @@
           "text": "50",
           "value": "50"
         },
-        "description": "Usage threshold percentage for filtering",
+        "description": "Memory usage threshold percentage for filtering",
         "hide": 0,
         "includeAll": false,
-        "label": "Usage Threshold %",
+        "label": "Memory Threshold %",
         "multi": false,
-        "name": "threshold",
+        "name": "memory_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": true,
+            "text": "50",
+            "value": "50"
+          },
+          {
+            "selected": false,
+            "text": "70",
+            "value": "70"
+          },
+          {
+            "selected": false,
+            "text": "90",
+            "value": "90"
+          }
+        ],
+        "query": "1,50,70,90",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "50",
+          "value": "50"
+        },
+        "description": "CPU usage threshold percentage for filtering",
+        "hide": 0,
+        "includeAll": false,
+        "label": "CPU Threshold %",
+        "multi": false,
+        "name": "cpu_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": true,
+            "text": "50",
+            "value": "50"
+          },
+          {
+            "selected": false,
+            "text": "70",
+            "value": "70"
+          },
+          {
+            "selected": false,
+            "text": "90",
+            "value": "90"
+          }
+        ],
+        "query": "1,50,70,90",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "50",
+          "value": "50"
+        },
+        "description": "Volume/Disk usage threshold percentage for filtering",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Volume Threshold %",
+        "multi": false,
+        "name": "disk_threshold",
         "options": [
           {
             "selected": false,

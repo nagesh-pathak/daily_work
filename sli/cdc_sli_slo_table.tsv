@@ -1,0 +1,40 @@
+Business Service	Feature	SLI	SLO	Active/Production	Priority	Data Source	Metric Type	Success Metric	Total Metric	Owners	Comments
+CDC OnPrem	Disk Usage	Disk usage percentage	< 50%	Yes	P1	Prometheus	Availability	Hosts with disk usage < 50%	Total hosts	Platform Team	Critical for system stability
+CDC OnPrem	Disk Usage Trend	Disk usage growth rate	< 10% increase in 3 hours	Yes	P1	Prometheus	Latency	Stable disk usage	Total monitoring period	Platform Team	Early warning for capacity issues
+CDC OnPrem	CPU Usage	CPU usage percentage	< 60%	Yes	P1	Prometheus	Availability	Hosts with CPU usage < 60%	Total hosts	Platform Team	Performance threshold
+CDC OnPrem	CPU Usage Trend	CPU usage growth rate	< 20% increase in 1 hour	Yes	P1	Prometheus	Latency	Stable CPU usage	Total monitoring period	Platform Team	Performance degradation detection
+CDC OnPrem	Memory Usage	Memory usage percentage	< 50%	Yes	P1	Prometheus	Availability	Hosts with memory usage < 50%	Total hosts	Platform Team	Memory pressure threshold
+CDC OnPrem	Memory Usage Trend	Memory usage growth rate	< 15% increase in 1 hour	Yes	P1	Prometheus	Latency	Stable memory usage	Total monitoring period	Platform Team	Memory leak detection
+CDC Flow	Flow Availability	Flows in Online status	> 90%	Yes	P1	Prometheus	Availability	Flows in Online status	Total flows	CDC Team	Core business metric
+CDC Flow	Flow Configuration	Flows not in Pending Config Push	> 95%	Yes	P1	Prometheus	Availability	Flows not pending config	Total flows	CDC Team	Configuration management
+CDC Flow	Flow Review Status	Flows not in Review Details	> 98%	Yes	P2	Prometheus	Availability	Flows not in review	Total flows	CDC Team	Operational efficiency
+CDC Flow	Flow Enablement	Flows not Disabled	> 95%	Yes	P2	Prometheus	Availability	Enabled flows	Total flows	CDC Team	Service utilization
+CDC Flow	Flow Data Activity	Flows with data activity	> 99%	Yes	P1	Prometheus	Availability	Active flows	Total online flows	CDC Team	Data processing health
+CDC Flow	Stale Flow Detection	Flows without data in 24h	< 1%	Yes	P2	Prometheus	Availability	Active flows in 24h	Total flows	CDC Team	Data pipeline monitoring
+CDC OnPrem	Host Availability	Healthy hosts	> 95%	Yes	P1	Prometheus	Availability	Healthy hosts	Total hosts	Platform Team	Infrastructure health
+CDC OnPrem	Host Connectivity	Connected hosts	> 98%	Yes	P1	Prometheus	Availability	Connected hosts	Total hosts	Platform Team	Network connectivity
+CDC OnPrem	Host Review Status	Hosts not in Review Details	> 90%	Yes	P2	Prometheus	Availability	Hosts not in review	Total hosts	Platform Team	Operational status
+CDC OnPrem	Resource Adequacy	Hosts with adequate resources	> 80%	Yes	P2	Prometheus	Availability	Hosts with > 4 cores, > 8GB RAM, > 128GB disk	Total hosts	Platform Team	Capacity planning
+CDC Service	Customer Adoption	Customers with CDC enabled	Monitor growth	Yes	P2	Prometheus	Throughput	CDC enabled customers	Total customers	Product Team	Business metric
+CDC Service	Account Adoption	Accounts with CDC enabled	Monitor growth	Yes	P2	Prometheus	Throughput	CDC enabled accounts	Total accounts	Product Team	Feature adoption
+CDC Service	Host Distribution	CDC hosts per customer	Monitor distribution	Yes	P2	Prometheus	Throughput	Hosts per customer	Total customers	Product Team	Resource utilization
+CDC API	API Latency	API response time	< 200ms	Yes	P1	Prometheus	Latency	Requests < 200ms	Total requests	CDC Team	User experience
+CDC API	API Availability	API success rate	> 99.9%	Yes	P1	Prometheus	Availability	Non-5xx responses	Total responses	CDC Team	Service reliability
+CDC API	Client Error Rate	4XX error rate	< 1%	Yes	P2	Prometheus	Error Rate	4xx errors	Total requests	CDC Team	Client integration health
+CDC API	Server Error Rate	5XX error rate	< 0.1%	Yes	P1	Prometheus	Error Rate	5xx errors	Total requests	CDC Team	Service stability
+CDC Service	Error Count	Service-level errors	< 10 errors/hour	Yes	P1	Prometheus	Error Rate	Errors per hour	Total hours	CDC Team	Service health
+CDC Service	Error Distribution	Error distribution by service	Monitor per service	Yes	P2	Prometheus	Error Rate	Errors by service	Total services	CDC Team	Service-specific monitoring
+CDC Containers	Pod Stability	Pods without CrashLoopBackOff	100%	Yes	P1	Prometheus	Availability	Stable pods	Total pods	Platform Team	Container health
+CDC Containers	Image Pull Success	Pods without ImagePullBackOff	100%	Yes	P1	Prometheus	Availability	Successful image pulls	Total pods	Platform Team	Deployment reliability
+CDC Containers	Pod Restart Rate	Pod restarts per hour	< 1 restart/hour	Yes	P1	Prometheus	Error Rate	Restarts per hour	Total pod hours	Platform Team	Container stability
+CDC Containers	Socket Utilization	Container open sockets	Monitor trend	Yes	P2	Prometheus	Throughput	Open sockets	Total containers	Platform Team	Resource utilization
+CDC Containers	Memory Management	OOM events	0 events	Yes	P1	Prometheus	Error Rate	OOM events	Total containers	Platform Team	Memory management
+CDC Processing	Event Processing	Events per second	Monitor baseline	Yes	P2	Prometheus	Throughput	Events processed	Time window	CDC Team	Processing capacity
+CDC Processing	Query Processing	Queries per second	Monitor baseline	Yes	P2	Prometheus	Throughput	Queries processed	Time window	CDC Team	Query performance
+CDC Processing	Data Volume	Data processed per flow	Monitor per flow	Yes	P2	Prometheus	Throughput	Data volume	Time window	CDC Team	Data processing health
+CDC System	Goroutine Management	Goroutine count growth	< 10% increase/hour	Yes	P2	Prometheus	Latency	Stable goroutine count	Total monitoring time	CDC Team	Concurrency management
+CDC System	Resource Efficiency	Resource utilization trend	Monitor efficiency	Yes	P2	Prometheus	Throughput	Resource usage	Time window	Platform Team	Resource optimization
+CDC Features	Feature Utilization	Customer feature usage	Monitor adoption	Yes	P3	Prometheus	Throughput	Active feature users	Total customers	Product Team	Product analytics
+CDC Features	Service Health	Service status health	100% uptime	Yes	P1	Prometheus	Availability	Healthy services	Total services	Platform Team	Service monitoring
+CDC Capacity	Resource Growth	Resource usage trend	< 80% capacity	Yes	P2	Prometheus	Latency	Available capacity	Total capacity	Platform Team	Capacity planning
+CDC Capacity	Scalability	System scalability	Handle 2x load	Yes	P2	Prometheus	Throughput	Handled load	Target load	Platform Team	Scalability planning

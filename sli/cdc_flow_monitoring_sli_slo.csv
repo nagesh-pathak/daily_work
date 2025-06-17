@@ -1,0 +1,16 @@
+Business Service,Feature,SLI,SLO,Active/Production,Priority,Data Source,Metric Type,Success Metric,Total Metric,Owners,Comments
+CDC Flow Containers,CPU Usage,Container CPU utilization,< 60%,Yes,P1,Prometheus,Availability,Containers with CPU < 60%,Total containers,Platform Team,Performance threshold with alerting
+CDC Flow Containers,Memory Usage,Container memory utilization,< 60%,Yes,P1,Prometheus,Availability,Containers with memory < 60%,Total containers,Platform Team,Memory pressure threshold with alerting
+CDC Flow Containers,Pod Restart Rate,Pod restart events,< 1 restart/hour,Yes,P1,Prometheus,Error Rate,Pod restart rate,Total pod hours,Platform Team,Container stability monitoring
+CDC Flow Containers,Pod Status,Pods in Running state,> 95%,Yes,P1,Prometheus,Availability,Running pods,Total pods,Platform Team,Core container health
+CDC Flow Containers,Pod Failure Rate,Failed/Pending/Unknown pods,0 pods,Yes,P1,Prometheus,Error Rate,Failed/Pending/Unknown pods,Total pods,Platform Team,Critical pod state monitoring
+CDC Flow Infrastructure,StatefulSet Availability,StatefulSet ready replicas,100%,Yes,P1,Prometheus,Availability,Ready replicas,Total replicas,Platform Team,StatefulSet deployment health
+CDC Flow Infrastructure,ConfigMap Availability,ConfigMap count stability,Monitor count,Yes,P2,Prometheus,Availability,Available ConfigMaps,Expected ConfigMaps,Platform Team,Configuration management
+CDC Flow Network,Network Receive Performance,Network receive bandwidth,Monitor baseline,Yes,P2,Prometheus,Throughput,Network receive bytes/sec,Time window,Platform Team,Inbound network performance
+CDC Flow Network,Network Transmit Performance,Network transmit bandwidth,Monitor baseline,Yes,P2,Prometheus,Throughput,Network transmit bytes/sec,Time window,Platform Team,Outbound network performance
+CDC Flow Monitoring,Alert Response Time,Pod failure alert detection,< 30 seconds,Yes,P1,Prometheus,Latency,Alerts triggered within SLA,Total failure events,Platform Team,Incident detection speed
+CDC Flow Monitoring,Alert Accuracy,False positive alert rate,< 5%,Yes,P2,Prometheus,Error Rate,Valid alerts,Total alerts,Platform Team,Alert system reliability
+CDC Flow Operations,Resource Scaling,Container resource adequacy,> 80% availability,Yes,P2,Prometheus,Availability,Containers within resource limits,Total containers,Platform Team,Capacity planning
+CDC Flow Operations,Deployment Success,Pod deployment success rate,> 98%,Yes,P1,Prometheus,Availability,Successful deployments,Total deployments,Platform Team,Deployment reliability
+CDC Flow Operations,Configuration Drift,Configuration consistency,100% compliance,Yes,P2,Prometheus,Availability,Pods with correct config,Total pods,Platform Team,Configuration management
+CDC Flow Security,Container Security,Secure container operations,100% compliance,Yes,P2,Prometheus,Availability,Compliant containers,Total containers,Security Team,Security posture monitoring

@@ -1753,6 +1753,220 @@
         }
       ],
       "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "description": "Summary of customers with CDC services",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "yellow",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CDC Customers with BloxOne Source"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CDC Customers with NIOS Source"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CDC Customers with BloxOne & NIOS Sources"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CDC Customers with No Active Flows"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 28
+        },
+        "textMode": "value_and_name"
+      },
+      "styles": {
+        "panel": {
+          "border": "5px solid #2E86C1",
+          "borderRadius": "10px",
+          "padding": "8px",
+          "background": "linear-gradient(180deg, rgba(46,134,193,0.1) 0%, rgba(46,134,193,0.01) 100%)",
+          "boxShadow": "0 4px 6px rgba(46,134,193,0.2)"
+        }
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"}))",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "Total Customers",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "CDC Customers with BloxOne Source",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_nios))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "CDC Customers with NIOS Source",
+          "range": false,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(\n  (\n    count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"})\n    * on(account_id)\n    count by(account_id) (onprem_cdc_received_events_from_nios)\n  ) > 0\n)",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "CDC Customers with BloxOne & NIOS Sources",
+          "range": false,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(\n  count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"})\n  unless\n  (\n    count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"})\n    or\n    count by(account_id) (onprem_cdc_received_events_from_nios)\n  )\n)",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "CDC Customers with No Active Flows",
+          "range": false,
+          "refId": "E"
+        }
+      ],
+      "title": "CDC Customers Summary",
+      "type": "stat"
     }
   ],
   "refresh": "30s",

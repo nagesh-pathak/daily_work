@@ -1,0 +1,69 @@
+Business Service�,Feature�,SLI�,SLO,"Active / In Production
+(Yes / No)",Priority,Data Source,Metric Type,Success Metric,Total Metric,Owners,Comments,
+IAM,Identity,API Availability,99.99,Yes,P1,Prometheus,Counter,"grpc_server_handled_total{app_kubernetes_io_instance=""identity"", grpc_method=""SessionCreate"", grpc_code!~""DataLoss|Internal|Unimplemented|Unavailable|Unknown|DeadlineExceeded""}","grpc_server_handled_total{app_kubernetes_io_instance=""identity"",grpc_method=""SessionCreate""}",Mark/Vamsi,confirm if session create metric can be used for sign_in (it is done so in the identity dashboards),
+,,Success Percentage,,No,P1,Prometheus,Counter,"100 * 
+sum(rate(grpc_server_handled_total{app_kubernetes_io_instance=""identity"", grpc_code=""OK"", application=""identity""}[5m])) / 
+sum(rate(grpc_server_handled_total{app_kubernetes_io_instance=""identity"", application=""identity""}[5m]))",,,,
+,,Total Internal Error Percentage,,No,P1,Prometheus,Counter,,"100 * 
+sum(rate(grpc_server_handled_total{app_kubernetes_io_instance=""identity"", grpc_code=""Internal"", application=""identity""}[5m])) / 
+sum(rate(grpc_server_handled_total{app_kubernetes_io_instance=""identity"", application=""identity""}[5m]))",,"We can provide metrics like total request failure percentage,  We can also include some of the important end points e.g. SessionVerify Failure metrics here",
+,,Latency,<10 sec,Yes,P1,Prometheus,Histogram,"identity_session_create_latency_bucket{le=""10.0"",grpc_code=""OK""}",identity_session_create_latency_bucket,Mark/Vamsi,"Oauth2 user flow latency
+Possible alternative:
+Success:
+grpc_server_handling_seconds_bucket{app_kubernetes_io_name=""identity"",grpc_service=""identity_v2.Sessions"",grpc_method=""SessionCreate"",le=""10""}
+Total:
+grpc_server_handling_seconds_bucket{app_kubernetes_io_name=""identity"",grpc_service=""identity_v2.Sessions"",grpc_method=""SessionCreate""}",
+,AuthZ,API Latency,<250ms,Yes,P1,Prometheus,Histogram,"nginx_ingress_controller_request_duration_seconds_bucket{namespace=""identity"",service=""identity-api"",status!~""5.*"",le=""0.25""}","nginx_ingress_controller_request_duration_seconds_bucket{namespace=""identity"",service=""identity-api""}",Mark/Vamsi,Non-bulk APIs,
+,,API Availability,99.99,No,P1,Prometheus,Counter,"nginx_ingress_controller_requests{namespace=""identity"",status!~""5.*""}","nginx_ingress_controller_requests{namespace=""identity""}",Mark/Vamsi,"Non 500 responses, timeouts",
+,AuthZ,Permission Propagation Delay,<10 min,No,P2,,,,,Mark/Vamsi,,
+,Entitlements,Entitlement Propagation Delay,<20 min,No,P2,,,,,Mark/Vamsi,time to propagte group changes or roles changes to enforcement of those in RBAC decisions,
+,User Profile Management,,,,,,,,,,,
+,User Recovery,,,,,,,,,,,
+,Admin Ops,,,,,,,,,,,
+,SSO Management,,,,,,,,,,,
+Logs,Security,API Latency (1 day),<10 sec,No,P2,,,,,Mark/Vamsi,,
+,,API Latency (7 days),<15 sec,No,P2,,,,,Mark/Vamsi,,
+,,API Latency (30 days),<45 sec,No,P2,,,,,Mark/Vamsi,,
+,,API Availability,99.95,No,P2,,,,,Mark/Vamsi,,
+,Service,API Latency (1 day),<10 sec,Yes,P2,Prometheus,Histogram,,,Mark/Vamsi,"Could not find metric
+Days specific latency unavailable",
+,,API Latency (7 days),<15 sec,Yes,P2,Prometheus,Histogram,,,Mark/Vamsi,"Could not find metric
+Days specific latency unavailable",
+,,API Latency (30 days),<45 sec,Yes,P2,Prometheus,Histogram,,,Mark/Vamsi,"Could not find metric
+Days specific latency unavailable",
+,,API Availability,99.95,No,P2,,,,,Mark/Vamsi,,
+,Audit,API Latency (1 day),<10 sec,Yes,P2,Prometheus,Histogram,"grpc_server_handling_seconds_bucket{app=""auditlog"",status_code!~""5.*"",le=""10""}","grpc_server_handling_seconds_bucket{app=""auditlog""}",Mark/Vamsi,Days specific latency unavailable,
+,,API Latency (7 days),<15 sec,Yes,P2,Prometheus,Histogram,,"grpc_server_handling_seconds_bucket{app=""auditlog""}",Mark/Vamsi,"Days specific latency unavailable
+latency bucket 15s unavailable
+available buckets: 0.01,0.25,0.5,1,1.5,2,5,10,30,60,180,300,+Inf
+",
+,,API Latency (30 days),<45 sec,Yes,P2,Prometheus,Histogram,,"grpc_server_handling_seconds_bucket{app=""auditlog""}",Mark/Vamsi,"Days specific latency unavailable
+latency bucket 45s unavailable
+available buckets: 0.01,0.25,0.5,1,1.5,2,5,10,30,60,180,300,+Inf
+",
+,,API Availability,99.95,No,P2,,,,,Mark/Vamsi,,
+,Customer Metrics,API Latency,< 3 sec,No,P2,,,,,Mark/Vamsi,,
+,,API Availability,99.95,No,P2,,,,,Mark/Vamsi,,
+Notification,Notifications,Notifications list API Latency,<3 sec,No,P2,,,,,Mark/Vamsi,,
+,,API Availability,99.95,No,P2,,,,,Mark/Vamsi,,
+,,Time to Notify - low priority,<10 min,No,P2,,,,,Mark/Vamsi,Time to availability as toas message in UI,
+,,Time to Notify - medium priority,<5 min,No,P2,,,,,Mark/Vamsi,,
+,,Time to Notify - high priority,<1 min,No,P2,,,,,Mark/Vamsi,,
+Import/Export,Import/Export,API Latency,Variable by application,N/A,P3,,,,,Mark/Vamsi,,
+,,API Availability,99.95,No,P3,,,,,Mark/Vamsi,,
+,,API Availability,99.99,No,P3,,,,,Mark/Vamsi,,
+Provisioning,Provisioning,Time to Provision,<5 min,No,P2,,,,,Mark/Vamsi,,
+Global Search,Global Search,API Latency (0-100K objects),< 5 sec,Yes,P3,Prometheus,Histogram,"nginx_ingress_controller_request_duration_seconds_bucket{namespace=""global-search"",status!~""5.*"",le=""5""}","nginx_ingress_controller_request_duration_seconds_bucket{namespace=""global-search""}",Mark/Vamsi,Could not find object-count specific latency metrics,
+,,API Latency (100K-500K objects),< 7 sec,Yes,P3,Prometheus,Histogram,,"nginx_ingress_controller_request_duration_seconds_bucket{namespace=""global-search""}",Mark/Vamsi,"Could not find object-count specific latency metrics
+Latency bucket 7s unavailable",
+,,API Latency (500K-1M objects),< 10 sec,Yes,P3,Prometheus,Histogram,"nginx_ingress_controller_request_duration_seconds_bucket{namespace=""global-search"",status!~""5.*"",le=""10""}","nginx_ingress_controller_request_duration_seconds_bucket{namespace=""global-search""}",Mark/Vamsi,Could not find object-count specific latency metrics,
+,,API Latency (>1M objects),< 20 sec,Yes,P3,Prometheus,Histogram,,"nginx_ingress_controller_request_duration_seconds_bucket{namespace=""global-search""}",Mark/Vamsi,"Could not find object-count specific latency metrics
+Latency bucket 20s unavailable",
+,,API Availability,99.95,No,P2,Prometheus,Counter,"grpc_server_handled_total{app_kubernetes_io_instance=""global-search-api"",grpc_code=""OK""}","grpc_server_handled_total{app_kubernetes_io_instance=""global-search-api""}",Mark/Vamsi,,
+,,Search Propagation Delay,< 1 min,No,P3,,,,,Mark/Vamsi,Could not find Search Propagation Delay metrics,
+Tagging,Tagging,API Availability,99.99,No,P2,Prometheus,Counter,"grpc_server_handled_total{kubernetes_namespace=""tagging-v2"", grpc_code=""OK""}","grpc_server_handled_total{kubernetes_namespace=""tagging-v2""}",Mark/Vamsi,,
+,,Tagging List API Latency,< 3 sec,Yes,P2,Prometheus,Histogram,"tagging_v2_request_processing_duration_ms_bucket{method=""List"",le=""3000""}","tagging_v2_request_processing_duration_ms_count{method=""List""}",Mark/Vamsi,,
+,,Tag Creation Latency,< 30 sec,Yes,P2,Prometheus,Histogram,"tagging_v2_request_processing_duration_ms_bucket{method=""Create"",le=""30000""}","tagging_v2_request_processing_duration_ms_count{method=""Create""}",Mark/Vamsi,Time to availability as toast message in UI,
+,,Tag Update Latency,< 30 sec,Yes,P2,Prometheus,Histogram,"tagging_v2_request_processing_duration_ms_bucket{method=""Update"",le=""30000""}","tagging_v2_request_processing_duration_ms_count{method=""Update""}",Mark/Vamsi,,
+,,Tag Delete Latency,< 30 sec,Yes,P2,Prometheus,Histogram,"tagging_v2_request_processing_duration_ms_bucket{method=""Delete"",le=""30000""}","tagging_v2_request_processing_duration_ms_count{method=""Delete""}",Mark/Vamsi,,
+Entitlements,Entitlements,Config bundle update,<15 min,No,P1,,,,,Mark/Vamsi,,

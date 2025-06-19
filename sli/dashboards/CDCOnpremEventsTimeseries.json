@@ -1106,6 +1106,130 @@
       ],
       "title": "IPMeta Cloud Events",
       "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 60,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 19
+          },
+          "id": 59,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.5.10",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "iUkfVzqGz"
+              },
+              "editorMode": "code",
+              "expr": "onprem_container_sockets{account_id=~\"$account_id\", ophid=~\"$ophid\", onprem_pod=~\".*cdc.*\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{onprem_container}} - {{onprem_pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Open Sockets",
+          "transparent": true,
+          "type": "timeseries"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Open Sockets",
+      "type": "row"
     }
   ],
   "refresh": "10m",
@@ -1118,8 +1242,8 @@
         "allValue": ".*",
         "current": {
           "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",
@@ -1128,7 +1252,7 @@
         "definition": "label_values(onprem_cdc_volume_used_percent,account_id)",
         "description": "Account ID of CDC services",
         "hide": 0,
-        "includeAll": true,
+        "includeAll": false,
         "label": "Account ID",
         "multi": true,
         "name": "account_id",
@@ -1166,7 +1290,7 @@
           "query": "label_values(onprem_cdc_volume_used_percent{account_id=~\"$account_id\"},ophid)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,

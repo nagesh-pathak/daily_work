@@ -2083,8 +2083,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CDC Onprem Resources - Merged Dashboard",
-  "uid": "cdc-onprem-resources-merged",
+  "title": "CDC Onprem Resource Usage",
+  "uid": "cdc-onprem-resource-usage",
   "version": 1,
   "weekStart": ""
 }

@@ -1,0 +1,92 @@
+@startuml CDC Container Data Processing Flow
+
+title CDC Container Data Processing Flow
+
+skinparam backgroundColor #FFFEF0
+
+!define CONTAINER(name,type,color) rectangle name as "name\n<<type>>" #color
+
+' NIOS Data Sources
+rectangle NIOS as "NIOS\n<<Data Source>>" #lightblue
+
+' Input Containers
+rectangle "Input Containers" {
+    rectangle dns_in as "dns_in\n<<DNS Input>>" #lightgreen
+    rectangle rpz_in as "rpz_in\n<<RPZ Input>>" #lightgreen
+    rectangle grpc_in as "grpc_in\n<<gRPC Input>>" #lightgreen
+    rectangle ipmeta_in as "ipmeta_in\n<<IP Meta Input>>" #lightgreen
+}
+
+' Processing
+rectangle flume as "flume\n<<Data Processor>>" #yellow
+
+' Output Containers
+rectangle "Output Containers" {
+    rectangle grpc_out as "grpc_out\n<<gRPC Output>>" #lightcoral
+    rectangle siem_out as "siem_out\n<<SIEM Output>>" #lightcoral
+    rectangle splunk_out as "splunk_out\n<<Splunk Output>>" #lightcoral
+    rectangle splunkcloud_out as "splunkcloud_out\n<<Splunk Cloud Output>>" #lightcoral
+    rectangle reporting_out as "reporting_out\n<<Reporting Output>>" #lightcoral
+    rectangle http_out as "http_out\n<<HTTP Output>>" #lightcoral
+    rectangle soar_light as "soar_light\n<<SOAR Output>>" #lightcoral
+}
+
+' External Systems
+rectangle "Destination Systems" {
+    rectangle Splunk as "Splunk\n<<Platform>>" #orange
+    rectangle SIEM_Systems as "SIEM Systems\n<<Platform>>" #orange
+    rectangle Reporting_Systems as "Reporting Systems\n<<Platform>>" #orange
+    rectangle BloxOne as "BloxOne\n<<Platform>>" #orange
+    rectangle SOAR_Platform as "SOAR Platform\n<<Platform>>" #orange
+    rectangle HTTP_Endpoints as "HTTP Endpoints\n<<Platform>>" #orange
+}
+
+' Data flow relationships
+NIOS --> dns_in : "DNS Query/Response Logs"
+NIOS --> rpz_in : "RPZ Threat Feeds"
+NIOS --> ipmeta_in : "IP Metadata"
+
+dns_in --> flume : "Processed DNS Data"
+rpz_in --> flume : "Processed RPZ Data"
+ipmeta_in --> flume : "Processed IP Meta Data"
+
+note right of grpc_in : "gRPC input receives data\nfrom external gRPC sources,\nnot from NIOS"
+grpc_in --> flume : "External gRPC Data"
+
+flume --> grpc_out : "Transformed Data"
+flume --> siem_out : "Security Events"
+flume --> splunk_out : "Log Data"
+flume --> splunkcloud_out : "Cloud Log Data"
+flume --> reporting_out : "Report Data"
+flume --> http_out : "HTTP Formatted Data"
+flume --> soar_light : "Security Orchestration Data"
+
+grpc_out --> BloxOne : "gRPC Protocol"
+siem_out --> SIEM_Systems : "Syslog/CEF Format"
+splunk_out --> Splunk : "Splunk Format"
+splunkcloud_out --> Splunk : "Cloud API"
+reporting_out --> Reporting_Systems : "Report Format"
+http_out --> HTTP_Endpoints : "HTTP/REST"
+soar_light --> SOAR_Platform : "JSON/API"
+
+note top of flume
+  **Flume Configuration:**
+  - Aggregates data from multiple input containers
+  - Applies ETL transformations
+  - Routes data to appropriate output containers
+  - Handles data filtering and enrichment
+end note
+
+note bottom of NIOS
+  **NIOS Data Sources:**
+  - DNS Query/Response logs (via dns_in)
+  - RPZ (Response Policy Zone) logs (via rpz_in)
+  - DHCP lease information (via ipmeta_in)
+  - IP address metadata (via ipmeta_in)
+  - Network security events
+  
+  **Note:** NIOS does not use gRPC input container.
+  gRPC input is for external gRPC data sources.
+end note
+
+@enduml

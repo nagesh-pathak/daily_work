@@ -1,0 +1,323 @@
+@startuml CDC Flow Data Model and Database
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title CDC Flow API Service - Data Model and Database Architecture
+
+package "Data Model" {
+    entity "Flow" as flow {
+        * id : int32
+        * account_id : int
+        * identity_account_id : string
+        * name : string
+        * description : string
+        * enabled : bool
+        * enabled_changed : bool
+        * active : bool
+        * active_changed : bool
+        * destination_ha : bool
+        * source_id : int32
+        * ingress_policy_action : string
+        * tags : jsonb
+        * created_at : timestamp
+        * updated_at : timestamp
+        --
+        Relationships:
+        + source : Source
+        + destinations : Destination[]
+        + cdc_hosts : CdcHost[]
+        + cdc_services : CdcService[]
+        + etl_filters : EtlFilter[]
+        + source_data_types : FlowSourceDataType[]
+        + flow_schedule : FlowSchedule
+    }
+
+    entity "Source" as source {
+        * id : int32
+        * account_id : int
+        * identity_account_id : string
+        * type : string
+        * name : string
+        * description : string
+        * enabled : bool
+        * enabled_changed : bool
+        * address : string
+        * username : string
+        * password : string
+        * certificate : string
+        * certificate_key : string
+        * ca_certificate : string
+        * insecure : bool
+        * tags : jsonb
+        * created_at : timestamp
+        * updated_at : timestamp
+        --
+        Types:
+        - SOURCE_NIOS
+        - SOURCE_BLOXONE
+        - SOURCE_THREATDEFENSE
+    }
+
+    entity "Destination" as destination {
+        * id : int32
+        * account_id : int
+        * identity_account_id : string
+        * type : string
+        * name : string
+        * description : string
+        * enabled : bool
+        * enabled_changed : bool
+        * address : string
+        * port : int32
+        * transport_protocol : string
+        * username : string
+        * password : string
+        * certificate : string
+        * certificate_key : string
+        * certificate_key_passphrase : string
+        * ca_certificate : string
+        * insecure : bool
+        * output_data_format : string
+        * auth_type : string
+        * token : string
+        * credential_id : string
+        * tenant_id : string
+        * client_id : string
+        * client_secret : string
+        * tags : jsonb
+        * created_at : timestamp
+        * updated_at : timestamp
+        --
+        Types:
+        - DESTINATION_SPLUNK
+        - DESTINATION_SPLUNKCLOUD  
+        - DESTINATION_SYSLOG
+        - DESTINATION_HTTP
+        - DESTINATION_APPLICATION
+        - DESTINATION_BLOXONE
+        - DESTINATION_REPORTING
+    }
+
+    entity "CdcHost" as cdc_host {
+        * id : int32
+        * account_id : int
+        * identity_account_id : string
+        * host_id : string
+        * name : string
+        * enabled : bool
+        * enabled_changed : bool
+        * pool_id : string
+        * tags : jsonb
+        * created_at : timestamp
+        * updated_at : timestamp
+        --
+        Represents on-premise hosts
+        that can run CDC services
+    }
+
+    entity "CdcService" as cdc_service {
+        * id : string
+        * account_id : int
+        * identity_account_id : string
+        * name : string
+        * pool_id : string
+        * enabled : bool
+        * enabled_changed : bool
+        * tags : jsonb
+        * created_at : timestamp
+        * updated_at : timestamp
+        --
+        Represents CDC services
+        running on hosts/pools
+    }
+
+    entity "EtlFilter" as etl_filter {
+        * id : int32
+        * account_id : int
+        * identity_account_id : string
+        * type : string
+        * name : string
+        * description : string
+        * enabled : bool
+        * enabled_changed : bool
+        * fqdn : string
+        * hostname : string
+        * created_at : timestamp
+        * updated_at : timestamp
+        --
+        Types:
+        - ETL_FQDN
+        - ETL_HOSTNAME
+        - ETL_IP
+        - ETL_SUBNET
+    }
+
+    entity "Application" as application {
+        * id : int32
+        * account_id : int
+        * identity_account_id : string
+        * name : string
+        * description : string
+        * enabled : bool
+        * enabled_changed : bool
+        * version : string
+        * script_content : text
+        * script_schedule : string
+        * tags : jsonb
+        * created_at : timestamp
+        * updated_at : timestamp
+        --
+        Custom applications for
+        data processing
+    }
+}
+
+package "Junction Tables" {
+    entity "FlowDestination" as flow_destination {
+        * flow_id : int32 (FK)
+        * destination_id : int32 (FK)
+        --
+        Many-to-many relationship
+        between flows and destinations
+    }
+
+    entity "FlowCdcHost" as flow_cdc_host {
+        * flow_id : int32 (FK)
+        * cdc_host_id : int32 (FK)
+        --
+        Associates flows with
+        specific CDC hosts
+    }
+
+    entity "FlowCdcService" as flow_cdc_service {
+        * flow_id : int32 (FK)
+        * cdc_service_id : string (FK)
+        --
+        Associates flows with
+        specific CDC services
+    }
+
+    entity "FlowEtl" as flow_etl {
+        * flow_id : int32 (FK)
+        * etl_id : int32 (FK)
+        --
+        Associates flows with
+        ETL filters
+    }
+
+    entity "FlowSourceDataType" as flow_source_data_type {
+        * flow_id : int32 (FK)
+        * source_data_type : string
+        * source_data_type_fields : jsonb
+        * source_sub_data_types : text[]
+        --
+        Defines what data types
+        are processed by the flow
+    }
+
+    entity "FlowEtlExpression" as flow_etl_expression {
+        * flow_id : int32 (FK)
+        * etl_exp : string
+        --
+        Custom ETL filter expressions
+        for advanced filtering
+    }
+
+    entity "DestinationApplication" as destination_application {
+        * destination_id : int32 (FK)
+        * application_id : int32 (FK)
+        --
+        Associates destinations
+        with applications
+    }
+}
+
+package "Supporting Tables" {
+    entity "FlowSchedule" as flow_schedule {
+        * flow_id : int32 (FK)
+        * script_schedule : string
+        * schedule_option : string
+        --
+        Scheduling configuration
+        for flow execution
+    }
+
+    entity "DataSource" as data_source {
+        * id : int32
+        * name : string
+        * data_source : string
+        * enabled : bool
+        * account_id : int
+        * identity_account_id : string
+        * created_at : timestamp
+        * updated_at : timestamp
+        --
+        Data source definitions
+        and metadata
+    }
+
+    entity "Subscription" as subscription {
+        * id : int32
+        * name : string
+        * enabled : bool
+        * account_id : int
+        * identity_account_id : string
+        * created_at : timestamp
+        * updated_at : timestamp
+        --
+        Subscription management
+        for data types/features
+    }
+}
+
+' Relationships
+flow ||--o{ flow_destination : "has destinations"
+flow ||--o{ flow_cdc_host : "runs on hosts"
+flow ||--o{ flow_cdc_service : "uses services"
+flow ||--o{ flow_etl : "applies filters"
+flow ||--o{ flow_source_data_type : "processes data types"
+flow ||--o{ flow_etl_expression : "custom expressions"
+flow ||--|| flow_schedule : "has schedule"
+flow }o--|| source : "reads from"
+
+destination ||--o{ flow_destination : "used by flows"
+destination ||--o{ destination_application : "runs applications"
+
+cdc_host ||--o{ flow_cdc_host : "hosts flows"
+cdc_service ||--o{ flow_cdc_service : "serves flows"
+etl_filter ||--o{ flow_etl : "filters flows"
+application ||--o{ destination_application : "deployed to destinations"
+
+note right of flow
+**Flow Entity**
+Central entity that defines:
+- Data processing pipeline
+- Source to destination mapping
+- Applied transformations (ETL)
+- Host/service assignments
+- Scheduling configuration
+end note
+
+note right of destination
+**Destination Types**
+- **Splunk**: Enterprise SIEM
+- **Splunk Cloud**: Cloud SIEM
+- **Syslog**: Standard log servers
+- **HTTP**: REST API endpoints
+- **Application**: Custom apps
+- **BloxOne**: Infoblox Cloud
+- **Reporting**: Report generation
+end note
+
+note right of source
+**Source Types**
+- **NIOS**: Network Identity OS
+- **BloxOne**: Infoblox Cloud
+- **Threat Defense**: Security platform
+
+Each source provides different
+data types like DNS logs, DHCP
+logs, audit logs, etc.
+end note
+
+@enduml

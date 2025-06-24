@@ -1,0 +1,128 @@
+@startuml CDC API Service - PubSub Event Flow
+
+title CDC API Service - PubSub Event Handling and Flow Orchestration
+
+participant "Flow API" as FlowAPI
+participant "PubSub\nService" as PubSub
+participant "CDC API\nSubscriber" as Subscriber
+participant "Flow\nOrchestrator" as Orchestrator
+participant "Flow\nOperations" as FlowOps
+participant "Database" as DB
+participant "Status\nService" as StatusSvc
+participant "Container\nOperations" as ContainerOps
+
+== Flow Event Processing ==
+
+FlowAPI -> PubSub: Publish flow event\n(CREATE/UPDATE/DELETE)
+activate PubSub
+
+PubSub -> Subscriber: Flow event notification
+activate Subscriber
+
+Subscriber -> Subscriber: Parse event message
+Subscriber -> Orchestrator: Process flow operation
+activate Orchestrator
+
+alt Flow Operation: CREATE or UPDATE
+    Orchestrator -> FlowOps: Fetch flow details
+    activate FlowOps
+    
+    FlowOps -> FlowAPI: ReadConfigFlow(flow_id)
+    FlowAPI --> FlowOps: Flow configuration
+    
+    FlowOps -> FlowOps: Extract container mappings\nfrom flow configuration
+    
+    FlowOps -> DB: Update flow_mapping table
+    DB --> FlowOps: Mappings updated
+    
+    FlowOps -> ContainerOps: Configure containers\nfor flow
+    activate ContainerOps
+    
+    loop For each container in flow
+        ContainerOps -> ContainerOps: Generate container config
+        ContainerOps -> DB: Create/Update cdc_config
+        DB --> ContainerOps: Configuration stored
+    end
+    
+    ContainerOps --> FlowOps: Container configurations created
+    deactivate ContainerOps
+    
+    FlowOps -> StatusSvc: Update flow status
+    StatusSvc --> FlowOps: Status updated
+    
+    deactivate FlowOps
+
+else Flow Operation: DELETE
+    Orchestrator -> FlowOps: Handle flow deletion
+    activate FlowOps
+    
+    FlowOps -> DB: Query flow mappings
+    DB --> FlowOps: Container mappings
+    
+    loop For each mapped container
+        FlowOps -> DB: Delete container configuration
+        DB --> FlowOps: Configuration deleted
+    end
+    
+    FlowOps -> DB: Delete flow mappings
+    DB --> FlowOps: Mappings deleted
+    
+    FlowOps -> StatusSvc: Update flow status (deleted)
+    StatusSvc --> FlowOps: Status updated
+    
+    deactivate FlowOps
+
+else Flow Operation: SYNC
+    Orchestrator -> FlowOps: Full synchronization
+    activate FlowOps
+    
+    FlowOps -> FlowAPI: ListConfigFlow()
+    FlowAPI --> FlowOps: All flow configurations
+    
+    FlowOps -> DB: Get current flow mappings
+    DB --> FlowOps: Current mappings
+    
+    FlowOps -> FlowOps: Compare and identify changes
+    
+    loop For each changed flow
+        FlowOps -> FlowOps: Update container configurations
+        FlowOps -> DB: Update mappings and configs
+        DB --> FlowOps: Updates completed
+    end
+    
+    FlowOps -> StatusSvc: Bulk status update
+    StatusSvc --> FlowOps: Status updated
+    
+    deactivate FlowOps
+end
+
+Orchestrator --> Subscriber: Operation completed
+deactivate Orchestrator
+
+Subscriber --> PubSub: ACK message
+deactivate Subscriber
+
+PubSub --> FlowAPI: Message acknowledged
+deactivate PubSub
+
+== Error Handling ==
+
+note over Subscriber, StatusSvc
+  **Error Handling:**
+  - Retry failed operations with exponential backoff
+  - Dead letter queue for persistent failures
+  - Metrics and alerting for monitoring
+  - Graceful degradation for service unavailability
+end note
+
+== Configuration Templates ==
+
+note over ContainerOps
+  **Template Processing:**
+  - Select appropriate template based on container type
+  - Merge flow data with template
+  - Apply ETL transformations if configured
+  - Generate final configuration for deployment
+end note
+
+@enduml

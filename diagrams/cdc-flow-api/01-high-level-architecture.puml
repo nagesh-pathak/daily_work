@@ -1,0 +1,112 @@
+@startuml CDC Flow API Service - High Level Architecture
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title CDC Flow API Service - High Level Architecture
+
+Person(user, "User/Admin", "Configures CDC flows")
+Person(external_system, "External Systems", "Data sources and destinations")
+
+System_Boundary(cdc_ecosystem, "CDC (Cloud Data Connector) Ecosystem") {
+    Container(web_ui, "Management UI", "Web Interface", "Configure and monitor CDC flows")
+    Container(cdc_flow_api, "CDC Flow API", "Go/gRPC/REST", "Main API service for flow configuration")
+    Container(cdc_api, "CDC API", "Go Service", "Handles actual data processing")
+    Container(hostapp, "Host App Service", "Go Service", "Manages infrastructure hosts and services")
+    Container(flow_controller, "Flow Controller", "Kubernetes Controller", "Manages flow lifecycle in K8s")
+    
+    ContainerDb(postgres, "PostgreSQL", "Database", "Stores flow configurations, sources, destinations")
+    Container(kafka, "Apache Kafka", "Message Broker", "Data streaming and processing")
+    Container(dapr, "Dapr Runtime", "Microservices Runtime", "Pub/Sub, Service-to-Service communication")
+}
+
+System_Boundary(k8s_cluster, "Kubernetes Cluster") {
+    Container(nginx_proxy, "Nginx Proxy", "Load Balancer", "Routes traffic to services")
+    Container(grpc_in, "gRPC Input Service", "Go Service", "Receives data from sources")
+    Container(syslog_out, "Syslog Output Service", "Go Service", "Sends data to Syslog destinations")
+    Container(http_out, "HTTP Output Service", "Go Service", "Sends data to HTTP destinations")
+    Container(soar_light, "SOAR Light Service", "Go Service", "Security orchestration processing")
+}
+
+System_Boundary(external_sources, "Data Sources") {
+    System(nios, "NIOS Grid", "Network Identity OS")
+    System(bloxone, "BloxOne Cloud", "Infoblox Cloud Platform")
+    System(td_cloud, "Threat Defense", "Security platform")
+}
+
+System_Boundary(external_destinations, "Data Destinations") {
+    System(splunk, "Splunk Enterprise", "SIEM Platform")
+    System(splunk_cloud, "Splunk Cloud", "Cloud SIEM")
+    System(syslog_dest, "Syslog Servers", "Log aggregation")
+    System(http_dest, "HTTP Endpoints", "REST APIs")
+    System(custom_apps, "Custom Applications", "Third-party integrations")
+}
+
+System_Boundary(infra_services, "Infrastructure Services") {
+    Container(vault, "HashiCorp Vault", "Secrets Management", "Encrypts/Decrypts credentials")
+    Container(prometheus, "Prometheus", "Monitoring", "Metrics collection")
+    Container(status_svc, "Status Service", "Health Check", "Service status monitoring")
+}
+
+' User interactions
+Rel(user, web_ui, "Configures flows")
+Rel(user, cdc_flow_api, "REST/gRPC API calls")
+
+' Internal service communications
+Rel(web_ui, cdc_flow_api, "API calls")
+Rel(cdc_flow_api, postgres, "Store/retrieve configurations")
+Rel(cdc_flow_api, hostapp, "Get host/service info")
+Rel(cdc_flow_api, flow_controller, "Deploy/manage flows")
+Rel(cdc_flow_api, dapr, "Pub/Sub events")
+Rel(cdc_flow_api, vault, "Encrypt/decrypt secrets")
+
+' Flow controller manages K8s services
+Rel(flow_controller, nginx_proxy, "Manages")
+Rel(flow_controller, grpc_in, "Manages")
+Rel(flow_controller, syslog_out, "Manages")
+Rel(flow_controller, http_out, "Manages")
+Rel(flow_controller, soar_light, "Manages")
+
+' Data flow
+Rel(external_sources, grpc_in, "Send data", "gRPC/HTTP")
+Rel(grpc_in, kafka, "Publish messages")
+Rel(kafka, syslog_out, "Consume messages")
+Rel(kafka, http_out, "Consume messages")
+Rel(kafka, soar_light, "Consume messages")
+
+' Output to destinations
+Rel(syslog_out, external_destinations, "Send processed data", "Syslog")
+Rel(http_out, external_destinations, "Send processed data", "HTTP/REST")
+Rel(soar_light, external_destinations, "Send processed data")
+
+' Service communications
+Rel(hostapp, dapr, "Host/Service events")
+Rel(cdc_flow_api, cdc_api, "Trigger data processing")
+Rel(cdc_flow_api, status_svc, "Health checks")
+
+' Monitoring
+Rel(prometheus, cdc_flow_api, "Collect metrics")
+Rel(prometheus, flow_controller, "Collect metrics")
+
+note right of cdc_flow_api
+  **Main CDC Flow API Service**
+  - Manages flow configurations
+  - Handles CRUD operations for:
+    * Sources (NIOS, BloxOne, etc.)
+    * Destinations (Splunk, Syslog, etc.)
+    * ETL Filters
+    * Flow definitions
+  - Publishes configuration changes
+  - Validates flow configurations
+end note
+
+note right of flow_controller
+  **Kubernetes Flow Controller**
+  - Watches for flow configuration changes
+  - Creates/updates Kubernetes resources:
+    * StatefulSets for services
+    * ConfigMaps for configuration
+    * Services for networking
+  - Manages lifecycle of flow components
+end note
+
+@enduml

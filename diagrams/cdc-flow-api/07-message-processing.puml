@@ -1,0 +1,234 @@
+@startuml CDC Flow Message Processing
+
+title CDC Flow API Service - Message Processing and Event Flow
+
+participant "Data Source\n(NIOS/BloxOne)" as source
+participant "gRPC Input\nService" as grpc_input
+participant "Apache Kafka" as kafka
+participant "Syslog Output\nService" as syslog_output
+participant "HTTP Output\nService" as http_output
+participant "SOAR Light\nService" as soar_output
+participant "Destination\nSystems" as destination
+
+== Data Ingestion Phase ==
+
+source -> grpc_input: Send raw data\n(DNS logs, DHCP logs, etc.)
+note right of grpc_input
+**Data Types Supported:**
+- DNS Query/Response logs
+- DHCP lease logs  
+- Audit logs
+- Threat intelligence
+- Security events
+- System logs
+end note
+
+grpc_input -> grpc_input: Apply ETL Filters:
+note right
+**ETL Processing:**
+1. FQDN filtering
+2. Hostname filtering  
+3. IP address filtering
+4. Subnet filtering
+5. Custom filter expressions
+6. LocalZones filtering
+7. Data enrichment
+end note
+
+grpc_input -> grpc_input: Transform data format:
+note right
+**Format Transformations:**
+- JSON normalization
+- CEF (Common Event Format)
+- Syslog RFC3164/RFC5424
+- Custom formats
+- Field mapping
+- Timestamp standardization
+end note
+
+grpc_input -> kafka: Publish processed message
+note right of kafka
+**Kafka Topic Structure:**
+- Topic per flow: flow-{account_id}-{flow_id}
+- Partitions: Configurable (default: 1)
+- Retention: Configurable (default: 3h)
+- Replication: Configurable (default: 1)
+end note
+
+== Message Distribution Phase ==
+
+kafka -> syslog_output: Consume messages\n(if flow has syslog destination)
+kafka -> http_output: Consume messages\n(if flow has HTTP destination)  
+kafka -> soar_output: Consume messages\n(if flow has SOAR processing)
+
+== Syslog Output Processing ==
+
+syslog_output -> syslog_output: Format for Syslog:
+note right
+**Syslog Formatting:**
+- RFC3164 (BSD Syslog)
+- RFC5424 (New Syslog)
+- Custom facility/severity
+- Hostname/IP handling
+- Message structuring
+end note
+
+syslog_output -> destination: Send via Syslog\n(UDP:514, TCP:514, TLS:6514)
+note right of destination
+**Syslog Destinations:**
+- Splunk Universal Forwarder
+- rsyslog servers
+- syslog-ng servers
+- Cloud logging services
+- Custom syslog receivers
+end note
+
+== HTTP Output Processing ==
+
+http_output -> http_output: Format for HTTP:
+note right
+**HTTP Formatting:**
+- JSON payload
+- XML payload
+- Form data
+- Custom headers
+- Authentication tokens
+- Compression (gzip)
+end note
+
+http_output -> destination: Send via HTTP POST\n(REST API calls)
+note right of destination
+**HTTP Destinations:**
+- Splunk HEC (HTTP Event Collector)
+- ElasticSearch APIs
+- Custom REST APIs
+- Webhook endpoints
+- Cloud APIs (AWS, Azure, GCP)
+end note
+
+== SOAR Light Processing ==
+
+soar_output -> soar_output: Security processing:
+note right
+**SOAR Processing:**
+- Event correlation
+- Threat intelligence lookup
+- Rule-based automation
+- Alert prioritization
+- Incident creation
+- Response orchestration
+end note
+
+soar_output -> destination: Send processed events
+note right of destination
+**SOAR Destinations:**
+- Security platforms
+- Incident response tools
+- SIEM systems
+- Notification systems
+- Ticketing systems
+end note
+
+== Error Handling and Dead Letter Processing ==
+
+alt Message Processing Success
+    destination -> syslog_output: ACK/Success response
+    destination -> http_output: HTTP 200/201 response
+    destination -> soar_output: Processing confirmation
+else Message Processing Failure
+    destination -> syslog_output: Connection timeout/error
+    syslog_output -> syslog_output: Retry with backoff
+    note right
+    **Retry Strategy:**
+    - Initial delay: 1s
+    - Max delay: 60s
+    - Max retries: 3
+    - Exponential backoff
+    end note
+    
+    alt Max Retries Exceeded
+        syslog_output -> kafka: Send to dead letter topic
+        note right
+        **Dead Letter Handling:**
+        - Topic: flow-{account_id}-{flow_id}-dlq
+        - Retention: 24 hours
+        - Manual reprocessing possible
+        - Alerting on DLQ messages
+        end note
+    end
+end
+
+== Flow Configuration Updates ==
+
+note over grpc_input, destination
+**Dynamic Configuration Updates:**
+
+When flow configuration changes:
+1. ConfigMap updated in Kubernetes
+2. Services reload configuration
+3. New ETL rules applied
+4. Output formats updated
+5. Destination endpoints changed
+6. Processing continues without data loss
+end note
+
+== Monitoring and Metrics ==
+
+grpc_input -> grpc_input: Emit metrics:
+note right
+**Input Metrics:**
+- Messages received/sec
+- Processing latency
+- ETL filter matches
+- Error rates
+- Data volume
+end note
+
+syslog_output -> syslog_output: Emit metrics:
+note right
+**Output Metrics:**
+- Messages sent/sec
+- Delivery success rate
+- Connection failures
+- Queue depth
+- Destination latency
+end note
+
+kafka -> kafka: Emit metrics:
+note right
+**Kafka Metrics:**
+- Topic partition lag
+- Message throughput
+- Storage utilization
+- Consumer group health
+- Replication status
+end note
+
+== Data Volume and Performance ==
+
+note over source, destination
+**Performance Characteristics:**
+
+**Throughput:**
+- Input: 10K-100K events/sec per flow
+- Output: Depends on destination capacity
+- Kafka: Scales horizontally
+
+**Latency:**
+- End-to-end: <100ms (typical)
+- ETL processing: <10ms
+- Network latency: Variable
+
+**Scalability:**
+- Vertical: VPA adjusts resources
+- Horizontal: Multiple flow instances
+- Partitioning: Kafka topic partitions
+
+**Reliability:**
+- At-least-once delivery
+- Retry mechanisms
+- Dead letter queues
+- Health monitoring
+end note
+
+@enduml

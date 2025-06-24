@@ -1,0 +1,172 @@
+@startuml CDC API Service - Error Handling and Monitoring
+
+title CDC API Service - Error Handling, Monitoring and Resilience
+
+skinparam backgroundColor #FFFEF0
+
+package "Error Handling Strategy" {
+    
+    rectangle "Input Validation" as InputVal {
+        note as ValidNote
+        **Validation Checks:**
+        - Container name validation
+        - OPHID format validation  
+        - JSON schema validation
+        - Required field validation
+        - Data type validation
+        end note
+    }
+    
+    rectangle "Database Operations" as DBOps {
+        note as DBNote
+        **Database Error Handling:**
+        - Connection retry with backoff
+        - Transaction rollback on failure
+        - Duplicate key constraint handling
+        - Foreign key violation handling
+        - Connection pool management
+        end note
+    }
+    
+    rectangle "External Service Calls" as ExtServices {
+        note as ExtNote
+        **External Service Resilience:**
+        - gRPC connection retry
+        - Circuit breaker pattern
+        - Timeout configurations
+        - Fallback mechanisms
+        - Service discovery
+        end note
+    }
+    
+    rectangle "PubSub Processing" as PubSubProc {
+        note as PubSubNote
+        **Message Processing:**
+        - Message acknowledgment
+        - Dead letter queue
+        - Retry with exponential backoff
+        - Poison message handling
+        - Visibility timeout management
+        end note
+    }
+}
+
+package "Monitoring and Observability" {
+    
+    rectangle "Metrics Collection" as Metrics {
+        note as MetricsNote
+        **Prometheus Metrics:**
+        - HTTP request duration
+        - gRPC call metrics
+        - Database operation metrics
+        - PubSub message metrics
+        - Error rate and count
+        - Active connections
+        - Memory and CPU usage
+        end note
+    }
+    
+    rectangle "Logging Strategy" as Logging {
+        note as LogNote
+        **Structured Logging:**
+        - Request ID correlation
+        - OPHID and container context
+        - Error stack traces
+        - Performance timing
+        - Audit trail
+        - JSON format for parsing
+        end note
+    }
+    
+    rectangle "Health Checks" as Health {
+        note as HealthNote
+        **Health Monitoring:**
+        - Database connectivity
+        - External service health
+        - PubSub connection status
+        - Memory usage thresholds
+        - Disk space monitoring
+        - Readiness/Liveness probes
+        end note
+    }
+    
+    rectangle "Alerting" as Alerts {
+        note as AlertNote
+        **Alert Conditions:**
+        - High error rates
+        - Service unavailability
+        - Database connection failures
+        - PubSub message delays
+        - Memory/CPU thresholds
+        - Configuration deployment failures
+        end note
+    }
+}
+
+package "Security and Compliance" {
+    
+    rectangle "Authentication" as Auth {
+        note as AuthNote
+        **Security Measures:**
+        - JWT token validation
+        - RBAC authorization
+        - API rate limiting
+        - Input sanitization
+        - SQL injection prevention
+        - Vault secret management
+        end note
+    }
+    
+    rectangle "Audit Trail" as Audit {
+        note as AuditNote
+        **Audit Logging:**
+        - Configuration changes
+        - User actions
+        - System events
+        - Access patterns
+        - Data modifications
+        - Compliance reporting
+        end note
+    }
+}
+
+package "Performance Optimization" {
+    
+    rectangle "Caching Strategy" as Cache {
+        note as CacheNote
+        **Caching Layers:**
+        - Template caching
+        - Configuration caching
+        - Flow data caching
+        - Database query caching
+        - Connection pooling
+        end note
+    }
+    
+    rectangle "Resource Management" as Resources {
+        note as ResourceNote
+        **Resource Optimization:**
+        - Database connection pooling
+        - gRPC connection reuse
+        - Memory management
+        - Goroutine management
+        - Request throttling
+        - Background processing
+        end note
+    }
+}
+
+' Relationships
+InputVal --> DBOps : Validated data
+DBOps --> ExtServices : Database operations
+ExtServices --> PubSubProc : Service calls
+PubSubProc --> Metrics : Event metrics
+
+Metrics --> Logging : Correlated logs
+Logging --> Health : Health status
+Health --> Alerts : Alert triggers
+
+Auth --> Audit : Security events
+Cache --> Resources : Optimized performance
+
+@enduml

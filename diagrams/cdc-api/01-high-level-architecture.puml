@@ -1,0 +1,51 @@
+@startuml High-Level CDC API Service Architecture
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title CDC API Service - High Level Architecture
+
+Person(user, "App Service", "Initiates CDC configurations")
+Person(configMgr, "Config Manager", "Fetches and applies configurations")
+
+Container_Boundary(c1, "CDC Ecosystem") {
+    System(cdcApi, "CDC API Service", "Manages CDC flow configurations and templates")
+    System(cdcFlowApi, "CDC Flow API Service", "Manages CDC flow definitions")
+    System(statusSvc, "Status Service", "Tracks flow status and health")
+    System(hostApp, "Host App", "On-premise application")
+    SystemDb(cdcDb, "CDC Database", "PostgreSQL", "Stores configurations, ETL mappings, flow mappings")
+    System(pubsub, "PubSub Service", "Message broker for flow events")
+}
+
+Container_Boundary(c2, "On-Premise") {
+    Container(containers, "CDC Containers", "Various input/output containers", "dns_in, rpz_in, grpc_in, grpc_out, siem_out, etc.")
+    Container(nios, "NIOS", "Network Identity Operating System", "Source of network data")
+}
+
+Container_Boundary(c3, "External Systems") {
+    Container(splunk, "Splunk", "SIEM Platform", "Log analysis and monitoring")
+    Container(siem, "SIEM Systems", "Security Information and Event Management")
+    Container(reporting, "Reporting Systems", "Business intelligence and reporting")
+}
+
+' Relationships
+Rel(user, cdcApi, "POST /config/{container_name}", "Create configurations")
+Rel(configMgr, cdcApi, "GET /config/{container_name}/{ophid}/latest", "Fetch configurations")
+Rel(configMgr, cdcApi, "POST /status/{container_name}", "Update status")
+Rel(user, cdcApi, "GET /status/{container_name}/{ophid}", "Check status")
+
+Rel(cdcApi, cdcFlowApi, "gRPC", "Fetch flow definitions")
+Rel(cdcApi, cdcDb, "SQL", "Store/retrieve configurations")
+Rel(cdcApi, pubsub, "Subscribe", "Listen for flow events")
+Rel(cdcApi, statusSvc, "gRPC", "Update flow status")
+Rel(cdcApi, hostApp, "HTTP", "Fetch host information")
+
+Rel(containers, nios, "Data ingestion", "Pull network logs and data")
+Rel(containers, splunk, "Export", "Send processed data")
+Rel(containers, siem, "Export", "Send security events")
+Rel(containers, reporting, "Export", "Send reports")
+
+Rel(configMgr, containers, "Apply config", "Deploy configurations")
+
+SHOW_LEGEND()
+
+@enduml

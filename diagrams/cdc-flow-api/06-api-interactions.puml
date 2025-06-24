@@ -1,0 +1,188 @@
+@startuml CDC Flow API Interactions
+
+title CDC Flow API Service - API Interactions and Integration
+
+actor "User/Admin" as user
+participant "Load Balancer" as lb
+participant "HTTP Gateway" as gateway
+participant "gRPC Server" as grpc
+participant "API Handlers" as handlers
+participant "Validation" as validation
+participant "Database" as db
+participant "Dapr Runtime" as dapr
+participant "Flow Controller" as controller
+participant "External Services" as external
+
+== Flow Creation ==
+
+user -> lb: POST /api/cdc-flow/v1/flows/data\n{flow_configuration}
+lb -> gateway: Forward request
+gateway -> grpc: gRPC CreateFlowDataV2
+grpc -> handlers: Route to FlowApiV2Server
+handlers -> validation: Validate flow configuration
+validation -> validation: Check business rules:\n- Source/destination compatibility\n- ETL filter validity\n- Host/service availability\n- License compliance
+
+alt Validation Success
+    handlers -> db: Create flow record
+    db -> handlers: Flow created with ID
+    handlers -> dapr: Publish flow creation event
+    dapr -> controller: Flow event notification
+    controller -> controller: Create Kubernetes resources:\n- ConfigMaps\n- StatefulSets\n- Services
+    handlers -> grpc: Success response
+    grpc -> gateway: gRPC response
+    gateway -> lb: HTTP 201 Created
+    lb -> user: Flow created successfully
+else Validation Failure
+    validation -> handlers: Validation error
+    handlers -> grpc: Error response
+    grpc -> gateway: gRPC error
+    gateway -> lb: HTTP 400 Bad Request
+    lb -> user: Validation error details
+end
+
+== Source Management ==
+
+user -> lb: POST /api/cdc-flow/v1/sources/nios\n{source_config}
+lb -> gateway: Forward request
+gateway -> grpc: gRPC CreateSourceNios
+grpc -> handlers: Route to SourceApiServer
+handlers -> validation: Validate source configuration
+handlers -> db: Create source record
+handlers -> external: Test connection to source
+alt Connection Success
+    db -> handlers: Source created
+    handlers -> grpc: Success response
+    grpc -> gateway: HTTP 201 Created
+    gateway -> lb: Response
+    lb -> user: Source created
+else Connection Failure
+    handlers -> grpc: Connection error
+    grpc -> gateway: HTTP 502 Bad Gateway
+    gateway -> lb: Response
+    lb -> user: Connection failed
+end
+
+== Destination Management ==
+
+user -> lb: POST /api/cdc-flow/v1/destinations/splunk\n{destination_config}
+lb -> gateway: Forward request
+gateway -> grpc: gRPC CreateDestinationSplunk
+grpc -> handlers: Route to DestinationApiServer
+handlers -> validation: Validate destination configuration
+handlers -> external: Encrypt credentials via Vault
+handlers -> db: Store destination with encrypted credentials
+db -> handlers: Destination created
+handlers -> grpc: Success response
+grpc -> gateway: HTTP 201 Created
+gateway -> lb: Response
+lb -> user: Destination created
+
+== Configuration Read Operations ==
+
+user -> lb: GET /api/cdc-flow/v1/config/flows/{id}
+lb -> gateway: Forward request
+gateway -> grpc: gRPC ReadConfigFlow
+grpc -> handlers: Route to ConfigApiServer
+handlers -> db: Query flow with relationships:\n- Source details\n- Destination details\n- ETL filters\n- Host assignments\n- Service assignments
+db -> handlers: Complete flow configuration
+handlers -> grpc: Configuration response
+grpc -> gateway: HTTP 200 OK
+gateway -> lb: Response with full config
+lb -> user: Flow configuration
+
+== Event-Driven Updates ==
+
+external -> dapr: Host/Service status change
+dapr -> handlers: Process event via subscriber
+handlers -> db: Update host/service status
+handlers -> db: Query affected flows
+db -> handlers: List of flows using updated hosts/services
+handlers -> dapr: Publish flow update events
+dapr -> controller: Flow update notifications
+controller -> controller: Update Kubernetes resources
+
+== ETL Filter Operations ==
+
+user -> lb: POST /api/cdc-flow/v1/etl-filters/fqdn\n{filter_config}
+lb -> gateway: Forward request
+gateway -> grpc: gRPC CreateEtlFilterFqdn
+grpc -> handlers: Route to EtlFilterApiServer
+handlers -> validation: Validate filter syntax
+handlers -> db: Create ETL filter
+db -> handlers: Filter created
+handlers -> db: Find flows using this filter type
+db -> handlers: Affected flows list
+handlers -> dapr: Publish filter update events
+dapr -> controller: Update flow configurations
+handlers -> grpc: Success response
+grpc -> gateway: HTTP 201 Created
+gateway -> lb: Response
+lb -> user: ETL filter created
+
+== Health and Status Monitoring ==
+
+user -> lb: GET /api/cdc-flow/v1/support/health
+lb -> gateway: Forward request
+gateway -> grpc: gRPC HealthCheck
+grpc -> handlers: Route to SupportApiServer
+handlers -> db: Check database connectivity
+handlers -> dapr: Check event system
+handlers -> external: Check external service connectivity
+handlers -> grpc: Health status response
+grpc -> gateway: HTTP 200 OK
+gateway -> lb: Health status
+lb -> user: System health report
+
+== Error Handling and Audit ==
+
+note over grpc
+Every API call goes through:
+1. Authentication & Authorization
+2. Request ID generation  
+3. Audit logging
+4. Metrics collection
+5. Error handling with proper codes
+end note
+
+grpc -> external: Log audit trail
+grpc -> external: Publish metrics to Prometheus
+grpc -> grpc: Handle errors with proper gRPC/HTTP codes:
+note right
+- InvalidArgument: 400 Bad Request
+- NotFound: 404 Not Found  
+- PermissionDenied: 403 Forbidden
+- Internal: 500 Internal Server Error
+- Unavailable: 503 Service Unavailable
+end note
+
+== Bulk Operations ==
+
+user -> lb: DELETE /api/cdc-flow/v1/flows/data\n{flow_ids: [1,2,3]}
+lb -> gateway: Forward request
+gateway -> grpc: gRPC ListDeleteFlowDataV2
+grpc -> handlers: Route to FlowApiServer
+handlers -> db: Begin transaction
+loop For each flow ID
+    handlers -> db: Mark flow as deleted
+    handlers -> dapr: Publish deletion event
+end
+db -> handlers: Commit transaction
+handlers -> grpc: Bulk delete response
+grpc -> gateway: HTTP 200 OK
+gateway -> lb: Response with deletion summary
+lb -> user: Bulk deletion completed
+
+note over user, external
+**Key API Characteristics:**
+
+1. **RESTful Design**: Standard HTTP methods and status codes
+2. **gRPC Backend**: High-performance internal communication  
+3. **Event-Driven**: Asynchronous processing via Dapr
+4. **Transactional**: Database consistency with rollback support
+5. **Secure**: Authentication, authorization, audit logging
+6. **Validated**: Comprehensive input validation and business rules
+7. **Observable**: Metrics, logging, and health monitoring
+8. **Resilient**: Error handling and recovery mechanisms
+end note
+
+@enduml

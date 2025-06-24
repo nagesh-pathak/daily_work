@@ -1,0 +1,186 @@
+@startuml CDC API Service - API Specifications
+
+title CDC API Service - REST API Endpoints
+
+skinparam handwritten false
+skinparam monochrome false
+skinparam backgroundColor #FFFEF0
+
+package "CDC API Endpoints" {
+
+    note as CreateConfigNote
+    **POST /config/{container_name}**
+    
+    **Purpose:** Create container configuration
+    **Request Body:**
+    ```json
+    {
+      "ophid": "onprem_ophid",
+      "config": {"key": "value"}
+    }
+    ```
+    
+    **Response (200):**
+    ```json
+    {
+      "result": {
+        "id": "unique_id",
+        "ophid": "onprem_ophid", 
+        "version": "1",
+        "container_name": "dns_in",
+        "message": "Configuration Ready",
+        "status_code": "99"
+      }
+    }
+    ```
+    
+    **Error (409):** Configuration already exists
+    **Error (404):** Invalid container name
+    end note
+
+    note as GetConfigNote
+    **GET /config/{container_name}/{ophid}/latest**
+    
+    **Purpose:** Retrieve container configuration for deployment
+    **Used by:** Config Manager
+    
+    **Response (200):**
+    ```json
+    {
+      "config": {
+        "ophid": "onprem_ophid",
+        "version": "1", 
+        "configBody": "base64_encoded_config"
+      }
+    }
+    ```
+    
+    **Error (404):** Container not found
+    end note
+
+    note as UpdateStatusNote
+    **POST /status/{container_name}**
+    
+    **Purpose:** Update configuration deployment status
+    **Used by:** Config Manager
+    
+    **Request Body:**
+    ```json
+    {
+      "ophid": "onprem_ophid",
+      "config_version": 1,
+      "message": "Configuration Applied Successfully"
+    }
+    ```
+    
+    **Response (200):**
+    ```json
+    {
+      "msg": "Successfully updated status for ophid xyz"
+    }
+    ```
+    end note
+
+    note as GetStatusNote
+    **GET /status/{container_name}/{ophid}**
+    
+    **Purpose:** Check configuration deployment status
+    **Used by:** App Service
+    
+    **Response (200):**
+    ```json
+    {
+      "ophid": "onprem_ophid",
+      "config_version": "1",
+      "message": "Configuration Ready",
+      "status_code": "99"
+    }
+    ```
+    end note
+
+    note as DeleteConfigNote
+    **DELETE /config/{container_name}/{ophid}**
+    
+    **Purpose:** Delete container configuration
+    **Used by:** Traffic Configurator
+    
+    **Response (200):**
+    ```json
+    {
+      "result": {
+        "id": "unique_id",
+        "ophid": "onprem_ophid",
+        "version": "2",
+        "container_name": "dns_in",
+        "config": {"delete": "true"},
+        "message": "Delete Initiated",
+        "status_code": "98"
+      }
+    }
+    ```
+    
+    **Error (501):** Operation not allowed for Flume
+    end note
+
+    note as ETLNote
+    **ETL Management APIs**
+    
+    **POST /etl/{container_name}** - Create ETL filter
+    **GET /etl/{container_name}/{ophid}** - Get ETL filter  
+    **PUT /etl/{container_name}** - Update ETL filter
+    **DELETE /etl/{container_name}/{ophid}** - Delete ETL filter
+    
+    **ETL Request/Response:**
+    ```json
+    {
+      "ophid": "onprem_ophid",
+      "container_name": "dns_in",
+      "etl_id": 123,
+      "etl_data": {"filter": "conditions"}
+    }
+    ```
+    end note
+}
+
+package "Supported Container Types" {
+    note as ContainerTypes
+    **Input Containers:**
+    - dns_in (DNS Query/Response logs)
+    - rpz_in (RPZ threat feeds)  
+    - grpc_in (gRPC data streams)
+    - ipmeta_in (IP metadata)
+    
+    **Output Containers:**
+    - grpc_out (BloxOne platform)
+    - siem_out (SIEM/Syslog systems)
+    - splunk_out (Splunk platform)
+    - splunkcloud_out (Splunk Cloud)
+    - reporting_out (Reporting systems)
+    - http_out (HTTP endpoints)
+    - soar_light (SOAR platforms)
+    
+    **Processing Containers:**
+    - flume (Data transformation and routing)
+    end note
+}
+
+package "Status Codes" {
+    note as StatusCodes
+    **Configuration Status Codes:**
+    
+    - **99:** Configuration Ready (default)
+    - **98:** Delete Initiated  
+    - **1:** Configuration Applied Successfully
+    - **0:** No status / Success (not displayed)
+    - **2:** Configuration Failed
+    - **3:** Configuration In Progress
+    
+    **HTTP Status Codes:**
+    - **200:** Success
+    - **404:** Not Found (invalid container/ophid)
+    - **409:** Conflict (duplicate configuration)
+    - **501:** Not Implemented (invalid operation)
+    end note
+}
+
+@enduml

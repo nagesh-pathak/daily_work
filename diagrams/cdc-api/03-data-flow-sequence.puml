@@ -1,0 +1,105 @@
+@startuml CDC API Service - Data Flow and API Sequence
+
+title CDC API Service - End-to-End Data Flow
+
+participant "App Service" as App
+participant "CDC API" as API
+participant "Database" as DB
+participant "Flow API" as FlowAPI
+participant "PubSub" as PS
+participant "Config Manager" as CM
+participant "On-Premise\nContainers" as Containers
+participant "Status Service" as StatusSvc
+
+== Configuration Creation Flow ==
+
+App -> API: POST /config/{container_name}\n{ophid, config}
+activate API
+
+API -> API: Validate container name
+API -> API: Check if configuration exists
+API -> DB: Query existing config
+DB --> API: Current config (if exists)
+
+alt Configuration is new or different
+    API -> API: Process configuration\n(Generate Flume config if needed)
+    
+    alt Container is Flume
+        API -> FlowAPI: Fetch flow definitions
+        FlowAPI --> API: Flow data
+        API -> API: Generate Flume configuration\nfrom template
+    end
+    
+    API -> DB: INSERT new configuration\n(triggers version increment)
+    DB --> API: Configuration created
+    
+    API -> PS: Publish configuration event
+    PS --> API: Event published
+    
+    API --> App: 200 OK\n{id, ophid, version, container_name, message, status_code}
+else Configuration already exists
+    API --> App: 409 Conflict\n"Configuration already exists"
+end
+
+deactivate API
+
+== Configuration Retrieval Flow ==
+
+CM -> API: GET /config/{container_name}/{ophid}/latest
+activate API
+
+API -> DB: Query latest configuration
+DB --> API: Configuration data
+
+API -> API: Generate configuration\nfrom template
+API -> API: Encode configuration\n(base64)
+
+API --> CM: 200 OK\n{ophid, version, configBody}
+
+deactivate API
+
+== Configuration Application ==
+
+CM -> Containers: Apply configuration
+Containers --> CM: Configuration applied
+
+CM -> API: POST /status/{container_name}\n{ophid, config_version, message}
+activate API
+
+API -> DB: UPDATE configuration status
+DB --> API: Status updated
+
+API --> CM: 200 OK\n"Successfully updated status"
+
+deactivate API
+
+== Status Monitoring ==
+
+App -> API: GET /status/{container_name}/{ophid}
+activate API
+
+API -> DB: Query configuration status
+DB --> API: Status data
+
+API --> App: 200 OK\n{ophid, config_version, message, status_code}
+
+deactivate API
+
+== Flow Event Handling ==
+
+PS -> API: Flow event notification
+activate API
+
+API -> FlowAPI: Fetch updated flow data
+FlowAPI --> API: Flow definitions
+
+API -> API: Process flow changes
+API -> DB: Update flow mappings
+DB --> API: Mappings updated
+
+API -> StatusSvc: Update flow status
+StatusSvc --> API: Status updated
+
+deactivate API
+
+@enduml

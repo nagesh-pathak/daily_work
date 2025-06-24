@@ -1,0 +1,93 @@
+@startuml CDC API Service - Deployment and Runtime Architecture
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
+
+title CDC API Service - Deployment Architecture
+
+Deployment_Node(k8s, "Kubernetes Cluster", "Container Orchestration") {
+    
+    Deployment_Node(cdcNamespace, "CDC Namespace") {
+        Container(cdcApiPod, "CDC API Pod", "Go Application", "Main service container")
+        ContainerDb(postgres, "PostgreSQL", "Database", "Configuration storage")
+        Container(migrate, "Migration Job", "Database Migration", "Schema initialization")
+    }
+    
+    Deployment_Node(infraNamespace, "Infrastructure Namespace") {
+        Container(pubsubPod, "PubSub Service", "Message Broker", "Event handling")
+        Container(statusPod, "Status Service", "Status Tracking", "Flow monitoring")
+        Container(flowApiPod, "Flow API Service", "Flow Management", "Flow definitions")
+    }
+    
+    Deployment_Node(monitoringNamespace, "Monitoring Namespace") {
+        Container(prometheus, "Prometheus", "Metrics Collection", "Service monitoring")
+        Container(grafana, "Grafana", "Dashboards", "Metrics visualization")
+    }
+}
+
+Deployment_Node(onPrem, "On-Premise Environment") {
+    Deployment_Node(hostApp, "Host Application") {
+        Container(configMgr, "Config Manager", "Configuration Agent", "Applies CDC configs")
+        Container(cdcContainers, "CDC Containers", "Data Processing", "Input/Output containers")
+        Container(nios, "NIOS System", "Network Infrastructure", "Data source")
+    }
+}
+
+Deployment_Node(external, "External Systems") {
+    Container(splunkCloud, "Splunk Cloud", "SIEM Platform", "Log analysis")
+    Container(siemSystems, "SIEM Systems", "Security Platform", "Event processing")
+    Container(vault, "HashiCorp Vault", "Secret Management", "Credential storage")
+}
+
+' Relationships
+Rel(cdcApiPod, postgres, "SQL", "Configuration data")
+Rel(cdcApiPod, pubsubPod, "gRPC", "Event subscription")
+Rel(cdcApiPod, statusPod, "gRPC", "Status updates")
+Rel(cdcApiPod, flowApiPod, "gRPC", "Flow data")
+Rel(cdcApiPod, vault, "HTTPS", "Secret retrieval")
+
+Rel(configMgr, cdcApiPod, "HTTPS/gRPC", "Fetch configurations")
+Rel(configMgr, cdcContainers, "Local", "Apply configurations")
+Rel(cdcContainers, nios, "SSH/SCP", "Data ingestion")
+
+Rel(cdcContainers, splunkCloud, "HTTPS", "Log export")
+Rel(cdcContainers, siemSystems, "Syslog/TCP", "Event export")
+
+Rel(prometheus, cdcApiPod, "HTTP", "Metrics scraping")
+Rel(grafana, prometheus, "HTTP", "Metrics query")
+
+' Configuration details
+note top of cdcApiPod
+  **CDC API Configuration:**
+  - Port: 8080 (gRPC), 8081 (HTTP)
+  - Database: PostgreSQL connection
+  - PubSub: Message subscription
+  - Vault: Secret integration
+  - Metrics: Prometheus endpoint
+end note
+
+note top of postgres
+  **Database Configuration:**
+  - Port: 5432
+  - Schema: CDC configuration tables
+  - Migrations: Automated on startup
+  - Backup: Regular snapshots
+end note
+
+note bottom of configMgr
+  **Config Manager:**
+  - Polls CDC API for configurations
+  - Applies container configurations
+  - Reports status back to CDC API
+  - Handles configuration rollbacks
+end note
+
+note bottom of cdcContainers
+  **Container Types:**
+  - Input: dns_in, rpz_in, grpc_in, ipmeta_in
+  - Output: grpc_out, siem_out, splunk_out, etc.
+  - Processing: flume (data transformation)
+end note
+
+SHOW_LEGEND()
+
+@enduml

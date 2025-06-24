@@ -1,0 +1,219 @@
+@startuml CDC Flow Security and Integration
+
+title CDC Flow API Service - Security Architecture and External Integrations
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+System_Boundary(security_layer, "Security Layer") {
+    Container(auth_gateway, "Authentication Gateway", "Istio/Nginx", "JWT validation, TLS termination")
+    Container(authz_service, "Authorization Service", "OPA/Themis", "Policy-based access control")
+    Container(vault, "HashiCorp Vault", "Secrets Management", "Encryption, key rotation, PKI")
+    Container(audit_service, "Audit Service", "Logging", "Compliance and audit trails")
+}
+
+System_Boundary(cdc_flow_core, "CDC Flow Core Services") {
+    Container(api_service, "CDC Flow API", "Go/gRPC", "Main API with security middleware")
+    Container(flow_controller, "Flow Controller", "Go/K8s", "Secured Kubernetes operations")
+    Container(database, "PostgreSQL", "Database", "Encrypted at rest, TLS connections")
+}
+
+System_Boundary(message_security, "Message Processing Security") {
+    Container(secure_kafka, "Apache Kafka", "Message Broker", "SASL/SSL encryption, ACLs")
+    Container(encrypted_storage, "Encrypted Storage", "PVC", "Volume encryption, backup encryption")
+}
+
+System_Boundary(external_integrations, "External Service Integrations") {
+    Container(hostapp_service, "HostApp Service", "gRPC", "Infrastructure management")
+    Container(status_service, "Status Service", "gRPC", "Health monitoring")
+    Container(tagging_service, "Tagging Service", "gRPC", "Resource tagging")
+    Container(notification_service, "Notification Service", "HTTP", "Event notifications")
+    Container(license_service, "License Service", "HTTP", "Feature licensing")
+    Container(feature_flag_service, "Feature Flag Service", "gRPC", "Dynamic configuration")
+}
+
+System_Boundary(monitoring_security, "Monitoring and Observability") {
+    Container(prometheus, "Prometheus", "Metrics", "Secured metrics collection")
+    Container(grafana, "Grafana", "Dashboards", "RBAC, OAuth integration")
+    Container(jaeger, "Jaeger", "Tracing", "Distributed tracing with encryption")
+}
+
+System_Boundary(network_security, "Network Security") {
+    Container(istio_mesh, "Istio Service Mesh", "Networking", "mTLS, traffic policies")
+    Container(network_policies, "Network Policies", "Kubernetes", "Pod-to-pod restrictions")
+    Container(ingress_controller, "Ingress Controller", "Nginx/Istio", "TLS termination, rate limiting")
+}
+
+' Security flow
+Rel(auth_gateway, authz_service, "Policy check", "gRPC/TLS")
+Rel(api_service, vault, "Encrypt/decrypt secrets", "HTTP/TLS")
+Rel(api_service, audit_service, "Audit events", "gRPC/TLS")
+
+' API security
+Rel(api_service, authz_service, "Authorization check")
+Rel(api_service, database, "Encrypted connection", "TLS")
+Rel(flow_controller, secure_kafka, "Secured messaging", "SASL/SSL")
+
+' External integrations
+Rel(api_service, hostapp_service, "Service discovery", "gRPC/TLS")
+Rel(api_service, status_service, "Health checks", "gRPC/TLS")
+Rel(api_service, tagging_service, "Resource tags", "gRPC/TLS")
+Rel(api_service, notification_service, "Event publishing", "HTTP/TLS")
+Rel(api_service, license_service, "License validation", "HTTP/TLS")
+Rel(api_service, feature_flag_service, "Feature queries", "gRPC/TLS")
+
+' Monitoring
+Rel(prometheus, api_service, "Metrics scraping", "HTTP/TLS")
+Rel(grafana, prometheus, "Query metrics", "HTTP/TLS")
+Rel(jaeger, api_service, "Trace collection", "UDP/TLS")
+
+' Network security
+Rel(istio_mesh, api_service, "mTLS enforcement")
+Rel(network_policies, api_service, "Traffic filtering")
+Rel(ingress_controller, api_service, "External access", "TLS")
+
+package "Security Controls" {
+    note as security_controls
+    **Authentication & Authorization**
+    - JWT token validation
+    - RBAC (Role-Based Access Control)
+    - OPA/Themis policy evaluation
+    - Account-based multi-tenancy
+    - API key management
+    
+    **Data Protection**
+    - TLS 1.2+ for all communications
+    - Database encryption at rest
+    - Secrets encryption via Vault
+    - Message encryption in Kafka
+    - Certificate management and rotation
+    
+    **Network Security**
+    - Service mesh with mTLS
+    - Network segmentation policies
+    - Ingress traffic filtering
+    - Rate limiting and DDoS protection
+    - VPN/private network access
+    
+    **Audit & Compliance**
+    - Comprehensive audit logging
+    - Request/response tracking
+    - Change history tracking
+    - Compliance reporting
+    - Data retention policies
+    end note
+}
+
+package "Integration Patterns" {
+    note as integration_patterns
+    **Service Discovery**
+    - Kubernetes DNS resolution
+    - Service registry via HostApp
+    - Health check endpoints
+    - Load balancing strategies
+    
+    **Event-Driven Architecture**
+    - Dapr pub/sub for loose coupling
+    - Event sourcing for state changes
+    - Dead letter queues for failures
+    - Event replay capabilities
+    
+    **Configuration Management**
+    - External configuration via API
+    - Dynamic feature flags
+    - Environment-specific settings
+    - Hot configuration reloading
+    
+    **Resilience Patterns**
+    - Circuit breaker pattern
+    - Retry with exponential backoff
+    - Timeout and deadline management
+    - Graceful degradation
+    - Health check dependencies
+    end note
+}
+
+package "Data Flow Security" {
+    note as data_flow_security
+    **Source Data Security**
+    - Authenticated source connections
+    - Certificate-based authentication
+    - IP allowlisting
+    - Data validation and sanitization
+    
+    **Processing Security**
+    - ETL filter validation
+    - Secure data transformation
+    - Memory-safe processing
+    - Resource isolation
+    
+    **Destination Security**
+    - Encrypted credential storage
+    - Certificate management
+    - Secure transmission protocols
+    - Destination authentication
+    
+    **Data Governance**
+    - Data classification
+    - PII detection and handling
+    - Data masking capabilities
+    - Retention policy enforcement
+    end note
+}
+
+package "Operational Security" {
+    note as operational_security
+    **Container Security**
+    - Base image vulnerability scanning
+    - Runtime security monitoring
+    - Resource limits and quotas
+    - Security context constraints
+    
+    **Kubernetes Security**
+    - Pod security policies
+    - RBAC for service accounts
+    - Network policies enforcement
+    - Admission controllers
+    
+    **Infrastructure Security**
+    - Node hardening
+    - Container runtime security
+    - Image signing and verification
+    - Supply chain security
+    
+    **Monitoring & Alerting**
+    - Security event detection
+    - Anomaly detection
+    - Threat intelligence integration
+    - Incident response automation
+    end note
+}
+
+note right of vault
+**Vault Integration**
+- Transit encryption for secrets
+- Dynamic secret generation
+- Certificate authority
+- Key rotation automation
+- Audit logging
+- Policy-based access
+end note
+
+note right of authz_service
+**Authorization Policies**
+- Resource-based permissions
+- Account-level isolation
+- Role-based access control
+- Fine-grained API permissions
+- Temporary access grants
+end note
+
+note right of secure_kafka
+**Kafka Security**
+- SASL/SCRAM authentication
+- SSL/TLS encryption
+- ACL-based authorization
+- Topic-level permissions
+- Producer/consumer authentication
+end note
+
+@enduml

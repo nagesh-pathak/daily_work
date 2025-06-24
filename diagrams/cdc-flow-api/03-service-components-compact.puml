@@ -1,0 +1,133 @@
+@startuml CDC Flow Service Components (Compact)
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+' Optimized layout directives
+!define DIRECTION top to bottom direction
+skinparam wrapWidth 180
+skinparam maxMessageSize 120
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam linetype ortho
+scale 0.7
+
+title CDC Flow API Service - Internal Components (Compact View)
+
+Container_Boundary(cdc_flow_api, "CDC Flow API Service") {
+    
+    ' Core API Layer
+    package "API Layer" {
+        Component(grpc_server, "gRPC Server", "Go/gRPC", "Main API server")
+        Component(http_gateway, "HTTP Gateway", "grpc-gateway", "REST gateway")
+        Component(controller_server, "Controller Server", "HTTP", "K8s webhook")
+    }
+    
+    ' Business Logic Layer
+    package "Business Logic" {
+        Component(flow_handler, "CDC Flow Handler", "Go", "Flow lifecycle manager")
+        Component(flow_controller, "Flow Controller", "Go", "K8s controller")
+        Component(vpa_controller, "VPA Controller", "Go", "Auto-scaler")
+    }
+    
+    ' API Handlers - Grouped
+    package "API Handlers" {
+        Component(crud_handlers, "CRUD Handlers", "Go", "Flow, Source, Destination, ETL")
+        Component(mgmt_handlers, "Management Handlers", "Go", "Host, Service, Application")
+        Component(util_handlers, "Utility Handlers", "Go", "Config, Support")
+    }
+    
+    ' Service Handlers - Simplified
+    package "Service Handlers" {
+        Component(input_handlers, "Input Handlers", "Go", "gRPC Input services")
+        Component(output_handlers, "Output Handlers", "Go", "Syslog, HTTP, SOAR outputs")
+        Component(proxy_handlers, "Proxy Handlers", "Go", "Nginx load balancers")
+    }
+    
+    ' Data Layer
+    package "Data Layer" {
+        Component(db_layer, "Database Layer", "GORM", "DB abstraction")
+        Component(data_access, "Data Access", "Go", "Entity CRUD operations")
+    }
+    
+    ' Common Services
+    package "Common Services" {
+        Component(validation, "Validation", "Go", "Request validation")
+        Component(security, "Security", "Go", "Audit, Encryption, Auth")
+        Component(integration, "Integration", "Go", "Tagging, S2S, Status")
+    }
+    
+    ' Event Processing
+    package "Event Processing" {
+        Component(dapr_integration, "Dapr Integration", "Go", "Pub/Sub events")
+        Component(notifications, "Notifications", "Go", "Event publishing")
+        Component(external_clients, "External Clients", "Go", "HostApp, Migration")
+    }
+}
+
+' External Services - Simplified layout
+ContainerDb(postgres, "PostgreSQL", "Database", "Data store")
+Container(dapr_runtime, "Dapr Runtime", "Sidecar", "Event runtime")
+Container(k8s_api, "Kubernetes API", "API Server", "K8s cluster")
+Container(external_services, "External Services", "Various", "HostApp, Vault, etc.")
+
+' Main flow relationships - simplified
+Rel(http_gateway, grpc_server, "Forwards")
+Rel(grpc_server, crud_handlers, "Routes CRUD")
+Rel(grpc_server, mgmt_handlers, "Routes Management")
+Rel(grpc_server, util_handlers, "Routes Utilities")
+
+Rel(crud_handlers, flow_handler, "Triggers")
+Rel(flow_handler, flow_controller, "Manages")
+Rel(flow_controller, input_handlers, "Creates/Updates")
+Rel(flow_controller, output_handlers, "Creates/Updates")
+Rel(flow_controller, proxy_handlers, "Creates/Updates")
+
+Rel(crud_handlers, data_access, "CRUD ops")
+Rel(data_access, db_layer, "DB ops")
+Rel(db_layer, postgres, "Queries")
+
+Rel(grpc_server, validation, "Validates")
+Rel(grpc_server, security, "Secures")
+Rel(flow_handler, dapr_integration, "Events")
+Rel(dapr_integration, notifications, "Publishes")
+
+' External connections
+Rel(dapr_integration, dapr_runtime, "Pub/Sub")
+Rel(flow_controller, k8s_api, "K8s ops")
+Rel(external_clients, external_services, "Integrates")
+Rel(security, external_services, "Vault/Auth")
+
+' Layout hints
+grpc_server -down-> crud_handlers
+flow_handler -down-> input_handlers
+data_access -down-> db_layer
+dapr_integration -right-> external_clients
+
+note right of flow_handler
+**CDC Flow Handler**
+Orchestrates complete flow lifecycle:
+• Creates K8s resources
+• Manages service deployments
+• Handles state changes
+• Integrates with controllers
+end note
+
+note bottom of dapr_integration
+**Event-Driven Architecture**
+Dapr provides:
+• Pub/Sub messaging
+• Service discovery
+• State management
+• External bindings
+end note
+
+note left of data_access
+**Data Access Layer**
+Handles all entity operations:
+• Flows, Sources, Destinations
+• ETL Filters, Hosts, Services
+• Applications, Configurations
+• Audit trails and metadata
+end note
+
+@enduml

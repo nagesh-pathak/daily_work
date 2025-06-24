@@ -1,0 +1,63 @@
+@startuml CDC API Service - Detailed Component Architecture
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title CDC API Service - Component Level Architecture
+
+Container_Boundary(api, "CDC API Service") {
+    Component(grpcServer, "gRPC Server", "Go", "Handles gRPC requests")
+    Component(httpGateway, "HTTP Gateway", "grpc-gateway", "REST API endpoints")
+    Component(cdcService, "CDC Service", "Go", "Business logic for CDC operations")
+    Component(tfc, "Traffic Flow Controller", "Go", "Orchestrates flow operations")
+    Component(flowOps, "Flow Operations", "Go", "Manages flow lifecycle")
+    Component(subscriber, "PubSub Subscriber", "Go", "Handles flow events")
+    Component(templates, "Template Engine", "Go", "Generates configurations from templates")
+    Component(metrics, "Metrics", "Prometheus", "Service metrics and monitoring")
+}
+
+Container_Boundary(data, "Data Layer") {
+    ComponentDb(cdcConfigTable, "cdc_config", "PostgreSQL", "Container configurations")
+    ComponentDb(flowMappingTable, "flow_mapping", "PostgreSQL", "Flow to container mappings")
+    ComponentDb(etlTable, "etl", "PostgreSQL", "ETL filter configurations")
+}
+
+Container_Boundary(external, "External Services") {
+    Component(flowApiClient, "Flow API Client", "gRPC", "Communicates with Flow API")
+    Component(statusClient, "Status Service Client", "gRPC", "Updates flow status")
+    Component(hostAppClient, "Host App Client", "HTTP", "Fetches host data")
+    Component(pubsubClient, "PubSub Client", "gRPC", "Message broker connection")
+}
+
+Container_Boundary(containers, "Container Types") {
+    Component(inputContainers, "Input Containers", "", "dns_in, rpz_in, grpc_in, ipmeta_in")
+    Component(outputContainers, "Output Containers", "", "grpc_out, siem_out, splunk_out, reporting_out")
+    Component(flumeContainer, "Flume Container", "", "Data transformation and routing")
+}
+
+' Internal relationships
+Rel(httpGateway, grpcServer, "Forwards", "HTTP to gRPC")
+Rel(grpcServer, cdcService, "Invokes", "Service methods")
+Rel(cdcService, tfc, "Uses", "Flow orchestration")
+Rel(tfc, flowOps, "Uses", "Flow operations")
+Rel(tfc, subscriber, "Uses", "Event handling")
+Rel(cdcService, templates, "Uses", "Config generation")
+
+' Data relationships
+Rel(cdcService, cdcConfigTable, "CRUD", "Configuration management")
+Rel(tfc, flowMappingTable, "CRUD", "Flow mappings")
+Rel(cdcService, etlTable, "CRUD", "ETL configurations")
+
+' External relationships
+Rel(flowOps, flowApiClient, "Uses", "Flow data")
+Rel(tfc, statusClient, "Uses", "Status updates")
+Rel(tfc, hostAppClient, "Uses", "Host information")
+Rel(subscriber, pubsubClient, "Uses", "Event subscription")
+
+' Container relationships
+Rel(templates, inputContainers, "Generates", "Input configs")
+Rel(templates, outputContainers, "Generates", "Output configs")
+Rel(templates, flumeContainer, "Generates", "Flume configs")
+
+SHOW_LEGEND()
+
+@enduml

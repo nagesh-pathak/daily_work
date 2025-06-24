@@ -1,0 +1,101 @@
+@startuml CDC API Service - Database Schema and Relationships
+
+!define TABLE(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define PK(x) <u>x</u>
+!define FK(x) <i>x</i>
+
+title CDC API Service - Database Schema
+
+TABLE(cdc_config, "cdc_config\nContainer Configurations") {
+  PK(id) : serial
+  created_at : timestamptz
+  updated_at : timestamptz
+  ophid : text
+  version : bigint
+  container_name : text
+  config : jsonb
+  message : text
+  status_code : bigint
+  --
+  UNIQUE(ophid, version, container_name)
+}
+
+TABLE(flow_mapping, "flow_mapping\nFlow to Container Mappings") {
+  PK(id) : serial
+  created_at : timestamptz
+  updated_at : timestamptz
+  flow_id : bigint
+  container_name : text
+  FK(ophid) : text
+  --
+  UNIQUE(flow_id, container_name, ophid)
+}
+
+TABLE(etl, "etl\nETL Filter Configurations") {
+  PK(id) : serial
+  created_at : timestamptz
+  updated_at : timestamptz
+  FK(ophid) : text
+  container_name : text
+  etl_id : bigint
+  etl_data : jsonb
+  --
+  UNIQUE(ophid, container_name, etl_id)
+}
+
+note top of cdc_config
+  **Triggers:**
+  - set_updated_at() on UPDATE/INSERT
+  - set_version() on INSERT (auto-increment version)
+  
+  **Indexes:**
+  - Primary key on id
+  - Unique constraint on (ophid, version, container_name)
+end note
+
+note top of flow_mapping
+  **Purpose:**
+  Maps CDC flows to specific containers
+  and on-premise hosts
+  
+  **Triggers:**
+  - set_updated_at() on UPDATE/INSERT
+end note
+
+note top of etl
+  **Purpose:**
+  Stores ETL (Extract, Transform, Load)
+  filter configurations for data processing
+  
+  **Triggers:**
+  - set_updated_at() on UPDATE/INSERT
+end note
+
+' Relationships
+cdc_config ||--o{ flow_mapping : "ophid"
+flow_mapping }o--|| etl : "ophid + container_name"
+
+' Container types
+note bottom
+  **Supported Container Types:**
+  
+  **Input Containers:**
+  - dns_in (DNS Query/Response logs)
+  - rpz_in (RPZ logs)
+  - grpc_in (gRPC input)
+  - ipmeta_in (IP metadata)
+  
+  **Output Containers:**
+  - grpc_out (gRPC output)
+  - siem_out (SIEM/Syslog output)
+  - splunk_out (Splunk output)
+  - splunkcloud_out (Splunk Cloud output)
+  - reporting_out (Reporting output)
+  - http_out (HTTP output)
+  - soar_light (SOAR application output)
+  
+  **Processing Containers:**
+  - flume (Data transformation and routing)
+end note
+
+@enduml

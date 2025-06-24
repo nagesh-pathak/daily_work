@@ -1,0 +1,122 @@
+@startuml CDC API Service - Configuration Template System
+
+title CDC API Service - Configuration Template Generation
+
+skinparam componentStyle uml2
+
+package "Template System" {
+    [Template Engine] as TE
+    [Template Files] as TF
+    [Configuration Generator] as CG
+}
+
+package "Template Files" {
+    [dns_in.tmpl] as DNS_TMPL
+    [rpz_in.tmpl] as RPZ_TMPL
+    [grpc_in.tmpl] as GRPC_IN_TMPL
+    [grpc_out.tmpl] as GRPC_OUT_TMPL
+    [siem_out.tmpl] as SIEM_TMPL
+    [splunk_out.tmpl] as SPLUNK_TMPL
+    [splunkcloud_out.tmpl] as SPLUNKCLOUD_TMPL
+    [reporting_out.tmpl] as REPORTING_TMPL
+    [http_out.tmpl] as HTTP_TMPL
+    [flume.tmpl] as FLUME_TMPL
+    [ipmeta_in.tmpl] as IPMETA_TMPL
+    [soar_light.tmpl] as SOAR_TMPL
+}
+
+package "Data Sources" {
+    [Flow API Data] as FlowData
+    [User Configuration] as UserConfig
+    [ETL Filters] as ETLData
+    [Host Information] as HostData
+    [Credentials] as CredsData
+}
+
+package "Generated Configurations" {
+    [Input Container Configs] as InputConfigs
+    [Output Container Configs] as OutputConfigs
+    [Flume Configuration] as FlumeConfig
+}
+
+' Template relationships
+TE --> DNS_TMPL : Uses
+TE --> RPZ_TMPL : Uses
+TE --> GRPC_IN_TMPL : Uses
+TE --> GRPC_OUT_TMPL : Uses
+TE --> SIEM_TMPL : Uses
+TE --> SPLUNK_TMPL : Uses
+TE --> SPLUNKCLOUD_TMPL : Uses
+TE --> REPORTING_TMPL : Uses
+TE --> HTTP_TMPL : Uses
+TE --> FLUME_TMPL : Uses
+TE --> IPMETA_TMPL : Uses
+TE --> SOAR_TMPL : Uses
+
+' Data flow
+FlowData --> CG : Flow definitions
+UserConfig --> CG : User provided config
+ETLData --> CG : ETL filters
+HostData --> CG : Host/NIOS info
+CredsData --> CG : Authentication data
+
+CG --> TE : Merged data
+TE --> InputConfigs : Generate input configs
+TE --> OutputConfigs : Generate output configs
+TE --> FlumeConfig : Generate flume config
+
+note top of TE
+  **Template Engine Features:**
+  - Go template syntax
+  - Conditional logic
+  - Data merging and transformation
+  - Hash generation for change detection
+  - Base64 encoding for deployment
+end note
+
+note bottom of CG
+  **Configuration Generation Process:**
+  1. Validate container type
+  2. Fetch flow data from Flow API
+  3. Merge user configuration
+  4. Apply ETL filters if configured
+  5. Select appropriate template
+  6. Generate final configuration
+  7. Encode for deployment
+end note
+
+' Template details
+note left of DNS_TMPL
+  **DNS Input Template:**
+  - NIOS connection settings
+  - DNS log file paths
+  - Filter configurations
+  - Output destinations
+end note
+
+note right of GRPC_OUT_TMPL
+  **gRPC Output Template:**
+  - BloxOne endpoint configuration
+  - Authentication settings
+  - Data format specifications
+  - Retry and timeout settings
+end note
+
+note left of FLUME_TMPL
+  **Flume Template:**
+  - Source configurations
+  - Channel settings
+  - Sink configurations
+  - Data transformation rules
+  - Routing logic
+end note
+
+note right of SIEM_TMPL
+  **SIEM Output Template:**
+  - Syslog server configuration
+  - CEF format settings
+  - Security event mappings
+  - Protocol specifications
+end note
+
+@enduml

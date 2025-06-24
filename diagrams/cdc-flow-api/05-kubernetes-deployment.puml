@@ -1,0 +1,161 @@
+@startuml CDC Flow Kubernetes Deployment
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
+
+title CDC Flow API Service - Kubernetes Deployment Architecture
+
+Deployment_Node(k8s_cluster, "Kubernetes Cluster", "Container Orchestration Platform") {
+    
+    Deployment_Node(cdc_flow_ns, "cdc-flow Namespace", "Application Namespace") {
+        
+        Deployment_Node(api_services, "API Services", "Core API Components") {
+            Container(cdc_flow_api_pod, "CDC Flow API", "StatefulSet", "Main API service\n- gRPC server :9090\n- HTTP gateway :8080\n- Controller :9092\n- Health :8081")
+            Container(postgres_pod, "PostgreSQL", "StatefulSet", "Database\n- Port: 5432\n- Persistent storage")
+            Container(dapr_sidecar, "Dapr Sidecar", "Sidecar", "Microservices runtime\n- Port: 3500")
+        }
+        
+        Deployment_Node(flow_services, "Flow Processing Services", "Dynamic Flow Components") {
+            Container(grpc_in_pod, "gRPC Input Service", "StatefulSet", "Data ingestion\n- Account: {account_id}\n- Flow: {flow_id}")
+            Container(syslog_out_pod, "Syslog Output Service", "StatefulSet", "Syslog forwarding\n- Account: {account_id}\n- Flow: {flow_id}")
+            Container(http_out_pod, "HTTP Output Service", "StatefulSet", "HTTP forwarding\n- Account: {account_id}\n- Flow: {flow_id}")
+            Container(soar_light_pod, "SOAR Light Service", "StatefulSet", "Security processing\n- Account: {account_id}\n- Flow: {flow_id}")
+            Container(nginx_pod, "Nginx Proxy", "StatefulSet", "Load balancer\n- Account: {account_id}\n- Flow: {flow_id}")
+        }
+        
+        Deployment_Node(config_storage, "Configuration Storage", "Kubernetes Resources") {
+            Container(flow_configmaps, "Flow ConfigMaps", "ConfigMap", "Service configurations\n- Flow metadata\n- Kafka settings\n- Processing rules")
+            Container(secrets, "Secrets", "Secret", "Encrypted credentials\n- Database passwords\n- API keys\n- Certificates")
+            Container(services, "Kubernetes Services", "Service", "Network access\n- ClusterIP\n- NodePort\n- LoadBalancer")
+        }
+    }
+    
+    Deployment_Node(infra_ns, "Infrastructure Namespace", "Shared Infrastructure") {
+        Container(kafka_cluster, "Apache Kafka", "StatefulSet", "Message broker\n- Brokers: 3 replicas\n- Topics: per-flow\n- Persistence: enabled")
+        Container(vault_pod, "HashiCorp Vault", "StatefulSet", "Secrets management\n- Transit encryption\n- Key rotation")
+        Container(prometheus_pod, "Prometheus", "StatefulSet", "Metrics collection\n- Scraping interval: 15s\n- Retention: 30 days")
+    }
+}
+
+Deployment_Node(external_systems, "External Systems", "External Dependencies") {
+    Container(hostapp_service, "HostApp Service", "External Service", "Infrastructure management\n- Host registration\n- Service discovery")
+    Container(data_sources, "Data Sources", "External Systems", "NIOS, BloxOne, Threat Defense")
+    Container(data_destinations, "Data Destinations", "External Systems", "Splunk, Syslog servers, HTTP APIs")
+}
+
+' Internal networking
+Rel(cdc_flow_api_pod, postgres_pod, "Database queries", "TCP:5432")
+Rel(cdc_flow_api_pod, dapr_sidecar, "Event pub/sub", "HTTP:3500")
+Rel(cdc_flow_api_pod, flow_configmaps, "Read configuration")
+Rel(cdc_flow_api_pod, secrets, "Read secrets")
+
+' Flow service relationships
+Rel(grpc_in_pod, kafka_cluster, "Publish messages", "TCP:9092")
+Rel(syslog_out_pod, kafka_cluster, "Consume messages", "TCP:9092")
+Rel(http_out_pod, kafka_cluster, "Consume messages", "TCP:9092")
+Rel(soar_light_pod, kafka_cluster, "Consume messages", "TCP:9092")
+
+Rel(grpc_in_pod, flow_configmaps, "Read configuration")
+Rel(syslog_out_pod, flow_configmaps, "Read configuration")
+Rel(http_out_pod, flow_configmaps, "Read configuration")
+Rel(soar_light_pod, flow_configmaps, "Read configuration")
+
+' External connections
+Rel(cdc_flow_api_pod, hostapp_service, "Service discovery", "gRPC")
+Rel(cdc_flow_api_pod, vault_pod, "Encrypt/decrypt", "HTTP:8200")
+Rel(prometheus_pod, cdc_flow_api_pod, "Metrics scraping", "HTTP:8081")
+
+Rel(grpc_in_pod, data_sources, "Receive data", "gRPC/HTTP")
+Rel(syslog_out_pod, data_destinations, "Send data", "Syslog:514")
+Rel(http_out_pod, data_destinations, "Send data", "HTTP:443")
+
+note right of cdc_flow_api_pod
+**CDC Flow API Deployment**
+- **Replicas**: 1-3 (HA setup)
+- **Resources**: 
+  * CPU: 200m-2000m
+  * Memory: 512Mi-2Gi
+- **Storage**: ConfigMaps, no persistent volumes
+- **Ports**: 
+  * gRPC: 9090
+  * HTTP: 8080
+  * Controller: 9092
+  * Health: 8081
+end note
+
+note right of flow_services
+**Dynamic Flow Services**
+Created per flow configuration:
+- **Naming**: {service}-{account}-{flow_id}
+- **Lifecycle**: Managed by Flow Controller
+- **Scaling**: VPA for vertical scaling
+- **Configuration**: Via ConfigMaps
+- **Networking**: Internal cluster communication
+end note
+
+note right of kafka_cluster
+**Kafka Configuration**
+- **Topics**: Created per flow
+- **Partitions**: Configurable (default: 1)
+- **Replication**: Configurable (default: 1)
+- **Retention**: Configurable (default: 3h)
+- **Persistence**: Enabled for durability
+end note
+
+package "Flow Service Templates" {
+    note as flow_templates
+    **StatefulSet Template Structure**
+    
+    Each flow creates services using templates:
+    
+    **gRPC Input Service**:
+    - configmap-grpc-in.yaml
+    - statefulset-grpc-in.yaml
+    
+    **Syslog Output Service**:
+    - configmap-syslog-out.yaml  
+    - statefulset-syslog-out.yaml
+    
+    **HTTP Output Service**:
+    - configmap-http-out.yaml
+    - statefulset-http-out.yaml
+    
+    **SOAR Light Service**:
+    - configmap-soar-light.yaml
+    - statefulset-soar-light.yaml
+    
+    **Variables Substituted**:
+    - FLOW_JSON: Complete flow configuration
+    - ACCOUNT_ID: Tenant identifier
+    - FLOW_ID: Unique flow identifier
+    - KAFKA_BROKERS: Kafka connection string
+    - Service-specific configurations
+    end note
+}
+
+package "Resource Management" {
+    note as resource_mgmt
+    **Resource Allocation**
+    
+    **CPU Configuration**:
+    - Requests: 200m (default)
+    - Limits: 500m (default)
+    - VPA adjusts based on usage
+    
+    **Memory Configuration**:
+    - Requests: 512Mi (default)
+    - Limits: 1024Mi (default)
+    - VPA adjusts based on usage
+    
+    **Storage**:
+    - ConfigMaps: Flow configuration
+    - Secrets: Encrypted credentials
+    - No persistent volumes (stateless services)
+    
+    **Networking**:
+    - ClusterIP for internal communication
+    - LoadBalancer for external access (if needed)
+    - Network policies for security
+    end note
+}
+
+@enduml

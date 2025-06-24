@@ -1,0 +1,116 @@
+@startuml CDC Flow Data Processing Flow
+
+title CDC Flow API Service - End-to-End Data Flow
+
+actor "Administrator" as admin
+participant "Web UI" as ui
+participant "CDC Flow API" as api
+participant "PostgreSQL" as db
+participant "Dapr Runtime" as dapr
+participant "Flow Controller" as controller
+participant "Kubernetes API" as k8s
+participant "gRPC Input Service" as grpc_in
+participant "Apache Kafka" as kafka
+participant "Output Services" as output
+participant "External Systems" as external
+
+== Flow Configuration Phase ==
+
+admin -> ui: Configure new flow
+ui -> api: POST /v1/flows/data
+api -> api: Validate configuration
+api -> db: Store flow configuration
+api -> dapr: Publish flow event
+api --> ui: Flow created response
+
+dapr -> controller: Flow creation event
+controller -> k8s: Create ConfigMaps
+controller -> k8s: Create StatefulSets
+controller -> k8s: Create Services
+k8s -> grpc_in: Deploy gRPC input service
+k8s -> output: Deploy output services
+
+== Data Processing Phase ==
+
+external -> grpc_in: Send data (gRPC/HTTP)
+note right: Data sources:\n- NIOS Grid\n- BloxOne Cloud\n- Threat Defense
+
+grpc_in -> grpc_in: Apply ETL filters
+grpc_in -> grpc_in: Transform data format
+grpc_in -> kafka: Publish processed data
+
+kafka -> output: Consume processed data
+note right: Output services:\n- Syslog Output\n- HTTP Output\n- SOAR Light\n- Custom Applications
+
+output -> external: Send data to destinations
+note right: Destinations:\n- Splunk Enterprise\n- Splunk Cloud\n- Syslog servers\n- HTTP endpoints\n- Custom applications
+
+== Flow Lifecycle Management ==
+
+admin -> ui: Update flow configuration
+ui -> api: PUT /v1/flows/data/{id}
+api -> db: Update configuration
+api -> dapr: Publish update event
+
+dapr -> controller: Flow update event
+controller -> k8s: Update ConfigMaps
+controller -> k8s: Rolling update StatefulSets
+k8s -> grpc_in: Update service configuration
+k8s -> output: Update service configuration
+
+== Flow Monitoring and Status ==
+
+admin -> ui: Check flow status
+ui -> api: GET /v1/flows/{id}
+api -> db: Query flow configuration
+api -> k8s: Get service status
+api --> ui: Flow status response
+
+== Flow Deletion ==
+
+admin -> ui: Delete flow
+ui -> api: DELETE /v1/flows/data/{id}
+api -> db: Mark flow as deleted
+api -> dapr: Publish delete event
+
+dapr -> controller: Flow deletion event
+controller -> k8s: Delete StatefulSets
+controller -> k8s: Delete ConfigMaps
+controller -> k8s: Delete Services
+k8s -> grpc_in: Terminate service
+k8s -> output: Terminate services
+
+== Error Handling and Recovery ==
+
+grpc_in -> grpc_in: Service failure detected
+grpc_in -> dapr: Publish error event
+dapr -> api: Error notification
+api -> db: Update flow status
+
+controller -> k8s: Monitor service health
+k8s -> controller: Health check response
+controller -> k8s: Restart failed services (if needed)
+
+== Host and Service Management ==
+
+external -> dapr: Host/Service events from HostApp
+note right: Events include:\n- Host availability\n- Service status\n- Pool changes
+
+dapr -> api: Process host/service events
+api -> db: Update host/service status
+api -> controller: Trigger flow reassignment (if needed)
+controller -> k8s: Redeploy flows to available hosts
+
+note over admin, external
+**Key Data Flow Characteristics:**
+
+1. **Configuration-Driven**: All flows are defined through API configuration
+2. **Event-Driven**: Uses Dapr pub/sub for loose coupling
+3. **Kubernetes-Native**: Leverages K8s for service orchestration
+4. **Multi-Tenant**: Account-based isolation
+5. **Scalable**: Horizontal scaling via StatefulSets
+6. **Resilient**: Health monitoring and auto-recovery
+7. **Extensible**: Plugin architecture for new sources/destinations
+end note
+
+@enduml

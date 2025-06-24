@@ -1118,9 +1118,6 @@
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "atlas-onprem-slack-prod"
-          },
-          {
             "uid": "ac719282-1563-40ee-a427-d30b5776a518"
           }
         ]

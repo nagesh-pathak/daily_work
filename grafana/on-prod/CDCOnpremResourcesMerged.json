@@ -425,6 +425,18 @@
                 "value": 250
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "account id"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              }
+            ]
           }
         ]
       },
@@ -663,6 +675,18 @@
                 "value": 250
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "account id"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              }
+            ]
           }
         ]
       },
@@ -899,6 +923,18 @@
               {
                 "id": "custom.width",
                 "value": 250
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "account id"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
               }
             ]
           }

@@ -256,26 +256,6 @@
                 "value": 350
               }
             ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Host"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "none"
-              },
-              {
-                "id": "custom.displayMode",
-                "value": "basic"
-              },
-              {
-                "id": "custom.width",
-                "value": 400
-              }
-            ]
           }
         ]
       },
@@ -365,13 +345,11 @@
             "indexByName": {
               "account_id": 0,
               "ophid": 1,
-              "host": 2,
-              "Value #A": 3,
-              "Value #B": 4
+              "Value #A": 2,
+              "Value #B": 3
             },
             "renameByName": {
               "account_id": "Account ID",
-              "host": "Host",
               "ophid": "OPHID",
               "Value #A": "Total RAM (Bytes)",
               "Value #B": "Total Capacity (MB)"
@@ -426,9 +404,8 @@
             "indexByName": {
               "Account ID": 0,
               "OPHID": 1,
-              "Host": 2,
-              "Total RAM (GB)": 3,
-              "Total Volume Capacity (GB)": 4
+              "Total RAM (GB)": 2,
+              "Total Volume Capacity (GB)": 3
             },
             "renameByName": {}
           }

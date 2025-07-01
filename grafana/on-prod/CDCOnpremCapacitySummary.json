@@ -438,7 +438,7 @@
       "type": "table"
     }
   ],
-  "refresh": "30s",
+  "refresh": "1d",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [

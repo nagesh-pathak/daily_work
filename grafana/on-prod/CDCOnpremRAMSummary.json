@@ -467,8 +467,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CDC Onprem RAM Summary Dashboard",
-  "uid": "ram-summary-dashboard-001",
+  "title": "CDC Onprem Capacity Dashboard",
+  "uid": "capacity-summary-dashboard-001",
   "version": 1,
   "weekStart": ""
 }

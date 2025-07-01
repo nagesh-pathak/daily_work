@@ -1,0 +1,21 @@
+Bussiness Requirement
+Support Azure HA along with existing Cloud VPN(25.2) Site-2-Site VPN with BGP as HA
+Challenges
+Azure's design is different in terms of assigning BGP IP: AWS and GCP used /30 subnet and assign 1st IP to cloud-interface and 2nd IP to ddiaas-interface
+
+Solution/Contribution
+Allow User to configure both BGP IPs for all 3 cloud providers to make UI consistent
+re-write existing /30 subnet compute logic to allow user to enter custom BGP IP
+Identify any limitation in IPSec IKE and rekeying wrt azure and document it. ref -> https://infoblox.atlassian.net/browse/PTOPA-9332
+
+ 
+Bussiness Requirement
+Many Requests come from client side who are using cato networks VSocket and we want to onboard them
+
+Challenges
+Cato has similar Interface as our CSP : https://support.catonetworks.com/hc/en-us/articles/4413265635473-Configuring-IPsec-IKEv2-Sites
+ we don't want the new customers to change any configs on their existing cato setup
+Solution/Contribution
+Make RemoteID and localID as editable in IPSec so that , existing setup with cato Vsocket can be onboarded without doing any changes in cato vSocket side https://infoblox.cc.catonetworks.com/
+Configuring IPsec IKEv2 Sites
+This article discusses how to create and configure sites that use the IPsec IKEv2 connection type. For more about creating a new site, see Using the Cato Management Application to Add Sites. Ov

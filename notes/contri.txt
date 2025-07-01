@@ -1,0 +1,61 @@
+
+1. Allow mulitple flow to same destination ip and destination type
+Added functionality so that customers should be able to create multiple number
+of flows to same destiantion ip , and also to different ip but same destination type
+from NIOS source
+
+
+2. Create observability for cdc(cloud data connector) infrastructure
+
+Build A unified monitoring dashboard for CDC OnPrem infrastructure
+
+Created real-time monitoring for CPU, Memory, and Disk usage with configurable thresholds
+Along with alert system which ensures proactive monitoring, rapid incident response, and maintaining 
+high service availability across the entire CDC OnPrem infrastructure, supporting both operational teams and customer SLA requirements
+Implemented trend analysis for resource usage growth
+Built customer summary statistics showing:
+Total CDC customers
+Active vs Inactive hosts
+BloxOne vs NIOS source distribution
+
+created specialized dashboards for
+Events monitoring
+Flow status tracking
+
+These improved CDC infrastructure visibility and enables proactive monitoring of resource utilization across the entire CDC OnPrem
+
+
+3. Create SLI/SLO
+Created SLI/SLO's which significantly enhances CDC operational excellence by providing structured, measurable, and actionable monitoring capabilities 
+that directly support business objectives and operational requirements.
+Established baseline metrics covering 50+ SLI indicators across CDC services
+
+Reorganized metrics into 6 Business Services
+CDC OnPrem Service: Infrastructure Monitoring, Host Management, Container Operations
+CDC Flow Service: Flow Management, Data Processing
+CDC Service: Customer Management, Service Health, Performance Monitoring, Feature Analytics
+CDC API Service: API Performance
+CDC Capacity Service: Capacity Planning
+CDC Cloud Service: Container Health, Infrastructure Availability, Network Performance, Monitoring Operations, Operational Stability, Security
+
+4. Create architectural diagrams for better understanding of the cdc components & services
+
+Created the architectural diagrams for Usage & Impact for CDC Infrastructure Understanding
+
+For Development Teams:
+Clear Component Boundaries: Understanding service responsibilities
+API Contract Clarity: gRPC/REST endpoint specifications
+Data Flow Visibility: End-to-end processing pipeline understanding
+Integration Patterns: External service communication protocols
+For Operations Teams:
+Deployment Understanding: Kubernetes resource requirements
+Monitoring Setup: Health check endpoints and metrics collection
+Troubleshooting Guide: Error handling and resilience patterns
+Security Compliance: Authentication, authorization, and audit trails
+
+This comprehensive architectural documentation significantly improves CDC infrastructure understanding, 
+enables faster development cycles, reduces operational incidents, and supports better architectural decisions across the entire CDC ecosystem.
+This will also help
+Onboarding Efficiency: New team members understand system faster
+Cross-Team Collaboration: Shared understanding across development, operations, and security
+Decision Making: Clear architecture visualization supports technical decisions

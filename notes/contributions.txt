@@ -1,0 +1,119 @@
+Business Requirement
+Allow multiple flows to same destination IP and destination type
+
+Challenges
+- Existing system limitation preventing multiple flows to same destination
+- Customer requests for flexible flow configuration to same destination IP
+- Need to support different IPs with same destination type from NIOS source
+
+Solution/Contribution
+Added functionality so that customers should be able to create multiple number of flows to same destination IP, and also to different IP but same destination type from NIOS source
+
+Related Links:
+https://infoblox.atlassian.net/browse/PTCDC-2329
+https://infoblox.atlassian.net/browse/PTCDC-2327
+https://infoblox.atlassian.net/browse/PTCDC-2325
+https://infoblox.atlassian.net/browse/PTCDC-2357
+https://infoblox.atlassian.net/browse/PTCDC-2585
+
+
+----
+
+Business Requirement
+Create observability for CDC (Cloud Data Connector) infrastructure
+
+Challenges
+- Lack of unified monitoring across CDC OnPrem infrastructure
+- Need for real-time resource monitoring with configurable thresholds
+- Requirement for proactive monitoring and rapid incident response
+- Customer SLA monitoring and compliance needs
+
+Solution/Contribution
+Built a unified monitoring dashboard for CDC OnPrem infrastructure:
+- Created real-time monitoring for CPU, Memory, and Disk usage with configurable thresholds
+- Implemented alert system for proactive monitoring and rapid incident response
+- Built trend analysis for resource usage growth
+- Created customer summary statistics showing:
+  * Total CDC customers
+  * Active vs Inactive hosts
+  * BloxOne vs NIOS source distribution
+- Developed specialized dashboards for events monitoring and flow status tracking
+
+This improved CDC infrastructure visibility and enables proactive monitoring of resource utilization across the entire CDC OnPrem infrastructure.
+
+Related Links:
+
+https://grafana.csp.infoblox.com/d/cdc-api-timeseries/cdc-api
+https://grafana.csp.infoblox.com/d/cdc-cloud2cloud-timeseries/cdc-cloud-to-cloud-timeseries
+https://grafana.csp.infoblox.com/d/cdc-flow-timeseries/cdc-flow
+https://grafana.csp.infoblox.com/d/cdc-onprem-flow-status-timeseries/cdc-flows-status
+https://grafana.csp.infoblox.com/d/afe66996-0af8-4445-aa8d-a2fc55e919ab/cdc-onprem-events
+https://grafana.csp.infoblox.com/d/cdc-onprem-pods-resources-timeseries/cdc-onprem-pods-resources-timeseries
+https://grafana.csp.infoblox.com/d/afe66996-0af8-4445-aa8d-a2fc55e919aa/cdc-onprem-resource-timeseries
+https://grafana.csp.infoblox.com/d/cdc-onprem-resource-usage/cdc-onprem-resource-usage
+
+
+---
+
+Business Requirement
+Create SLI/SLO for CDC services
+
+Challenges
+- Need for structured, measurable monitoring capabilities
+- Requirement to support business objectives and operational requirements
+- Lack of baseline metrics across CDC services
+- Need for organized service monitoring structure
+
+Solution/Contribution
+Created SLI/SLO's which significantly enhances CDC operational excellence:
+- Established baseline metrics covering 50+ SLI indicators across CDC services
+- Reorganized metrics into 6 Business Services:
+  * CDC OnPrem Service: Infrastructure Monitoring, Host Management, Container Operations
+  * CDC Flow Service: Flow Management, Data Processing
+  * CDC Service: Customer Management, Service Health, Performance Monitoring, Feature Analytics
+  * CDC API Service: API Performance
+  * CDC Capacity Service: Capacity Planning
+  * CDC Cloud Service: Container Health, Infrastructure Availability, Network Performance, Monitoring Operations, Operational Stability, Security
+
+Related Links:
+https://infoblox.sharepoint.com/:x:/r/sites/Engineering/_layouts/15/doc2.aspx?sourcedoc=%7B0BA2644E-53E7-4714-9600-EE97C4085DD4%7D&file=Platform%20Datalake%2C%20Big%20Data%20&%20CDC%20-%20SRE%20Service%20Level%20Indicators.xlsx=&wdOrigin=TEAMS-MAGLEV.teams_ns.rwc&action=default&mobileredirect=true&wdExp=TEAMS-TREATMENT&wdhostclicktime=1750164841928&web=1
+
+---
+
+Business Requirement
+Create architectural diagrams for better understanding of CDC components & services
+
+Challenges
+- Complex CDC infrastructure requiring clear documentation
+- Need for development team understanding of component boundaries
+- Operations team requirements for deployment and troubleshooting guidance
+- Cross-team collaboration and knowledge sharing needs
+
+Solution/Contribution
+Created comprehensive architectural diagrams for CDC Infrastructure:
+
+For Development Teams:
+- Clear Component Boundaries: Understanding service responsibilities
+- API Contract Clarity: gRPC/REST endpoint specifications
+- Data Flow Visibility: End-to-end processing pipeline understanding
+- Integration Patterns: External service communication protocols
+
+For Operations Teams:
+- Deployment Understanding: Kubernetes resource requirements
+- Monitoring Setup: Health check endpoints and metrics collection
+- Troubleshooting Guide: Error handling and resilience patterns
+- Security Compliance: Authentication, authorization, and audit trails
+
+This comprehensive architectural documentation significantly improves CDC infrastructure understanding, enables faster development cycles, reduces operational incidents, and supports better architectural decisions across the entire CDC ecosystem.
+
+Benefits achieved:
+- Onboarding Efficiency: New team members understand system faster
+- Cross-Team Collaboration: Shared understanding across development, operations, and security
+- Decision Making: Clear architecture visualization supports technical decisions
+
+Related Links:
+https://lucid.app/lucidchart/5278e8a7-3253-423a-b908-8c91e3bddc15/edit?viewport_loc=-2259%2C-1339%2C2865%2C1431%2C0_0&invitationId=inv_d8d902f1-95dd-4d6d-b4fd-8f5ae27d5cb3
+
+https://lucid.app/lucidchart/cf2aec14-ca57-4474-8119-082be47b2f1c/edit?viewport_loc=-1848%2C-1043%2C3130%2C1564%2C0_0&invitationId=inv_3cf330cb-85b3-4894-a80a-344dc6e10e4c
+
+https://lucid.app/lucidchart/8939bfb8-58e0-4170-9615-af95512cec4e/edit?viewport_loc=-1784%2C-1311%2C13333%2C6661%2C0_0&invitationId=inv_28a33c22-8e99-4bb9-9f04-4ae402ea3d70

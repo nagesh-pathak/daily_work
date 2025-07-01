@@ -101,15 +101,18 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": null,
+                "label": "Normal"
               },
               {
                 "color": "yellow",
-                "value": 16000000000
+                "value": 16000000000,
+                "label": "Warning (>15GB)"
               },
               {
                 "color": "red",
-                "value": 32000000000
+                "value": 32000000000,
+                "label": "Critical (>30GB)"
               }
             ]
           },
@@ -139,6 +142,29 @@
               {
                 "id": "custom.width",
                 "value": 140
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null,
+                      "label": "Low RAM Capacity"
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 16,
+                      "label": "Medium RAM Capacity (≥16GB)"
+                    },
+                    {
+                      "color": "green",
+                      "value": 32,
+                      "label": "High RAM Capacity (≥32GB)"
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -165,6 +191,29 @@
               {
                 "id": "custom.width",
                 "value": 200
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null,
+                      "label": "Low Volume Capacity"
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 500,
+                      "label": "Medium Volume Capacity (≥500GB)"
+                    },
+                    {
+                      "color": "green",
+                      "value": 1000,
+                      "label": "High Volume Capacity (≥1TB)"
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -204,7 +253,7 @@
               },
               {
                 "id": "custom.width",
-                "value": 280
+                "value": 350
               }
             ]
           },
@@ -224,7 +273,7 @@
               },
               {
                 "id": "custom.width",
-                "value": 220
+                "value": 400
               }
             ]
           }

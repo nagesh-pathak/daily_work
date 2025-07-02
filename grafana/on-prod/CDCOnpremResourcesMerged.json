@@ -1975,7 +1975,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "topk(20, rate((onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})[3h:10m]) > 0)",
+          "expr": "topk(20, rate((onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"})[3h:10m]) > 0)",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -1989,7 +1989,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}",
+          "expr": "onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -2120,7 +2120,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "topk(20, rate((onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})[3h:10m]) > 0)",
+          "expr": "topk(20, rate((onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"})[3h:10m]) > 0)",
           "legendFormat": "{{ophid}} - {{device}} - Rate",
           "range": true,
           "refId": "A"
@@ -2644,7 +2644,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "(onprem_cdc_volume_used_percent{}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})",
+          "expr": "(onprem_disk_space_used{file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})",
           "legendFormat": "{{ophid}} - {{device}}",
           "range": true,
           "refId": "A"

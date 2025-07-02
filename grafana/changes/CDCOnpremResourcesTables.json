@@ -271,6 +271,24 @@
           {
             "matcher": {
               "id": "byName",
+              "options": "current_memory_usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
               "options": "ophid"
             },
             "properties": [
@@ -351,12 +369,26 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}",
+          "expr": "onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) / (onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) * 100 > $memory_threshold)",
           "format": "table",
           "hide": false,
           "instant": true,
           "range": false,
           "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) / (onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) * 100 > $memory_threshold)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "C"
         }
       ],
       "title": "Onprem Hosts with Memory Usage > $memory_threshold% (CDC Service)",
@@ -384,7 +416,8 @@
                 "account_id",
                 "ophid",
                 "Value #A",
-                "Value #B"
+                "Value #B",
+                "Value #C"
               ]
             }
           }
@@ -404,11 +437,13 @@
               "account_id": 0,
               "ophid": 1,
               "Value #A": 2,
-              "Value #B": 3
+              "Value #C": 3,
+              "Value #B": 4
             },
             "renameByName": {
               "Value #A": "memory_usage",
               "Value #B": "total_memory_capacity",
+              "Value #C": "current_memory_usage",
               "account_id": "account id",
               "ophid": "ophid"
             }

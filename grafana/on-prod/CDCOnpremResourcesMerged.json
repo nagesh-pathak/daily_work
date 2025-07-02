@@ -403,13 +403,65 @@
           {
             "matcher": {
               "id": "byName",
+              "options": "account id"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
               "options": "memory_usage"
             },
             "properties": [
               {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
                 "id": "custom.cellOptions",
                 "value": {
                   "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "total_memory_capacity"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "current_memory_usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto"
                 }
               }
             ]
@@ -423,18 +475,26 @@
               {
                 "id": "custom.width",
                 "value": 250
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "color-text",
+                  "color": "#1F60C4"
+                }
               }
             ]
           },
           {
             "matcher": {
-              "id": "byName",
-              "options": "account id"
+              "id": "byType",
+              "options": "string"
             },
             "properties": [
               {
-                "id": "unit",
-                "value": "none"
+                "id": "custom.align",
+                "value": "left"
               }
             ]
           }
@@ -461,7 +521,7 @@
         "frameIndex": 0,
         "sortBy": [
           {
-            "desc": true,
+            "desc": false,
             "displayName": "memory_usage"
           }
         ]
@@ -481,29 +541,88 @@
           "legendFormat": "__auto",
           "range": false,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) / (onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) * 100 > $memory_threshold)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) / (onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) * 100 > $memory_threshold)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "C"
         }
       ],
-      "title": "Onprem Hosts with Memory Usage > $memory_threshold%",
-      "transparent": true,
+      "title": "Onprem Hosts with Memory Usage > $memory_threshold% (CDC Service)",
+      "titleSize": "h3",
+      "transparent": false,
+      "libraryPanel": {
+        "titleColor": "#1F60C4",
+        "fontWeight": "500"
+      },
+      "styles": {
+        "panel": {
+          "border": "5px solid #1F60C4",
+          "borderRadius": "10px",
+          "padding": "8px",
+          "background": "linear-gradient(180deg, rgba(31,96,196,0.1) 0%, rgba(31,96,196,0.01) 100%)",
+          "boxShadow": "0 4px 6px rgba(31,96,196,0.2)"
+        }
+      },
       "transformations": [
         {
           "id": "filterFieldsByName",
           "options": {
             "include": {
               "names": [
-                "account_id",
                 "ophid",
-                "Value"
+                "Value #A",
+                "Value #B",
+                "Value #C"
               ]
             }
           }
         },
         {
+          "id": "joinByField",
+          "options": {
+            "byField": "ophid",
+            "mode": "inner"
+          }
+        },
+        {
           "id": "organize",
           "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "ophid": 0,
+              "Value #A": 1,
+              "Value #C": 2,
+              "Value #B": 3
+            },
             "renameByName": {
-              "Value": "memory_usage",
-              "account_id": "account id"
+              "Value #A": "memory_usage",
+              "Value #B": "total_memory_capacity",
+              "Value #C": "current_memory_usage",
+              "ophid": "ophid"
             }
           }
         }
@@ -917,6 +1036,50 @@
           {
             "matcher": {
               "id": "byName",
+              "options": "total_disk_capacity"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto"
+                }
+              },
+              {
+                "id": "custom.suffix",
+                "value": " GB"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "current_disk_usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto"
+                }
+              },
+              {
+                "id": "custom.suffix",
+                "value": " GB"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
               "options": "ophid"
             },
             "properties": [
@@ -929,12 +1092,12 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "account id"
+              "options": "Device"
             },
             "properties": [
               {
-                "id": "unit",
-                "value": "none"
+                "id": "custom.width",
+                "value": 150
               }
             ]
           }
@@ -975,12 +1138,40 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold",
+          "expr": "(onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} / (1024 * 1024)) * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} / (1024 * 1024)) * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "C"
         }
       ],
       "title": "Onprem Hosts with Volume Usage > $disk_threshold%",
@@ -991,20 +1182,37 @@
           "options": {
             "include": {
               "names": [
-                "account_id",
                 "ophid",
                 "device",
-                "Value"
+                "Value #A",
+                "Value #B",
+                "Value #C"
               ]
             }
           }
         },
         {
+          "id": "joinByField",
+          "options": {
+            "byField": "ophid",
+            "mode": "inner"
+          }
+        },
+        {
           "id": "organize",
           "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "ophid": 0,
+              "device": 1,
+              "Value #A": 2,
+              "Value #C": 3,
+              "Value #B": 4
+            },
             "renameByName": {
-              "Value": "volume_usage",
-              "account_id": "account id",
+              "Value #A": "volume_usage",
+              "Value #B": "total_disk_capacity",
+              "Value #C": "current_disk_usage",
               "device": "Device"
             }
           }
@@ -1099,7 +1307,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "(onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})\n  and on(ophid)\n  (onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold",
+          "expr": "(onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) and on(ophid) ((onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold)",
           "legendFormat": "{{ophid}} - {{device}}",
           "range": true,
           "refId": "A"

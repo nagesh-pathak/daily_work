@@ -37,6 +37,7 @@
             "cellOptions": {
               "type": "auto"
             },
+            "filterable": true,
             "inspect": false
           },
           "mappings": [],
@@ -108,7 +109,7 @@
             "uid": "onprem-loki-prd-1"
           },
           "editorMode": "code",
-          "expr": "sum by (accountId, containerId) (count_over_time({containerId=~\"cdc_.*\"} |= \"error\" [1h]))",
+          "expr": "topk(500, sum by (agentId, containerId) (count_over_time({containerId=~\"cdc_.*\"} |= \"error\" [1h])))",
           "queryType": "instant",
           "refId": "A"
         }
@@ -118,18 +119,41 @@
         {
           "id": "organize",
           "options": {
-            "excludeByName": {},
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "job": true,
+              "instance": true
+            },
             "indexByName": {
-              "accountId": 0,
+              "agentId": 0,
               "containerId": 1,
               "Value": 2
             },
             "renameByName": {
               "Value": "Number of Error Logs",
               "Value #A": "Number of Error Logs",
-              "accountId": "Account ID",
+              "agentId": "Agent ID",
               "containerId": "Container Name"
             }
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "greaterOrEqual",
+                  "options": {
+                    "value": 0
+                  }
+                },
+                "fieldName": "Number of Error Logs"
+              }
+            ],
+            "match": "any",
+            "type": "include"
           }
         }
       ],
@@ -150,6 +174,7 @@
             "cellOptions": {
               "type": "auto"
             },
+            "filterable": true,
             "inspect": false
           },
           "mappings": [],
@@ -231,7 +256,12 @@
         {
           "id": "organize",
           "options": {
-            "excludeByName": {},
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "job": true,
+              "instance": true
+            },
             "indexByName": {
               "accountId": 0,
               "agentId": 1,
@@ -244,6 +274,127 @@
               "accountId": "Account ID",
               "agentId": "Agent ID",
               "containerId": "Container Name"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Account ID"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "group by (account_id, account_name) (atcapi_account_objects2)",
+          "queryType": "instant",
+          "refId": "A",
+          "format": "table"
+        }
+      ],
+      "title": "Account Information",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "Value": true,
+              "job": true,
+              "instance": true,
+              "app_kubernetes_io_managed_by": true,
+              "app_kubernetes_io_name": true,
+              "app_service": true,
+              "application": true,
+              "infoblox_com_Lifecycle": true,
+              "infoblox_com_Name": true,
+              "kubernetes_namespace": true,
+              "kubernetes_pod_name": true,
+              "object": true,
+              "pod_template_hash": true,
+              "tugger_modified": true
+            },
+            "indexByName": {
+              "account_id": 0,
+              "account_name": 1
+            },
+            "renameByName": {
+              "account_id": "Account ID",
+              "account_name": "Account Name"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Account ID": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Account Name": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
             }
           }
         }
@@ -269,7 +420,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CDC Log Monitoring Table",
+  "title": "CDC OnPrem Log",
   "uid": "cdc-log-monitoring-table",
   "version": 1,
   "weekStart": ""

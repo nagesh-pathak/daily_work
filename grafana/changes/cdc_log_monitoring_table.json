@@ -109,7 +109,7 @@
             "uid": "onprem-loki-prd-1"
           },
           "editorMode": "code",
-          "expr": "sum by (agentId, containerId) (count_over_time({containerId=~\"cdc_.*\"} |= \"error\" [1h]))",
+          "expr": "topk(500, sum by (agentId, containerId) (count_over_time({containerId=~\"cdc_.*\"} |= \"error\" [1h])))",
           "queryType": "instant",
           "refId": "A"
         }
@@ -420,7 +420,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CDC Log Monitoring Table",
+  "title": "CDC OnPrem Log",
   "uid": "cdc-log-monitoring-table",
   "version": 1,
   "weekStart": ""

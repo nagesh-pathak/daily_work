@@ -109,7 +109,7 @@
             "uid": "onprem-loki-prd-1"
           },
           "editorMode": "code",
-          "expr": "topk(500, sum by (agentId, containerId) (count_over_time({containerId=~\"cdc_.*\"} |= \"error\" [1h])))",
+          "expr": "topk(500, sum by (agentId, containerId) (count_over_time({containerId=~\"cdc_.*\"} |= \"error\" [15m])))",
           "queryType": "instant",
           "refId": "A"
         }

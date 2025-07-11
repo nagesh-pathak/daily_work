@@ -1,0 +1,289 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "description": "Unified CDC Events Table with Source and Destination information",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Events"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EPS"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ophid"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "account_id"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "source"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "destination"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 0,
+        "showHeader": true
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n  sum by (account_id, ophid, destination) (\n    increase(\n      onprem_cdc_received_events_from_bloxone[$__range]\n    )\n  ),\n  \"source\", \"bloxone\", \"\", \"\"\n)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "BloxOne_Total"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n  sum by (account_id, ophid, destination) (\n    increase(\n      onprem_cdc_received_events_from_nios[$__range]\n    )\n  ),\n  \"source\", \"nios\", \"\", \"\"\n)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "NIOS_Total"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n  sum by (account_id, ophid, destination) (\n    increase(\n      onprem_cdc_received_events_from_bloxone[$__range]\n    )\n  ) / $__range_s,\n  \"source\", \"bloxone\", \"\", \"\"\n)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "BloxOne_EPS"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n  sum by (account_id, ophid, destination) (\n    increase(\n      onprem_cdc_received_events_from_nios[$__range]\n    )\n  ) / $__range_s,\n  \"source\", \"nios\", \"\", \"\"\n)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "NIOS_EPS"
+        }
+      ],
+      "title": "CDC Events Unified Table",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true
+            },
+            "indexByName": {
+              "ophid": 0,
+              "account_id": 1,
+              "Value #BloxOne_Total": 2,
+              "Value #NIOS_Total": 2,
+              "Value #BloxOne_EPS": 3,
+              "Value #NIOS_EPS": 3,
+              "source": 4,
+              "destination": 5
+            },
+            "renameByName": {
+              "Value #BloxOne_Total": "Total Events",
+              "Value #NIOS_Total": "Total Events",
+              "Value #BloxOne_EPS": "EPS",
+              "Value #NIOS_EPS": "EPS"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Total Events"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "cdc",
+    "onprem",
+    "unified"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "CDC Unified Events Table",
+  "uid": "cdc-unified-table",
+  "version": 1,
+  "weekStart": ""
+}

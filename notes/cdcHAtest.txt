@@ -1,0 +1,78 @@
+==== CDC HA Dev Integration Plan ====
+
+[x] Have setup ready in env-2a with two CDC hosts
+
+[x] Create a flow with single host
+[x] Update a flow with CDC HA by adding one service instance
+[x] Update a flow by removing primary/secondary service instance
+
+[x] Create a flow with primary & secondary
+[x] Update flow by removing primary service instance and update destination
+    Can't remove primary , only removing secondary is supported.
+
+    Pod doesn't restart and config isn't pushed after swapping instances
+
+
+[] Create a flow with all supported log types
+
+[] Create multiple flows to the same destinations
+[] Play with multiple flows to same destination by adding/removing flows and log types
+
+[] data request should be done from active host always
+[] grpc-in should be healthy always
+
+[] Check the behavior in data-exporter-kafka when failover happens
+[] Check data-exporter-kafka logs for any errors/warnings
+[] Check data-exporter-kafka cpu/memory usage before/after
+
+Log Monitoring for Errors/Warns/Fatal
+    cdc-flow
+    cdc-api
+    data-exporter-kafka
+    cdc-grpc-in
+    <destinations-pods>
+
+DB Monitorings
+    [] Monitor migration pod and logs of that
+
+Health Monitoring
+    [x] health checks for cloud & onprem services
+
+Metrics Monitoring
+    [] event count metrics for cloud-to-onprem services
+
+Configuration Monitoring
+    [x] verify the configuraitons in grpc-in and destination pod
+    [x] also check the configurations in cdc-flow/cdc-api databases
+
+Data Monitoring
+    [] Generate the logs and verify for the above combinations
+    [] Make sure that switch is happening when failed over
+    [] Verify that what is max switchover time
+
+    [] Validate the case when both the hosts are unreachable
+    [] Delete onprem pods and check the behavior
+ 
+
+
+
+
+ observations:
+
+
+
+
+
+
+
+
+
+flow-
+
+primary july7
+secondary cdc_instance
+
+
+swappin
+primary cdc_instance
+secondary july7

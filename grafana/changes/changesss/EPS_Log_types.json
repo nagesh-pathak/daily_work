@@ -119,11 +119,11 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m])) or vector(0)",
+          "expr": "sum by (ophid) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m])) or vector(0)",
           "format": "time_series",
           "instant": true,
           "interval": "30s",
-          "legendFormat": "Total EPS",
+          "legendFormat": "Total EPS (OPHID: {{ophid}})",
           "maxDataPoints": 300,
           "range": false,
           "refId": "A"
@@ -207,10 +207,10 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max_over_time(sum(rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m]))[1h:1m]) or vector(0)",
+          "expr": "max_over_time(sum by (ophid) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m]))[1h:1m]) or vector(0)",
           "format": "time_series",
           "instant": true,
-          "legendFormat": "Peak EPS",
+          "legendFormat": "Peak EPS (OPHID: {{ophid}})",
           "range": false,
           "refId": "A"
         }
@@ -396,10 +396,10 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by (data_type) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m])) or vector(0)",
+          "expr": "sum by (data_type, ophid) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m])) or vector(0)",
           "format": "time_series",
           "instant": true,
-          "legendFormat": "{{data_type}}",
+          "legendFormat": "{{data_type}} (OPHID: {{ophid}})",
           "range": false,
           "refId": "A"
         }
@@ -499,10 +499,10 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max_over_time(sum by (data_type) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m]))[1h:1m]) or vector(0)",
+          "expr": "max_over_time(sum by (data_type, ophid) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m]))[1h:1m]) or vector(0)",
           "format": "time_series",
           "instant": true,
-          "legendFormat": "{{data_type}} Peak",
+          "legendFormat": "{{data_type}} Peak (OPHID: {{ophid}})",
           "range": false,
           "refId": "A"
         }
@@ -614,9 +614,9 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "sum by (data_type) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m])) or vector(0)",
+          "expr": "sum by (data_type, ophid) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m])) or vector(0)",
           "interval": "30s",
-          "legendFormat": "{{data_type}}",
+          "legendFormat": "{{data_type}} (OPHID: {{ophid}})",
           "range": true,
           "refId": "A"
         }
@@ -712,9 +712,9 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "sum by (source, destination) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\", source!=\"\", destination!=\"\"}[1m])) or vector(0)",
+          "expr": "sum by (source, destination, ophid) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\", source!=\"\", destination!=\"\"}[1m])) or vector(0)",
           "interval": "30s",
-          "legendFormat": "{{source}} → {{destination}}",
+          "legendFormat": "{{source}} → {{destination}} (OPHID: {{ophid}})",
           "maxDataPoints": 300,
           "range": true,
           "refId": "A"

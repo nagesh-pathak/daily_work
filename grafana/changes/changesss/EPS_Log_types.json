@@ -740,13 +740,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
+          "selected": true,
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",
@@ -754,9 +750,9 @@
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone, account_id)",
         "hide": 0,
-        "includeAll": true,
+        "includeAll": false,
         "label": "Account ID",
-        "multi": true,
+        "multi": false,
         "name": "account_id",
         "options": [],
         "query": {
@@ -771,13 +767,9 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
+          "selected": true,
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",
@@ -785,9 +777,9 @@
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\"}, ophid)",
         "hide": 0,
-        "includeAll": true,
+        "includeAll": false,
         "label": "OPH ID",
-        "multi": true,
+        "multi": false,
         "name": "ophid",
         "options": [],
         "query": {
@@ -901,8 +893,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "EPS Dashboard - Log Type Analysis (Cloud2Cloud Theme)",
-  "uid": "eps-dashboard-log-types-c2c",
+  "title": "EPS Dashboard - Log Type EPS",
+  "uid": "eps-dashboard-log-type-eps",
   "version": 1,
   "weekStart": ""
 }

@@ -740,9 +740,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "",
-          "value": ""
+          "selected": false,
+          "text": [],
+          "value": []
         },
         "datasource": {
           "type": "prometheus",
@@ -752,7 +752,7 @@
         "hide": 0,
         "includeAll": false,
         "label": "Account ID",
-        "multi": false,
+        "multi": true,
         "name": "account_id",
         "options": [],
         "query": {
@@ -767,9 +767,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": "",
-          "value": ""
+          "selected": false,
+          "text": [],
+          "value": []
         },
         "datasource": {
           "type": "prometheus",
@@ -779,7 +779,7 @@
         "hide": 0,
         "includeAll": false,
         "label": "OPH ID",
-        "multi": false,
+        "multi": true,
         "name": "ophid",
         "options": [],
         "query": {

@@ -723,6 +723,503 @@
       "title": "🔄 EPS by Source and Destination Flow",
       "transparent": true,
       "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 49
+      },
+      "id": 26,
+      "panels": [],
+      "title": "Idle Host Detection",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "description": "Alternative view showing all OPHIDs with their last event timestamp and current status",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "#4ECDC4",
+                        "index": 0,
+                        "text": "🟢 Active"
+                      },
+                      "1": {
+                        "color": "#FF6B6B",
+                        "index": 1,
+                        "text": "🔴 Idle"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current EPS"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "reqps"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "thresholds"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "#FF6B6B",
+                      "value": null
+                    },
+                    {
+                      "color": "#FFE66D",
+                      "value": 0.1
+                    },
+                    {
+                      "color": "#4ECDC4",
+                      "value": 1
+                    },
+                    {
+                      "color": "#00D9FF",
+                      "value": 10
+                    },
+                    {
+                      "color": "#B794F6",
+                      "value": 50
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Account ID"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#00D9FF"
+                }
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OPHID"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B794F6"
+                }
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 61
+      },
+      "id": 28,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Current EPS"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (ophid, account_id) (rate(onprem_cdc_received_events_from_bloxone{ophid!=\"\"}[5m])) or on(ophid, account_id) (0 * group by (ophid, account_id) (onprem_cdc_received_events_from_bloxone{ophid!=\"\"}))",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{ophid}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "📊 All OPHIDs Status Overview",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "agent_id": true,
+              "app": true,
+              "data_type": true,
+              "destination": true,
+              "exported_instance": true,
+              "flow_id": true,
+              "host": true,
+              "host_id": true,
+              "instance": true,
+              "job": true,
+              "pool_id": true,
+              "service_id": true,
+              "source": true,
+              "subject_type": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "Value": "Current EPS",
+              "account_id": "Account ID",
+              "ophid": "OPHID"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Status",
+            "binary": {
+              "left": "Current EPS",
+              "operator": "==",
+              "reducer": "sum",
+              "right": "0"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "description": "Shows OPHIDs with consistently low activity (average < 0.1 EPS over last hour). This catches hosts that may have occasional events but are mostly idle.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Average EPS (1h)"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "thresholds"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "#FF6B6B",
+                      "value": null
+                    },
+                    {
+                      "color": "#FFE66D",
+                      "value": 0.01
+                    },
+                    {
+                      "color": "#4ECDC4",
+                      "value": 0.1
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "unit",
+                "value": "reqps"
+              },
+              {
+                "id": "decimals",
+                "value": 3
+              },
+              {
+                "id": "max",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Account ID"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#00D9FF"
+                }
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OPHID"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B794F6"
+                }
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 73
+      },
+      "id": 29,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Average EPS (1h)"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg_over_time(sum by (ophid, account_id) (rate(onprem_cdc_received_events_from_bloxone{ophid!=\"\"}[5m]))[1h:5m]) < 0.1",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "{{ophid}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "⚠️ Low Activity OPHIDs (Avg < 0.1 EPS over 1h)",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "Value": "Average EPS (1h)",
+              "account_id": "Account ID",
+              "ophid": "OPHID"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "table"
     }
   ],
   "refresh": "30s",

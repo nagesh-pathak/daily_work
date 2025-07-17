@@ -791,15 +791,12 @@
         "for": "5m",
         "frequency": "1m",
         "handler": 1,
-        "message": "Requests to CDC Flow failed due to failures in dependent service(s).",
+        "message": "eu-com-1 Requests to CDC Flow failed due to failures in dependent service(s).",
         "name": "prd-1 CDC Flow dependent service(s) failure alert (failed vs total requests)",
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "atlas-onprem-and-cloud-infra-pager-duty"
-          },
-          {
-            "uid": "ac719282-1563-40ee-a427-d30b5776a518"
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },
@@ -952,15 +949,12 @@
         "for": "5m",
         "frequency": "1m",
         "handler": 1,
-        "message": "Requests to CDC Flow failed due to service being down.",
+        "message": "eu-com-1 Requests to CDC Flow failed due to service being down.",
         "name": "prd-1 CDC Flow service down alert (requests failing with 5xx)",
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "atlas-onprem-and-cloud-infra-pager-duty"
-          },
-          {
-            "uid": "ac719282-1563-40ee-a427-d30b5776a518"
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },
@@ -1113,12 +1107,12 @@
         "for": "0m",
         "frequency": "1m",
         "handler": 1,
-        "message": "CDC Flow pod(s) has restarted.",
+        "message": "eu-com-1 CDC Flow pod(s) has restarted.",
         "name": "prd-1 CDC Flow pod restart alert",
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "ac719282-1563-40ee-a427-d30b5776a518"
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },

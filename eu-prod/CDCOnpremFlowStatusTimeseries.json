@@ -795,12 +795,12 @@
         "for": "30s",
         "frequency": "5m",
         "handler": 1,
-        "message": "CDC Flow Status Alert: One or more flows are in Review Details state. Please check the dashboard for details.",
+        "message": "eu-com-1 CDC Flow Status Alert: One or more flows are in Review Details state. Please check the dashboard for details.",
         "name": "Flow Status Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "ac719282-1563-40ee-a427-d30b5776a518"
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       }

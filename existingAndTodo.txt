@@ -1,0 +1,206 @@
+====================================================================
+CDC MONITORING & ALERTING - EXISTING vs TODO
+====================================================================
+[Updated: 7/18 Fri]
+
+=====================================
+EXISTING MONITORING & ALERTING
+=====================================
+
+📊 PRODUCTION DASHBOARDS (Currently Live)
+    ✅ CDC API Timeseries Dashboard
+        - QPS monitoring (GetFlow, ListFlows, CreateFlow, UpdateFlow, DeleteFlow)
+        - CPU/Memory usage per pod
+        - 4xx/5xx error rates
+        - Service down alerts
+        - Pod restart monitoring
+        
+    ✅ CDC Flow Timeseries Dashboard
+        - Flow service performance metrics
+        - Resource utilization tracking
+        - Error rate monitoring
+        - Service availability alerts
+        
+    ✅ CDC OnPrem Events Timeseries
+        - Accepted vs Drained Events Rate/Volume
+        - DNS/RPZ/IPMeta event processing
+        - Open sockets monitoring
+        - Event size tracking (processed/pending)
+        
+    ✅ CDC OnPrem Flow Status Dashboard
+        - Current flow status monitoring
+        - Flow count by account
+        - Flow status summary
+        - Flow status alerts
+        
+    ✅ CDC OnPrem Resources Table/Timeseries
+        - Memory/CPU/Volume usage monitoring
+        - Threshold-based alerts (customizable)
+        - Top 20 hosts with increasing usage
+        - Resource trend analysis
+        
+    ✅ CDC OnPrem Logs Table
+        - Error log analysis and summary
+        - Top 50 error rate increases
+        - Account-specific error correlation
+        - Loki log exploration integration
+        
+    ✅ EPS Log Types Dashboard
+        - Total/Peak EPS monitoring
+        - EPS by log type and data type
+        - Interactive time series analysis
+        - Idle host detection (OPHID status)
+        - Source/destination flow analysis
+        
+    ✅ Cloud-to-Cloud Monitoring
+        - Memory & CPU usage
+        - Pod status & restart monitoring
+        - Kubernetes resources (ConfigMaps, StatefulSets)
+        - Network throughput (receive/transmit bytes)
+        - Multiple alert types (pod failure, resource usage)
+
+🚨 EXISTING ALERT COVERAGE
+    ✅ Critical Alerts (P1)
+        - Service down detection
+        - High error rates (>5%)
+        - Resource usage alerts (>50%)
+        - Pod failure alerts
+        
+    ✅ Performance Alerts (P2)
+        - Flow status failures
+        - Resource threshold violations (>50%)
+        - Pod restart alerts
+        - Memory/CPU usage alerts
+        
+    ✅ Trend Alerts (P3)
+        - Error rate increases
+        - Resource usage trends
+        - Performance degradation
+
+=====================================
+
+=====================================
+
+    Cloud Components
+        🔄 Monitoring (Enhancements)
+            [✅] Error log for all CDC containers (EXISTING)
+            [] Container startup/shutdown events
+            
+            
+        🚨 Alerting (New)
+            [✅] Rate of error log count (EXISTING)
+            
+
+    OnPrem Components
+        🔄 Monitoring 
+            [✅] Disk usage (EXISTING in Resources dashboard)
+            [✅] Memory usage (EXISTING)
+            [✅] CPU usage (EXISTING)
+            [✅] Which CDC pods taking more memory/cpu (EXISTING)
+            [✅] OnPrem Hosts with Low/Medium/High CPU/Memory/Disk Usage (EXISTING with thresholds)
+            [✅] EPS account/ophid level for all log types (EXISTING in EPS dashboard)
+            [✅] Top CDC customers based on EPS (EXISTING)
+            [✅] Error log for all CDC containers (EXISTING)
+            
+            [] Low disk capacity  
+            [] Low memory capacity 
+            [] Low CPU capacity 
+            [] Account level CDC Usage - Everything in one consolidated view
+            [] Customers who enabled all log types - Load impact analysis
+            [] Network connectivity health between onprem and cloud
+            
+    
+
+        🚨 Alerting 
+            [✅] Memory usage alert - With threshold (EXISTING >90%, need >60%)
+            [✅] CPU usage alert - With threshold (EXISTING >90%, need >60%)
+            [✅] EPS downfall alerts (EXISTING in flow status)
+            [✅] Error Log Count alerts (EXISTING)
+            [✅] Rate of error log count (EXISTING)
+            
+            [] /infoblox folder usage alert - With threshold (>50%)
+            [] Rate of /infoblox folder alert - With threshold (>30 min continuous)
+            [] Adjusted memory alert threshold (>60% vs current >90%)
+            [] Adjusted CPU alert threshold (>60% vs current >90%)
+            [] Rate-based alerts (>15 min continuous for memory/CPU)
+            [] High EPS alert - destination specific w.r.t source
+            [] Disk space exhaustion prediction alerts
+            
+            [] Certificate expiration warnings (30/7/1 days)
+            
+
+    Cloud-To-Cloud Components
+        🔄 Monitoring (Enhancements)
+            [] Error log for all CDC containers (EXISTING)
+            [✅] Memory & CPU usage (EXISTING)
+            [✅] Network monitoring (EXISTING)
+            [✅] Pod status monitoring (EXISTING)
+            
+            [] Data transfer latency between clouds
+            [] Cross-cloud authentication health
+            [] Data consistency checks
+            [] Replication lag monitoring
+            [] Bandwidth utilization trends
+            
+        🚨 Alerting
+            [] Rate of error log count (EXISTING)
+            [✅] Pod failure alerts (EXISTING)
+            [✅] Resource usage alerts (EXISTING)
+            
+
+    Ecosystem Components
+        🔄 Monitoring 
+            [] External API dependency health
+            [] Third-party service availability
+            [] License usage and expiration
+            [] Compliance and audit trail monitoring
+            [] Security event monitoring
+            [] Performance baseline drift detection
+            
+        🚨 Alerting (New)
+            [] External service degradation
+            [] License expiration warnings
+            [] Security breach detection
+            [] Compliance violation alerts
+            [] SLA threshold violations
+            [] Anomaly detection alerts
+
+=====================================
+DASHBOARD ENHANCEMENT OPPORTUNITIES
+=====================================
+
+📈 NEW DASHBOARD SUGGESTIONS
+    [] Unified CDC Health Dashboard
+        - Single pane of glass for all CDC components
+        - Health scores for each service
+        - Critical alert summary
+        
+    [] Customer Impact Dashboard  
+        - Customer-specific service health
+        - SLA compliance per customer
+        - Customer onboarding/offboarding tracking
+        
+    [] Predictive Analytics Dashboard
+        - Resource usage predictions
+        - Capacity planning recommendations
+        - Trend analysis and forecasting
+        
+    [] Security Monitoring Dashboard
+        - Authentication failures
+        - Suspicious activity detection
+        - Access pattern analysis
+        
+    [] Business Intelligence Dashboard
+        - Revenue impact analysis
+        - Customer usage patterns
+        - Cost optimization opportunities
+
+📊 EXISTING DASHBOARD IMPROVEMENTS
+    [] Add cross-dashboard navigation links
+    [] Implement consistent color schemes and thresholds
+    [] Add more detailed drill-down capabilities
+    [] Enhance mobile responsiveness
+    [] Add export/reporting capabilities
+    [] Implement dashboard templates for different environments
+
+

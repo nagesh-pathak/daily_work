@@ -1,13 +1,10 @@
 ====================================================================
-CDC MONITORING & ALERTING - EXISTING vs TODO
+CDC MONITORING & ALERTING
 ====================================================================
 [Updated: 7/18 Fri]
 
-=====================================
-EXISTING MONITORING & ALERTING
-=====================================
 
-📊 PRODUCTION DASHBOARDS (Currently Live)
+📊 PRODUCTION DASHBOARDS 
     ✅ CDC API Timeseries Dashboard
         - QPS monitoring (GetFlow, ListFlows, CreateFlow, UpdateFlow, DeleteFlow)
         - CPU/Memory usage per pod
@@ -60,20 +57,21 @@ EXISTING MONITORING & ALERTING
         - Multiple alert types (pod failure, resource usage)
 
 🚨 EXISTING ALERT COVERAGE
-    ✅ Critical Alerts (P1)
+    ✅ Critical Alerts ()
         - Service down detection
         - High error rates (>5%)
         - Resource usage alerts (>50%)
         - Pod failure alerts
         
-    ✅ Performance Alerts (P2)
+    ✅ Performance Alerts ()
         - Flow status failures
         - Resource threshold violations (>50%)
         - Pod restart alerts
         - Memory/CPU usage alerts
         
-    ✅ Trend Alerts (P3)
+    ✅ Trend Alerts ()
         - Error rate increases
+        - 4xx/5xx error rates
         - Resource usage trends
         - Performance degradation
 
@@ -82,13 +80,10 @@ EXISTING MONITORING & ALERTING
 =====================================
 
     Cloud Components
-        🔄 Monitoring (Enhancements)
-            [✅] Error log for all CDC containers (EXISTING)
+        🔄 Monitoring ()
+            [] Error log for all CDC containers (EXISTING)
             [] Container startup/shutdown events
             
-            
-        🚨 Alerting (New)
-            [✅] Rate of error log count (EXISTING)
             
 
     OnPrem Components
@@ -169,16 +164,16 @@ EXISTING MONITORING & ALERTING
 DASHBOARD ENHANCEMENT OPPORTUNITIES
 =====================================
 
-📈 NEW DASHBOARD SUGGESTIONS
+SUGGESTIONS
     [] Unified CDC Health Dashboard
         - Single pane of glass for all CDC components
-        - Health scores for each service
+        
         - Critical alert summary
         
     [] Customer Impact Dashboard  
         - Customer-specific service health
         - SLA compliance per customer
-        - Customer onboarding/offboarding tracking
+x
         
     [] Predictive Analytics Dashboard
         - Resource usage predictions
@@ -188,19 +183,11 @@ DASHBOARD ENHANCEMENT OPPORTUNITIES
     [] Security Monitoring Dashboard
         - Authentication failures
         - Suspicious activity detection
-        - Access pattern analysis
         
-    [] Business Intelligence Dashboard
-        - Revenue impact analysis
-        - Customer usage patterns
-        - Cost optimization opportunities
+        
 
 📊 EXISTING DASHBOARD IMPROVEMENTS
     [] Add cross-dashboard navigation links
-    [] Implement consistent color schemes and thresholds
-    [] Add more detailed drill-down capabilities
-    [] Enhance mobile responsiveness
-    [] Add export/reporting capabilities
-    [] Implement dashboard templates for different environments
+
 
 

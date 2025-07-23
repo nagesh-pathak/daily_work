@@ -463,6 +463,7 @@
           "expr": "count(count by(ophid) (onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=\"bloxone\"}) unless count by(ophid) (onprem_cdc_received_events_from_nios{account_id=~\"$account_id\", ophid=~\"$ophid\"}))",
           "format": "time_series",
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Total BloxOne Only",
           "range": false,
           "refId": "A"
@@ -478,6 +479,7 @@
           "format": "time_series",
           "hide": false,
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Active BloxOne Only",
           "range": false,
           "refId": "B"
@@ -493,6 +495,7 @@
           "format": "time_series",
           "hide": false,
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Inactive BloxOne Only",
           "range": false,
           "refId": "C"
@@ -608,6 +611,7 @@
           "expr": "count(count by(ophid) (onprem_cdc_received_events_from_nios{account_id=~\"$account_id\", ophid=~\"$ophid\"}) unless count by(ophid) (onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=\"bloxone\"}))",
           "format": "time_series",
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Total NIOS Only",
           "range": false,
           "refId": "A"
@@ -623,6 +627,7 @@
           "format": "time_series",
           "hide": false,
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Active NIOS Only",
           "range": false,
           "refId": "B"
@@ -638,6 +643,7 @@
           "format": "time_series",
           "hide": false,
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Inactive NIOS Only",
           "range": false,
           "refId": "C"
@@ -753,6 +759,7 @@
           "expr": "count(count by(ophid) (onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=\"bloxone\"}) and count by(ophid) (onprem_cdc_received_events_from_nios{account_id=~\"$account_id\", ophid=~\"$ophid\"}))",
           "format": "time_series",
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Total Both Sources",
           "range": false,
           "refId": "A"
@@ -768,6 +775,7 @@
           "format": "time_series",
           "hide": false,
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Active Both Sources",
           "range": false,
           "refId": "B"
@@ -783,6 +791,7 @@
           "format": "time_series",
           "hide": false,
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Inactive Both Sources",
           "range": false,
           "refId": "C"
@@ -898,6 +907,7 @@
           "expr": "count(count by(ophid) (onprem_host_service_status{account_id=~\"$account_id\", ophid=~\"$ophid\", service=~\"cdc.*\"}) unless (count by(ophid) (onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=\"bloxone\"}) or count by(ophid) (onprem_cdc_received_events_from_nios{account_id=~\"$account_id\", ophid=~\"$ophid\"})))",
           "format": "time_series",
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Total No Events",
           "range": false,
           "refId": "A"
@@ -913,6 +923,7 @@
           "format": "time_series",
           "hide": false,
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Active No Events",
           "range": false,
           "refId": "B"
@@ -928,6 +939,7 @@
           "format": "time_series",
           "hide": false,
           "instant": true,
+          "interval": "10m",
           "legendFormat": "Inactive No Events",
           "range": false,
           "refId": "C"

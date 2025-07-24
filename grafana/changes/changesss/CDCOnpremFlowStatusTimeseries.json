@@ -886,7 +886,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CDC Onprem Flow Status Timeseries",
+  "title": "CDC Flow Status",
   "uid": "cdc-onprem-flow-status-timeseries",
   "version": 1,
   "weekStart": ""

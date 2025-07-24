@@ -682,17 +682,17 @@
       "id": 7,
       "hiddenSeries": false,
       "legend": {
-        "alignAsTable": false,
+        "alignAsTable": true,
         "avg": false,
-        "current": false,
+        "current": true,
         "max": false,
         "min": false,
-        "rightSide": false,
-        "show": false,
-        "sort": "none",
-        "sortDesc": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -722,8 +722,8 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "count(cdc_flow_status == 0)",
-          "legendFormat": "",
+          "expr": "count by (account_id) (cdc_flow_status == 0)",
+          "legendFormat": "Account {{account_id}} - Review Details Count",
           "range": true,
           "refId": "A",
           "intervalFactor": 1,
@@ -795,12 +795,12 @@
         "for": "30s",
         "frequency": "5m",
         "handler": 1,
-        "message": "CDC Flow Status Alert: One or more flows are in Review Details state. Please check the dashboard for details.",
+        "message": "CDC Flow Status Alert: One or more accounts have flows in Review Details state (status = 0). Check the dashboard to see which accounts and how many flows are affected.",
         "name": "Flow Status Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "ac719282-1563-40ee-a427-d30b5776a518"
+            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
           }
         ]
       }
@@ -886,7 +886,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CDC Onprem Flow Status Timeseries",
+  "title": "CDC Flow Status",
   "uid": "cdc-onprem-flow-status-timeseries",
   "version": 1,
   "weekStart": ""

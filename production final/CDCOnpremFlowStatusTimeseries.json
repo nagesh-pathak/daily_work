@@ -262,7 +262,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"}",
+          "expr": "cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"}",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -405,7 +405,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "count by(account_id) (cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"})",
+          "expr": "count by(account_id) (cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"})",
           "legendFormat": "Flows for Account {{account_id}}",
           "range": true,
           "refId": "A",
@@ -553,7 +553,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"})",
+          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"})",
           "legendFormat": "Total Flows",
           "range": true,
           "refId": "A"
@@ -564,7 +564,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"} == 1) or vector(0)",
+          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"} == 1) or vector(0)",
           "hide": false,
           "legendFormat": "Active Flows",
           "range": true,
@@ -576,7 +576,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"} == 0.5) or vector(0)",
+          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"} == 0.5) or vector(0)",
           "hide": false,
           "legendFormat": "Pending Flows",
           "range": true,
@@ -588,7 +588,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", flow_id=~\"$flow_id\"} == 0) or vector(0)",
+          "expr": "count(cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"} == 0) or vector(0)",
           "hide": false,
           "legendFormat": "Review Details",
           "range": true,
@@ -722,7 +722,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "count by (account_id) (cdc_flow_status == 0)",
+          "expr": "count by (account_id) (cdc_flow_status{account_id!=\"0\"} == 0)",
           "legendFormat": "Account {{account_id}} - Review Details Count",
           "range": true,
           "refId": "A",
@@ -827,7 +827,7 @@
           "type": "prometheus",
           "uid": "iUkfVzqGz"
         },
-        "definition": "label_values(cdc_flow_status,account_id)",
+        "definition": "label_values(cdc_flow_status{account_id!=\"0\"},account_id)",
         "description": "Account ID",
         "hide": 0,
         "includeAll": true,
@@ -836,7 +836,7 @@
         "name": "account_id",
         "options": [],
         "query": {
-          "query": "label_values(cdc_flow_status,account_id)",
+          "query": "label_values(cdc_flow_status{account_id!=\"0\"},account_id)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,

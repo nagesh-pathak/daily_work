@@ -949,6 +949,615 @@
       "type": "stat"
     },
     {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 200,
+      "panels": [],
+      "title": "Customer Information by Source Type",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "description": "Summary of customers with ONLY BloxOne events (no NIOS events)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total BloxOne Only Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Active BloxOne Only Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Inactive BloxOne Only Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 14
+      },
+      "id": 201,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 20
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}) unless count by(account_id) (onprem_cdc_received_events_from_nios))",
+          "format": "time_series",
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Total BloxOne Only Customers",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count((count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}) unless count by(account_id) (onprem_cdc_received_events_from_nios)) * on(account_id) group_left() (count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"} == 1) > 0))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Active BloxOne Only Customers",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count((count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}) unless count by(account_id) (onprem_cdc_received_events_from_nios)) unless on(account_id) (count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"} == 1) > 0))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Inactive BloxOne Only Customers",
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "Customers with ONLY BloxOne",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "description": "Summary of customers with ONLY NIOS (no BloxOne events)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "orange",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total NIOS Only Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Active NIOS Only Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Inactive NIOS Only Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 14
+      },
+      "id": 202,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 20
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_nios) unless count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}))",
+          "format": "time_series",
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Total NIOS Only Customers",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count((count by(account_id) (onprem_cdc_received_events_from_nios) unless count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"})) * on(account_id) group_left() (count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"} == 1) > 0))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Active NIOS Only Customers",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count((count by(account_id) (onprem_cdc_received_events_from_nios) unless count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"})) unless on(account_id) (count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"} == 1) > 0))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Inactive NIOS Only Customers",
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "Customers with ONLY NIOS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "description": "Summary of customers with BOTH BloxOne AND NIOS events",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Both Sources Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Active Both Sources Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Inactive Both Sources Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 14
+      },
+      "id": 203,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 20
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}) and count by(account_id) (onprem_cdc_received_events_from_nios))",
+          "format": "time_series",
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Total Both Sources Customers",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count((count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}) and count by(account_id) (onprem_cdc_received_events_from_nios)) * on(account_id) group_left() (count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"} == 1) > 0))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Active Both Sources Customers",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count((count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}) and count by(account_id) (onprem_cdc_received_events_from_nios)) unless on(account_id) (count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"} == 1) > 0))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Inactive Both Sources Customers",
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "Customers with BOTH BloxOne & NIOS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "description": "Summary of CDC customers with no events (neither BloxOne nor NIOS)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "gray",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total No Events Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "gray"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Active No Events Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Inactive No Events Customers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 14
+      },
+      "id": 204,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 12,
+          "valueSize": 16
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"}) unless (count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}) or count by(account_id) (onprem_cdc_received_events_from_nios)))",
+          "format": "time_series",
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Total No Events Customers",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count((count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"}) unless (count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}) or count by(account_id) (onprem_cdc_received_events_from_nios))) * on(account_id) group_left() (count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"} == 1) > 0))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Active No Events Customers",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count((count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"}) unless (count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}) or count by(account_id) (onprem_cdc_received_events_from_nios))) unless on(account_id) (count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"} == 1) > 0))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "10m",
+          "legendFormat": "Inactive No Events Customers",
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "Customers with No Events",
+      "type": "stat"
+    },
+    {
       "datasource": {
         "type": "prometheus",
         "uid": "iUkfVzqGz"
@@ -1096,7 +1705,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 13
+        "y": 20
       },
       "id": 1,
       "options": {
@@ -1309,7 +1918,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 21
+        "y": 28
       },
       "id": 2,
       "options": {
@@ -1507,7 +2116,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 29
+        "y": 36
       },
       "id": 3,
       "options": {
@@ -1702,7 +2311,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 13
+        "y": 20
       },
       "id": 11,
       "options": {
@@ -1871,7 +2480,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 21
+        "y": 28
       },
       "id": 13,
       "options": {
@@ -2040,7 +2649,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 29
+        "y": 36
       },
       "id": 15,
       "options": {
@@ -2131,7 +2740,7 @@
       "type": "table"
     }
   ],
-  "refresh": "30s",
+  "refresh": "5m",
   "schemaVersion": 38,
   "style": "dark",
   "tags": ["cdc", "onprem", "resources", "merged"],

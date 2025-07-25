@@ -25,154 +25,6 @@
     {
       "alert": {
         "alertRuleTags": {
-          "severity": "Critical"
-        },
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                1000
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "A",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "keep_state",
-        "for": "5m",
-        "frequency": "2m",
-        "handler": 1,
-        "message": "🚨 **High Event Backlog Alert**\n\nPending events have exceeded 1000. This indicates severe processing bottlenecks:\n\n- Data pipeline congestion\n- Downstream processing issues\n- Queue buildup\n- Potential data loss\n- Customer impact imminent",
-        "name": "High Event Backlog Alert",
-        "noDataState": "keep_state",
-        "notifications": [
-          {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
-          }
-        ]
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "iUkfVzqGz"
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 0
-      },
-      "id": 1,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sort": "current",
-        "sortDesc": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 2,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.5.10",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "exemplar": true,
-          "expr": "sum by (ophid) (onprem_cdc_pending_events{ophid!=\"\"})",
-          "interval": "1m",
-          "legendFormat": "Pending Events ({{ophid}})",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "exemplar": true,
-          "expr": "sum(onprem_cdc_pending_events{ophid!=\"\"})",
-          "interval": "1m",
-          "legendFormat": "Total Pending Events",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "gt",
-          "value": 10000000,
-          "visible": true
-        }
-      ],
-      "timeRegions": [],
-      "title": "High Event Size Backlog Alert",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "alert": {
-        "alertRuleTags": {
           "severity": "Warning"
         },
         "conditions": [
@@ -222,7 +74,7 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
+        "x": 0,
         "y": 0
       },
       "id": 2,
@@ -382,8 +234,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 8
+        "x": 12,
+        "y": 0
       },
       "id": 3,
       "legend": {
@@ -530,7 +382,7 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
+        "x": 0,
         "y": 8
       },
       "id": 4,
@@ -678,8 +530,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 16
+        "x": 12,
+        "y": 8
       },
       "id": 5,
       "legend": {
@@ -826,7 +678,7 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
+        "x": 0,
         "y": 16
       },
       "id": 6,
@@ -974,8 +826,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 24
+        "x": 12,
+        "y": 16
       },
       "id": 7,
       "legend": {

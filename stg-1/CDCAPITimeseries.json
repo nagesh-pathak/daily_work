@@ -1273,12 +1273,12 @@
         "for": "10s",
         "frequency": "30s",
         "handler": 1,
-        "message": "CDC API is experiencing 4xx errors (client errors). This may indicate authentication issues, invalid requests, or resource not found errors.",
+        "message": "stg-1 CDC API is experiencing 4xx errors (client errors). This may indicate authentication issues, invalid requests, or resource not found errors.",
         "name": "prd-1 CDC API 4xx error alert",
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "bbcb1bce-a9bf-4bd9-b925-e1dd68cd7fa6"
           }
         ]
       },

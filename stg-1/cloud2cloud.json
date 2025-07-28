@@ -295,7 +295,7 @@
         "for": "0m",
         "frequency": "1m",
         "handler": 1,
-        "message": "prd-1 cdc-data-flow Pod Restarted",
+        "message": "stg-1 prd-1 cdc-data-flow Pod Restarted",
         "name": "prd-1 cdc-data-flow Pod Restart Alert",
         "noDataState": "keep_state",
         "notifications": [
@@ -303,7 +303,7 @@
             "uid": "fdd50169-04ee-4d72-bcc0-871ff85941f2"
           },
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "bbcb1bce-a9bf-4bd9-b925-e1dd68cd7fa6"
           }
         ]
       },
@@ -949,7 +949,7 @@
         "for": "1m",
         "frequency": "1m",
         "handler": 1,
-        "message": "prd-1 cdc-data-flow Pod Failed",
+        "message": "stg-1 prd-1 cdc-data-flow Pod Failed",
         "name": "prd-1 cdc-data-flow Pod Failed Alert",
         "noDataState": "keep_state",
         "notifications": [
@@ -957,7 +957,7 @@
             "uid": "d6690b9f-e56b-47bf-899a-296b6427de46"
           },
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "bbcb1bce-a9bf-4bd9-b925-e1dd68cd7fa6"
           }
         ]
       },
@@ -1087,7 +1087,7 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "prd-1 CPU usage is above 60%",
+        "message": "stg-1 prd-1 CPU usage is above 60%",
         "name": "prd-1 High CPU Usage Alert",
         "noDataState": "keep_state",
         "notifications": [
@@ -1095,7 +1095,7 @@
             "uid": "ab139c6d-d990-465e-956a-e90861269070"
           },
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "bbcb1bce-a9bf-4bd9-b925-e1dd68cd7fa6"
           }
         ]
       },
@@ -1228,7 +1228,7 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "prd-1 Memory usage is above 60%",
+        "message": "stg-1 prd-1 Memory usage is above 60%",
         "name": "prd-1 High Memory Usage Alert",
         "noDataState": "keep_state",
         "notifications": [
@@ -1236,7 +1236,7 @@
             "uid": "ab139c6d-d990-465e-956a-e90861269070"
           },
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "bbcb1bce-a9bf-4bd9-b925-e1dd68cd7fa6"
           }
         ]
       },

@@ -53,7 +53,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "gridPos": {
         "h": 1,
@@ -69,7 +69,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of onprem hosts with CDC services",
       "fieldConfig": {
@@ -166,7 +166,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -180,7 +180,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -195,7 +195,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -214,7 +214,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of customers with CDC services",
       "fieldConfig": {
@@ -311,7 +311,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -325,7 +325,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -340,7 +340,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -359,7 +359,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of hosts with ONLY BloxOne events (no NIOS events)",
       "fieldConfig": {
@@ -456,7 +456,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -471,7 +471,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -487,7 +487,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -507,7 +507,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of hosts with ONLY NIOS (no BloxOne events)",
       "fieldConfig": {
@@ -604,7 +604,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -619,7 +619,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -635,7 +635,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -655,7 +655,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of hosts with BOTH BloxOne AND NIOS events",
       "fieldConfig": {
@@ -752,7 +752,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -767,7 +767,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -783,7 +783,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -803,7 +803,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of CDC hosts with no events (neither BloxOne nor NIOS)",
       "fieldConfig": {
@@ -900,7 +900,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -915,7 +915,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -931,7 +931,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -951,7 +951,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of customers with ONLY BloxOne events (no NIOS events)",
       "fieldConfig": {
@@ -1048,7 +1048,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1063,7 +1063,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1079,7 +1079,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1099,7 +1099,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of customers with ONLY NIOS (no BloxOne events)",
       "fieldConfig": {
@@ -1196,7 +1196,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1211,7 +1211,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1227,7 +1227,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1247,7 +1247,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of customers with BOTH BloxOne AND NIOS events",
       "fieldConfig": {
@@ -1344,7 +1344,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1359,7 +1359,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1375,7 +1375,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1395,7 +1395,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "description": "Summary of CDC customers with no events (neither BloxOne nor NIOS)",
       "fieldConfig": {
@@ -1492,7 +1492,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1507,7 +1507,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1523,7 +1523,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,

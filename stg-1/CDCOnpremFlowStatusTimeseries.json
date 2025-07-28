@@ -795,12 +795,12 @@
         "for": "30s",
         "frequency": "5m",
         "handler": 1,
-        "message": "CDC Flow Status Alert: One or more accounts have flows in Review Details state (status = 0). Check the dashboard to see which accounts and how many flows are affected.",
+        "message": "stg-1 CDC Flow Status Alert: One or more accounts have flows in Review Details state (status = 0). Check the dashboard to see which accounts and how many flows are affected.",
         "name": "Flow Status Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "bbcb1bce-a9bf-4bd9-b925-e1dd68cd7fa6"
           }
         ]
       }

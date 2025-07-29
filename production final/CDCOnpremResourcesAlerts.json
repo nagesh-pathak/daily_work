@@ -81,7 +81,7 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "🚨 **CDC Onprem Memory Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- Memory usage has exceeded the critical threshold of 90%\n- This alert requires immediate attention\n- Performance impact expected\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem Memory Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
+        "message": "prd-1 🚨 **CDC Onprem Memory Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- Memory usage has exceeded the critical threshold of 90%\n- This alert requires immediate attention\n- Performance impact expected\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem Memory Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
         "name": "CDC Onprem Memory Usage alert",
         "noDataState": "keep_last_state",
         "notifications": [
@@ -266,7 +266,7 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "⚠️ **CDC Onprem CPU Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- CPU usage has exceeded the critical threshold of 90%\n- Performance impact expected\n- Immediate attention required\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem CPU Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
+        "message": "prd-1 ⚠️ **CDC Onprem CPU Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- CPU usage has exceeded the critical threshold of 90%\n- Performance impact expected\n- Immediate attention required\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem CPU Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
         "name": "CDC Onprem CPU Usage alert",
         "noDataState": "keep_last_state",
         "notifications": [
@@ -450,7 +450,7 @@
         "for": "10m",
         "frequency": "10m",
         "handler": 1,
-        "message": "💾 **CDC Onprem Disk Space Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- Disk usage has exceeded the critical threshold of 90%\n- Risk of service disruption due to insufficient disk space\n- Immediate cleanup or disk expansion required\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem Volume Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
+        "message": "prd-1 💾 **CDC Onprem Disk Space Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- Disk usage has exceeded the critical threshold of 90%\n- Risk of service disruption due to insufficient disk space\n- Immediate cleanup or disk expansion required\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem Volume Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
         "name": "CDC Onprem Volume Usage alert",
         "noDataState": "keep_last_state",
         "notifications": [

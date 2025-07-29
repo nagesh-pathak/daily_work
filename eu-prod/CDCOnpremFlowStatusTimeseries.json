@@ -405,7 +405,7 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "count by(account_id) (cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"})",
+          "expr": "count by(account_id) (cdc_flow_status{account_id!=\"0\"})",
           "legendFormat": "Flows for Account {{account_id}}",
           "range": true,
           "refId": "A",

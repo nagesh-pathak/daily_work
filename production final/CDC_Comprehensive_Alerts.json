@@ -339,9 +339,9 @@
           {
             "evaluator": {
               "params": [
-                0
+                1
               ],
-              "type": "eq"
+              "type": "lt"
             },
             "operator": {
               "type": "and"
@@ -443,8 +443,8 @@
           "colorMode": "critical",
           "fill": true,
           "line": true,
-          "op": "eq",
-          "value": 0,
+          "op": "lt",
+          "value": 1,
           "visible": true
         }
       ],
@@ -487,9 +487,9 @@
           {
             "evaluator": {
               "params": [
-                0
+                1
               ],
-              "type": "eq"
+              "type": "lt"
             },
             "operator": {
               "type": "and"
@@ -591,8 +591,8 @@
           "colorMode": "critical",
           "fill": true,
           "line": true,
-          "op": "eq",
-          "value": 0,
+          "op": "lt",
+          "value": 1,
           "visible": true
         }
       ],

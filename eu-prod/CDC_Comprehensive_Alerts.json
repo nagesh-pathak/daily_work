@@ -56,7 +56,7 @@
         "for": "10m",
         "frequency": "5m",
         "handler": 1,
-        "message": "⚠️ **Low EPS Alert**\n\nEvents Per Second has dropped below 1000 EPS for the past 10 minutes. This could indicate:\n\n- Data ingestion issues\n- Upstream source problems\n- Network connectivity issues\n- Filter configuration problems",
+        "message": "prd-1 ⚠️ **Low EPS Alert**\n\nEvents Per Second has dropped below 1000 EPS for the past 10 minutes. This could indicate:\n\n- Data ingestion issues\n- Upstream source problems\n- Network connectivity issues\n- Filter configuration problems",
         "name": "Low Events Per Second Alert",
         "noDataState": "keep_state",
         "notifications": [
@@ -216,7 +216,7 @@
         "for": "2m",
         "frequency": "1m",
         "handler": 1,
-        "message": "📈 **Event Queue Backup Alert**\n\nPending events have accumulated beyond 1000. This indicates:\n\n- Processing bottleneck\n- Downstream system issues\n- Resource constraints\n- Potential data loss risk",
+        "message": "prd-1 📈 **Event Queue Backup Alert**\n\nPending events have accumulated beyond 1000. This indicates:\n\n- Processing bottleneck\n- Downstream system issues\n- Resource constraints\n- Potential data loss risk",
         "name": "High Pending Events Alert",
         "noDataState": "keep_state",
         "notifications": [
@@ -339,9 +339,9 @@
           {
             "evaluator": {
               "params": [
-                0
+                1
               ],
-              "type": "eq"
+              "type": "lt"
             },
             "operator": {
               "type": "and"
@@ -364,7 +364,7 @@
         "for": "15m",
         "frequency": "5m",
         "handler": 1,
-        "message": "🔌 **Network Connectivity Alert**\n\nNo open sockets detected for 15+ minutes. This suggests:\n\n- Network connectivity issues\n- Service discovery problems\n- Configuration errors\n- Potential isolation from data sources",
+        "message": "prd-1 🔌 **Network Connectivity Alert**\n\nNo open sockets detected for 15+ minutes. This suggests:\n\n- Network connectivity issues\n- Service discovery problems\n- Configuration errors\n- Potential isolation from data sources",
         "name": "Zero Open Sockets Alert",
         "noDataState": "keep_state",
         "notifications": [
@@ -443,8 +443,8 @@
           "colorMode": "critical",
           "fill": true,
           "line": true,
-          "op": "eq",
-          "value": 0,
+          "op": "lt",
+          "value": 1,
           "visible": true
         }
       ],
@@ -487,9 +487,9 @@
           {
             "evaluator": {
               "params": [
-                0
+                1
               ],
-              "type": "eq"
+              "type": "lt"
             },
             "operator": {
               "type": "and"
@@ -512,7 +512,7 @@
         "for": "5m",
         "frequency": "2m",
         "handler": 1,
-        "message": "⚰️ **No Active Flows Alert**\n\nNo active flows detected for 5+ minutes. This is critical as it means:\n\n- Complete service outage\n- All data flows are stopped\n- Customer impact is severe\n- Immediate investigation required",
+        "message": "prd-1 ⚰️ **No Active Flows Alert**\n\nNo active flows detected for 5+ minutes. This is critical as it means:\n\n- Complete service outage\n- All data flows are stopped\n- Customer impact is severe\n- Immediate investigation required",
         "name": "No Active Flows Alert",
         "noDataState": "keep_state",
         "notifications": [
@@ -591,8 +591,8 @@
           "colorMode": "critical",
           "fill": true,
           "line": true,
-          "op": "eq",
-          "value": 0,
+          "op": "lt",
+          "value": 1,
           "visible": true
         }
       ],
@@ -660,7 +660,7 @@
         "for": "10m",
         "frequency": "5m",
         "handler": 1,
-        "message": "📊 **High QPS Alert**\n\nQueries Per Second has exceeded 100 QPS for 10+ minutes. Monitor for:\n\n- Performance impact\n- Resource saturation\n- Possible DDoS\n- Client misconfiguration\n- Need for rate limiting",
+        "message": "prd-1 📊 **High QPS Alert**\n\nQueries Per Second has exceeded 100 QPS for 10+ minutes. Monitor for:\n\n- Performance impact\n- Resource saturation\n- Possible DDoS\n- Client misconfiguration\n- Need for rate limiting",
         "name": "High QPS Alert",
         "noDataState": "keep_state",
         "notifications": [
@@ -808,7 +808,7 @@
         "for": "1h",
         "frequency": "15m",
         "handler": 1,
-        "message": "🏥 **Persistent Unhealthy Pods Alert**\n\nMore than 3 pods have been unhealthy for over 1 hour. This indicates:\n\n- Systemic issues\n- Resource constraints\n- Configuration problems\n- Potential cascading failures\n- Degraded service capacity",
+        "message": "prd-1 🏥 **Persistent Unhealthy Pods Alert**\n\nMore than 3 pods have been unhealthy for over 1 hour. This indicates:\n\n- Systemic issues\n- Resource constraints\n- Configuration problems\n- Potential cascading failures\n- Degraded service capacity",
         "name": "Persistent Unhealthy Pods Alert",
         "noDataState": "keep_state",
         "notifications": [

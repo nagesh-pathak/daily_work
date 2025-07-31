@@ -92,7 +92,7 @@
       },
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "fieldConfig": {
         "defaults": {
@@ -192,7 +192,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -277,7 +277,7 @@
       },
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "fieldConfig": {
         "defaults": {
@@ -377,7 +377,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "expr": "onprem_cpu_percentage{} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}",
@@ -461,7 +461,7 @@
       },
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "lBCiZJCMk"
       },
       "fieldConfig": {
         "defaults": {
@@ -561,7 +561,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
           "expr": "onprem_cdc_volume_used_percent{} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}",

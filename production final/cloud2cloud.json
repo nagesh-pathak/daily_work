@@ -280,7 +280,7 @@
             "query": {
               "params": [
                 "A",
-                "1s",
+                "5m",
                 "now"
               ]
             },
@@ -293,7 +293,7 @@
         ],
         "executionErrorState": "keep_state",
         "for": "0m",
-        "frequency": "1m",
+        "frequency": "30s",
         "handler": 1,
         "message": "prd-1 cdc-data-flow Pod Restarted",
         "name": "prd-1 cdc-data-flow Pod Restart Alert",

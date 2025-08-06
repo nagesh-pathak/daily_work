@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "onprem-loki-prd-1"
+        "uid": "onprem-loki-env-2a"
       },
       "fieldConfig": {
         "defaults": {
@@ -138,7 +138,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "onprem-loki-prd-1"
+            "uid": "onprem-loki-env-2a"
           },
           "editorMode": "code",
           "expr": "topk(500, sum by (agentId, containerId) (count_over_time({containerId=~\"cdc_.*\"} |= \"error\" [15m])))",
@@ -221,7 +221,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "onprem-loki-prd-1"
+        "uid": "onprem-loki-env-2a"
       },
       "fieldConfig": {
         "defaults": {
@@ -302,7 +302,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "onprem-loki-prd-1"
+            "uid": "onprem-loki-env-2a"
           },
           "editorMode": "code",
           "expr": "topk(50, sum by (accountId, agentId, containerId) (rate({containerId=~\"cdc_.*\"} |= \"error\" [5m])) * 60)",

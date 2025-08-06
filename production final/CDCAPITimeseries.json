@@ -1248,7 +1248,7 @@
           {
             "evaluator": {
               "params": [
-                0
+                5
               ],
               "type": "gt"
             },
@@ -1270,7 +1270,7 @@
           }
         ],
         "executionErrorState": "keep_state",
-        "for": "10s",
+        "for": "1m",
         "frequency": "30s",
         "handler": 1,
         "message": "prd-1 CDC API is experiencing 4xx errors (client errors). This may indicate authentication issues, invalid requests, or resource not found errors.",

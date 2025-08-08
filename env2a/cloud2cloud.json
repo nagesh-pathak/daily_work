@@ -947,7 +947,7 @@
         "frequency": "1m",
         "handler": 1,
         "message": "env-2a cdc-data-flow Pod Failed",
-        "name": "prd-1 cdc-data-flow Pod Failed Alert",
+        "name": "env-2a cdc-data-flow Pod Failed Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
@@ -1082,7 +1082,7 @@
         "frequency": "10m",
         "handler": 1,
         "message": "env-2a CPU usage is above 60%",
-        "name": "prd-1 High CPU Usage Alert",
+        "name": "env-2a High CPU Usage Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
@@ -1220,7 +1220,7 @@
         "frequency": "10m",
         "handler": 1,
         "message": "env-2a Memory usage is above 60%",
-        "name": "prd-1 High Memory Usage Alert",
+        "name": "env-2a High Memory Usage Alert",
         "noDataState": "keep_state",
         "notifications": [
           {

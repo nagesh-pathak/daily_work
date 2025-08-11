@@ -37,9 +37,7 @@
     {
       "asDropdown": false,
       "icon": "doc",
-      "inclu        "handler": 1,
-        "message": "CDC Flow Status Alert: One or more accounts have flows in Review Details state (status = 0). Check the dashboard to see which accounts and how many flows are affected.",
-        "name": "CDC Flow Status Alert",ars": false,
+      "includeVars": false,
       "keepTime": false,
       "tags": [],
       "targetBlank": false,

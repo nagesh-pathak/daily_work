@@ -3,9 +3,7 @@
     "list": [
       {
         "builtIn": 1,
-        "datasour        "handler": 1,
-        "message": "🚨 **CDC Onprem Memory Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- Memory usage has exceeded the critical threshold of 90%\n- This alert requires immediate attention\n- Performance impact expected\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem Memory Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
-        "name": "CDC Onprem Memory Alert",: {
+        "datasource": {
           "type": "grafana",
           "uid": "-- Grafana --"
         },
@@ -89,6 +87,9 @@
         "notifications": [
           {
             "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+          },
+          {
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },
@@ -274,6 +275,9 @@
         "notifications": [
           {
             "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+          },
+          {
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },
@@ -458,6 +462,9 @@
         "notifications": [
           {
             "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+          },
+          {
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },

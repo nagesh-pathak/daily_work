@@ -38,11 +38,7 @@
             "operator": {
               "type": "and"
             },
-                "frequency": "5m",
-        "handler": 1,
-        "message": "🏥 **Persistent Unhealthy Pods Alert**\n\nMore than 3 pods have been unhealthy for over 1 hour. This indicates:\n\n- Systemic issues\n- Resource constraints\n- Configuration problems\n- Potential cascading failures\n- Degraded service capacity",
-        "name": "Persistent Unhealthy Pods Alert",
-        "noDataState": "keep_state",query": {
+            "query": {
               "params": [
                 "A",
                 "10m",
@@ -66,6 +62,9 @@
         "notifications": [
           {
             "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+          },
+          {
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },
@@ -220,12 +219,15 @@
         "for": "2m",
         "frequency": "1m",
         "handler": 1,
-        "message": "📈 **Event Queue Backup Alert**\n\nPending events have accumulated beyond 1000. This indicates:\n\n- Processing bottleneck\n- Downstream system issues\n- Resource constraints\n- Potential data loss risk",
-        "name": "High Pending Events Alert",
+        "message": "📈 **Event Queue Backup Alert**\\n\\nPending events have accumulated beyond 1000. This indicates:\\n\\n- Processing bottleneck\\n- Downstream system issues\\n- Resource constraints\\n- Potential data loss risk",
+        "name": "Event Queue Backup Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
             "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+          },
+          {
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },
@@ -374,6 +376,9 @@
         "notifications": [
           {
             "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+          },
+          {
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },
@@ -515,14 +520,16 @@
         "executionErrorState": "keep_state",
         "for": "5m",
         "frequency": "2m",
-        ],
         "handler": 1,
-        "message": "⚰️ **No Active Flows Alert**\\n\\nNo active flows detected for 5+ minutes. This is critical as it means:\\n\\n- Complete service outage\\n- All data flows are stopped\\n- Customer impact is severe\\n- Immediate investigation required",
+        "message": "⚰️ **No Active Flows Alert**\n\nNo active flows detected for 5+ minutes. This is critical as it means:\n\n- Complete service outage\n- All data flows are stopped\n- Customer impact is severe\n- Immediate investigation required",
         "name": "No Active Flows Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
             "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+          },
+          {
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },
@@ -671,6 +678,9 @@
         "notifications": [
           {
             "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+          },
+          {
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },
@@ -819,6 +829,9 @@
         "notifications": [
           {
             "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+          },
+          {
+            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
           }
         ]
       },

@@ -77,7 +77,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "🔍 Explore Logs"
+              "options": "\ud83d\udd0d Explore Logs"
             },
             "properties": [
               {
@@ -102,7 +102,7 @@
               },
               {
                 "id": "displayName",
-                "value": "🔍 Explore Logs"
+                "value": "\ud83d\udd0d Explore Logs"
               }
             ]
           }
@@ -193,7 +193,7 @@
               "Explore Logs": 3
             },
             "renameByName": {
-              "Explore Logs": "🔍 Explore Logs"
+              "Explore Logs": "\ud83d\udd0d Explore Logs"
             }
           }
         },

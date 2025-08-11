@@ -129,7 +129,7 @@
           "refId": "A"
         }
       ],
-      "title": "📊 Total EPS (All Selected Types)",
+      "title": "\ud83d\udcca Total EPS (All Selected Types)",
       "transparent": true,
       "type": "stat"
     },
@@ -215,7 +215,7 @@
           "refId": "A"
         }
       ],
-      "title": "🔥 Peak EPS (1h)",
+      "title": "\ud83d\udd25 Peak EPS (1h)",
       "transparent": true,
       "type": "stat"
     },
@@ -301,7 +301,7 @@
           "refId": "A"
         }
       ],
-      "title": "📋 Active Log Types",
+      "title": "\ud83d\udccb Active Log Types",
       "transparent": true,
       "type": "stat"
     },
@@ -404,7 +404,7 @@
           "refId": "A"
         }
       ],
-      "title": "🎯 Current EPS by Data Type",
+      "title": "\ud83c\udfaf Current EPS by Data Type",
       "transparent": true,
       "type": "stat"
     },
@@ -507,7 +507,7 @@
           "refId": "A"
         }
       ],
-      "title": "⚡ Peak EPS by Type (1h)",
+      "title": "\u26a1 Peak EPS by Type (1h)",
       "transparent": true,
       "type": "stat"
     },
@@ -621,7 +621,7 @@
           "refId": "A"
         }
       ],
-      "title": "📈 EPS by Log Type Over Time (Interactive Legend)",
+      "title": "\ud83d\udcc8 EPS by Log Type Over Time (Interactive Legend)",
       "transparent": true,
       "type": "timeseries"
     },
@@ -714,13 +714,13 @@
           "editorMode": "code",
           "expr": "sum by (source, destination, ophid) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", ophid!=\"\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\", source!=\"\", destination!=\"\"}[1m]))",
           "interval": "30s",
-          "legendFormat": "{{source}} → {{destination}} (OPHID: {{ophid}})",
+          "legendFormat": "{{source}} \u2192 {{destination}} (OPHID: {{ophid}})",
           "maxDataPoints": 300,
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "🔄 EPS by Source and Destination Flow",
+      "title": "\ud83d\udd04 EPS by Source and Destination Flow",
       "transparent": true,
       "type": "timeseries"
     },
@@ -795,12 +795,12 @@
                       "0": {
                         "color": "#4ECDC4",
                         "index": 0,
-                        "text": "🟢 Active"
+                        "text": "\ud83d\udfe2 Active"
                       },
                       "1": {
                         "color": "#FF6B6B",
                         "index": 1,
-                        "text": "🔴 Idle"
+                        "text": "\ud83d\udd34 Idle"
                       }
                     },
                     "type": "value"
@@ -968,7 +968,7 @@
           "refId": "A"
         }
       ],
-      "title": "📊 All OPHIDs Status Overview",
+      "title": "\ud83d\udcca All OPHIDs Status Overview",
       "transformations": [
         {
           "id": "organize",
@@ -1200,7 +1200,7 @@
           "refId": "A"
         }
       ],
-      "title": "⚠️ Low Activity OPHIDs (Avg < 0.1 EPS over 1h)",
+      "title": "\u26a0\ufe0f Low Activity OPHIDs (Avg < 0.1 EPS over 1h)",
       "transformations": [
         {
           "id": "organize",

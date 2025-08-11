@@ -81,15 +81,12 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "🚨 **CDC Onprem Memory Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- Memory usage has exceeded the critical threshold of 90%\n- This alert requires immediate attention\n- Performance impact expected\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem Memory Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
+        "message": "\ud83d\udea8 **CDC Onprem Memory Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- Memory usage has exceeded the critical threshold of 90%\n- This alert requires immediate attention\n- Performance impact expected\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem Memory Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
         "name": "CDC Onprem Memory Usage alert",
         "noDataState": "keep_last_state",
         "notifications": [
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
-          },
-          {
-            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
+            "uid": "notification-Id"
           }
         ]
       },
@@ -269,15 +266,12 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "⚠️ **CDC Onprem CPU Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- CPU usage has exceeded the critical threshold of 90%\n- Performance impact expected\n- Immediate attention required\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem CPU Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
+        "message": "\u26a0\ufe0f **CDC Onprem CPU Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- CPU usage has exceeded the critical threshold of 90%\n- Performance impact expected\n- Immediate attention required\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem CPU Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
         "name": "CDC Onprem CPU Usage alert",
         "noDataState": "keep_last_state",
         "notifications": [
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
-          },
-          {
-            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
+            "uid": "notification-Id"
           }
         ]
       },
@@ -456,15 +450,12 @@
         "for": "10m",
         "frequency": "10m",
         "handler": 1,
-        "message": "💾 **CDC Onprem Disk Space Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- Disk usage has exceeded the critical threshold of 90%\n- Risk of service disruption due to insufficient disk space\n- Immediate cleanup or disk expansion required\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem Volume Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
+        "message": "\ud83d\udcbe **CDC Onprem Disk Space Alert**\n\n**Alert Status:** FIRING\n**Threshold:** 90%\n\n**Details:**\n- Disk usage has exceeded the critical threshold of 90%\n- Risk of service disruption due to insufficient disk space\n- Immediate cleanup or disk expansion required\n- Check the dashboard for exact values\n\n**Alert Rule:** CDC Onprem Volume Usage alert\n**Dashboard:** CDC Onprem Resources Alert\n\n**Note:** Check the evaluation matches below for specific host details and current values.",
         "name": "CDC Onprem Volume Usage alert",
         "noDataState": "keep_last_state",
         "notifications": [
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
-          },
-          {
-            "uid": "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
+            "uid": "notification-Id"
           }
         ]
       },
@@ -611,7 +602,6 @@
         "align": false
       }
     }
-
   ],
   "refresh": "10m",
   "schemaVersion": 38,
@@ -627,7 +617,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "CDC Onprem Resources Alert",
-  "uid": "afe66996-0af8-4445-aa8d-a2fc55e919aa",
+  "uid": "afe66996-0af8-4445-aa8d-alerts",
   "version": 26,
   "weekStart": ""
 }

@@ -220,7 +220,7 @@
           "editorMode": "code",
           "expr": "sum by (source, destination) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\", source!=\"\", destination!=\"\"}[1m]) > 0) or on() vector(0)",
           "interval": "30s",
-          "legendFormat": "{{source}} → {{destination}}",
+          "legendFormat": "{{source}} \u2192 {{destination}}",
           "maxDataPoints": 300,
           "range": true,
           "refId": "A"
@@ -563,12 +563,12 @@
         "for": "5m",
         "frequency": "60s",
         "handler": 1,
-        "message": "🚨 **Infoblox Volume Usage Alert - Critical Threshold Reached**\n\n**Alert Details:**\n• **Host:** {{ophid}}\n• **Device:** {{device}}\n• **Path:** {{path}}\n• **Current Usage:** {{value}}%\n• **Alert Threshold:** 60%\n• **Duration:** {{for}}\n\n**Status:** {{#if firing}}🔴 FIRING{{else}}🟢 RESOLVED{{/if}}\n\n**Timestamp:** {{date}}\n\n**Immediate Actions Required:**\n1. 🔍 Check /infoblox folder disk space immediately\n2. 📊 Review disk usage patterns and growth trends\n3. 🧹 Consider cleanup of old files or logs in /infoblox\n4. 📈 Plan for storage expansion if trend continues\n5. 🔄 Check for any stuck processes or large temp files\n\n**Impact Assessment:**\n• Risk of service degradation when reaching 80%+\n• Potential application failures if disk becomes full\n• May affect Infoblox operations and data processing\n\n🔗 **Quick Actions:**\n• [View Dashboard]({{ruleUrl}})\n• [Infoblox Storage Runbook](https://wiki.company.com/infoblox-storage-runbook)\n• [Escalation Procedures](https://wiki.company.com/escalation)\n• [Disk Cleanup Guide](https://wiki.company.com/disk-cleanup)",
+        "message": "\ud83d\udea8 **Infoblox Volume Usage Alert - Critical Threshold Reached**\n\n**Alert Details:**\n\u2022 **Host:** {{ophid}}\n\u2022 **Device:** {{device}}\n\u2022 **Path:** {{path}}\n\u2022 **Current Usage:** {{value}}%\n\u2022 **Alert Threshold:** 60%\n\u2022 **Duration:** {{for}}\n\n**Status:** {{#if firing}}\ud83d\udd34 FIRING{{else}}\ud83d\udfe2 RESOLVED{{/if}}\n\n**Timestamp:** {{date}}\n\n**Immediate Actions Required:**\n1. \ud83d\udd0d Check /infoblox folder disk space immediately\n2. \ud83d\udcca Review disk usage patterns and growth trends\n3. \ud83e\uddf9 Consider cleanup of old files or logs in /infoblox\n4. \ud83d\udcc8 Plan for storage expansion if trend continues\n5. \ud83d\udd04 Check for any stuck processes or large temp files\n\n**Impact Assessment:**\n\u2022 Risk of service degradation when reaching 80%+\n\u2022 Potential application failures if disk becomes full\n\u2022 May affect Infoblox operations and data processing\n\n\ud83d\udd17 **Quick Actions:**\n\u2022 [View Dashboard]({{ruleUrl}})\n\u2022 [Infoblox Storage Runbook](https://wiki.company.com/infoblox-storage-runbook)\n\u2022 [Escalation Procedures](https://wiki.company.com/escalation)\n\u2022 [Disk Cleanup Guide](https://wiki.company.com/disk-cleanup)",
         "name": "Infoblox Volume Usage Alert - 60% Threshold",
         "noDataState": "alerting",
         "notifications": [
           {
-            "uid": "teams-infoblox-alerts"
+            "uid": "notification-Id"
           }
         ]
       },

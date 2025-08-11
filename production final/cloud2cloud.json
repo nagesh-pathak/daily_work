@@ -300,10 +300,7 @@
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "fdd50169-04ee-4d72-bcc0-871ff85941f2"
-          },
-          {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "notification-Id"
           }
         ]
       },
@@ -954,10 +951,7 @@
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "d6690b9f-e56b-47bf-899a-296b6427de46"
-          },
-          {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "notification-Id"
           }
         ]
       },
@@ -1092,10 +1086,7 @@
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "ab139c6d-d990-465e-956a-e90861269070"
-          },
-          {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "notification-Id"
           }
         ]
       },
@@ -1233,10 +1224,7 @@
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "ab139c6d-d990-465e-956a-e90861269070"
-          },
-          {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "notification-Id"
           }
         ]
       },

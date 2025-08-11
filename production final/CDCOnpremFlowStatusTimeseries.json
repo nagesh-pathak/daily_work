@@ -243,7 +243,9 @@
         "footer": {
           "show": false,
           "fields": "",
-          "reducer": ["sum"]
+          "reducer": [
+            "sum"
+          ]
         },
         "sortBy": [
           {
@@ -800,7 +802,7 @@
         "noDataState": "keep_state",
         "notifications": [
           {
-            "uid": "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+            "uid": "notification-Id"
           }
         ]
       }
@@ -809,7 +811,10 @@
   "refresh": "10m",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["cdc", "flow-status"],
+  "tags": [
+    "cdc",
+    "flow-status"
+  ],
   "templating": {
     "list": [
       {

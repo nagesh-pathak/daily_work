@@ -793,8 +793,8 @@
         "for": "5m",
         "frequency": "1m",
         "handler": 1,
-        "message": "prd-1 Requests to CDC API failed due to failures in dependent service(s).",
-        "name": "prd-1 CDC API dependent service(s) failure alert (failed vs total requests)",
+        "message": "Requests to CDC API failed due to failures in dependent service(s).",
+        "name": "CDC API dependent service(s) failure alert (failed vs total requests)",
         "noDataState": "keep_state",
         "notifications": [
           {
@@ -954,8 +954,8 @@
         "for": "5m",
         "frequency": "1m",
         "handler": 1,
-        "message": "prd-1 Requests to CDC API failed due to service being down.",
-        "name": "prd-1 CDC API service down alert (requests failing with 5xx)",
+        "message": "Requests to CDC API failed due to service being down.",
+        "name": "CDC API service down alert (requests failing with 5xx)",
         "noDataState": "keep_state",
         "notifications": [
           {
@@ -1115,8 +1115,8 @@
         "for": "0m",
         "frequency": "1m",
         "handler": 1,
-        "message": "prd-1 CDC API pod(s) has restarted.",
-        "name": "prd-1 CDC API pod restart alert",
+        "message": "CDC API pod(s) has restarted.",
+        "name": "CDC API pod restart alert",
         "noDataState": "keep_state",
         "notifications": [
           {
@@ -1273,8 +1273,8 @@
         "for": "1m",
         "frequency": "30s",
         "handler": 1,
-        "message": "prd-1 CDC API is experiencing 4xx errors (client errors). This may indicate authentication issues, invalid requests, or resource not found errors.",
-        "name": "prd-1 CDC API 4xx error alert",
+        "message": "CDC API is experiencing 4xx errors (client errors). This may indicate authentication issues, invalid requests, or resource not found errors.",
+        "name": "CDC API 4xx error alert",
         "noDataState": "keep_state",
         "notifications": [
           {

@@ -527,7 +527,6 @@
           "alert_type": "threshold",
           "auto_resolve": "true",
           "component": "infoblox-storage",
-          "environment": "production",
           "folder_path": "/infoblox",
           "priority": "high",
           "service_type": "storage",

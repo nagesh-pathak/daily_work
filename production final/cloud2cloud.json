@@ -295,8 +295,8 @@
         "for": "0m",
         "frequency": "30s",
         "handler": 1,
-        "message": "prd-1 cdc-data-flow Pod Restarted",
-        "name": "prd-1 cdc-data-flow Pod Restart Alert",
+        "message": "cdc-data-flow Pod Restarted",
+        "name": "cdc-data-flow Pod Restart Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
@@ -949,8 +949,8 @@
         "for": "1m",
         "frequency": "1m",
         "handler": 1,
-        "message": "prd-1 cdc-data-flow Pod Failed",
-        "name": "prd-1 cdc-data-flow Pod Failed Alert",
+        "message": "cdc-data-flow Pod Failed",
+        "name": "cdc-data-flow Pod Failed Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
@@ -1087,8 +1087,8 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "prd-1 CPU usage is above 60%",
-        "name": "prd-1 High CPU Usage Alert",
+        "message": "CPU usage is above 60%",
+        "name": "High CPU Usage Alert",
         "noDataState": "keep_state",
         "notifications": [
           {
@@ -1228,8 +1228,8 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "prd-1 Memory usage is above 60%",
-        "name": "prd-1 High Memory Usage Alert",
+        "message": "Memory usage is above 60%",
+        "name": "High Memory Usage Alert",
         "noDataState": "keep_state",
         "notifications": [
           {

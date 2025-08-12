@@ -2,6 +2,7 @@
 {{- $currentEnvNotificationUid := index .Values.notificationUids .Values.env | default (index .Values.notificationUids "default") -}}
 {{- $currentEnvFederatedDataSourceUid := index .Values.federatedDataSourceUids .Values.env | default (index .Values.federatedDataSourceUids "default") -}}
 {{- $currentEnvLokiDataSourceUid := index .Values.lokiDataSourceUids .Values.env | default (index .Values.lokiDataSourceUids "default") -}}
+{{- $currentEnvGrafanaUrl := index .Values.grafanaUrls .Values.env | default (index .Values.grafanaUrls "default") -}}
 apiVersion: integreatly.org/v1alpha1
 kind: GrafanaDashboard
 metadata:
@@ -136,6 +137,7 @@ spec:
     {{- $dashboardContent := .Files.Get "dash/CDCOnpremLogsTable.json" -}}
     {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
     {{- $dashboardContent = $dashboardContent | replace "loki-uid" $currentEnvLokiDataSourceUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "grafana.csp.infoblox.com" $currentEnvGrafanaUrl -}}
     {{- $dashboardContent | nindent 4 }}
 ---
 apiVersion: integreatly.org/v1alpha1

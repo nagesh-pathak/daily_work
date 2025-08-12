@@ -1750,6 +1750,17 @@ lokiDataSourceUids:
   # Default fallback UID if environment is not found
   default: "onprem logs (loki-new)"
 
+# Environment-specific Grafana URLs for dashboard links
+grafanaUrls:
+  prd-1: "grafana.csp.infoblox.com"
+  eu-com-1: "grafana-csp.eu-com-1.eu.csp.infoblox.com"
+  eu-stg-1: "grafana-csp.eu-stg-1.eu.stage.test.infoblox.com"
+  env-2a: "grafana-env-2a.test.infoblox.com"
+  stg-1: "grafana-stage.csp.infoblox.com"
+  env-5: "grafana-env-5.test.infoblox.com"
+  # Default fallback URL if environment is not found
+  default: "grafana.csp.infoblox.com"
+
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:

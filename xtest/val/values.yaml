@@ -1,0 +1,2186 @@
+# Default values for cdc-flow.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+
+hotload:
+  dialect: "hotload"
+  dsn: "fsnotify://postgres/var/run/db-dsn/dsn.txt" 
+  mount_path: /var/run/db-dsn
+  secret_vol_name: db-dsn-volume
+
+cloudDataSources:
+  # SOURCE_BLOXONE data sources
+  td-dns:
+    id: "TD_QUERY_RESP_LOG"
+    title: "Threat Defense Query/Response Log"
+    description: "Threat Defense Query/Response Log"
+    sourceType: "SOURCE_BLOXONE"
+    kafkaSources:
+      - name: "ti-{{ .Values.env }}"
+        brokers: "{{ .Values.endpoint.kafkaTI }}"
+        topics: "bitaa-joined"
+    sourceFields:
+      - name: Timestamp
+        id: Timestamp
+        required: true
+      - name: Timestamp Nanosecond
+        id: Nanosec
+      - name: QTC
+        id: Qtc
+      - name: Message Type
+        id: Message_type
+      - name: Source ID
+        id: Source
+      - name: Reply Code Number
+        id: Rcode
+      - name: Policy ID
+        id: Pid
+      - name: Additional Answer Count
+        id: Arcount
+      - name: Source MAC Address
+        id: Src_mac
+      - name: DNS View
+        id: View
+      - name: RAD
+        id: Rad
+      - name: QCD
+        id: Qcd
+      - name: Message
+        id: Msg
+      - name: DNS Response Flags
+        id: Dns_response_flags
+      - name: DNS Query Type
+        id: Qtype
+      - name: QRD
+        id: Qrd
+      - name: OPH Name
+        id: Extra_name
+      - name: Event Category
+        id: EventCategory
+      - name: DNS Tags
+        id: Extra_all_tags
+      - name: Query URL
+        id: Qname
+      - name: Source Device Name
+        id: Extra_device_name
+      - name: RCD
+        id: Rcd
+      - name: DNS Answer
+        id: Answer
+      - name: Protocol Code
+        id: Protocol
+      - name: DHCP Fingerprint
+        id: Extra_dhcp_fingerprint
+      - name: QQR
+        id: Qqr
+      - name: User Name
+        id: Extra_user_name
+      - name: Destination IP
+        id: Rip
+      - name: Query Class
+        id: Query_class
+      - name: Op Code
+        id: Opcode
+      - name: Region
+        id: Region
+      - name: QRA
+        id: Qra
+      - name: DNS Request Flags
+        id: Dns_request_flags
+      - name: Host OS Version
+        id: Extra_os_version
+      - name: Anonymized
+        id: Anonymized
+      - name: Reply Code
+        id: Reply_code
+      - name: Severity
+        id: Severity
+      - name: RDO
+        id: Rdo
+      - name: OPH IP Address
+        id: Extra_ip_address
+      - name: QDO
+        id: Qdo
+      - name: QRR1
+        id: Qrr1
+      - name: Transaction ID
+        id: Tid
+      - name: Delay
+        id: Delay
+      - name: QRR3
+        id: Qrr3
+      - name: Record Type
+        id: Record_type
+      - name: DNS Record
+        id: Dns_record
+      - name: Vendor Product
+        id: Vendor_product
+      - name: Flags
+        id: Flags
+      - name: QRR2
+        id: Qrr2
+      - name: RRR3
+        id: Rrr3
+      - name: Source Port
+        id: Qport
+      - name: Device IP
+        id: Extra_device_ip
+      - name: Destination Port
+        id: Rport
+      - name: Source Network
+        id: Extra_network
+      - name: Reply Code (Parsed)
+        id: Rcode_string
+      - name: DNS Packet Type
+        id: Type
+      - name: QAD
+        id: Qad
+      - name: Answer Count
+        id: Ancount
+      - name: Query Count
+        id: Query_count
+      - name: DNS QClass
+        id: Qclassname
+      - name: QAA
+        id: Qaa
+      - name: RQR
+        id: Rqr
+      - name: DNS QType
+        id: Qtypename
+      - name: Connection Type
+        id: Extra_pname
+      - name: QClass
+        id: Qclass
+      - name: Source MAC Address
+        id: Extra_mac_address
+      - name: Client ID
+        id: Cid
+      - name: RTC
+        id: Rtc
+      - name: RRR2
+        id: Rrr2
+      - name: Source IP
+        id: Qip
+      - name: RAA
+        id: Raa
+      - name: TTL
+        id: Ttl
+      - name: Protocol
+        id: Transport_protocol
+      - name: Authority Answer Count
+        id: Nscount
+      - name: Query Type
+        id: Query_type
+      - name: App
+        id: App
+      - name: RR1
+        id: Rrr1
+      - name: RRD
+        id: Rrd
+      - name: RRA
+        id: Rra
+  td-rpz:
+    id: "TD_THREAT_FEEDS_HITS_LOG"
+    title: "Threat Defense Threat Feeds Hits Log"
+    description: "Threat Defense Threat Feeds Hits Log"
+    sourceType: "SOURCE_BLOXONE"
+    kafkaSources:
+      - name: "ti-{{ .Values.env }}"
+        brokers: "{{ .Values.endpoint.kafkaTI }}"
+        topics: "rpzlog-joined"
+    sourceFields:
+      - name: Threat Severity
+        id: Threat_severity
+      - name: DNS Tags
+        id: Extra_all_tags
+      - name: ARR Type
+        id: Arrtype
+      - name: Query Class
+        id: Query_class
+      - name: QType
+        id: Qtype
+      - name: ACode
+        id: Acode
+      - name: Query URL
+        id: Qname
+      - name: QClass
+        id: Qclass
+      - name: Feed Type
+        id: Extra_feed_type
+      - name: Client ID
+        id: Cid
+      - name: Domain Category
+        id: Qcat
+      - name: Op Code
+        id: Opcode
+      - name: Threat Level
+        id: Threat_level
+      - name: Threat Indicator
+        id: Extra_threat_indicator
+      - name: DHCP Fingerprint
+        id: Extra_dhcp_fingerprint
+      - name: Rule Action
+        id: Rule_action
+      - name: OPH IP Address
+        id: Extra_ip_address
+      - name: Anonymized
+        id: Anonymized
+      - name: Rpz Query Feed
+        id: Rpz_query_feed
+      - name: Threat Confidence
+        id: Threat_confidence
+      - name: Source
+        id: Qip
+      - name: Category
+        id: Category
+      - name: Query Type
+        id: Query_type
+      - name: Client Site ID
+        id: Csite
+      - name: Timestamp
+        id: Timestamp
+        required: true
+      - name: User Name
+        id: User_name
+      - name: Destination IP
+        id: Rip
+      - name: Rule Disabled
+        id: Disabled
+      - name: Category
+        id: CefLeef_category
+      - name: Threat Property
+        id: Threat_property
+      - name: Transaction ID
+        id: Tid
+      - name: Region
+        id: Region
+      - name: Policy Action
+        id: Extra_policy_action
+      - name: Source IP
+        id: Src
+      - name: ARR Data
+        id: Arrdata
+      - name: Timestamp Nanosecond
+        id: Nanosec
+      - name: IDS Type
+        id: Ids_type
+      - name: Action
+        id: Action
+      - name: Log Level
+        id: Loglevel
+      - name: Trigger Code
+        id: Tcode
+      - name: Transport
+        id: Transport
+      - name: OPH Name
+        id: Extra_name
+      - name: Rule
+        id: Tname
+      - name: DNS View
+        id: View
+      - name: Message
+        id: Msg
+      - name: Source Network
+        id: Extra_network
+      - name: Source MAC
+        id: Src_mac
+      - name: Source ID
+        id: Source
+      - name: Connection Type
+        id: P_name
+      - name: Severity
+        id: CefLeefSeverity
+      - name: Destination Port
+        id: Rport
+      - name: Policy ID
+        id: Pid
+      - name: Vendor
+        id: Pvendor
+      - name: Version
+        id: Pversion
+      - name: Feed Name
+        id: Extra_feed_name
+      - name: Vendor Product
+        id: Vendor_product
+      - name: Source Device Name
+        id: Extra_device_name
+      - name: Host OS Version
+        id: Extra_os_version
+      - name: Device IP
+        id: Extra_device_ip
+      - name: App
+        id: App
+      - name: Source Port
+        id: Qport
+      - name: Policy Name
+        id: Extra_policy_name
+  ddi-dns:
+    id: "DDI_QUERY_RESP_LOG"
+    title: "DDI Query/Response Log"
+    description: "DDI Query/Response Log"
+    sourceType: "SOURCE_BLOXONE"
+    kafkaSources:
+      - name: "ti-{{ .Values.env }}"
+        brokers: "{{ .Values.endpoint.kafkaTI }}"
+        topics: "bloxoneddi-dns-joined"
+    sourceFields:
+      - name: RRR1
+        id: rrr1_record
+      - name: QRR2
+        id: qrr2_record
+      - name: RRD
+        id: rrd
+      - name: Source Port
+        id: qport
+      - name: OPH Name
+        id: extra_name
+      - name: QType
+        id: qtype
+      - name: Reply Code
+        id: dns_rcode
+      - name: Authority Answer Count
+        id: nscount
+      - name: Record Type
+        id: dns_record_type
+      - name: Answer
+        id: answer
+      - name: Connection Type
+        id: extra_pname
+      - name: DNS Tags
+        id: extra_all_tags
+      - name: QQR
+        id: qqr
+      - name: Region
+        id: region
+      - name: RRR2
+        id: rrr2_record
+      - name: Query Count
+        id: query_count
+      - name: Source IP
+        id: extra_device_ip
+      - name: Transaction ID
+        id: tid
+      - name: Timestamp Nanosec
+        id: nanosec
+      - name: Source ID
+        id: source
+      - name: Source IP
+        id: qip
+      - name: Destination IP
+        id: rip
+      - name: Client ID
+        id: cid
+      - name: OPH IP Address
+        id: extra_ip_address
+      - name: Query Class
+        id: qclass
+      - name: Transport Protocol
+        id: transport_protocol
+      - name: DNS QClass
+        id: qClassName
+      - name: Severity
+        id: severity
+      - name: DNS View
+        id: view
+      - name: RRR3
+        id: rrr3_record
+      - name: Host OS Version
+        id: extra_os_version
+      - name: RRA
+        id: rra
+      - name: RDO
+        id: rdo
+      - name: QRR1
+        id: qrr1_record
+      - name: Anonymized
+        id: anonymized
+      - name: QAD
+        id: qad
+      - name: App
+        id: app
+      - name: DNS Packet Type
+        id: type
+      - name: Policy ID
+        id: pid
+      - name: Reply Code Number
+        id: rcode
+      - name: QRR3
+        id: qrr3_record
+      - name: RAD
+        id: rad
+      - name: Timestamp
+        id: timestamp
+        required: true
+      - name: Op Code
+        id: opcode
+      - name: User Name
+        id: extra_user_name
+      - name: RTC
+        id: rtc
+      - name: QTC
+        id: qtc
+      - name: DHCP Fingerprint
+        id: extra_dhcp_fingerprint
+      - name: DNS Request Flags
+        id: dns_request_flags
+      - name: Source Network
+        id: extra_network
+      - name: Destination Port
+        id: rport
+      - name: DNS Record
+        id: dns_record
+      - name: Message
+        id: msg
+      - name: Vendor Product
+        id: vendor_product
+      - name: Message Type
+        id: message_type
+      - name: Category
+        id: event_class
+      - name: Answer Count
+        id: ancount
+      - name: RQR
+        id: rqr
+      - name: Additional Answer Count
+        id: arcount
+      - name: DNS Response Flags
+        id: dns_response_flags
+      - name: RAA
+        id: raa
+      - name: Protocol
+        id: protocol
+      - name: Query URL
+        id: qname
+      - name: Query Type
+        id: query_type
+      - name: TTL
+        id: ttl_value
+      - name: DNS QFlags
+        id: qFlags
+      - name: Delay
+        id: delay
+      - name: QRA
+        id: qra
+      - name: QAA
+        id: qaa
+      - name: QRD
+        id: qrd
+      - name: Reply Code
+        id: reply_code
+      - name: Source MAC Address
+        id: src_mac
+      - name: QCD
+        id: qcd
+      - name: Source Device Name
+        id: extra_device_name
+      - name: DNS QType
+        id: qTypeName
+      - name: QDO
+        id: qdo
+      - name: RCD
+        id: rcd
+  ddi-dhcp:
+    id: "DDI_DHCP_LEASE_LOG"
+    title: "DDI DHCP Lease Log"
+    description: "DDI DHCP Lease Log"
+    sourceType: "SOURCE_BLOXONE"
+    kafkaSources:
+      - name: "ti-{{ .Values.env }}"
+        brokers: "{{ .Values.endpoint.kafkaTI }}"
+        topics: "dhcpenrichedleasedata"
+    sourceFields:
+      - name: Subnet
+        id: LeaseExtra_Subnet
+      - name: App
+        id: app
+      - name: Lifetime
+        id: Lease_Lifetime
+      - name: Host ID
+        id: LeaseExtra_HostID
+      - name: Leased Host name
+        id: Lease_Hostname
+      - name: Vendor Product
+        id: vendor_product
+      - name: Signature
+        id: signature
+      - name: Action
+        id: action
+      - name: Fingerprint
+        id: Lease_Fingerprint
+      - name: DHCP Options
+        id: dhcp_options
+      - name: User name
+        id: user
+      - name: Fingerprint PR
+        id: LeaseExtra_InfobloxFingerprintPr
+      - name: Severity
+        id: severity
+      - name: Lease Scope
+        id: LeaseExtra_LeaseScope
+      - name: Destination DUID
+        id: dest_duid
+      - name: Address
+        id: LeaseExtra_Address
+      - name: Host IP Address
+        id: host_ip
+      - name: IP Range Start
+        id: LeaseExtra_RangeStart
+      - name: Host name
+        id: host
+      - name: Category
+        id: cat
+      - name: Timestamp
+        id: timestamp
+        required: true
+      - name: IP Space Name
+        id: LeaseExtra_SpaceName
+      - name: Source MAC Address
+        id: LeaseExtra_Smac
+      - name: IP Range End
+        id: LeaseExtra_RangeEnd
+      - name: Lease UUID
+        id: Lease_LeaseUUID
+      - name: Client ID
+        id: LeaseExtra_ClientID
+  # SOURCE_NIOS data sources
+  query-response:
+    id: "QUERY_RESPONSE_LOG"
+    title: "Query/Response Log"
+    description: "Query/Response Log"
+    sourceType: "SOURCE_NIOS"
+    sourceFields:
+      - required: true
+        id: time
+        name: Time
+      - id: view
+        name: View
+      - id: qip
+        name: ClientIP
+      - id: qport
+        name: ClinetPort
+      - id: transport
+        name: Transport
+      - id: qname
+        name: Query Name
+      - id: queryFlags
+        name: Query Flags
+      - id: dst
+        name: Query Server
+      - id: responseRCode
+        name: ResponseRCode
+      - id: responseFlags
+        name: Response Flags
+      - id: responses
+        name: Responses
+      - id: external
+        name: External
+      - id: source
+        name: Source
+      - id: viewName
+        name: View Name
+      - id: delay
+        name: Delay
+      - id: src
+        name: Src
+      - id: spt
+        name: Spt
+      - id: proto
+        name: Proto
+      - id: InfobloxDNSView
+        name: InfobloxDNSView
+      - id: InfobloxAnCount
+        name: InfobloxAnCount
+      - id: InfobloxNsCount
+        name: InfobloxNsCount
+      - id: InfobloxArCount
+        name: InfobloxArCount
+      - id: CEF
+        name: CEF
+      - id: cat
+        name: Cat
+      - id: sev
+        name: Sev
+      - id: url
+        name: Url
+      - id: timestamp
+        name: Timestamp
+      - id: nanosec
+        name: Nanosec
+      - id: additional_answer_count
+        name: Additional Answer Count
+      - id: answer
+        name: Answer
+      - id: answer_count
+        name: Answer Count
+      - id: authority_answer_count
+        name: Authority Answer Count
+      - id: dest
+        name: Dest
+      - id: dest_port
+        name: Dest Port
+      - id: message_type
+        name: Message Type
+      - id: query
+        name: Query
+      - id: query_count
+        name: Query Count
+      - id: query_type
+        name: Query Type
+      - id: record_type
+        name: Record Type
+      - id: reply_code
+        name: Reply Code
+      - id: reply_code_id
+        name: Reply Code ID
+      - id: src_port
+        name: Src Port
+      - id: transaction_id
+        name: Transaction ID
+      - id: ttl
+        name: Ttl
+      - id: vendor_product
+        name: Vendor Product
+      - id: query_class
+        name: Query Class
+      - id: opcode
+        name: OpCode
+      - id: source_id
+        name: Source ID
+      - id: dns_packet_type
+        name: Dns Packet Type
+      - id: qqr
+        name: Qqr
+      - id: qaa
+        name: Qaa
+      - id: qtc
+        name: Qtc
+      - id: qrd
+        name: Qrd
+      - id: qra
+        name: Qra
+      - id: qad
+        name: Qad
+      - id: qcd
+        name: Qcd
+      - id: qdo
+        name: Qdo
+      - id: rpr
+        name: Rpr
+      - id: raa
+        name: Raa
+      - id: rtc
+        name: Rtc
+      - id: rrd
+        name: Rrd
+      - id: rra
+        name: Rra
+      - id: rad
+        name: Rad
+      - id: rcd
+        name: Rcd
+      - id: rdo
+        name: Rdo
+      - id: dns_record
+        name: Dns Record
+      - id: dns_view
+        name: Dns View
+      - id: anonymized
+        name: Anonymized
+      - id: policy_id
+        name: Policy ID
+      - id: client_id
+        name: Client ID
+      - id: time-msec
+        name: Time Msec
+      - id: src_ip
+        name: Src IP
+      - id: query_source
+        name: Query Source
+      - id: flag_recursion
+        name: Flag recursion
+      - id: flag_aa
+        name: Flag aa
+      - id: flag_tc
+        name: Flag tc
+      - id: flag_ad
+        name: Flag ad
+      - id: flag_cd
+        name: Flag cd
+      - id: flag_edns
+        name: Flag edns
+      - id: flag_edns_do
+        name: Flag edns do
+      - id: flag_tsig
+        name: Flag tsig
+      - id: flag_gslb
+        name: Flag gsib
+      - id: name
+        name: Name
+      - id: host_class
+        name: Host Class
+      - id: host_type
+        name: Host Type
+      - id: rdata
+        name: Rdata
+      - id: nameservers_count
+        name: Nameserverts Count
+      - id: additional_records_count
+        name: Additional Records Count
+      - id: app
+        name: App
+      - id: timestamp_nanosec
+        name: Timestamp Nanosec
+  ipam-metadata:
+    id: "IPAM_METADATA"
+    title: "IPAM Metadata/DHCP Lease Information"
+    description: "IPAM Metadata/DHCP Lease Information"
+    sourceType: "SOURCE_NIOS"
+  rpz-log:
+    id: "RPZ_LOG"
+    title: "RPZ Logs"
+    description: "RPZ Logs"
+    sourceType: "SOURCE_NIOS"
+    sourceFields:
+      - required: true
+        id: host
+        name: Host
+      - id: vendor
+        name: Vendor
+      - id: name
+        name: Name
+      - id: version
+        name: Version
+      - id: tcode
+        name: Trigger Code
+      - id: acode
+        name: ACode
+      - id: syslogseverity
+        name: Syslog Serverity
+      - id: qip
+        name: Source IP
+      - id: qport
+        name: Source Port
+      - id: rip
+        name: Destination IP
+      - id: qname
+        name: Query Name
+      - id: tname
+        name: TName
+      - id: anonymized
+        name: Anonymized
+      - id: isexternal
+        name: Is External
+      - id: disabled
+        name: Disabled
+      - id: timestamp
+        name: Timestamp
+      - id: view
+        name: View
+      - id: dst
+        name: Dst
+      - id: src
+        name: Src
+      - id: spt
+        name: Spt
+      - id: InfobloxDNSView
+        name: InfobloxDNSView
+      - id: InfobloxDNSQType
+        name: InfobloxDNSQType
+      - id: msg
+        name: Msg
+      - id: rewrite
+        name: Rewrite
+      - id: act
+        name: Act
+      - id: destinationDnsDomain
+        name: DestinationDnsDomain
+      - id: InfobloxRPZRule
+        name: InfobloxRPZRule
+      - id: InfobloxRPZ
+        name: InfobloxRPZ
+      - id: nanosec
+        name: Nanosec
+      - id: pvendor
+        name: Pvendor
+      - id: pname
+        name: Pname
+      - id: loglevel
+        name: LogLevel
+      - id: action
+        name: Action
+      - id: category
+        name: Category
+      - id: dest_port
+        name: Dest Port
+      - id: ids_type
+        name: Ids Type
+      - id: severity
+        name: Serverity
+      - id: signature
+        name: Signature
+      - id: src_port
+        name: Src Port
+      - id: transport
+        name: Transport
+      - id: user
+        name: User
+      - id: vendor_product
+        name: Vendor Product
+      - id: opcode
+        name: Opcode
+      - id: rpz_trigger_code
+        name: RPZ Trigger Code
+      - id: arrtype
+        name: ArrType
+      - id: arrdata
+        name: ArrData
+      - id: query_type
+        name: Query Type
+      - id: query_class
+        name: Query Class
+      - id: source_id
+        name: Source ID
+      - id: dns_view
+        name: DNS View
+      - id: rule_disabled
+        name: Rule DIsabled
+      - id: transaction_id
+        name: Transaction ID
+      - id: policy_id
+        name: Policy ID
+      - id: client_id
+        name: Client ID
+      - id: src_mac
+        name: Src_mac
+      - id: client_site_id
+        name: Csite
+      - id: threat_property
+        name: Threat_property
+      - id: threat_confidence
+        name: Threat_confidence
+      - id: threat_level
+        name: Threat_level
+      - id: dns_domain_category
+        name: Qcat
+      - id: pversion
+        name: Pversion
+      - id: cat
+        name: EventCategory
+      - id: sev
+        name: Severity
+      - id: url
+        name: Url
+      - id: app
+        name: App
+
+env: stg-1
+
+image:
+  repository: core-harbor-prod.sdp.infoblox.com/infobloxcto/cdc.flow.api
+  tag: ""
+  pullPolicy: Always
+
+migrate:
+  goMigration:
+    enabled: true
+    socInsights:
+      enabled: true
+  image: 
+    repository: core-harbor-prod.sdp.infoblox.com/infoblox/migrate 
+    tag: 1.0.1-559-g2d48d39-j2
+    pullPolicy: Always
+
+service:
+  appName: "cdc-flow"
+  type: ClusterIP
+  http:
+    name: http
+    port: 8080
+  grpc:
+    name: grpc
+    port: 9090
+  internal:
+    name: internal
+    port: 8081
+  dataSourceSyncer:
+    name: datasource
+    port: 9092
+
+logging:
+  database: false
+  level: info 
+
+vpa:
+  enabled: true
+  autoscalingInterval: 180s # in seconds
+  cpuHighThreshold: 90.0 # in percent
+  cpuLowThreshold: 40.0 # in percent
+  memoryHighThreshold: 90.0 # in percent
+  memoryLowThreshold: 40.0 # in percent
+  scaleUpFactor: 1.5 # Scale up by 50%
+  scaleDownFactor: 0.5 # Scale down by 50%
+  # Default limits for CPU and Memory
+  defaultMemoryRequests: "100Mi"
+  defaultMemoryLimits: "200Mi"
+  defaultCPURequests: "30m"
+  defaultCPULimits: "1"
+  # Max limits for CPU and Memory
+  maxMemoryRequests: "200Mi"
+  maxMemoryLimits: "400Mi"
+  maxCPURequests: "60m"
+  maxCPULimits: "2"
+  metricsHistoryDuration: 6 # 6 intervals of history (assuming 10-second intervals, this is 1 minute)
+
+pubsub:
+  enable: true
+  hostapp:
+    onpremTopic: "hostapp-onprem"
+    onpremUlTopic: "hostapp-onprem-ul"
+    serviceTopic: "csp-host-app-service"
+    pool: "hostapp-pool"
+    service: "hostapp-service"
+    host: "hostapp-host"
+  flowapi:
+    flowApiTopic: "cdc-flow"
+
+eventServer:
+  publisher:
+    applicationId: "event_publisher"
+    location: "cdc-flow-api-service"
+    notificationPort: 50001
+    productName: "cdc_flow_api"
+    pubsubName: "notifications-dapr-component"
+    notificationTopic: events-{{ .Values.env }}-lpq
+    cdcIntegrationSubType: "integration_version_detected"
+    severity: "low"
+
+dapr:
+  enabled: true
+  metrics:
+    port: 10090
+  subscriber:
+    port: 8082
+    protocol: grpc
+  publisher:
+    enabled: true
+    address: "0.0.0.0"
+    port: 50001
+    timeout: 5s
+    cudTopicName: cdc-flow-{{ .Values.env }}
+    notificationTopicName: events-{{ .Values.env }}-lpq
+    reclaimPolicy: Retain
+    partitions: 1
+    replicationFactor: 1
+  component:
+    region: us-east-1
+    cudName: "cud-dapr-component"
+    pubSubName: "pubsub-dapr-component"
+    notificationsName: "notifications-dapr-component"
+    type: pubsub.kafka
+    address: "{{ .Values.endpoint.kafka }}"
+    host: brokers
+    authType: none
+    disableTls: "true"
+  messageVisibilityTimeout: 10
+  messageRetryLimit: 10
+  messageWaitTimeSeconds: 1
+  messageMaxNumber: 10
+  resources:
+    requests:
+      cpu: 30m
+      memory: 100Mi
+    limits:
+      cpu: 60m
+      memory: 200Mi
+  podAnnotations:
+    dapr.io/enabled: "{{ .Values.dapr.enabled }}"
+    dapr.io/metrics-port: "{{ .Values.dapr.metrics.port }}"
+    dapr.io/app-id: "cdc-flow"
+    dapr.io/app-protocol: "{{ .Values.dapr.subscriber.protocol }}"
+    dapr.io/app-port: "{{ .Values.dapr.subscriber.port }}"
+    dapr.io/log-level: "{{ .Values.logging.level }}"
+    dapr.io/sidecar-cpu-limit: "{{ .Values.dapr.resources.limits.cpu }}"
+    dapr.io/sidecar-cpu-request: "{{ .Values.dapr.resources.requests.cpu }}"
+    dapr.io/sidecar-memory-limit: "{{ .Values.dapr.resources.limits.memory }}"
+    dapr.io/sidecar-memory-request: "{{ .Values.dapr.resources.requests.memory }}"
+
+authz:
+  method: opa
+  namespace: authz
+  granular:
+    enabled: true
+
+authURL: ""
+
+auditlog:
+  enable: true
+
+tagging:
+  enable: true
+
+hostapp:
+  namespace: hostapp
+  serviceName: hostapp
+  port: 80
+  grpcPort: "9091"
+
+statusService:
+  enable: true
+
+flowapi:
+  namespace: cdc-flow
+  serviceName: cdc-flow-api
+  port: "9090"
+
+secrets:
+  enabled: false
+
+space:
+  enabled: true
+
+ingress:
+  enabled: true
+  host: csp-host
+  tls:
+    enabled: false
+  annotations:
+    nginx.ingress.kubernetes.io/limit-rps: "300"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+
+serviceAccount:
+  enabled: true
+  name: ibcto
+
+db:
+  host: cdc-flow-host
+  name: cdcflow
+  user: cdcflow_user
+  pass: postgres
+  port: "5432"
+  sslMode: require
+  type: postgres
+  useExisting: false
+  secretName: cdc-flow-dsn-use-existing
+  version: "15.5"
+
+vault:
+  cdcflow-db:
+    description: password of cdc-flow database
+    path: "/{{ .Values.env }}/cdc-flow/cdc-flow-db-secret"
+    type: Opaque
+    keys:
+      - "{{ .Values.valutDBPassKey }}"
+  cspcert:
+    description: csp cert for ingress
+    path: /certs/csp-cert
+    type: kubernetes.io/tls
+    keys:
+      - csp
+vaultAccess:
+  enabled: true
+  vaultPath: "/{{ .Values.env }}/cdc"
+  vaultKey: vault-secrets
+  secretName: vault-secrets
+  refresh:
+    ahead: 30m
+    wait: 30s
+
+svcTokenSecretName: svcsvctoken
+imagePullSecretName: imagepullsecret
+dbSecretName: cdcflow-db
+cspCertSecretName: cspcert
+
+valutDBPassKey: password
+
+endpoint:
+  hostapp: ""
+  kafka: ""
+
+grpcEndpoint:
+  authz: ""
+  pubsub: ""
+  auditlog: ""
+  taggingV2: ""
+  statusservice: ""
+  hostapp: ""
+
+keystore:
+  address: http://key-store-service.key-store.svc.cluster.local:8080
+  path: /key-store/v2/keys
+
+granular:
+  permission:
+    view: data-connector-view
+    manage: data-connector-manage
+
+# authz
+RoleAssignments:
+  admin-read-write:
+    subjectgroups:
+      - administrators
+      - infoblox-admin
+      - infoblox-provision
+      - infoblox-cicd
+      - infoblox-x-marketplace-controller-admin
+    roles:
+      - admin-access
+      - user-access
+    resourcegroups:
+      - all-resources
+  users-read-only:
+    subjectgroups:
+      - all-users
+      - infoblox-readonly
+    roles:
+      - user-access
+    resourcegroups:
+      - all-resources
+  service-to-service:
+    subjectgroups:
+      - interservice
+    roles:
+      - admin-access
+      - user-access
+    resourcegroups:
+      - all-services
+Roles:
+  user-access:
+    - cdc-flow-read
+  admin-access:
+    - cdc-flow-write
+    - cdc-flow-config-read
+    - cdc-flow-support-read
+Permissions:
+  cdc-flow-config-read:
+    - ConfigApi.ReadConfigEtl
+    - ConfigApi.ReadConfigSource
+    - ConfigApi.ReadConfigDestination
+    - ConfigApi.ReadConfigFlow
+    - ConfigApi.ListConfigFlow
+  cdc-flow-read:
+    - EtlFilterApi.ReadEtlFilterFqdn
+    - EtlFilterApi.ListEtlFilterFqdn
+    - EtlFilterApi.ReadEtlFilterIpNetwork
+    - EtlFilterApi.ListEtlFilterIpNetwork
+    - EtlFilterApi.ReadEtlFilterRegex
+    - EtlFilterApi.ListEtlFilterRegex
+    - EtlFilterApi.ReadEtlFilterRecordType
+    - EtlFilterApi.ListEtlFilterRecordType
+    - EtlFilterApi.ReadEtlFilterOphid
+    - EtlFilterApi.ListEtlFilterOphid
+    - EtlFilterApi.ReadEtlFilterHostname
+    - EtlFilterApi.ListEtlFilterHostname
+    - EtlFilterApi.ReadEtlFilterLocalZones
+    - EtlFilterApi.ListEtlFilterLocalZones
+    - EtlFilterApi.ReadEtlFilterThreatClassProperty
+    - EtlFilterApi.ListEtlFilterThreatClassProperty
+    - EtlFilterApi.ReadEtlFilter
+    - EtlFilterApi.ListEtlFilter
+    - EtlFilterApi.ListEtlFilterIngress
+    - SourceApi.ReadSourceNios
+    - SourceApi.ListSourceNios
+    - SourceApi.ReadSourceBloxone
+    - SourceApi.ListSourceBloxone
+    - SourceApi.ReadSourceSchedule
+    - SourceApi.ListSourceSchedule
+    - SourceApi.ReadSource
+    - SourceApi.ListSource
+    - DestinationApi.ReadDestinationReporting
+    - DestinationApi.ListDestinationReporting
+    - DestinationApi.ReadDestinationBloxone
+    - DestinationApi.ListDestinationBloxone
+    - DestinationApi.ReadDestinationSplunk
+    - DestinationApi.ListDestinationSplunk
+    - DestinationApi.ReadDestinationHttp
+    - DestinationApi.ListDestinationHttp
+    - DestinationApi.ReadDestinationSplunkCloud
+    - DestinationApi.ListDestinationSplunkCloud
+    - DestinationApi.ReadDestinationSyslog
+    - DestinationApi.ListDestinationSyslog
+    - DestinationApi.ReadDestinationApplication
+    - DestinationApi.ListDestinationApplication
+    - DestinationApi.ReadDestination
+    - DestinationApi.ListDestination
+    - ApplicationApi.ReadApplicationData
+    - ApplicationApi.ListApplicationData
+    - ApplicationApi.ReadApplication
+    - ApplicationApi.ListApplication
+    - HostApi.ReadCdcHost
+    - HostApi.ListCdcHost
+    - HostApi.ReadHost
+    - HostApi.ListHost
+    - ServiceApi.ReadCdcService
+    - ServiceApi.ListCdcService
+    - ServiceApi.ReadService
+    - ServiceApi.ListService
+    - FlowApi.ReadFlowData
+    - FlowApi.ListFlowData
+    - FlowApi.ReadFlow
+    - FlowApi.ListFlow
+    - FlowApiV2.ReadFlowDataV2
+    - FlowApiV2.ListFlowDataV2
+    - FlowApiV2.ReadFlowV2
+    - FlowApiV2.ListFlowV2
+    - DataSourceApi.ReadDataSource
+    - DataSourceApi.ListDataSources
+    - DataSourceApi.ReadInternalDataSource
+    - DataSourceApi.ListInternalDataSources
+    - ScriptApi.ReadScriptData
+    - ScriptApi.ReadApplicationsProductData
+  cdc-flow-write:
+    - EtlFilterApi.CreateEtlFilterFqdn
+    - EtlFilterApi.UpdateEtlFilterFqdn
+    - EtlFilterApi.DeleteEtlFilterFqdn
+    - EtlFilterApi.ListDeleteEtlFilterFqdn
+    - EtlFilterApi.CreateEtlFilterIpNetwork
+    - EtlFilterApi.UpdateEtlFilterIpNetwork
+    - EtlFilterApi.DeleteEtlFilterIpNetwork
+    - EtlFilterApi.ListDeleteEtlFilterIpNetwork
+    - EtlFilterApi.CreateEtlFilterRegex
+    - EtlFilterApi.UpdateEtlFilterRegex
+    - EtlFilterApi.DeleteEtlFilterRegex
+    - EtlFilterApi.ListDeleteEtlFilterRegex
+    - EtlFilterApi.CreateEtlFilterOphid
+    - EtlFilterApi.UpdateEtlFilterOphid
+    - EtlFilterApi.DeleteEtlFilterOphid
+    - EtlFilterApi.ListDeleteEtlFilterOphid
+    - EtlFilterApi.CreateEtlFilterHostname
+    - EtlFilterApi.UpdateEtlFilterHostname
+    - EtlFilterApi.DeleteEtlFilterHostname
+    - EtlFilterApi.ListDeleteEtlFilterHostname
+    - EtlFilterApi.CreateEtlFilterRecordType
+    - EtlFilterApi.UpdateEtlFilterRecordType
+    - EtlFilterApi.DeleteEtlFilterRecordType
+    - EtlFilterApi.ListDeleteEtlFilterRecordType
+    - EtlFilterApi.CreateEtlFilterThreatClassProperty
+    - EtlFilterApi.UpdateEtlFilterThreatClassProperty
+    - EtlFilterApi.DeleteEtlFilterThreatClassProperty
+    - EtlFilterApi.ListDeleteEtlFilterThreatClassProperty
+    - EtlFilterApi.ListDeleteEtlFilter
+    - EtlFilterApi.ListDeleteEtlFilterIngress
+    - EtlFilterApi.DeleteEtlFilter
+    - EtlFilterApi.DeleteEtlFilterIngress
+    - SourceApi.CreateSourceNios
+    - SourceApi.UpdateSourceNios
+    - SourceApi.DeleteSourceNios
+    - SourceApi.ListDeleteSourceNios
+    - SourceApi.ListDeleteSource
+    - SourceApi.DeleteSource
+    - DestinationApi.CreateDestinationReporting
+    - DestinationApi.UpdateDestinationReporting
+    - DestinationApi.DeleteDestinationReporting
+    - DestinationApi.ListDeleteDestinationReporting
+    - DestinationApi.CreateDestinationSplunk
+    - DestinationApi.UpdateDestinationSplunk
+    - DestinationApi.DeleteDestinationSplunk
+    - DestinationApi.ListDeleteDestinationSplunk
+    - DestinationApi.CreateDestinationHttp
+    - DestinationApi.UpdateDestinationHttp
+    - DestinationApi.DeleteDestinationHttp
+    - DestinationApi.ListDeleteDestinationHttp
+    - DestinationApi.CreateDestinationSplunkCloud
+    - DestinationApi.UpdateDestinationSplunkCloud
+    - DestinationApi.DeleteDestinationSplunkCloud
+    - DestinationApi.BulkDeleteDestinationSplunkCloud
+    - DestinationApi.CreateDestinationSyslog
+    - DestinationApi.UpdateDestinationSyslog
+    - DestinationApi.DeleteDestinationSyslog
+    - DestinationApi.ListDeleteDestinationSyslog
+    - DestinationApi.CreateDestinationApplication
+    - DestinationApi.UpdateDestinationApplication
+    - DestinationApi.DeleteDestinationApplication
+    - DestinationApi.ListDeleteDestinationApplication
+    - DestinationApi.ListDeleteDestination
+    - DestinationApi.DeleteDestination
+    - ApplicationApi.CreateApplicationData
+    - ApplicationApi.UpdateApplicationData
+    - ApplicationApi.DeleteApplicationData
+    - ApplicationApi.ListDeleteApplicationData
+    - ApplicationApi.DeleteApplication
+    - ApplicationApi.ListDeleteApplication
+    - ApplicationApi.PublishVersionUpdateNotification
+    - FlowApi.CreateFlowData
+    - FlowApi.UpdateFlowData
+    - FlowApi.DeleteFlowData
+    - FlowApi.ListDeleteFlowData
+    - FlowApi.ListDeleteFlow
+    - FlowApi.DeleteFlow
+    - FlowApiV2.CreateFlowDataV2
+    - FlowApiV2.UpdateFlowDataV2
+    - FlowApiV2.DeleteFlowDataV2
+    - FlowApiV2.ListDeleteFlowDataV2
+    - FlowApiV2.ListDeleteFlowV2
+    - FlowApiV2.DeleteFlowV2
+    - ConfigCheckerApi.CheckConfig
+    - SubscriptionApi.CreateSubscriptionData
+    - SubscriptionApi.UpdateSubscriptionData
+    - SubscriptionApi.DeleteSubscriptionData
+    - ScriptApi.CreateScriptData
+    - ScriptApi.CreateApplicationsProductData
+    - ScriptApi.UpdateScriptData
+    - ScriptApi.UpdateApplicationsProductData
+    - ScriptApi.DeleteScriptData
+    - ScriptApi.DeleteApplicationsProductData
+  cdc-flow-support-read:
+    - SupportApi.Support
+    - SupportApiV2.SupportV2
+Features:
+  support:
+    - SupportApi.Support
+    - SupportApiV2.SupportV2
+  cloud-data-connector-application:
+    - ApplicationApi.ReadApplicationData
+    - ApplicationApi.ListApplicationData
+    - ApplicationApi.CreateApplicationData
+    - ApplicationApi.UpdateApplicationData
+    - ApplicationApi.DeleteApplicationData
+    - ApplicationApi.ListDeleteApplicationData
+    - ApplicationApi.ReadApplication
+    - ApplicationApi.ListApplication
+    - ApplicationApi.DeleteApplication
+    - ApplicationApi.ListDeleteApplication
+    - DestinationApi.ReadDestinationApplication
+    - DestinationApi.ListDestinationApplication
+    - DestinationApi.CreateDestinationApplication
+    - DestinationApi.UpdateDestinationApplication
+    - DestinationApi.DeleteDestinationApplication
+    - DestinationApi.ListDeleteDestinationApplication
+  cloud-data-connector-automation:
+    - ApplicationApi.ReadApplicationData
+    - ApplicationApi.ListApplicationData
+    - ApplicationApi.CreateApplicationData
+    - ApplicationApi.UpdateApplicationData
+    - ApplicationApi.DeleteApplicationData
+    - ApplicationApi.ListDeleteApplicationData
+    - ApplicationApi.ReadApplication
+    - ApplicationApi.ListApplication
+    - ApplicationApi.DeleteApplication
+    - ApplicationApi.ListDeleteApplication
+    - DestinationApi.ReadDestinationApplication
+    - DestinationApi.ListDestinationApplication
+    - DestinationApi.CreateDestinationApplication
+    - DestinationApi.UpdateDestinationApplication
+    - DestinationApi.DeleteDestinationApplication
+    - DestinationApi.ListDeleteDestinationApplication
+  cloud-data-connector:
+    - EtlFilterApi.ReadEtlFilterFqdn
+    - EtlFilterApi.ListEtlFilterFqdn
+    - EtlFilterApi.CreateEtlFilterFqdn
+    - EtlFilterApi.UpdateEtlFilterFqdn
+    - EtlFilterApi.DeleteEtlFilterFqdn
+    - EtlFilterApi.ListDeleteEtlFilterFqdn
+    - EtlFilterApi.ReadEtlFilterIpNetwork
+    - EtlFilterApi.ListEtlFilterIpNetwork
+    - EtlFilterApi.CreateEtlFilterIpNetwork
+    - EtlFilterApi.UpdateEtlFilterIpNetwork
+    - EtlFilterApi.DeleteEtlFilterIpNetwork
+    - EtlFilterApi.ListDeleteEtlFilterIpNetwork
+    - EtlFilterApi.ReadEtlFilterRegex
+    - EtlFilterApi.ListEtlFilterRegex
+    - EtlFilterApi.CreateEtlFilterRegex
+    - EtlFilterApi.UpdateEtlFilterRegex
+    - EtlFilterApi.DeleteEtlFilterRegex
+    - EtlFilterApi.ListDeleteEtlFilterRegex
+    - EtlFilterApi.ReadEtlFilterOphid
+    - EtlFilterApi.ListEtlFilterOphid
+    - EtlFilterApi.CreateEtlFilterOphid
+    - EtlFilterApi.UpdateEtlFilterOphid
+    - EtlFilterApi.DeleteEtlFilterOphid
+    - EtlFilterApi.ListDeleteEtlFilterOphid
+    - EtlFilterApi.ReadEtlFilterHostname
+    - EtlFilterApi.ListEtlFilterHostname
+    - EtlFilterApi.CreateEtlFilterHostname
+    - EtlFilterApi.UpdateEtlFilterHostname
+    - EtlFilterApi.DeleteEtlFilterHostname
+    - EtlFilterApi.ListDeleteEtlFilterHostname
+    - EtlFilterApi.ReadEtlFilterRecordType
+    - EtlFilterApi.ListEtlFilterRecordType
+    - EtlFilterApi.CreateEtlFilterRecordType
+    - EtlFilterApi.UpdateEtlFilterRecordType
+    - EtlFilterApi.DeleteEtlFilterRecordType
+    - EtlFilterApi.ListDeleteEtlFilterRecordType
+    - EtlFilterApi.ReadEtlFilterLocalZones
+    - EtlFilterApi.ListEtlFilterLocalZones
+    - EtlFilterApi.ReadEtlFilterThreatClassProperty
+    - EtlFilterApi.ListEtlFilterThreatClassProperty
+    - EtlFilterApi.CreateEtlFilterThreatClassProperty
+    - EtlFilterApi.UpdateEtlFilterThreatClassProperty
+    - EtlFilterApi.DeleteEtlFilterThreatClassProperty
+    - EtlFilterApi.ListDeleteEtlFilterThreatClassProperty
+    - EtlFilterApi.ReadEtlFilter
+    - EtlFilterApi.ListEtlFilter
+    - EtlFilterApi.ListEtlFilterIngress
+    - EtlFilterApi.ListDeleteEtlFilter
+    - EtlFilterApi.ListDeleteEtlFilterIngress
+    - EtlFilterApi.DeleteEtlFilter
+    - EtlFilterApi.DeleteEtlFilterIngress
+    - SourceApi.ReadSourceNios
+    - SourceApi.ListSourceNios
+    - SourceApi.CreateSourceNios
+    - SourceApi.UpdateSourceNios
+    - SourceApi.DeleteSourceNios
+    - SourceApi.ListDeleteSourceNios
+    - SourceApi.ReadSourceBloxone
+    - SourceApi.ListSourceBloxone
+    - SourceApi.ReadSourceSchedule
+    - SourceApi.ListSourceSchedule
+    - SourceApi.ReadSource
+    - SourceApi.ListSource
+    - SourceApi.ListDeleteSource
+    - SourceApi.DeleteSource
+    - DestinationApi.ReadDestinationReporting
+    - DestinationApi.ListDestinationReporting
+    - DestinationApi.CreateDestinationReporting
+    - DestinationApi.UpdateDestinationReporting
+    - DestinationApi.DeleteDestinationReporting
+    - DestinationApi.ListDeleteDestinationReporting
+    - DestinationApi.ReadDestinationBloxone
+    - DestinationApi.ListDestinationBloxone
+    - DestinationApi.ReadDestinationSplunk
+    - DestinationApi.ListDestinationSplunk
+    - DestinationApi.CreateDestinationSplunk
+    - DestinationApi.UpdateDestinationSplunk
+    - DestinationApi.DeleteDestinationSplunk
+    - DestinationApi.ListDeleteDestinationSplunk
+    - DestinationApi.ReadDestinationHttp
+    - DestinationApi.ListDestinationHttp
+    - DestinationApi.CreateDestinationHttp
+    - DestinationApi.UpdateDestinationHttp
+    - DestinationApi.DeleteDestinationHttp
+    - DestinationApi.ListDeleteDestinationHttp
+    - DestinationApi.CreateDestinationSplunkCloud
+    - DestinationApi.UpdateDestinationSplunkCloud
+    - DestinationApi.DeleteDestinationSplunkCloud
+    - DestinationApi.BulkDeleteDestinationSplunkCloud
+    - DestinationApi.ReadDestinationSplunkCloud
+    - DestinationApi.ListDestinationSplunkCloud
+    - DestinationApi.ReadDestinationSyslog
+    - DestinationApi.ListDestinationSyslog
+    - DestinationApi.CreateDestinationSyslog
+    - DestinationApi.UpdateDestinationSyslog
+    - DestinationApi.DeleteDestinationSyslog
+    - DestinationApi.ListDeleteDestinationSyslog
+    - DestinationApi.ReadDestination
+    - DestinationApi.ListDestination
+    - DestinationApi.ListDeleteDestination
+    - DestinationApi.DeleteDestination
+    - HostApi.ReadCdcHost
+    - HostApi.ListCdcHost
+    - HostApi.ReadHost
+    - HostApi.ListHost
+    - ServiceApi.ReadCdcService
+    - ServiceApi.ListCdcService
+    - ServiceApi.ReadService
+    - ServiceApi.ListService
+    - FlowApi.ReadFlowData
+    - FlowApi.ListFlowData
+    - FlowApi.CreateFlowData
+    - FlowApi.UpdateFlowData
+    - FlowApi.DeleteFlowData
+    - FlowApi.ListDeleteFlowData
+    - FlowApi.ReadFlow
+    - FlowApi.ListFlow
+    - FlowApi.ListDeleteFlow
+    - FlowApi.DeleteFlow
+    - FlowApiV2.ReadFlowDataV2
+    - FlowApiV2.ListFlowDataV2
+    - FlowApiV2.CreateFlowDataV2
+    - FlowApiV2.UpdateFlowDataV2
+    - FlowApiV2.DeleteFlowDataV2
+    - FlowApiV2.ListDeleteFlowDataV2
+    - FlowApiV2.ReadFlowV2
+    - FlowApiV2.ListFlowV2
+    - FlowApiV2.ListDeleteFlowV2
+    - FlowApiV2.DeleteFlowV2
+    - ConfigApi.ReadConfigEtl
+    - ConfigApi.ReadConfigSource
+    - ConfigApi.ReadConfigDestination
+    - ConfigApi.ReadConfigFlow
+    - ConfigApi.ListConfigFlow
+    - DataSourceApi.ReadDataSource
+    - DataSourceApi.ListDataSources
+    - DataSourceApi.ReadInternalDataSource
+    - DataSourceApi.ListInternalDataSources
+    - ConfigCheckerApi.CheckConfig
+    - SubscriptionApi.CreateSubscriptionData
+    - SubscriptionApi.UpdateSubscriptionData
+    - SubscriptionApi.DeleteSubscriptionData
+    - ScriptApi.CreateScriptData
+    - ScriptApi.CreateApplicationsProductData
+    - ScriptApi.UpdateScriptData
+    - ScriptApi.UpdateApplicationsProductData
+    - ScriptApi.DeleteScriptData
+    - ScriptApi.DeleteApplicationsProductData
+  cloud-data-connector-cloud:
+    - EtlFilterApi.ReadEtlFilterFqdn
+    - EtlFilterApi.ListEtlFilterFqdn
+    - EtlFilterApi.CreateEtlFilterFqdn
+    - EtlFilterApi.UpdateEtlFilterFqdn
+    - EtlFilterApi.DeleteEtlFilterFqdn
+    - EtlFilterApi.ListDeleteEtlFilterFqdn
+    - EtlFilterApi.ReadEtlFilterIpNetwork
+    - EtlFilterApi.ListEtlFilterIpNetwork
+    - EtlFilterApi.CreateEtlFilterIpNetwork
+    - EtlFilterApi.UpdateEtlFilterIpNetwork
+    - EtlFilterApi.DeleteEtlFilterIpNetwork
+    - EtlFilterApi.ListDeleteEtlFilterIpNetwork
+    - EtlFilterApi.ReadEtlFilterRegex
+    - EtlFilterApi.ListEtlFilterRegex
+    - EtlFilterApi.CreateEtlFilterRegex
+    - EtlFilterApi.UpdateEtlFilterRegex
+    - EtlFilterApi.DeleteEtlFilterRegex
+    - EtlFilterApi.ListDeleteEtlFilterRegex
+    - EtlFilterApi.ReadEtlFilterOphid
+    - EtlFilterApi.ListEtlFilterOphid
+    - EtlFilterApi.CreateEtlFilterOphid
+    - EtlFilterApi.UpdateEtlFilterOphid
+    - EtlFilterApi.DeleteEtlFilterOphid
+    - EtlFilterApi.ListDeleteEtlFilterOphid
+    - EtlFilterApi.ReadEtlFilterHostname
+    - EtlFilterApi.ListEtlFilterHostname
+    - EtlFilterApi.CreateEtlFilterHostname
+    - EtlFilterApi.UpdateEtlFilterHostname
+    - EtlFilterApi.DeleteEtlFilterHostname
+    - EtlFilterApi.ListDeleteEtlFilterHostname
+    - EtlFilterApi.ReadEtlFilterRecordType
+    - EtlFilterApi.ListEtlFilterRecordType
+    - EtlFilterApi.CreateEtlFilterRecordType
+    - EtlFilterApi.UpdateEtlFilterRecordType
+    - EtlFilterApi.DeleteEtlFilterRecordType
+    - EtlFilterApi.ListDeleteEtlFilterRecordType
+    - EtlFilterApi.ReadEtlFilterLocalZones
+    - EtlFilterApi.ListEtlFilterLocalZones
+    - EtlFilterApi.ReadEtlFilterThreatClassProperty
+    - EtlFilterApi.ListEtlFilterThreatClassProperty
+    - EtlFilterApi.CreateEtlFilterThreatClassProperty
+    - EtlFilterApi.UpdateEtlFilterThreatClassProperty
+    - EtlFilterApi.DeleteEtlFilterThreatClassProperty
+    - EtlFilterApi.ListDeleteEtlFilterThreatClassProperty
+    - EtlFilterApi.ReadEtlFilter
+    - EtlFilterApi.ListEtlFilter
+    - EtlFilterApi.ListEtlFilterIngress
+    - EtlFilterApi.ListDeleteEtlFilter
+    - EtlFilterApi.ListDeleteEtlFilterIngress
+    - EtlFilterApi.DeleteEtlFilter
+    - EtlFilterApi.DeleteEtlFilterIngress
+    - SourceApi.ReadSourceBloxone
+    - SourceApi.ListSourceBloxone
+    - SourceApi.ReadSourceSchedule
+    - SourceApi.ListSourceSchedule
+    - SourceApi.ReadSource
+    - SourceApi.ListSource
+    - SourceApi.ListDeleteSource
+    - SourceApi.DeleteSource
+    - DestinationApi.ReadDestinationHttp
+    - DestinationApi.ListDestinationHttp
+    - DestinationApi.CreateDestinationHttp
+    - DestinationApi.UpdateDestinationHttp
+    - DestinationApi.DeleteDestinationHttp
+    - DestinationApi.ListDeleteDestinationHttp
+    - DestinationApi.ReadDestinationSyslog
+    - DestinationApi.ListDestinationSyslog
+    - DestinationApi.CreateDestinationSyslog
+    - DestinationApi.UpdateDestinationSyslog
+    - DestinationApi.DeleteDestinationSyslog
+    - DestinationApi.ListDeleteDestinationSyslog
+    - DestinationApi.ReadDestination
+    - DestinationApi.ListDestination
+    - DestinationApi.ListDeleteDestination
+    - DestinationApi.DeleteDestination
+    - HostApi.ReadCdcHost
+    - HostApi.ListCdcHost
+    - HostApi.ReadHost
+    - HostApi.ListHost
+    - ServiceApi.ReadCdcService
+    - ServiceApi.ListCdcService
+    - ServiceApi.ReadService
+    - ServiceApi.ListService
+    - FlowApiV2.ReadFlowDataV2
+    - FlowApiV2.ListFlowDataV2
+    - FlowApiV2.CreateFlowDataV2
+    - FlowApiV2.UpdateFlowDataV2
+    - FlowApiV2.DeleteFlowDataV2
+    - FlowApiV2.ListDeleteFlowDataV2
+    - FlowApiV2.ReadFlowV2
+    - FlowApiV2.ListFlowV2
+    - FlowApiV2.ListDeleteFlowV2
+    - FlowApiV2.DeleteFlowV2
+    - ConfigApi.ReadConfigEtl
+    - ConfigApi.ReadConfigSource
+    - ConfigApi.ReadConfigDestination
+    - ConfigApi.ReadConfigFlow
+    - ConfigApi.ListConfigFlow
+    - DataSourceApi.ReadDataSource
+    - DataSourceApi.ListDataSources
+    - DataSourceApi.ReadInternalDataSource
+    - DataSourceApi.ListInternalDataSources
+    - SubscriptionApi.CreateSubscriptionData
+    - SubscriptionApi.UpdateSubscriptionData
+    - SubscriptionApi.DeleteSubscriptionData
+
+dashboard:
+  enabled: true
+  folder: "SaaS Ecosystem"
+
+cdcApi:
+    enabled: true
+    alerts:
+      enabled: true
+      requestsFailed:
+        threshold: 5
+        frequency: 1m
+        period: 5m
+        pagerdutyEnabled: true
+        pagerdutySeverity: Critical
+        teamsEnabled: true
+        pagerDutyId: "bc557bf2-ea73-4ccd-becb-781d9b88dacc"
+      podRestarts:
+        threshold: 0
+        frequency: 1m
+        period: 0m
+        pagerdutyEnabled: true
+        pagerdutySeverity: Warning
+        teamsEnabled: true
+        pagerDutyId: "b8eba101-000e-4f1d-91f6-4476d76773b8"
+      serviceDown:
+        threshold: 5
+        frequency: 1m
+        period: 5m
+        pagerdutyEnabled: true
+        pagerdutySeverity: Critical
+        teamsEnabled: true
+        pagerDutyId: "d3677640-8271-45c9-ba7b-6a21583e35e3"
+      podFailure:
+        pagerdutyEnabled: true
+        pagerdutySeverity: Critical
+        teamsEnabled: true
+        pagerDutyId: "d25b86d9-38e0-4a78-9589-8b1d964b7e85"
+cdcFlow:
+    enabled: true
+    alerts:
+      enabled: true
+      requestsFailed:
+        threshold: 5
+        frequency: 1m
+        period: 5m
+        pagerdutyEnabled: true
+        pagerdutySeverity: Critical
+        teamsEnabled: true
+        pagerDutyId: "bdf62198-c9ef-4273-a2ea-9e5a355a7534"
+      podRestarts:
+        threshold: 0
+        frequency: 1m
+        period: 0m
+        pagerdutyEnabled: true
+        pagerdutySeverity: Warning
+        teamsEnabled: true
+        pagerDutyId: "a91463ec-e57d-43d0-b00c-682358e08850"
+      serviceDown:
+        threshold: 5
+        frequency: 1m
+        period: 5m
+        pagerdutyEnabled: true
+        pagerdutySeverity: Critical
+        teamsEnabled: true
+        pagerDutyId: "fd78d82d-b445-4370-9d7d-eeeadc003daf"
+      podFailure:
+        pagerdutyEnabled: true
+        pagerdutySeverity: Critical
+        teamsEnabled: true
+        pagerDutyId: "b930edd9-ebdd-453e-ada4-42e5d1852844"
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 64Mi
+  limits:
+    cpu: 20m
+    memory: 256Mi
+
+pdb:
+  enabled: true
+  maxUnavailable: 1
+
+tolerations: []
+
+teams:
+  config:
+    uid: "ab254b0e-47ff-47fc-a3f0-90ae4a98bd31"
+
+# Environment-specific notification UIDs for dashboard alerts
+notificationUids:
+  env-4: "ad291b89-fa23-4c37-a0cc-b78982eaba71"
+  env-2a: "ad291b89-fa23-4c37-a0cc-b78982eaba71"
+  env-5: "ad291b89-fa23-4c37-a0cc-b78982eaba71"
+  stg-1: "bbcb1bce-a9bf-4bd9-b925-e1dd68cd7fa6"
+  eu-stg-1: "e3bf3f35-f0fb-4356-909d-3b6a3bf84894"
+  prd-1: "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+  eu-com-1: "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
+  us-com-1: "us-com1-notification-uid-pqrst"
+  # Default fallback UID if environment is not found
+  default: "ad291b89-fa23-4c37-a0cc-b78982eaba71"
+
+# Environment-specific federated datasource UIDs for dashboard alerts
+federatedDataSourceUids:
+  env-4: "iUkfVzqGz"
+  env-2a: "iUkfVzqGz"
+  env-5: "iUkfVzqGz"
+  stg-1: "lBCiZJCMk"
+  eu-stg-1: "iUkfVzqGz"
+  prd-1: "iUkfVzqGz"
+  eu-com-1: "iUkfVzqGz"
+  us-com-1: "iUkfVzqGz"
+  # Default fallback UID if environment is not found
+  default: "iUkfVzqGz"
+
+# Environment-specific loki datasource UIDs for dashboard alerts
+lokiDataSourceUids:
+  env-4: "onprem logs (loki-new)"
+  env-2a: "onprem-loki-env-2a"
+  env-5: "onprem-log-loki-new"
+  stg-1: "onprem-loki-stg-1"
+  eu-stg-1: "onprem-loki-eu-stg-1"
+  prd-1: "onprem-loki-prd-1"
+  eu-com-1: "onprem-loki-eu-com-1"
+  us-com-1: "onprem logs (loki-new)"
+  # Default fallback UID if environment is not found
+  default: "onprem logs (loki-new)"
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - "{{ .Values.service.appName }}"
+          topologyKey: topology.kubernetes.io/zone
+        weight: 50
+
+nodeSelector: {}
+
+
+hostappsync:
+  replicaCount: 1
+  interval: 1h
+  internal:
+    name: internal
+    port: 8081
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 20m
+      memory: 256Mi
+
+  tolerations: []
+
+  affinity: {}
+
+  nodeSelector: {}
+
+podAnnotations:
+  linkerd.io/inject: disabled
+
+prometheus:
+  enable: true
+
+# additional labels to add to the pods
+podLabels: {}
+
+serviceKpis:
+  enabled: false
+  enableNonStatusKpis: false
+  enableSoarLightKpis: false
+
+etls:
+  localZones:
+    enable: false
+
+featureFlag:
+  enabled: true
+  address: "feature-flag.feature-flag.svc.cluster.local:9090"
+
+host:
+  csp:
+    domain: ""
+
+dnsLogsToCloud:
+  accounts: ""
+
+features:
+  enabled: true
+  localZonesEtlEnabled: false
+  dnsLogsToCloudEnabled: false
+  rpzLogsToCloudEnabled: true
+  removeCloudDestinationFlows: false
+  cloudDataSourcesEnabled: true
+  cloudToCloudEnabled: true
+  encryptedDestinationEnabled: true
+
+  featureFlagEnabledList: ""
+
+application:
+  scriptValidationEnabled: false
+  showErrorOutputEnabled: false
+
+bloxinabox: false
+
+featureReporting:
+  enabled: true
+
+hotloadDriverName: "hotload"
+
+DsnFilePath: "fsnotify://postgres/var/run/db-dsn/dsn.txt"
+
+cloudToCloudFlow:
+  grpcIn:
+    tag: v2.8.1-6-ga1bc653
+    kafkaRetentionPeriod: 3h
+    kafkaReplicationFactor: 3
+    kafkaPartition: 1
+  httpOut:
+    tag: v0.0.3-8-gac029d5
+  soarLight:
+    tag: v0.2.3-40-g5315c9d
+  syslogOut:
+    tag: v2.1.12-45-g145c14a
+
+license:
+  enabledSkuValidation: false
+  enabledLogValidation: false
+  refreshPeriod: 24h
+  cacheRefresh: 6h
+  b1Td:
+    - IB-SUB-THREAT-BIZ-PREM
+    - IB-SUB-THREAT-BIZ-CLOUD
+    - IB-SUB-THREAT-ADV
+    - IB-SUB-B1TD-ECO
+    - IB-SUB-B1ECO-EXT
+  b1Ddi:
+    - IB-SUB-B1-DDI-BIZ
+    - IB-SUB-B1-DDI-ADV
+    - IB-SUB-B1DDI-ESNTL-IP
+    - IB-SUB-B1DDI-BIZ-IP
+    - IB-SUB-B1DDI-ADV-IP
+    - IB-SUB-B1DDI-ESNTL-GR-*
+    - IB-SUB-B1DDI-ECO
+    - IB-SUB-B1DDI-BIZ-GR-*
+    - IB-SUB-B1DDI-ADV-GR-*
+    - IB-SUB-B1SE-BIZ-IP
+    - IB-SUB-B1SE-ADV-IP
+    - CA-IB-B1-SUB-DDI
+  uDdi:
+    - IB-TOKENS-UDDI-REPORTING-40
+  securityEco:
+    - IB-SWTL-SECECO-BIZ
+  soc:
+    - IB-SUB-THREAT-SOC-ASEC
+  b1TdAllowedSourceDataTypes:
+    - TD_QUERY_RESP_LOG
+    - TD_THREAT_FEEDS_HITS_LOG
+    - AUDIT_LOG
+    - ATLAS_NOTIFICATIONS
+    - SERVICE_LOG
+    - QUERY_RESP_LOG
+    - IPAM_METADATA
+    - RPZ_LOG
+  b1DdiAllowedSourceDataTypes:
+    - DDI_QUERY_RESP_LOG
+    - DDI_DHCP_LEASE_LOG
+    - AUDIT_LOG
+    - ATLAS_NOTIFICATIONS
+    - SERVICE_LOG
+    - QUERY_RESP_LOG
+    - IPAM_METADATA
+    - RPZ_LOG
+  uDdiAllowedSourceDataTypes:
+    - DDI_QUERY_RESP_LOG
+    - DDI_DHCP_LEASE_LOG
+    - AUDIT_LOG
+    - ATLAS_NOTIFICATIONS
+    - SERVICE_LOG
+  securityEcoAllowedSourceDataTypes:
+    - QUERY_RESP_LOG
+    - IPAM_METADATA
+    - RPZ_LOG
+  socAllowedSourceDataTypes:
+    - SOC_INSIGHTS
+
+validator:
+  config: |
+    [
+      {
+        "data_source": "IPAM_METADATA",
+        "data_source_name": "IPAM Metadata/DHCP Lease Information",
+        "source_type": "SOURCE_NIOS",
+        "destinations_validation": {
+          "error_message": "IPAM Metadata/DHCP Lease Information cannot be sent to destination other than BloxOne Cloud.",
+          "allowed": [
+            {"destination": "DESTINATION_BLOXONE"}
+          ]
+        },
+        "filters_validation": {
+          "allowed": [
+            {"filter": "FILTER_IP_NETWORK"}
+          ]
+        }
+      },
+      {
+        "data_source": "QUERY_RESP_LOG",
+        "source_type": "SOURCE_NIOS",
+        "destinations_validation": {
+          "error_message": "Query/Response Log cannot be sent to destinations other than BloxOne Cloud, Splunk, Splunk Cloud, Reporting, Syslog and Http.",
+          "allowed": [
+            {
+              "destination": "DESTINATION_BLOXONE",
+              "requires": [
+                {"feature": "dnslogs.to.cloud.enabled"}
+              ],
+              "error_message": "Query/Response Log cannot be sent to destinations other than Splunk, Splunk Cloud, Reporting, Syslog and Http."
+            },
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "allowed": [
+            {"filter": "FILTER_FQDN"},
+            {"filter": "FILTER_IP_NETWORK"},
+            {"filter": "FILTER_NIOS_HOST"},
+            {"filter": "FILTER_RECORD_TYPE"},
+            {"filter": "FILTER_LOCAL_ZONES"}
+          ]
+        }
+      },
+      {
+        "data_source": "RPZ_LOG",
+        "data_source_name": "RPZ Logs",
+        "source_type": "SOURCE_NIOS",
+        "destinations_validation": {
+          "error_message": "RPZ Log cannot be sent to destinations other than BloxOne Cloud, Splunk, Splunk Cloud, Reporting, Syslog and Http.",
+          "allowed": [
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_BLOXONE"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "allowed": [
+            {"filter": "FILTER_FQDN"},
+            {"filter": "FILTER_IP_NETWORK"},
+            {"filter": "FILTER_NIOS_HOST"},
+            {"filter": "FILTER_RECORD_TYPE"},
+            {"filter": "FILTER_THREAT_CLASS_PROPERTY"},
+            {"filter": "FILTER_POLICY_ACTION"},
+            {"filter": "FILTER_THREAT_LEVEL"}
+          ]
+        }
+      },
+      {
+        "data_source": "DDI_DHCP_LEASE_LOG",
+        "data_source_name": "DDI DHCP Lease Log",
+        "source_type": "SOURCE_BLOXONE",
+        "destinations_validation": {
+          "error_message": "DDI DHCP Lease Log cannot be sent to destinations other than Splunk, Splunk Cloud, Reporting, Syslog and Http.",
+          "allowed": [
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_APPLICATION"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "allowed": [
+            {"filter": "FILTER_IP_NETWORK"},
+            {"filter": "FILTER_HOSTNAME"}
+          ]
+        }
+      },
+      {
+        "data_source": "TD_THREAT_FEEDS_HITS_LOG",
+        "data_source_name": "Threat Defense Threat Feeds Hits Log",
+        "source_type": "SOURCE_BLOXONE",
+        "destinations_validation": {
+          "error_message": "Thread Defense Threat Feeds Hits Log cannot be sent to destinations other than Splunk, Splunk Cloud, Reporting, Syslog and Http.",
+          "allowed": [
+            {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_APPLICATION"},
+            {"destination": "DESTINATION_INGRESS"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "allowed": [
+            {"filter": "FILTER_FQDN"},
+            {"filter": "FILTER_IP_NETWORK"},
+            {"filter": "FILTER_RECORD_TYPE"},
+            {"filter": "FILTER_HOSTNAME"},
+            {"filter": "FILTER_OPHID"},
+            {"filter": "FILTER_THREAT_CLASS_PROPERTY"},
+            {"filter": "FILTER_POLICY_ACTION"},
+            {"filter": "FILTER_THREAT_LEVEL"},
+            {"filter": "FILTER_THREAT_CONFIDENCE"},
+            {"filter": "FILTER_THREAT_FEED_NAME"}
+          ]
+        }
+      },
+      {
+        "data_source": "TD_QUERY_RESP_LOG",
+        "data_source_name": "Threat Defense Query/Response Log",
+        "source_type": "SOURCE_BLOXONE",
+        "destinations_validation": {
+          "error_message": "Thread Defense Query/Response Log cannot be sent to destinations other than Splunk, Splunk Cloud, Reporting, Syslog and Http.",
+          "allowed": [
+            {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_INGRESS"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "allowed": [
+            {"filter": "FILTER_FQDN"},
+            {"filter": "FILTER_IP_NETWORK"},
+            {"filter": "FILTER_RECORD_TYPE"},
+            {"filter": "FILTER_HOSTNAME"},
+            {"filter": "FILTER_OPHID"}
+          ]
+        }
+      },
+      {
+        "data_source": "DDI_QUERY_RESP_LOG",
+        "data_source_name": "DDI Query/Response Log",
+        "source_type": "SOURCE_BLOXONE",
+        "destinations_validation": {
+          "error_message": "DDI Query/Response Log cannot be sent to destinations other than Splunk, Splunk Cloud, Reporting, Syslog and Http.",
+          "allowed": [
+            {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "allowed": [
+            {"filter": "FILTER_FQDN"},
+            {"filter": "FILTER_IP_NETWORK"},
+            {"filter": "FILTER_RECORD_TYPE"},
+            {"filter": "FILTER_HOSTNAME"},
+            {"filter": "FILTER_OPHID"}
+          ]
+        }
+      },
+      {
+        "data_source": "AUDIT_LOG",
+        "data_source_name": "Audit Log",
+        "source_type": "SOURCE_BLOXONE",
+        "destinations_validation": {
+          "error_message": "Audit Log cannot be sent to destinations other than Splunk, Splunk Cloud, Reporting, Syslog, Application and Http.",
+          "allowed": [
+            {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_APPLICATION"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "error_message": "ETL filters are not supported for Audit Log",
+          "allowed": []
+        }
+      },
+      {
+        "data_source": "ATLAS_NOTIFICATIONS",
+        "data_source_name": "Internal Notifications",
+        "source_type": "SOURCE_BLOXONE",
+        "destinations_validation": {
+          "error_message": "Internal Notifications Log cannot be sent to destinations other than Splunk, Splunk Cloud, Reporting, Syslog, Application and Http",
+          "allowed": [
+            {"destination": "DESTINATION_APPLICATION"},
+             {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "error_message": "ETL filters are not supported for Internal Notifications",
+          "allowed": []
+        }
+      },
+      {
+        "data_source": "SOC_INSIGHTS",
+        "data_source_name": "SOC Insights",
+        "source_type": "SOURCE_BLOXONE",
+        "destinations_validation": {
+          "error_message": "SOC Insights Log cannot be sent to destinations other than Splunk, Splunk Cloud, Reporting, Syslog, Application and Http",
+          "allowed": [
+            {"destination": "DESTINATION_APPLICATION"},
+             {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "error_message": "ETL filters are not supported for SOC Insights",
+          "allowed": []
+        }
+      },
+      {
+        "data_source": "SERVICE_LOG",
+        "data_source_name": "Service Log",
+        "source_type": "SOURCE_BLOXONE",
+        "destinations_validation": {
+          "error_message": "Service Log cannot be sent to destinations other than Splunk, Splunk Cloud, Reporting, Syslog, Application and Http",
+          "allowed": [
+            {"destination": "DESTINATION_APPLICATION"},
+             {"destination": "DESTINATION_SPLUNK"},
+            {"destination": "DESTINATION_SYSLOG"},
+            {"destination": "DESTINATION_REPORTING"},
+            {"destination": "DESTINATION_SPLUNKCLOUD"},
+            {"destination": "DESTINATION_HTTP"}
+          ]
+        },
+        "filters_validation": {
+          "error_message": "ETL filters are not supported for Service Log",
+          "allowed": []
+        }
+      }
+    ]
+
+FeatureAdoptionQueries:
+  - name: "CDC hosts"
+    id: cdcflow.hosts
+    sqlQuery: |-
+      SELECT account_id,
+             COUNT(*),
+             json_build_object('enabled', enabled) AS labels
+      FROM cdc_hosts
+      GROUP BY account_id, enabled;

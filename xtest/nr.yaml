@@ -1,0 +1,60 @@
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-eps-log-type-nr
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ $.Chart.Name }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+spec:
+  environment: {{ $.Values.env  }}
+  customFolderName: {{ $.Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- .Files.Get "dash/CDCEPSLogTypeNR.json" | nindent 4  }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-host-status-nr
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ $.Chart.Name }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+spec:
+  environment: {{ $.Values.env  }}
+  customFolderName: {{ $.Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- .Files.Get "dash/CDCHostStatusNR.json" | nindent 4  }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-onprem-overview-nr
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ $.Chart.Name }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+spec:
+  environment: {{ $.Values.env  }}
+  customFolderName: {{ $.Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- .Files.Get "dash/CDCOnpremOverviewNR.json" | nindent 4  }}
+---

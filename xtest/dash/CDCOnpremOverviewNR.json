@@ -1,0 +1,1437 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 272145,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Memory Usage (%)"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_disk_space_total{file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} / 1024 / 1024",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_disk_space_used{file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"}",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_cdc_volume_used_MB / 1024",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": false,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_cdc_volume_used_percent",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": false,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_memory_usage_total / 1024 / 1024 / 1024",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": false,
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_memory_usage_used / 1024 / 1024 / 1024",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": false,
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_memory_usage_used / onprem_host_memory_usage_total * 100",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": false,
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(onprem_node_cpu_seconds_total{mode=\"idle\"}) by (account_id, ophid)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": false,
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_cpu_percentage_combined",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": false,
+          "refId": "I"
+        }
+      ],
+      "title": "Disk, Memory and CPU Usage Monitoring",
+      "transformations": [
+        {
+          "id": "seriesToColumns",
+          "options": {
+            "byField": "ophid"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Time 6": true,
+              "Time 7": true,
+              "Time 8": true,
+              "Time 9": true,
+              "__name__": true,
+              "__name__ 2": true,
+              "account_id 1": true,
+              "account_id 2": true,
+              "account_id 3": true,
+              "account_id 4": true,
+              "account_id 5": true,
+              "account_id 6": true,
+              "account_id 7": true,
+              "account_id 8": true,
+              "account_id 9": true,
+              "agent_id": true,
+              "agent_id 5": true,
+              "agent_id 6": true,
+              "agent_id 7": true,
+              "agent_id 8": true,
+              "app": true,
+              "app 5": true,
+              "app 6": true,
+              "app 7": true,
+              "app 8": true,
+              "availability_zone": true,
+              "availability_zone 1": true,
+              "availability_zone 2": true,
+              "availability_zone 3": true,
+              "availability_zone 4": true,
+              "availability_zone 5": true,
+              "availability_zone 6": true,
+              "availability_zone 7": true,
+              "availability_zone 8": true,
+              "availability_zone 9": true,
+              "endpoint_id": true,
+              "endpoint_id 1": true,
+              "endpoint_id 2": true,
+              "endpoint_id 3": true,
+              "endpoint_id 4": true,
+              "endpoint_id 5": true,
+              "endpoint_id 6": true,
+              "endpoint_id 7": true,
+              "endpoint_id 8": true,
+              "endpoint_id 9": true,
+              "endpoint_type": true,
+              "endpoint_type 1": true,
+              "endpoint_type 2": true,
+              "endpoint_type 3": true,
+              "endpoint_type 4": true,
+              "endpoint_type 5": true,
+              "endpoint_type 6": true,
+              "endpoint_type 7": true,
+              "endpoint_type 8": true,
+              "endpoint_type 9": true,
+              "file_system": true,
+              "host": true,
+              "host 5": true,
+              "host 6": true,
+              "host 7": true,
+              "host 8": true,
+              "host_id": true,
+              "host_id 6": true,
+              "host_id 7": true,
+              "host_id 8": true,
+              "instance": true,
+              "instance 1": true,
+              "instance 2": true,
+              "instance 3": true,
+              "instance 4": true,
+              "instance 5": true,
+              "instance 6": true,
+              "instance 7": true,
+              "instance 8": true,
+              "instance 9": true,
+              "job": true,
+              "job 1": true,
+              "job 2": true,
+              "job 3": true,
+              "job 4": true,
+              "job 5": true,
+              "job 6": true,
+              "job 7": true,
+              "job 8": true,
+              "job 9": true,
+              "mode": true,
+              "mount_point": true,
+              "ophid 1": true,
+              "ophid 2": true,
+              "ophid 3": true,
+              "ophid 4": true,
+              "ophid 5": true,
+              "ophid 6": true,
+              "ophid 7": true,
+              "ophid 8": true,
+              "ophid 9": true,
+              "pool_id": true,
+              "pool_id 5": true,
+              "pool_id 6": true,
+              "pool_id 7": true,
+              "pool_id 8": true,
+              "service": true,
+              "service 1": true,
+              "service 2": true,
+              "service 3": true,
+              "service 4": true,
+              "service 5": true,
+              "service 6": true,
+              "service 7": true,
+              "service 8": true,
+              "service 9": true,
+              "service_id": true,
+              "subject_type": true,
+              "subject_type 5": true,
+              "subject_type 6": true,
+              "subject_type 7": true,
+              "subject_type 8": true,
+              "universal_service": true,
+              "universal_service 1": true,
+              "universal_service 2": true,
+              "universal_service 3": true,
+              "universal_service 4": true,
+              "universal_service 5": true,
+              "universal_service 6": true,
+              "universal_service 7": true,
+              "universal_service 8": true,
+              "universal_service 9": true
+            },
+            "indexByName": {
+              "Time 1": 10,
+              "Time 2": 22,
+              "Time 3": 34,
+              "Time 4": 45,
+              "Time 5": 57,
+              "Time 6": 67,
+              "Time 7": 77,
+              "Time 8": 87,
+              "Time 9": 89,
+              "Value #A": 7,
+              "Value #B": 6,
+              "Value #C": 8,
+              "Value #D": 9,
+              "Value #E": 5,
+              "Value #F": 4,
+              "Value #G": 3,
+              "Value #H": 2,
+              "Value #I": 1,
+              "__name__ 1": 46,
+              "__name__ 2": 90,
+              "account_id 1": 11,
+              "account_id 2": 23,
+              "account_id 3": 35,
+              "account_id 4": 47,
+              "account_id 5": 58,
+              "account_id 6": 68,
+              "account_id 7": 78,
+              "account_id 8": 88,
+              "account_id 9": 91,
+              "agent_id 1": 12,
+              "agent_id 2": 24,
+              "agent_id 3": 36,
+              "agent_id 4": 48,
+              "agent_id 5": 59,
+              "agent_id 6": 69,
+              "agent_id 7": 79,
+              "agent_id 8": 92,
+              "app 1": 13,
+              "app 2": 25,
+              "app 3": 37,
+              "app 4": 49,
+              "app 5": 60,
+              "app 6": 70,
+              "app 7": 80,
+              "app 8": 93,
+              "file_system 1": 14,
+              "file_system 2": 26,
+              "host 1": 15,
+              "host 2": 27,
+              "host 3": 38,
+              "host 4": 50,
+              "host 5": 61,
+              "host 6": 71,
+              "host 7": 81,
+              "host 8": 94,
+              "host_id 1": 16,
+              "host_id 2": 28,
+              "host_id 3": 39,
+              "host_id 4": 51,
+              "host_id 5": 62,
+              "host_id 6": 72,
+              "host_id 7": 82,
+              "host_id 8": 95,
+              "instance 1": 17,
+              "instance 2": 29,
+              "instance 3": 40,
+              "instance 4": 52,
+              "instance 5": 63,
+              "instance 6": 73,
+              "instance 7": 83,
+              "instance 8": 96,
+              "job 1": 18,
+              "job 2": 30,
+              "job 3": 41,
+              "job 4": 53,
+              "job 5": 64,
+              "job 6": 74,
+              "job 7": 84,
+              "job 8": 97,
+              "mount_point 1": 19,
+              "mount_point 2": 31,
+              "ophid": 0,
+              "pool_id 1": 20,
+              "pool_id 2": 32,
+              "pool_id 3": 42,
+              "pool_id 4": 54,
+              "pool_id 5": 65,
+              "pool_id 6": 75,
+              "pool_id 7": 85,
+              "pool_id 8": 98,
+              "service_id 1": 43,
+              "service_id 2": 55,
+              "subject_type 1": 21,
+              "subject_type 2": 33,
+              "subject_type 3": 44,
+              "subject_type 4": 56,
+              "subject_type 5": 66,
+              "subject_type 6": 76,
+              "subject_type 7": 86,
+              "subject_type 8": 99
+            },
+            "renameByName": {
+              "Value #A": "Total Disk Size (GB)",
+              "Value #B": "Total Disk Usage (%)",
+              "Value #C": "Infoblox Folder Size (GB)",
+              "Value #D": "Infoblox Folder Usage (%)",
+              "Value #E": "Total Memory Capacity (GiB)",
+              "Value #F": "Memory Usage (GiB)",
+              "Value #G": "Memory Usage (%)",
+              "Value #H": "Total CPU Cores",
+              "Value #I": "CPU Usage (%)",
+              "account_id": "Account ID",
+              "ophid": "Host ID"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "BloxOne CDC Events Table with Source and Destination information",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Events"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 107
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EPS"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 112
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ophid"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 305
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "account_id"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 118
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "destination"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 0,
+        "y": 10
+      },
+      "id": 46,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "EPS"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n  sum by (account_id, ophid, destination) (\n    increase(\n      onprem_cdc_received_events_from_bloxone[$__range]\n    )\n  ),\n  \"source\", \"bloxone\", \"\", \"\"\n)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "BloxOne_Total"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n  sum by (account_id, ophid, destination) (\n    increase(\n      onprem_cdc_received_events_from_bloxone[$__range]\n    )\n  ) / $__range_s,\n  \"source\", \"bloxone\", \"\", \"\"\n)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "BloxOne_EPS"
+        }
+      ],
+      "title": "BloxOne EPS",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "source": true
+            },
+            "indexByName": {
+              "Value #BloxOne_EPS": 3,
+              "Value #BloxOne_Total": 2,
+              "account_id": 1,
+              "destination": 4,
+              "ophid": 0
+            },
+            "renameByName": {
+              "Value #BloxOne_EPS": "EPS",
+              "Value #BloxOne_Total": "Total Events"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Total Events"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 11,
+        "y": 10
+      },
+      "id": 36,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "account_name"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(\n  count(\n    (onprem_host_composite_status != 1) * on (ophid) \n    group_left() \n    (onprem_host_service_status{service=~\"cdc\"} == 1)\n  ) by (account_id)\n) * on (account_id) \ngroup_left(account_name) \n(\n  count(\n    (count(onprem_host_composite_status) by (account_id, account_name)) or \n    (count(count(atcapi_account_objects2) by(account_name, account_id)) by (account_name, account_id))\n  ) by (account_id) == 1 or \n  (\n    count(\n      (count(count(atcapi_account_objects2) by(account_name, account_id)) by (account_name, account_id)) * on (account_id) \n      group_right(account_name) \n      (count(onprem_host_composite_status) by (account_id))\n    ) by(account_id, account_name)\n  )\n)\n",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Unhealthy CDC Hosts",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 0,
+        "y": 18
+      },
+      "id": 47,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(\n  label_replace(\n    count(count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"})) or vector(0),\n    \"customer_type\", \"Total Customers\", \"\", \"\"\n  )\n  or\n  label_replace(\n    count(count by(account_id) (onprem_cdc_received_events_from_bloxone) unless on(account_id) (onprem_cdc_received_events_from_nios)) or vector(0),\n    \"customer_type\", \"BloxOne Only\", \"\", \"\"\n  )\n  or\n  label_replace(\n    count(count by(account_id) (onprem_cdc_received_events_from_nios) unless on(account_id) (onprem_cdc_received_events_from_bloxone)) or vector(0),\n    \"customer_type\", \"NIOS Only\", \"\", \"\"\n  )\n  or\n  label_replace(\n    count(count by(account_id) (onprem_cdc_received_events_from_bloxone) and on(account_id) (onprem_cdc_received_events_from_nios)) or vector(0),\n    \"customer_type\", \"Both BloxOne + NIOS\", \"\", \"\"\n  )\n  or\n  label_replace(\n    count(count by(account_id) (onprem_cdc_received_events_from_bloxone)) or vector(0),\n    \"customer_type\", \"All BloxOne\", \"\", \"\"\n  )\n  or\n  label_replace(\n    count(count by(account_id) (onprem_cdc_received_events_from_nios)) or vector(0),\n    \"customer_type\", \"All NIOS\", \"\", \"\"\n  )\n)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "CDC Customer Metrics by Source Type",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "Value": "Count",
+              "customer_type": "Customer Type"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Count": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "Customer Type": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "NIOS CDC Events Table with Source and Destination information",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Events"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 138
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EPS"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 134
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ophid"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 312
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "account_id"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 137
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "destination"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 11,
+        "y": 18
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "EPS"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n  sum by (account_id, ophid, destination) (\n    increase(\n      onprem_cdc_received_events_from_nios[$__range]\n    )\n  ),\n  \"source\", \"nios\", \"\", \"\"\n)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "NIOS_Total"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n  sum by (account_id, ophid, destination) (\n    increase(\n      onprem_cdc_received_events_from_nios[$__range]\n    )\n  ) / $__range_s,\n  \"source\", \"nios\", \"\", \"\"\n)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "NIOS_EPS"
+        }
+      ],
+      "title": "NIOS EPS",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "source": true
+            },
+            "indexByName": {
+              "Value #NIOS_EPS": 3,
+              "Value #NIOS_Total": 2,
+              "account_id": 1,
+              "destination": 4,
+              "ophid": 0
+            },
+            "renameByName": {
+              "Value #NIOS_EPS": "EPS",
+              "Value #NIOS_Total": "Total Events"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Total Events"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 0,
+        "y": 26
+      },
+      "id": 35,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count(onprem_host_service_status{service=~\"cdc\"} == 1) by (ophid))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "CDC Hosts",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 5,
+        "y": 26
+      },
+      "id": 45,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count(hostapp_onprem_host_service_desired_state{service=\"cdc\"}==1) by (account_id,ophid) + on (ophid) (((count(onprem_node_cpu_seconds_total{mode=\"idle\"}) by (account_id,ophid) <= 4)) + on (ophid) (count(onprem_node_memory_MemTotal_bytes <= 8*1024*1024*1024) by (account_id, ophid))))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "CDC Hosts with <= 4 cores and <= 8 GB RAM",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "Summary of customers with CDC services",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 13,
+        "x": 11,
+        "y": 26
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"}))",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "CDC Customers",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"}))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "All BloxOne",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_nios))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "All NIOS",
+          "range": false,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_bloxone{source=\"bloxone\"} unless on(account_id) (onprem_cdc_received_events_from_nios)))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "BloxOne Only",
+          "range": false,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_nios) unless on(account_id) (onprem_cdc_received_events_from_bloxone))",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "NIOS Only",
+          "range": false,
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_cdc_received_events_from_bloxone) and on(account_id) (onprem_cdc_received_events_from_nios))",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Both BloxOne & NIOS",
+          "range": false,
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count(count by(account_id) (onprem_host_service_status{service=~\"cdc.*\"}))\n-\ncount(count by(account_id) (onprem_cdc_received_events_from_bloxone))\n-\ncount(count by(account_id) (onprem_cdc_received_events_from_nios))",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Enabled, but not configured",
+          "range": false,
+          "refId": "G"
+        }
+      ],
+      "title": "Customer Summary",
+      "type": "stat"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "CDC OnPrem Overview",
+  "uid": "c40fc4d0-2601-434b-bb17-f624a4f3e32c",
+  "version": 55,
+  "weekStart": ""
+}

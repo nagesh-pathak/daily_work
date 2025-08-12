@@ -1,0 +1,1311 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 271647,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "support"
+      ],
+      "targetBlank": true,
+      "title": "Other Dashboards",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "cloud",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "SaaS Support Site",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://sites.google.com/infoblox.com/bloxone/home"
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "CDC Metrics",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://docs.google.com/spreadsheets/d/10Ojv8AS_i3yP25AqL9oHzNiWaAju6PU6wRbJdlWizRY/edit#gid=0"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 100,
+      "panels": [],
+      "title": "CDC Onprem Flow Monitoring",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.5.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "expr": "rate(label_replace({__name__=~\"onprem_cdc_accepted.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])/60",
+          "interval": "",
+          "legendFormat": "{{name_label}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "expr": "-rate(label_replace({__name__=~\"onprem_cdc_drained.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])/60",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name_label}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Accepted vs Drained Events Rate",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.5.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "expr": "idelta(label_replace({__name__=~\"onprem_cdc_accepted.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name_label}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "expr": "-idelta(label_replace({__name__=~\"onprem_cdc_drain.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name_label}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Accepted vs Drained Events Volume",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 46,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "expr": "rate(label_replace({__name__=~\"onprem_cdc_processed.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])",
+          "interval": "",
+          "legendFormat": "{{name_label}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Processed Events Size",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 45,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.10",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "expr": "rate(label_replace({__name__=~\"onprem_cdc_pending.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])",
+          "interval": "",
+          "legendFormat": "{{name_label}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Pending Events Size",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 53,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 16
+          },
+          "id": 37,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.5.10",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "rate(onprem_cdc_accepted_dns_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Accepted",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "rate(onprem_cdc_received_dns_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Received",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "-rate(onprem_cdc_drained_dns_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Drained",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "-rate(onprem_cdc_filtered_dns_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Filtered",
+              "range": true,
+              "refId": "D"
+            }
+          ],
+          "title": "DNS Cloud Events Rate",
+          "transparent": true,
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 16
+          },
+          "id": 38,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.5.10",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "rate(onprem_cdc_accepted_dns_reporting_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Accepted",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "-rate(onprem_cdc_drained_dns_reporting_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Drained",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "rate(onprem_cdc_received_dns_reporting_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Received",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "-rate(onprem_cdc_filtered_dns_reporting_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Filtered",
+              "range": true,
+              "refId": "D"
+            }
+          ],
+          "title": "DNS Reporting Events Rate",
+          "transparent": true,
+          "type": "timeseries"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "DNS Events",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 51,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 17
+          },
+          "id": 40,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.5.10",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "rate(onprem_cdc_accepted_rpz_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Accepted",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "-rate(onprem_cdc_drained_rpz_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Drained",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "rate(onprem_cdc_received_rpz_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Received",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "-rate(onprem_cdc_filtered_rpz_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Filtered",
+              "range": true,
+              "refId": "D"
+            }
+          ],
+          "title": "RPZ Cloud Events Rate",
+          "transparent": true,
+          "type": "timeseries"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "RPZ Events",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 49,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 18
+          },
+          "id": 58,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.5.10",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "rate(onprem_cdc_accepted_ipmeta_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Accepted",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "-rate(onprem_cdc_drained_ipmeta_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Drained",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "rate(onprem_cdc_received_ipmeta_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Received",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "-rate(onprem_cdc_filtered_ipmeta_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "Filtered",
+              "range": true,
+              "refId": "D"
+            }
+          ],
+          "title": "IPMeta Cloud Events Rate",
+          "transparent": true,
+          "type": "timeseries"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "IPMeta Cloud Events",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 60,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 19
+          },
+          "id": 59,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.5.10",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "federated"
+              },
+              "editorMode": "code",
+              "expr": "onprem_container_sockets{account_id=~\"$account_id\", ophid=~\"$ophid\", onprem_pod=~\".*cdc.*\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{onprem_container}} - {{onprem_pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Open Sockets",
+          "transparent": true,
+          "type": "timeseries"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Open Sockets",
+      "type": "row"
+    }
+  ],
+  "refresh": "10m",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "federated"
+        },
+        "definition": "label_values(onprem_cdc_volume_used_percent,account_id)",
+        "description": "Account ID of CDC services",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Account ID",
+        "multi": true,
+        "name": "account_id",
+        "options": [],
+        "query": {
+          "query": "label_values(onprem_cdc_volume_used_percent,account_id)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "federated"
+        },
+        "definition": "label_values(onprem_cdc_volume_used_percent{account_id=~\"$account_id\"},ophid)",
+        "description": "On-premises hosts with CDC service",
+        "hide": 0,
+        "includeAll": true,
+        "label": "OPHID",
+        "multi": true,
+        "name": "ophid",
+        "options": [],
+        "query": {
+          "query": "label_values(onprem_cdc_volume_used_percent{account_id=~\"$account_id\"},ophid)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "CDC Onprem Events Timeseries",
+  "uid": "afe66996-0af8-4445-aa8d-a2fc55e919ab",
+  "version": 1,
+  "weekStart": ""
+}

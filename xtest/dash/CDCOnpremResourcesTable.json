@@ -1,0 +1,1458 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "support"
+      ],
+      "targetBlank": true,
+      "title": "Other Dashboards",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "CDC Metrics",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://docs.google.com/spreadsheets/d/10Ojv8AS_i3yP25AqL9oHzNiWaAju6PU6wRbJdlWizRY/edit#gid=0"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "id": 300,
+      "panels": [],
+      "title": "OnPrem Resource Monitoring",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "Shows all onprem hosts with memory usage > $memory_threshold% and CDC service running",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "fillOpacity": 90,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "account id"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "memory_usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "total_memory_capacity"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "current_memory_usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ophid"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 250
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "color-text",
+                  "color": "#1F60C4"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byType",
+              "options": "string"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "left"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "frameIndex": 0,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "memory_usage"
+          }
+        ]
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) /\n(onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) *100 > $memory_threshold",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) / (onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) * 100 > $memory_threshold)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) / (onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) * 100 > $memory_threshold)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "Onprem Hosts with Memory Usage > $memory_threshold% (CDC Service)",
+      "titleSize": "h3",
+      "transparent": false,
+      "libraryPanel": {
+        "titleColor": "#1F60C4",
+        "fontWeight": "500"
+      },
+      "styles": {
+        "panel": {
+          "border": "5px solid #1F60C4",
+          "borderRadius": "10px",
+          "padding": "8px",
+          "background": "linear-gradient(180deg, rgba(31,96,196,0.1) 0%, rgba(31,96,196,0.01) 100%)",
+          "boxShadow": "0 4px 6px rgba(31,96,196,0.2)"
+        }
+      },
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "ophid",
+                "Value #A",
+                "Value #B",
+                "Value #C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "ophid",
+            "mode": "inner"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "ophid": 0,
+              "Value #A": 1,
+              "Value #C": 2,
+              "Value #B": 3
+            },
+            "renameByName": {
+              "Value #A": "memory_usage",
+              "Value #B": "total_memory_capacity",
+              "Value #C": "current_memory_usage",
+              "ophid": "ophid"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "Shows all onprem hosts with CPU usage > $cpu_threshold% and CDC service running",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "fillOpacity": 90,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cpu_usage"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ophid"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 250
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "account id"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 28
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "frameIndex": 0,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "cpu_usage"
+          }
+        ]
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(onprem_cpu_percentage{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) > $cpu_threshold",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Onprem Hosts with CPU Usage > $cpu_threshold%",
+      "transparent": true,
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "account_id",
+                "ophid",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "renameByName": {
+              "Value": "cpu_usage",
+              "account_id": "account id"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "Shows all onprem hosts with volume/disk usage > $disk_threshold% and CDC service running",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "fillOpacity": 90,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "volume_usage"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "total_disk_capacity"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto"
+                }
+              },
+              {
+                "id": "custom.suffix",
+                "value": " GB"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "current_disk_usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "auto"
+                }
+              },
+              {
+                "id": "custom.suffix",
+                "value": " GB"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ophid"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 250
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "frameIndex": 0,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "volume_usage"
+          }
+        ]
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} / (1024 * 1024)) * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} / (1024 * 1024)) * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} and on(ophid) ((onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}) > $disk_threshold)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "Onprem Hosts with Volume Usage > $disk_threshold%",
+      "transparent": true,
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "ophid",
+                "device",
+                "Value #A",
+                "Value #B",
+                "Value #C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "ophid",
+            "mode": "inner"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "ophid": 0,
+              "device": 1,
+              "Value #A": 2,
+              "Value #C": 3,
+              "Value #B": 4
+            },
+            "renameByName": {
+              "Value #A": "volume_usage",
+              "Value #B": "total_disk_capacity",
+              "Value #C": "current_disk_usage",
+              "device": "Device"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "Shows hosts with continuously increasing memory usage in the last 3 hours and CDC service running",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "fillOpacity": 90,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.05
+              },
+              {
+                "color": "orange",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 0.15
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "rate_of_increase"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "current_usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "frameIndex": 0,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "rate_of_increase"
+          }
+        ]
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "topk(20,(rate(onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"}[5m]) / onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"}) * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"} > 0.001)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"} / onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"} * 100 * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "B"
+        }
+      ],
+      "title": "Top 20 Memory Rate of Increase",
+      "transparent": true,
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "ophid",
+                "Value #A",
+                "Value #B"
+              ]
+            }
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "ophid",
+            "mode": "inner"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "renameByName": {
+              "Value #A": "rate_of_increase",
+              "Value #B": "current_usage"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "Shows hosts with continuously increasing CPU usage in the last 3 hours and CDC service running",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "fillOpacity": 90,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.05
+              },
+              {
+                "color": "orange",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 0.15
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "rate_of_increase"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "current_usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 28
+      },
+      "id": 13,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "frameIndex": 0,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "rate_of_increase"
+          }
+        ]
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "topk(20, rate((onprem_cpu_percentage{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"})[3h:10m]) > 0)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_cpu_percentage{account_id=~\"$account_id\", ophid=~\"$ophid\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "B"
+        }
+      ],
+      "title": "Top 20 CPU Rate of Increase",
+      "transparent": true,
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "ophid",
+                "Value #A",
+                "Value #B"
+              ]
+            }
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "ophid",
+            "mode": "inner"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "renameByName": {
+              "Value #A": "rate_of_increase",
+              "Value #B": "current_usage"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "federated"
+      },
+      "description": "Shows hosts with continuously increasing volume/disk usage in the last 3 hours and CDC service running",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "fillOpacity": 90,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.05
+              },
+              {
+                "color": "orange",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 0.15
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "rate_of_increase"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "current_usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "id": 15,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "frameIndex": 0,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "rate_of_increase"
+          }
+        ]
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "topk(20, rate((onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"})[3h:10m]) > 0)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federated"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "onprem_disk_space_used{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * 100 / onprem_disk_space_total{account_id=~\"$account_id\", ophid=~\"$ophid\", file_system!~\"overlay.*\", mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\"} * on(ophid) group_left(service) onprem_host_service_status{service=~\"cdc.*\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "B"
+        }
+      ],
+      "title": "Top 20 Volume Rate of Increase",
+      "transparent": true,
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "ophid",
+                "device",
+                "Value #A",
+                "Value #B",
+                "Value #C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "ophid",
+            "mode": "inner"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "renameByName": {
+              "Value #A": "rate_of_increase",
+              "Value #B": "current_usage",
+              "device": "Device"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "refresh": "5m",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "cdc",
+    "onprem",
+    "resources",
+    "merged"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "federated"
+        },
+        "definition": "label_values(onprem_host_service_status{service=~\"cdc.*\"},account_id)",
+        "description": "account id",
+        "hide": 0,
+        "includeAll": true,
+        "label": "account id",
+        "multi": true,
+        "name": "account_id",
+        "options": [],
+        "query": {
+          "query": "label_values(onprem_host_service_status{service=~\"cdc.*\"},account_id)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "federated"
+        },
+        "definition": "label_values(onprem_host_service_status{service=~\"cdc.*\", account_id=~\"$account_id\"},ophid)",
+        "description": "ophid",
+        "hide": 0,
+        "includeAll": true,
+        "label": "ophid",
+        "multi": true,
+        "name": "ophid",
+        "options": [],
+        "query": {
+          "query": "label_values(onprem_host_service_status{service=~\"cdc.*\", account_id=~\"$account_id\"},ophid)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "50",
+          "value": "50"
+        },
+        "description": "Memory usage threshold percentage for filtering",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Memory Threshold %",
+        "multi": false,
+        "name": "memory_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": true,
+            "text": "50",
+            "value": "50"
+          },
+          {
+            "selected": false,
+            "text": "70",
+            "value": "70"
+          },
+          {
+            "selected": false,
+            "text": "90",
+            "value": "90"
+          }
+        ],
+        "query": "1,50,70,90",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "50",
+          "value": "50"
+        },
+        "description": "CPU usage threshold percentage for filtering",
+        "hide": 0,
+        "includeAll": false,
+        "label": "CPU Threshold %",
+        "multi": false,
+        "name": "cpu_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": true,
+            "text": "50",
+            "value": "50"
+          },
+          {
+            "selected": false,
+            "text": "70",
+            "value": "70"
+          },
+          {
+            "selected": false,
+            "text": "90",
+            "value": "90"
+          }
+        ],
+        "query": "1,50,70,90",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "50",
+          "value": "50"
+        },
+        "description": "Volume/Disk usage threshold percentage for filtering",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Volume Threshold %",
+        "multi": false,
+        "name": "disk_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": true,
+            "text": "50",
+            "value": "50"
+          },
+          {
+            "selected": false,
+            "text": "70",
+            "value": "70"
+          },
+          {
+            "selected": false,
+            "text": "90",
+            "value": "90"
+          }
+        ],
+        "query": "1,50,70,90",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "CDC Onprem Resource Table",
+  "uid": "cdc-onprem-resource-table",
+  "version": 1,
+  "weekStart": ""
+}

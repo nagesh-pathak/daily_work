@@ -32,7 +32,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -48,7 +48,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Total Events Per Second across all selected log types",
       "fieldConfig": {
@@ -115,7 +115,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -136,7 +136,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Peak EPS in the last hour",
       "fieldConfig": {
@@ -203,7 +203,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -222,7 +222,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Number of active log types",
       "fieldConfig": {
@@ -289,7 +289,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -309,7 +309,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -325,7 +325,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Current Events Per Second by Data Type (Individual cards for each log type)",
       "fieldConfig": {
@@ -392,7 +392,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -412,7 +412,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -428,7 +428,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Peak EPS by data type in the last hour",
       "fieldConfig": {
@@ -495,7 +495,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -515,7 +515,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -531,7 +531,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Events Per Second by Log Type over time with interactive legend",
       "fieldConfig": {
@@ -611,7 +611,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "sum by (data_type, ophid) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", ophid!=\"\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[1m]))",
@@ -628,7 +628,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "EPS breakdown by source and destination flow",
       "fieldConfig": {
@@ -709,7 +709,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "sum by (source, destination, ophid) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", ophid!=\"\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\", source!=\"\", destination!=\"\"}[1m]))",
@@ -728,7 +728,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -744,7 +744,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Alternative view showing all OPHIDs with their last event timestamp and current status",
       "fieldConfig": {
@@ -956,7 +956,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1022,7 +1022,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Shows OPHIDs with consistently low activity (average < 0.1 EPS over last hour). This catches hosts that may have occasional events but are mostly idle.",
       "fieldConfig": {
@@ -1188,7 +1188,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1243,7 +1243,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone, account_id)",
         "hide": 0,
@@ -1270,7 +1270,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\"}, ophid)",
         "hide": 0,
@@ -1301,7 +1301,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\"}, source)",
         "hide": 0,
@@ -1332,7 +1332,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\"}, destination)",
         "hide": 0,
@@ -1363,7 +1363,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\"}, data_type)",
         "hide": 0,

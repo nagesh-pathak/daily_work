@@ -53,7 +53,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -69,7 +69,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fieldConfig": {
         "defaults": {
@@ -261,7 +261,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"}",
@@ -304,7 +304,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fieldConfig": {
         "defaults": {
@@ -404,7 +404,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "count by(account_id) (cdc_flow_status{account_id!=\"0\"})",
@@ -442,7 +442,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fieldConfig": {
         "defaults": {
@@ -552,7 +552,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "count(cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"})",
@@ -563,7 +563,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "count(cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"} == 1) or vector(0)",
@@ -575,7 +575,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "count(cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"} == 0.5) or vector(0)",
@@ -587,7 +587,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "count(cdc_flow_status{account_id=~\"$account_id\", account_id!=\"0\", flow_id=~\"$flow_id\"} == 0) or vector(0)",
@@ -603,7 +603,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fieldConfig": {
         "defaults": {
@@ -721,7 +721,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "count by (account_id) (cdc_flow_status{account_id!=\"0\"} == 0)",
@@ -830,7 +830,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(cdc_flow_status{account_id!=\"0\"},account_id)",
         "description": "Account ID",
@@ -863,7 +863,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(cdc_flow_status{account_id=~\"$account_id\"},flow_id)",
         "description": "Flow ID",

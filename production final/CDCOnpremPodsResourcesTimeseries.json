@@ -53,7 +53,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -69,7 +69,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "aliasColors": {},
       "bars": false,
@@ -176,7 +176,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -214,7 +214,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "aliasColors": {},
       "bars": false,
@@ -321,7 +321,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -371,7 +371,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_container_cpu_usage_seconds_total{onprem_namespace=\"infoblox\",onprem_pod=~\"cdc.*\"}, ophid)",
         "hide": 0,

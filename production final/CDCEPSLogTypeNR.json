@@ -31,7 +31,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Total EPS across all selected log types",
       "fieldConfig": {
@@ -108,7 +108,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -128,7 +128,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "EPS breakdown by source and destination flow",
       "fieldConfig": {
@@ -215,7 +215,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "sum by (source, destination) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\", source!=\"\", destination!=\"\"}[1m]) > 0) or on() vector(0)",
@@ -232,7 +232,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Current EPS by Data Type (Individual cards for each log type)",
       "fieldConfig": {
@@ -309,7 +309,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -327,7 +327,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Peak EPS by data type in the last hour",
       "fieldConfig": {
@@ -404,7 +404,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -422,7 +422,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "Events Per Second by Log Type over time (Click legend items to show/hide)",
       "fieldConfig": {
@@ -509,7 +509,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "sum by (data_type) (rate(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\", data_type=~\"$data_type\", data_type!=\"\"}[5m])) or vector(0)",
@@ -574,7 +574,7 @@
       },
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "datasourceErrors": {},
       "description": "Monitors /infoblox folder disk usage with alerting at 60% threshold for onprem_cdc_volume_used_percent metric",
@@ -722,7 +722,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -781,7 +781,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone, account_id)",
         "hide": 0,
@@ -812,7 +812,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\"}, ophid)",
         "hide": 0,
@@ -839,7 +839,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\"}, source)",
         "hide": 0,
@@ -866,7 +866,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\"}, destination)",
         "hide": 0,
@@ -893,7 +893,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_received_events_from_bloxone{account_id=~\"$account_id\", ophid=~\"$ophid\", source=~\"$source\", destination=~\"$destination\"}, data_type)",
         "hide": 0,

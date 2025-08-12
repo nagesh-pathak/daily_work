@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "onprem-loki-prd-1"
+        "uid": "loki-uid"
       },
       "fieldConfig": {
         "defaults": {
@@ -91,7 +91,7 @@
                 "value": [
                   {
                     "title": "Explore in Loki",
-                    "url": "https://grafana.csp.infoblox.com/explore?orgId=1&left=%7B%22datasource%22:%22onprem-loki-prd-1%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22loki%22,%22uid%22:%22onprem-loki-prd-1%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22%7BcontainerId%3D%5C%22${__data.fields[\"Container Name\"]}%5C%22,%20agentId%3D%5C%22${__data.fields[\"Agent ID\"]}%5C%22%7D%20%7C%3D%20%60level%3Derror%60%22,%22queryType%22:%22range%22%7D%5D,%22range%22:%7B%22from%22:%22now-24h%22,%22to%22:%22now%22%7D%7D",
+                    "url": "https://grafana.csp.infoblox.com/explore?orgId=1&left=%7B%22datasource%22:%22loki-uid%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22loki%22,%22uid%22:%22loki-uid%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22%7BcontainerId%3D%5C%22${__data.fields[\"Container Name\"]}%5C%22,%20agentId%3D%5C%22${__data.fields[\"Agent ID\"]}%5C%22%7D%20%7C%3D%20%60level%3Derror%60%22,%22queryType%22:%22range%22%7D%5D,%22range%22:%7B%22from%22:%22now-24h%22,%22to%22:%22now%22%7D%7D",
                     "targetBlank": true
                   }
                 ]
@@ -138,7 +138,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "onprem-loki-prd-1"
+            "uid": "loki-uid"
           },
           "editorMode": "code",
           "expr": "topk(500, sum by (agentId, containerId) (count_over_time({containerId=~\"cdc_.*\"} |= \"level=error\" [15m])))",
@@ -221,7 +221,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "onprem-loki-prd-1"
+        "uid": "loki-uid"
       },
       "fieldConfig": {
         "defaults": {
@@ -302,7 +302,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "onprem-loki-prd-1"
+            "uid": "loki-uid"
           },
           "editorMode": "code",
           "expr": "topk(50, sum by (accountId, agentId, containerId) (rate({containerId=~\"cdc_.*\"} |= \"level=error\" [5m])) * 60)",

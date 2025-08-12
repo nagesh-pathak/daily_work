@@ -65,7 +65,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -85,7 +85,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -129,7 +129,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "rate(label_replace({__name__=~\"onprem_cdc_accepted.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])/60",
@@ -141,7 +141,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "-rate(label_replace({__name__=~\"onprem_cdc_drained.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])/60",
@@ -190,7 +190,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "description": "",
       "fill": 1,
@@ -235,7 +235,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "idelta(label_replace({__name__=~\"onprem_cdc_accepted.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])",
@@ -248,7 +248,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "-idelta(label_replace({__name__=~\"onprem_cdc_drain.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])",
@@ -293,7 +293,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fieldConfig": {
         "defaults": {
@@ -372,7 +372,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "rate(label_replace({__name__=~\"onprem_cdc_processed.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])",
@@ -389,7 +389,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fieldConfig": {
         "defaults": {
@@ -468,7 +468,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "rate(label_replace({__name__=~\"onprem_cdc_pending.*\",account_id=~\"$account_id\",ophid=~\"$ophid\",service_id=~\"infra.*\"},\"name_label\",\"$1\",\"__name__\",\"(.+)\")[1m:])",
@@ -486,7 +486,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -499,7 +499,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "fieldConfig": {
             "defaults": {
@@ -578,7 +578,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "rate(onprem_cdc_accepted_dns_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -591,7 +591,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "rate(onprem_cdc_received_dns_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -604,7 +604,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "-rate(onprem_cdc_drained_dns_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -617,7 +617,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "-rate(onprem_cdc_filtered_dns_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -635,7 +635,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "fieldConfig": {
             "defaults": {
@@ -714,7 +714,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "rate(onprem_cdc_accepted_dns_reporting_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -727,7 +727,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "-rate(onprem_cdc_drained_dns_reporting_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -740,7 +740,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "rate(onprem_cdc_received_dns_reporting_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -753,7 +753,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "-rate(onprem_cdc_filtered_dns_reporting_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -773,7 +773,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "refId": "A"
         }
@@ -785,7 +785,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -798,7 +798,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "fieldConfig": {
             "defaults": {
@@ -877,7 +877,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "rate(onprem_cdc_accepted_rpz_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -890,7 +890,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "-rate(onprem_cdc_drained_rpz_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -903,7 +903,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "rate(onprem_cdc_received_rpz_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -916,7 +916,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "-rate(onprem_cdc_filtered_rpz_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -936,7 +936,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "refId": "A"
         }
@@ -948,7 +948,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -961,7 +961,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "fieldConfig": {
             "defaults": {
@@ -1040,7 +1040,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "rate(onprem_cdc_accepted_ipmeta_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -1053,7 +1053,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "-rate(onprem_cdc_drained_ipmeta_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -1066,7 +1066,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "rate(onprem_cdc_received_ipmeta_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -1079,7 +1079,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "-rate(onprem_cdc_filtered_ipmeta_cloud_events{account_id=~\"$account_id\", ophid=~\"$ophid\"}[1m])/60",
@@ -1099,7 +1099,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "refId": "A"
         }
@@ -1111,7 +1111,7 @@
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -1124,7 +1124,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "fieldConfig": {
             "defaults": {
@@ -1203,7 +1203,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "iUkfVzqGz"
+                "uid": "federated"
               },
               "editorMode": "code",
               "expr": "onprem_container_sockets{account_id=~\"$account_id\", ophid=~\"$ophid\", onprem_pod=~\".*cdc.*\"}",
@@ -1223,7 +1223,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "refId": "A"
         }
@@ -1247,7 +1247,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_volume_used_percent,account_id)",
         "description": "Account ID of CDC services",
@@ -1276,7 +1276,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_cdc_volume_used_percent{account_id=~\"$account_id\"},ophid)",
         "description": "On-premises hosts with CDC service",

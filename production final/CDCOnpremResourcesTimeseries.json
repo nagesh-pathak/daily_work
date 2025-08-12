@@ -53,7 +53,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "gridPos": {
         "h": 1,
@@ -69,7 +69,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fieldConfig": {
         "defaults": {
@@ -169,7 +169,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "clamp_min(\n  (onprem_host_memory_usage_used{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) /\n  (onprem_host_memory_usage_total{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) *100 > $threshold, 0\n)",
@@ -205,7 +205,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fieldConfig": {
         "defaults": {
@@ -305,7 +305,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "clamp_min(\n  (onprem_cpu_percentage{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) > $threshold, 0\n)",
@@ -341,7 +341,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "iUkfVzqGz"
+        "uid": "federated"
       },
       "fieldConfig": {
         "defaults": {
@@ -441,7 +441,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "iUkfVzqGz"
+            "uid": "federated"
           },
           "editorMode": "code",
           "expr": "clamp_min(\n  (onprem_cdc_volume_used_percent{account_id=~\"$account_id\", ophid=~\"$ophid\"}\n  * on(ophid) group_left(service)\n  onprem_host_service_status{service=~\"cdc.*\"}) > $threshold, 0\n)",
@@ -490,7 +490,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_host_service_status{service=~\"cdc.*\"},account_id)",
         "description": "Account ID of CDC services",
@@ -519,7 +519,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "iUkfVzqGz"
+          "uid": "federated"
         },
         "definition": "label_values(onprem_host_service_status{service=~\"cdc.*\", account_id=~\"$account_id\"},ophid)",
         "description": "On-premises hosts with CDC service",

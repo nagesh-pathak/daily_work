@@ -875,7 +875,7 @@ cloudDataSources:
       - id: app
         name: App
 
-env: stg-1
+env: env-2a
 
 image:
   repository: core-harbor-prod.sdp.infoblox.com/infobloxcto/cdc.flow.api

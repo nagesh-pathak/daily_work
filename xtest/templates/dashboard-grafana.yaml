@@ -135,7 +135,6 @@ spec:
   json: |-
     {{- $dashboardContent := .Files.Get "dash/CDCOnpremLogsTable.json" -}}
     {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
-    {{- $dashboardContent = $dashboardContent | replace "federated-prometheus" (printf "%s-prometheus" $currentEnvFederatedDataSourceUid) -}}
     {{- $dashboardContent = $dashboardContent | replace "loki-uid" $currentEnvLokiDataSourceUid -}}
     {{- $dashboardContent | nindent 4 }}
 ---

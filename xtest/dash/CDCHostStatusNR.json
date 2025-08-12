@@ -97,7 +97,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "| Values |    description of state\n|------- |----------------------------------\n|    0   | Review Details              \n|    1   | Online           \n|    3   | Pending          \n|    4   | Awaiting Approval ",
       "fieldConfig": {
@@ -175,7 +175,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "onprem_host_composite_status{ophid=\"$ophid\"}",
@@ -191,7 +191,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "| Values |   string literal  |  description of state\n|------- |-------------------|----------------------------------\n|    0   | Error             | Both platform and app-management are unhealthy\n|    1   | Online            | Both platform and app-management are healthy\n|    2   | Degraded          | Either one of platform and app-management is unhealthy\n|    3   | Pending           | New and unregistered hosts\n|    4   | Awaiting approval | Hosts waiting for approval\n|    8   | Offline          | ost registered to csp but platform/app management components yet to start",
       "fieldConfig": {
@@ -270,7 +270,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "onprem_host_infra_status{ophid=\"$ophid\"}",
@@ -285,7 +285,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "Shows whether the desired service state is start/stop\n\n| Values | State\n|--------|-------------|\n| 0 |  Stop\n| 1 |  Start",
       "fieldConfig": {
@@ -364,7 +364,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "min(hostapp_onprem_host_service_desired_state{ophid=\"$ophid\"}) by (service)",
@@ -379,7 +379,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "Shows the current service state \n| Values | State\n|--------|-------------|\n| 0 |  Stop/Down\n| 1 |  Running",
       "fieldConfig": {
@@ -457,7 +457,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "onprem_host_service_status{ophid=\"$ophid\"}",
@@ -468,7 +468,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "min(hostapp_onprem_host_service_desired_state{ophid=\"$ophid\"}) by (service)",
@@ -510,7 +510,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "Shows the % memory utilization of a host",
       "fieldConfig": {
@@ -589,7 +589,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "100 * (onprem_host_memory_usage_used{ophid=\"$ophid\"}/onprem_host_memory_usage_total{ophid=\"$ophid\"}) ",
@@ -604,7 +604,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "Shows the Total and Used memory of host in GB",
       "fieldConfig": {
@@ -687,7 +687,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "onprem_host_memory_usage_used{ophid=\"$ophid\"}",
@@ -698,7 +698,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "onprem_host_memory_usage_total{ophid=\"$ophid\"}",
@@ -714,7 +714,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "Disk space used% per file system/mount point on the host ",
       "fieldConfig": {
@@ -797,7 +797,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "onprem_disk_space_used{file_system!~\"overlay.*\",mount_point=~\"/media/root-ro|/media/root-rw|/|/rw|/ro|/storage\",ophid=\"$ophid\"} * 100 / onprem_disk_space_total{file_system!~\"overlay.*\",mount_point=~\"/media/root-ro|/media/root-rw|/|/rw|/ro|/storage\",ophid=\"$ophid\"} ",
@@ -813,7 +813,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "Total & Used Disk space in GB per file system/mount point on the host ",
       "fieldConfig": {
@@ -896,7 +896,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "onprem_disk_space_used{file_system!~\"overlay.*\",mount_point=~\"/media/root-rw|/|/rw|/ro|/storage\",ophid=\"$ophid\"}/ (1024 * 1024)",
@@ -908,7 +908,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "onprem_disk_space_total{ophid=\"$ophid\",mount_point=~\"/media/root-ro|/media/root-rw|/|/rw|/ro|/storage\"} / (1024 * 1024)",
@@ -924,7 +924,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "Combined CPU Usage %",
       "fieldConfig": {
@@ -1002,7 +1002,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "onprem_host_cpu_percentage_combined{ophid=\"$ophid\"}",
@@ -1017,7 +1017,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "federated"
+        "uid": "federatedUID"
       },
       "description": "CPU Usage % per Core",
       "fieldConfig": {
@@ -1095,7 +1095,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "federated"
+            "uid": "federatedUID"
           },
           "exemplar": true,
           "expr": "(onprem_host_cpu_percentage{ophid=\"$ophid\"})",

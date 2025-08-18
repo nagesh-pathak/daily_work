@@ -1,0 +1,50 @@
+# Environment-specific notification UIDs for dashboard alerts
+notificationUids:
+  env-4: "ad291b89-fa23-4c37-a0cc-b78982eaba71"
+  env-2a: "ad291b89-fa23-4c37-a0cc-b78982eaba71"
+  us-dev-2: "c7b6ea7a-ed86-4a96-bdd6-ba4deed79e0e"
+  env-5: "ad291b89-fa23-4c37-a0cc-b78982eaba71"
+  stg-1: "bbcb1bce-a9bf-4bd9-b925-e1dd68cd7fa6"
+  eu-stg-1: "e3bf3f35-f0fb-4356-909d-3b6a3bf84894"
+  prd-1: "a86d5a96-39c9-49f2-b543-d552f7ac59d3"
+  eu-com-1: "a6e3bd2a-416c-47c3-bcc6-3e7d56bef2e6"
+  us-com-1: "us-com1-notification-uid-pqrst"
+  # Default fallback UID if environment is not found
+  default: "ad291b89-fa23-4c37-a0cc-b78982eaba71"
+# Environment-specific federated datasource UIDs for dashboard alerts
+federatedDataSourceUids:
+  env-4: "iUkfVzqGz"
+  env-2a: "iUkfVzqGz"
+  us-dev-2: "iUkfVzqGz"
+  env-5: "iUkfVzqGz"
+  stg-1: "lBCiZJCMk"
+  eu-stg-1: "iUkfVzqGz"
+  prd-1: "iUkfVzqGz"
+  eu-com-1: "iUkfVzqGz"
+  us-com-1: "iUkfVzqGz"
+  # Default fallback UID if environment is not found
+  default: "iUkfVzqGz"
+# Environment-specific loki datasource UIDs for dashboard alerts
+lokiDataSourceUids:
+  env-4: "onprem logs (loki-new)"
+  env-2a: "onprem-loki-env-2a"
+  us-dev-2: "onprem-loki-us-dev-2"
+  env-5: "onprem-log-loki-new"
+  stg-1: "onprem-loki-stg-1"
+  eu-stg-1: "onprem-loki-eu-stg-1"
+  prd-1: "onprem-loki-prd-1"
+  eu-com-1: "onprem-loki-eu-com-1"
+  us-com-1: "onprem logs (loki-new)"
+  # Default fallback UID if environment is not found
+  default: "onprem logs (loki-new)"
+# Environment-specific Grafana URLs for dashboard links
+grafanaUrls:
+  prd-1: "grafana.csp.infoblox.com"
+  us-dev-2: "grafana-csp.us-dev-2.eng.test.infoblox.com"
+  eu-com-1: "grafana-csp.eu-com-1.eu.csp.infoblox.com"
+  eu-stg-1: "grafana-csp.eu-stg-1.eu.stage.test.infoblox.com"
+  env-2a: "grafana-env-2a.test.infoblox.com"
+  stg-1: "grafana-stage.csp.infoblox.com"
+  env-5: "grafana-env-5.test.infoblox.com"
+  # Default fallback URL if environment is not found
+  default: "grafana.csp.infoblox.com"

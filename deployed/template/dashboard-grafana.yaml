@@ -1,0 +1,323 @@
+{{- if .Values.dashboard.enabled -}}
+{{- $currentEnvNotificationUid := index .Values.notificationUids .Values.env | default (index .Values.notificationUids "default") -}}
+{{- $currentEnvFederatedDataSourceUid := index .Values.federatedDataSourceUids .Values.env | default (index .Values.federatedDataSourceUids "default") -}}
+{{- $currentEnvLokiDataSourceUid := index .Values.lokiDataSourceUids .Values.env | default (index .Values.lokiDataSourceUids "default") -}}
+{{- $currentEnvGrafanaUrl := index .Values.grafanaUrls .Values.env | default (index .Values.grafanaUrls "default") -}}
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-flow-service
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCFlowTimeseries.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-api-service
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCAPITimeseries.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-host-customer-classification
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCHostCustomerClassification.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "federatedUID" $currentEnvFederatedDataSourceUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-onprem-events-timeseries
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCOnpremEventsTimeseries.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "federatedUID" $currentEnvFederatedDataSourceUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-onprem-flow-status-timeseries
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCOnpremFlowStatusTimeseries.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "federatedUID" $currentEnvFederatedDataSourceUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-onprem-logs-table
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCOnpremLogsTable.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "loki-uid" $currentEnvLokiDataSourceUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "grafana.csp.infoblox.com" $currentEnvGrafanaUrl -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-onprem-pods-resources-timeseries
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCOnpremPodsResourcesTimeseries.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "federatedUID" $currentEnvFederatedDataSourceUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-onprem-resources-alerts
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCOnpremResourcesAlerts.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "federatedUID" $currentEnvFederatedDataSourceUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-onprem-resources-table
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCOnpremResourcesTable.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "federatedUID" $currentEnvFederatedDataSourceUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-onprem-resources-timeseries
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDCOnpremResourcesTimeseries.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "federatedUID" $currentEnvFederatedDataSourceUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-comprehensive-alerts
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/CDC_Comprehensive_Alerts.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "federatedUID" $currentEnvFederatedDataSourceUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: eps-log-types
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/EPS_Log_types.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent = $dashboardContent | replace "federatedUID" $currentEnvFederatedDataSourceUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: cdc-data-flow-cloud2cloud
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  environment: {{ .Values.env  }}
+  customFolderName: {{ .Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- $dashboardContent := .Files.Get "dash/cloud2cloud.json" -}}
+    {{- $dashboardContent = $dashboardContent | replace "notification-Id" $currentEnvNotificationUid -}}
+    {{- $dashboardContent | nindent 4 }}
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  annotations:
+    strategy.spinnaker.io/replace: "true"
+  name: kafka-topics
+  namespace: cdc-flow
+  labels:
+    integreatly.org/operator: appinfra-grafana
+    helm.sh/chart: {{ $.Chart.Name }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+spec:
+  environment: {{ $.Values.env  }}
+  customFolderName: {{ $.Values.dashboard.folder }}
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  json: |-
+    {{- .Files.Get "dashboards/kafka-topics.json" | nindent 4  }}
+---
+{{- end }}

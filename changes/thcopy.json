@@ -940,14 +940,37 @@
             },
             "query": {
               "params": [
-                "D",
+                "E",
                 "5m",
                 "now"
               ]
             },
             "reducer": {
               "params": [],
-              "type": "min"
+              "type": "avg"
+            },
+            "type": "query"
+          },
+          {
+            "evaluator": {
+              "params": [
+                0.1
+              ],
+              "type": "lt"
+            },
+            "operator": {
+              "type": "or"
+            },
+            "query": {
+              "params": [
+                "F",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
             },
             "type": "query"
           }
@@ -1046,10 +1069,21 @@
             "uid": "federatedUID"
           },
           "exemplar": true,
-          "expr": "min((sum(rate(onprem_cdc_received_events_from_bloxone{ophid!=\"\", source=\"bloxone\"}[1m])) or vector(0)), (sum(rate(onprem_cdc_received_events_from_nios{ophid!=\"\"}[1m])) or vector(0)))",
+          "expr": "sum(rate(onprem_cdc_received_events_from_bloxone{ophid!=\"\", source=\"bloxone\"}[1m])) or vector(0)",
           "interval": "1m",
-          "legendFormat": "Min Source Rate (for alerting)",
-          "refId": "D"
+          "legendFormat": "BloxOne Total Rate",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "federatedUID"
+          },
+          "exemplar": true,
+          "expr": "sum(rate(onprem_cdc_received_events_from_nios{ophid!=\"\"}[1m])) or vector(0)",
+          "interval": "1m",
+          "legendFormat": "NIOS Total Rate",
+          "refId": "F"
         }
       ],
       "thresholds": [

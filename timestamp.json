@@ -66,53 +66,7 @@
             "query": {
               "params": [
                 "A",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "B",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "C",
-                "5m",
+                "15m",
                 "now"
               ]
             },
@@ -127,7 +81,7 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "🚨 **CDC Received Timestamp Missing Alert**\n\n**Alert Status:** FIRING\n**Issue:** One or more input timestamp metrics are not available\n\n**Details:**\n- Check individual timestamp availability in the dashboard\n- Missing timestamps indicate data ingestion issues or metric collection problems\n- Verify source containers: dns_in, ipmeta_in, grpc_in\n- Check data flow from NIOS/BloxOne sources\n- Ensure metrics are being exported properly\n\n**Alert Rule:** CDC Received Timestamp Missing alert\n**Dashboard:** CDC Timestamp Availability Alert\n\n**Affected Components:**\n- DNS Input Container (onprem_cdc_dns_in_timestamp)\n- IPAM Metadata Input Container (onprem_cdc_ipmeta_in_timestamp) \n- BloxOne Input Container (onprem_cdc_grpc_in_timestamp)\n\n**Note:** Each query monitors individual metrics - check individual series in the dashboard for specific ophid details.",
+        "message": "🚨 **CDC Received Timestamp Missing Alert**\n\n**Alert Status:** FIRING\n**Issue:** No received timestamp data available\n\n**Details:**\n- One or more source containers are not reporting received timestamps\n- This indicates data ingestion issues or container problems\n- Check source containers: dns_in, ipmeta_in, grpc_in\n- Verify data flow from NIOS/BloxOne sources\n\n**Alert Rule:** CDC Received Timestamp Missing alert\n**Dashboard:** CDC Timestamp Availability Alert\n\n**Affected Components:**\n- DNS Input Container (onprem_cdc_dns_in_timestamp)\n- IPAM Metadata Input Container (onprem_cdc_ipmeta_in_timestamp) \n- BloxOne Input Container (onprem_cdc_grpc_in_timestamp)\n\n**Note:** Check the evaluation matches below for specific ophid details.",
         "name": "CDC Received Timestamp Missing alert",
         "noDataState": "alerting",
         "notifications": [
@@ -259,34 +213,10 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "onprem_cdc_dns_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - DNS Input Timestamp",
+          "expr": "count by (ophid) ({__name__=~\"onprem_cdc_.*_in_.*timestamp\"})",
+          "legendFormat": "{{ophid}} - Received Timestamps Available",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "onprem_cdc_ipmeta_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - IPAM Input Timestamp",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "onprem_cdc_grpc_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - gRPC Input Timestamp",
-          "range": true,
-          "refId": "C"
         }
       ],
       "thresholds": [
@@ -297,7 +227,7 @@
           "visible": true
         }
       ],
-      "title": "CDC Received Timestamp Status (Individual Metrics)",
+      "title": "CDC Received Timestamp Availability Alert",
       "type": "graph",
       "xaxis": {
         "mode": "time",
@@ -339,214 +269,7 @@
             "query": {
               "params": [
                 "A",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "B",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "C",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "D",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "E",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "F",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "G",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "H",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "I",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "no_value"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "J",
-                "5m",
+                "15m",
                 "now"
               ]
             },
@@ -561,7 +284,7 @@
         "for": "5m",
         "frequency": "10m",
         "handler": 1,
-        "message": "🚨 **CDC Delivered Timestamp Missing Alert**\n\n**Alert Status:** FIRING\n**Issue:** One or more delivery timestamp metrics are not available\n\n**Details:**\n- Check individual delivery path availability in the dashboard\n- Missing timestamps indicate data delivery issues or metric collection problems\n- Verify destination containers: splunk_out, siem_out, http_out, reporting_out, grpc_out\n- Check data flow to external systems (Splunk, SIEM, etc.)\n- Review network connectivity to destination systems\n- Ensure metrics are being exported properly\n\n**Alert Rule:** CDC Delivered Timestamp Missing alert\n**Dashboard:** CDC Timestamp Availability Alert\n\n**Affected Delivery Paths:**\n- Splunk Output Containers (DNS & gRPC inputs)\n- SIEM Output Containers (DNS & gRPC inputs)\n- HTTP Output Containers (DNS & gRPC inputs)\n- Reporting Output Containers (DNS & gRPC inputs)\n- gRPC Output Containers (DNS & IPAM inputs)\n\n**Note:** Each query monitors individual delivery paths - check individual series in the dashboard for specific ophid and delivery path details.",
+        "message": "🚨 **CDC Delivered Timestamp Missing Alert**\n\n**Alert Status:** FIRING\n**Issue:** No delivered timestamp data available\n\n**Details:**\n- One or more destination containers are not reporting delivered timestamps\n- This indicates data delivery issues or container problems\n- Check destination containers: splunk_out, siem_out, http_out, reporting_out, grpc_out\n- Verify data flow to external systems (Splunk, SIEM, etc.)\n\n**Alert Rule:** CDC Delivered Timestamp Missing alert\n**Dashboard:** CDC Timestamp Availability Alert\n\n**Affected Components:**\n- Splunk Output Containers\n- SIEM Output Containers\n- HTTP Output Containers\n- Reporting Output Containers\n- BloxOne Output Containers\n\n**Note:** Check the evaluation matches below for specific ophid details.",
         "name": "CDC Delivered Timestamp Missing alert",
         "noDataState": "alerting",
         "notifications": [
@@ -692,109 +415,10 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "onprem_cdc_splunk_out_dns_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - Splunk DNS Delivery",
+          "expr": "count by (ophid) ({__name__=~\"onprem_cdc_.*_out_.*timestamp\"})",
+          "legendFormat": "{{ophid}} - Delivered Timestamps Available",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "onprem_cdc_splunk_out_grpc_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - Splunk gRPC Delivery",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "onprem_cdc_siem_out_dns_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - SIEM DNS Delivery",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "onprem_cdc_siem_out_grpc_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - SIEM gRPC Delivery",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "onprem_cdc_http_out_dns_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - HTTP DNS Delivery",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "onprem_cdc_http_out_grpc_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - HTTP gRPC Delivery",
-          "range": true,
-          "refId": "F"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "onprem_cdc_reporting_out_dns_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - Reporting DNS Delivery",
-          "range": true,
-          "refId": "G"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "onprem_cdc_reporting_out_grpc_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - Reporting gRPC Delivery",
-          "range": true,
-          "refId": "H"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "onprem_cdc_grpc_out_dns_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - gRPC DNS Output",
-          "range": true,
-          "refId": "I"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "onprem_cdc_grpc_out_ipmeta_in_timestamp{} * 0 + 1",
-          "legendFormat": "{{ophid}} - gRPC IPAM Output",
-          "range": true,
-          "refId": "J"
         }
       ],
       "thresholds": [
@@ -805,7 +429,7 @@
           "visible": true
         }
       ],
-      "title": "CDC Delivered Timestamp Status (Individual Delivery Paths)",
+      "title": "CDC Delivered Timestamp Availability Alert",
       "type": "graph",
       "xaxis": {
         "mode": "time",

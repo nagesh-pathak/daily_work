@@ -453,6 +453,269 @@
       "yaxis": {
         "align": false
       }
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                600
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "E",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "2m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "🚨 **CDC Timestamp Gap Alert**\n\n**Alert Status:** FIRING\n**Issue:** Timestamp gap between input and output containers exceeds 10 minutes\n\n**Details:**\n- Significant delay detected between data ingestion and delivery\n- Gap between input container timestamps and output container timestamps\n- This indicates processing bottlenecks or delivery issues\n- Check container performance and data flow pipeline\n\n**Alert Rule:** CDC Timestamp Gap alert\n**Dashboard:** CDC Timestamp Availability Alert\n\n**Threshold:** Gap > 10 minutes (600 seconds)\n\n**Affected Data Flow:**\n- DNS Input → SIEM/HTTP/Splunk Output\n- GRPC Input → SIEM/HTTP/Splunk Output\n- IPMETA Input → SIEM/HTTP/Splunk Output\n\n**Note:** Check the evaluation matches below for specific ophid and container details.",
+        "name": "CDC Timestamp Gap alert",
+        "noDataState": "no_data",
+        "notifications": [
+          {
+            "uid": "notification-Id"
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iUkfVzqGz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Gap (seconds)",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 300
+              },
+              {
+                "color": "red",
+                "value": 600
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 4,
+      "hiddenSeries": false,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.5.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/.*Gap.*/",
+          "color": "#F2495C"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "# Disabled due to many-to-many matching issues\n# Use specific queries below for accurate gap monitoring\nvector(0)",
+          "hide": true,
+          "legendFormat": "{{ophid}} - General Gap (Disabled)",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "# Simple DNS Gap Check - Just show if any data exists\n(\n  max by (ophid) ({__name__=~\"onprem_cdc_.*_out_dns_in_.*timestamp\"}) / 1000\n  - max by (ophid) ({__name__=\"onprem_cdc_dns_in_timestamp\"}) / 1000\n)",
+          "legendFormat": "{{ophid}} - DNS Processing Gap (seconds)",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "# Simple GRPC Gap Check\n(\n  max by (ophid) ({__name__=~\"onprem_cdc_.*_out_grpc_in_.*timestamp\"}) / 1000\n  - max by (ophid) ({__name__=~\"onprem_cdc_grpc_in_.*timestamp\"}) / 1000\n)",
+          "legendFormat": "{{ophid}} - GRPC Processing Gap (seconds)",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "# Simple IPMETA Gap Check\n(\n  max by (ophid) ({__name__=~\"onprem_cdc_.*_out_ipmeta_in_.*timestamp\"}) / 1000\n  - max by (ophid) ({__name__=\"onprem_cdc_ipmeta_in_timestamp\"}) / 1000\n)",
+          "legendFormat": "{{ophid}} - IPMETA Processing Gap (seconds)",
+          "range": true,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "# Basic Input Availability Check - Show what input data exists\nmax by (ophid) ({__name__=~\"onprem_cdc_.*_in_.*timestamp\"})",
+          "legendFormat": "{{ophid}} - Input Data Available",
+          "range": true,
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "# Basic Output Availability Check - Show what output data exists\nmax by (ophid) ({__name__=~\"onprem_cdc_.*_out_.*timestamp\"})",
+          "hide": false,
+          "legendFormat": "{{ophid}} - Output Data Available",
+          "range": true,
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iUkfVzqGz"
+          },
+          "editorMode": "code",
+          "expr": "# List all available timestamp metrics for debugging\ncount by (__name__) ({__name__=~\"onprem_cdc_.*timestamp\"})",
+          "legendFormat": "Available: {{__name__}}",
+          "range": true,
+          "refId": "G"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "gt",
+          "value": 600,
+          "visible": true
+        }
+      ],
+      "title": "CDC Timestamp Gap Monitor (Input → Output)",
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "s",
+          "label": "Timestamp Gap",
+          "logBase": 1,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
     }
   ],
   "refresh": "10m",

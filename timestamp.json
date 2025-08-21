@@ -470,7 +470,7 @@
             },
             "query": {
               "params": [
-                "E",
+                "A",
                 "5m",
                 "now"
               ]
@@ -610,67 +610,11 @@
             "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
-          "expr": "# Disabled due to many-to-many matching issues\n# Use specific queries below for accurate gap monitoring\nvector(0)",
-          "hide": true,
-          "legendFormat": "{{ophid}} - General Gap (Disabled)",
+          "expr": "# Simple Gap Monitoring - Using existing available metrics\n# Shows processing gaps for discovered metrics\nlabel_replace(\n  count by (__name__) ({__name__=~\"onprem_cdc_.*_out_.*_in_.*timestamp\"}),\n  \"gap_type\", \"$1\", \"__name__\", \".*_(siem|http|splunk|grpc)_out_.*\"\n)",
+          "hide": false,
+          "legendFormat": "{{__name__}} - Gap Monitor",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "# Simple DNS Gap Check - Just show if any data exists\n(\n  max by (ophid) ({__name__=~\"onprem_cdc_.*_out_dns_in_.*timestamp\"}) / 1000\n  - max by (ophid) ({__name__=\"onprem_cdc_dns_in_timestamp\"}) / 1000\n)",
-          "legendFormat": "{{ophid}} - DNS Processing Gap (seconds)",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "# Simple GRPC Gap Check\n(\n  max by (ophid) ({__name__=~\"onprem_cdc_.*_out_grpc_in_.*timestamp\"}) / 1000\n  - max by (ophid) ({__name__=~\"onprem_cdc_grpc_in_.*timestamp\"}) / 1000\n)",
-          "legendFormat": "{{ophid}} - GRPC Processing Gap (seconds)",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "# Simple IPMETA Gap Check\n(\n  max by (ophid) ({__name__=~\"onprem_cdc_.*_out_ipmeta_in_.*timestamp\"}) / 1000\n  - max by (ophid) ({__name__=\"onprem_cdc_ipmeta_in_timestamp\"}) / 1000\n)",
-          "legendFormat": "{{ophid}} - IPMETA Processing Gap (seconds)",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "# Basic Input Availability Check - Show what input data exists\nmax by (ophid) ({__name__=~\"onprem_cdc_.*_in_.*timestamp\"})",
-          "legendFormat": "{{ophid}} - Input Data Available",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "iUkfVzqGz"
-          },
-          "editorMode": "code",
-          "expr": "# Basic Output Availability Check - Show what output data exists\nmax by (ophid) ({__name__=~\"onprem_cdc_.*_out_.*timestamp\"})",
-          "hide": false,
-          "legendFormat": "{{ophid}} - Output Data Available",
-          "range": true,
-          "refId": "H"
         },
         {
           "datasource": {
@@ -681,7 +625,7 @@
           "expr": "# List all available timestamp metrics for debugging\ncount by (__name__) ({__name__=~\"onprem_cdc_.*timestamp\"})",
           "legendFormat": "Available: {{__name__}}",
           "range": true,
-          "refId": "G"
+          "refId": "B"
         }
       ],
       "thresholds": [

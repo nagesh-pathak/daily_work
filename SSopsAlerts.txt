@@ -1,0 +1,256 @@
+CDC DASHBOARDS ALERT INVENTORY
+========================================
+
+This document contains a comprehensive list of all alerts categorized into existing and new alerts based on current implementation.
+
+========================================
+EXISTING ALERTS
+========================================
+
+These are alerts that are already implemented and operational in the current system:
+
+1. CDC API Service Down Alert (5xx Errors)
+   Dashboard: cdc-api-timeseries.json
+   Purpose: Monitors CDC API service availability. Alerts when requests fail due to the 
+   service being down (5xx server errors), indicating complete API service outage requiring 
+   immediate response.
+
+2. CDC API Dependency Failure Alert (Request Unable to Fulfill)
+   Dashboard: cdc-api-timeseries.json
+   Purpose: Monitors CDC API dependencies. Alerts when API requests fail due to failures 
+   in dependent services, indicating upstream service issues affecting API functionality.
+
+3. CDC API Pod Restart Alert
+   Dashboard: cdc-api-timeseries.json
+   Purpose: Monitors CDC API pod restarts. Alerts when API pods restart unexpectedly, which 
+   may indicate service instability, resource issues, or underlying infrastructure problems.
+
+4. CDC Flow Service Down Alert (5xx Errors)
+   Dashboard: cdc-flow-timeseries.json
+   Purpose: Monitors CDC Flow service availability. Alerts when requests fail due to the 
+   flow service being down (5xx server errors), indicating complete flow service outage.
+
+5. CDC Flow Dependency Failure Alert (Request Unable to Fulfill)
+   Dashboard: cdc-flow-timeseries.json
+   Purpose: Monitors CDC Flow dependencies. Alerts when flow requests fail due to failures 
+   in dependent services, indicating upstream service issues affecting flow functionality.
+
+6. CDC Flow Pod Restart Alert
+   Dashboard: cdc-flow-timeseries.json
+   Purpose: Monitors CDC Flow pod restarts. Alerts when Flow service pods restart unexpectedly, 
+   indicating potential service instability or resource constraints.
+
+7. cdc-data-flow Pod Restart Alert (Cloud-to-Cloud)
+   Dashboard: cdc-cloud-timeseries.json
+   Purpose: Monitors data flow pod restarts in cloud environment. Alerts when cdc-data-flow 
+   pods restart, indicating potential instability in the cloud data processing pipeline.
+
+8. cdc-data-flow Pod Failed Alert (Cloud-to-Cloud)
+   Dashboard: cdc-cloud-timeseries.json
+   Purpose: Monitors data flow pod failures in cloud environment. Alerts when cdc-data-flow 
+   pods fail, indicating critical issues in cloud data processing that require immediate attention.
+
+9. High CPU Usage Alert (Cloud-to-Cloud)
+   Dashboard: cdc-cloud-timeseries.json
+   Threshold: > 60%
+   Purpose: Monitors CPU usage in cloud environment. Alerts when CPU utilization exceeds 60%, 
+   providing early warning of resource constraints in cloud-based CDC services.
+
+10. High Memory Usage Alert (Cloud-to-Cloud)
+    Dashboard: cdc-cloud-timeseries.json
+    Threshold: > 60%
+    Purpose: Monitors memory usage in cloud environment. Alerts when memory consumption exceeds 
+    60%, providing early warning of memory pressure in cloud-based CDC services.
+
+========================================
+NEW ALERTS
+========================================
+
+These are newly implemented alerts that provide enhanced monitoring capabilities:
+
+11. CDC Onprem Memory Usage Alert
+    Dashboard: cdc-onprem-resource-alerts.json
+    Threshold: > 90%
+    Evaluation: 30 minutes average, triggers after 5 minutes
+    Severity: Critical
+    Purpose: Monitors memory usage on CDC onprem hosts. Alerts when memory consumption exceeds 
+    the critical threshold of 90%, indicating potential performance impact and need for immediate 
+    attention.
+
+12. CDC Onprem CPU Usage Alert
+    Dashboard: cdc-onprem-resource-alerts.json
+    Threshold: > 90%
+    Evaluation: 30 minutes average, triggers after 5 minutes
+    Severity: Critical
+    Purpose: Monitors CPU usage on CDC onprem hosts. Alerts when CPU utilization exceeds 90%, 
+    indicating performance impact and potential resource saturation requiring immediate attention.
+
+13. CDC Onprem Volume Usage Alert
+    Dashboard: cdc-onprem-resource-alerts.json
+    Threshold: > 90%
+    Evaluation: 3 hours average, triggers after 10 minutes
+    Severity: Critical
+    Purpose: Monitors disk space usage on CDC onprem hosts. Alerts when disk usage exceeds 90%, 
+    indicating risk of service disruption due to insufficient disk space. Immediate cleanup or 
+    disk expansion required.
+
+14. Low Events Per Second Alert
+   Dashboard: cdc-onprem-comprehensive-alert.json
+   Threshold: < 300 EPS
+   Evaluation: 10 minutes average, triggers after 10 minutes
+   Severity: Warning
+   Purpose: Monitors event ingestion rate. Alerts when Events Per Second drops below 300 for 
+   extended periods, indicating potential data ingestion issues, upstream source problems, 
+   network connectivity issues, or filter configuration problems.
+
+15. Event Queue Backup Alert
+   Dashboard: cdc-onprem-comprehensive-alert.json
+   Threshold: > 50,000 pending events
+   Evaluation: 2 minutes average, triggers after 2 minutes
+   Severity: Critical
+   Purpose: Monitors pending event accumulation. Alerts when pending events exceed 50,000, 
+   indicating processing bottlenecks, downstream system issues, resource constraints, or 
+   potential data loss risk.
+
+16. Individual Source No Events Alert
+   Dashboard: cdc-onprem-comprehensive-alert.json
+   Threshold: < 0.1 events/sec for BloxOne OR NIOS
+   Evaluation: 5 minutes average, triggers after 5 minutes
+   Severity: Critical
+   Purpose: Monitors individual event sources (BloxOne and NIOS). Alerts when either source 
+   stops sending events, indicating connectivity issues, individual source failures, upstream 
+   source problems, or partial service disruption requiring immediate attention.
+
+17. Zero Open Sockets Alert
+   Dashboard: cdc-onprem-comprehensive-alert.json
+   Threshold: < 1 open socket
+   Evaluation: 15 minutes last value, triggers after 15 minutes
+   Severity: Warning
+   Purpose: Monitors network connectivity by tracking open sockets. Alerts when no open sockets 
+   are detected, suggesting network connectivity issues, service discovery problems, configuration 
+   errors, or potential isolation from data sources.
+
+18. No Active Flows Alert
+   Dashboard: cdc-onprem-comprehensive-alert.json
+   Threshold: < 1 active flow
+   Evaluation: 5 minutes last value, triggers after 5 minutes
+   Severity: Critical
+   Purpose: Monitors active data flows. Alerts when no active flows are detected, indicating 
+   complete service outage where all data flows are stopped, causing severe customer impact 
+   and requiring immediate investigation.
+
+19. Flow Status Alert
+   Dashboard: cdc-onprem-flow-status-table.json
+   Threshold: Flows in "Review Details" state (status = 0)
+   Severity: Warning
+   Purpose: Monitors CDC flow status. Alerts when one or more accounts have flows in the 
+   "Review Details" state, indicating flows requiring attention or configuration review.
+
+20. High QPS Alert
+    Dashboard: cdc-onprem-comprehensive-alert.json
+    Threshold: > 100 QPS
+    Evaluation: 10 minutes average, triggers after 10 minutes
+    Severity: Warning
+    Purpose: Monitors Queries Per Second to CDC services. Alerts when QPS exceeds 100 for 
+    extended periods, indicating potential performance impact, resource saturation, possible 
+    DDoS attacks, client misconfiguration, or need for rate limiting.
+
+21. CDC API 4xx Error Alert
+    Dashboard: cdc-api-timeseries.json
+    Severity: Warning
+    Purpose: Monitors CDC API for client errors (4xx HTTP status codes). Alerts when API 
+    experiences high rates of 4xx errors, indicating authentication issues, invalid requests, 
+    or resource not found errors.
+
+22. CDC Flow 4xx Error Alert
+    Dashboard: cdc-flow-timeseries.json
+    Severity: Warning
+    Purpose: Monitors CDC Flow service for 4xx HTTP errors. Alerts when the flow service 
+    returns high rates of client errors, indicating potential configuration or request issues.
+
+23. Persistent Unhealthy Pods Alert
+    Dashboard: cdc-onprem-comprehensive-alert.json
+    Threshold: > 3 unhealthy pods
+    Evaluation: 1 hour average, triggers after 1 hour
+    Severity: Warning
+    Purpose: Monitors pod health in the CDC namespace. Alerts when more than 3 pods remain 
+    unhealthy for over an hour, indicating systemic issues, resource constraints, configuration 
+    problems, potential cascading failures, or degraded service capacity.
+
+24. C2C Data Flow Inactive, Network Inactivity Alert
+    Dashboard: cdc-cloud-timeseries.json
+    Severity: Critical
+    Purpose: Monitors Cloud-to-Cloud (C2C) data flow activity. Alerts when no network activity 
+    is detected for C2C data flows, indicating that cloud-to-cloud data transfer has stopped 
+    and requires investigation.
+   Dashboard: cdc-onprem-comprehensive-alert.json
+   Threshold: < 300 EPS
+   Evaluation: 10 minutes average, triggers after 10 minutes
+   Severity: Warning
+   Purpose: Monitors event ingestion rate. Alerts when Events Per Second drops below 300 for 
+   extended periods, indicating potential data ingestion issues, upstream source problems, 
+   network connectivity issues, or filter configuration problems.
+
+
+========================================
+ALERT SUMMARY
+========================================
+
+Total Alerts: 24
+
+EXISTING ALERTS (10):
+- CDC API Service Down Alert (5xx errors)
+- CDC API Dependency Failure Alert (request unable to fulfill)
+- CDC API Pod Restart Alert
+- CDC Flow Service Down Alert (5xx errors)
+- CDC Flow Dependency Failure Alert (request unable to fulfill)
+- CDC Flow Pod Restart Alert
+- cdc-data-flow Pod Restart Alert (Cloud-to-Cloud)
+- cdc-data-flow Pod Failed Alert (Cloud-to-Cloud)
+- High CPU Usage Alert (Cloud-to-Cloud)
+- High Memory Usage Alert (Cloud-to-Cloud)
+
+NEW ALERTS (14):
+- CDC Onprem Memory Usage Alert
+- CDC Onprem CPU Usage Alert
+- CDC Onprem Volume Usage Alert
+- Low Events Per Second Alert
+- Event Queue Backup Alert
+- Individual Source No Events Alert
+- Zero Open Sockets Alert
+- No Active Flows Alert
+- Flow Status Alert
+- High QPS Alert
+- CDC API 4xx Error Alert
+- CDC Flow 4xx Error Alert
+- Persistent Unhealthy Pods Alert
+- C2C Data Flow Inactive, Network Inactivity Alert
+
+By Severity:
+- Critical: 8 alerts (Service outages, no data flows, resource exhaustion, pod failures)
+- Warning: 16 alerts (Resource usage, performance, connectivity issues)
+
+By Dashboard:
+- cdc-api-timeseries.json: 4 alerts (3 existing, 1 new)
+- cdc-flow-timeseries.json: 4 alerts (3 existing, 1 new)
+- cdc-cloud-timeseries.json: 5 alerts (4 existing, 1 new)
+- cdc-onprem-resource-alerts.json: 3 alerts (all new)
+- cdc-onprem-comprehensive-alert.json: 7 alerts (all new)
+- cdc-onprem-flow-status-table.json: 1 alert (new)
+
+========================================
+NOTES
+========================================
+
+1. EXISTING ALERTS represent the baseline monitoring that was already in place, focusing on:
+   - API and Flow service availability (5xx errors, dependency failures)
+   - Pod health and restart monitoring
+   - Basic cloud resource monitoring (CPU, memory)
+
+2. NEW ALERTS provide enhanced monitoring capabilities including:
+   - Comprehensive onprem resource monitoring (CPU, memory, disk)
+   - Advanced data flow monitoring (EPS, queue backup, source-specific)
+   - Network connectivity monitoring
+   - API performance and error rate monitoring
+   - Enhanced pod health monitoring
+

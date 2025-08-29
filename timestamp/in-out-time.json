@@ -203,12 +203,13 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
           "values": [
-            "lastNotNull",
             "current"
           ]
         },
@@ -389,12 +390,13 @@
       "id": 2,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
           "values": [
-            "lastNotNull",
             "current"
           ]
         },
@@ -831,7 +833,7 @@
         "alignAsTable": true,
         "avg": false,
         "current": true,
-        "max": true,
+        "max": false,
         "min": false,
         "rightSide": true,
         "show": true,
@@ -892,6 +894,194 @@
       "yaxes": [
         {
           "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                1800
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "10m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_last_state",
+        "for": "2m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "🟡 **CDC Flow Timestamp Lag Alert**\n\n**Alert Status:** FIRING\n**Issue:** High processing lag detected between received and delivered timestamps\n\n**Details:**\n- Processing lag is greater than 30 minutes (1800 seconds)\n- Data flow may be experiencing delays or bottlenecks\n- Check affected flows for processing issues\n\n**Alert Rule:** CDC Flow Timestamp Lag Detection\n**Dashboard:** CDC Flow In-Out Time Dashboard\n**Threshold:** 30 minutes (1800 seconds)\n\n**Action Required:**\n- Check affected flows in the dashboard\n- Investigate CDC processing pipeline\n- Verify container/service performance\n- Check for resource constraints\n- Monitor queue depths and processing rates",
+        "name": "CDC Flow Timestamp Lag Alert",
+        "noDataState": "keep_last_state",
+        "notifications": [
+          {
+            "uid": "bbcb1bce-a9bf-4bd9-b925-e1dd68cd7fa6"
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "lBCiZJCMk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Lag (seconds)",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 900
+              },
+              {
+                "color": "red",
+                "value": 1800
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 5,
+      "hiddenSeries": false,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.5.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "lBCiZJCMk"
+          },
+          "editorMode": "code",
+          "expr": "abs(max by (account_id, ophid, flow_id) (cdc_flow_timestamp_out) - max by (account_id, ophid, flow_id) (cdc_flow_timestamp_in))",
+          "legendFormat": "{{account_id}} - {{ophid}} - {{flow_id}} Lag",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "gt",
+          "value": 1800,
+          "visible": true
+        }
+      ],
+      "title": "🟡 CDC Flow Timestamp Lag Alert",
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "s",
           "logBase": 1,
           "show": true
         },

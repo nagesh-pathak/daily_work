@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 271649,
+  "id": null,
   "links": [
     {
       "asDropdown": true,
@@ -105,7 +105,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*dns_in.*"
+              "options": ".*flow_id.*41244.*"
             },
             "properties": [
               {
@@ -120,7 +120,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*grpc_in.*"
+              "options": ".*flow_id.*41272.*"
             },
             "properties": [
               {
@@ -135,7 +135,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*ipmeta_in.*"
+              "options": ".*flow_id.*41316.*"
             },
             "properties": [
               {
@@ -143,6 +143,51 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*flow_id.*41317.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*flow_id.*41239.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*flow_id.*41294.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "yellow"
                 }
               }
             ]
@@ -179,13 +224,13 @@
             "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
-          "expr": "{__name__=~\"onprem_cdc_.*timestamp\",__name__!~\".*_out_.*\",ophid=~\"$ophid\"}",
-          "legendFormat": "{{__name__}} - {{ophid}}",
+          "expr": "max by (flow_id, ophid, account_id, container_name) (cdc_flow_timestamp_in{ophid=~\"$ophid\",flow_id=~\"$flow_id\",account_id=~\"$account_id\"})",
+          "legendFormat": "Flow {{flow_id}} - OpHID {{ophid}} - Account {{account_id}} - Container {{container_name}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "CDC Received Timestamps",
+      "title": "CDC Flow Received Timestamps",
       "transparent": true,
       "type": "timeseries"
     },
@@ -245,52 +290,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*splunk_out.*"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "purple"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": ".*siem_out.*"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "red"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": ".*http_out.*"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "yellow"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": ".*grpc_out.*"
+              "options": ".*flow_id.*41244.*"
             },
             "properties": [
               {
@@ -305,7 +305,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*reporting_out.*"
+              "options": ".*flow_id.*41272.*"
             },
             "properties": [
               {
@@ -313,6 +313,66 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "dark-green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*flow_id.*41316.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*flow_id.*41317.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "light-purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*flow_id.*41239.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*flow_id.*41294.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-yellow"
                 }
               }
             ]
@@ -349,249 +409,15 @@
             "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
-          "expr": "{__name__=~\"onprem_cdc_.*_out_.*timestamp\",ophid=~\"$ophid\"}",
-          "legendFormat": "{{__name__}} - {{ophid}}",
+          "expr": "max by (flow_id, ophid, account_id, container_name) (cdc_flow_timestamp_out{ophid=~\"$ophid\",flow_id=~\"$flow_id\",account_id=~\"$account_id\"})",
+          "legendFormat": "Flow {{flow_id}} - OpHID {{ophid}} - Account {{account_id}} - Container {{container_name}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "CDC Delivered Timestamps",
+      "title": "CDC Flow Delivered Timestamps",
       "transparent": true,
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "lBCiZJCMk"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "color-background"
-            },
-            "inspect": false
-          },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "0"
-                }
-              },
-              "type": "value"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 0
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Metric"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 300
-              },
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "blue"
-                }
-              },
-              {
-                "id": "custom.filterable",
-                "value": true
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "OpHID"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 375
-              },
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "light-purple"
-                }
-              },
-              {
-                "id": "custom.filterable",
-                "value": true
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Timestamp Value"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 200
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "red"
-                }
-              },
-              {
-                "id": "custom.filterable",
-                "value": false
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Account ID"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 180
-              },
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "green"
-                }
-              },
-              {
-                "id": "custom.filterable",
-                "value": true
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 16,
-        "x": 0,
-        "y": 16
-      },
-      "id": 3,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": false,
-            "displayName": "Metric"
-          }
-        ],
-        "filterable": true
-      },
-      "pluginVersion": "9.5.10",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "lBCiZJCMk"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "{__name__=~\"onprem_cdc_.*timestamp\",ophid=~\"$ophid\"} == 0",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "🔴 Metrics with Zero Timestamps",
-      "transparent": true,
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true,
-              "instance": true,
-              "job": true,
-              "exported_job": true,
-              "container": true,
-              "pod": true,
-              "namespace": true,
-              "node": true,
-              "endpoint": true,
-              "service": true,
-              "prometheus": true,
-              "prometheus_replica": true,
-              "receive": true,
-              "__tmp_hash": true,
-              "agent_id": true,
-              "app": true,
-              "host": true,
-              "host_id": true,
-              "pool_id": true,
-              "service_id": true,
-              "subject_type": true
-            },
-            "indexByName": {
-              "__name__": 0,
-              "ophid": 1,
-              "Value": 2,
-              "account_id": 3
-            },
-            "renameByName": {
-              "Value": "Timestamp Value",
-              "__name__": "Metric",
-              "ophid": "OpHID",
-              "account_id": "Account ID"
-            }
-          }
-        }
-      ],
-      "type": "table"
     }
   ],
   "refresh": "30s",
@@ -599,6 +425,7 @@
   "style": "dark",
   "tags": [
     "cdc",
+    "flow",
     "timestamp",
     "monitoring"
   ],
@@ -614,7 +441,34 @@
           "type": "prometheus",
           "uid": "lBCiZJCMk"
         },
-        "definition": "label_values({__name__=~\"onprem_cdc_.*timestamp\"}, ophid)",
+        "definition": "label_values(cdc_flow_timestamp_in, account_id)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Account ID",
+        "multi": true,
+        "name": "account_id",
+        "options": [],
+        "query": {
+          "query": "label_values(cdc_flow_timestamp_in, account_id)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "lBCiZJCMk"
+        },
+        "definition": "label_values(cdc_flow_timestamp_in{account_id=~\"$account_id\"}, ophid)",
         "hide": 0,
         "includeAll": true,
         "label": "OpHID",
@@ -622,7 +476,34 @@
         "name": "ophid",
         "options": [],
         "query": {
-          "query": "label_values({__name__=~\"onprem_cdc_.*timestamp\"}, ophid)",
+          "query": "label_values(cdc_flow_timestamp_in{account_id=~\"$account_id\"}, ophid)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "lBCiZJCMk"
+        },
+        "definition": "label_values(cdc_flow_timestamp_in{account_id=~\"$account_id\",ophid=~\"$ophid\"}, flow_id)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Flow ID",
+        "multi": true,
+        "name": "flow_id",
+        "options": [],
+        "query": {
+          "query": "label_values(cdc_flow_timestamp_in{account_id=~\"$account_id\",ophid=~\"$ophid\"}, flow_id)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -639,8 +520,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CDC Timestamp Monitoring Dashboard",
-  "uid": "cdc-timestamp-monitoring-new",
+  "title": "CDC Flow In-Out Time Dashboard",
+  "uid": "cdc-flow-in-out-time",
   "version": 1,
   "weekStart": ""
 }

@@ -52,7 +52,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "lBCiZJCMk"
+        "uid": "iUkfVzqGz"
       },
       "fieldConfig": {
         "defaults": {
@@ -176,7 +176,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "lBCiZJCMk"
+            "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
           "expr": "{__name__=~\"onprem_cdc_.*timestamp\",__name__!~\".*_out_.*\",ophid=~\"$ophid\"}",
@@ -192,7 +192,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "lBCiZJCMk"
+        "uid": "iUkfVzqGz"
       },
       "fieldConfig": {
         "defaults": {
@@ -346,7 +346,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "lBCiZJCMk"
+            "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
           "expr": "{__name__=~\"onprem_cdc_.*_out_.*timestamp\",ophid=~\"$ophid\"}",
@@ -362,7 +362,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "lBCiZJCMk"
+        "uid": "iUkfVzqGz"
       },
       "fieldConfig": {
         "defaults": {
@@ -535,7 +535,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "lBCiZJCMk"
+            "uid": "iUkfVzqGz"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -612,7 +612,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "lBCiZJCMk"
+          "uid": "iUkfVzqGz"
         },
         "definition": "label_values({__name__=~\"onprem_cdc_.*timestamp\"}, ophid)",
         "hide": 0,

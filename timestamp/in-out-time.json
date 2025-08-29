@@ -99,7 +99,7 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "dateTimeAsIso"
         },
         "overrides": [
           {
@@ -208,7 +208,8 @@
           "placement": "bottom",
           "showLegend": true,
           "values": [
-            "lastNotNull"
+            "lastNotNull",
+            "current"
           ]
         },
         "tooltip": {
@@ -224,7 +225,7 @@
             "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
-          "expr": "max by (flow_id, ophid, account_id, container_name) (cdc_flow_timestamp_in{ophid=~\"$ophid\",flow_id=~\"$flow_id\",account_id=~\"$account_id\"})",
+          "expr": "max by (flow_id, ophid, account_id, container_name) (cdc_flow_timestamp_in{ophid=~\"$ophid\",flow_id=~\"$flow_id\",account_id=~\"$account_id\"}) * 1000",
           "legendFormat": "Account {{account_id}} - OpHID {{ophid}} - Flow {{flow_id}} - Container {{container_name}}",
           "range": true,
           "refId": "A"
@@ -284,7 +285,7 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "dateTimeAsIso"
         },
         "overrides": [
           {
@@ -393,7 +394,8 @@
           "placement": "bottom",
           "showLegend": true,
           "values": [
-            "lastNotNull"
+            "lastNotNull",
+            "current"
           ]
         },
         "tooltip": {
@@ -409,7 +411,7 @@
             "uid": "lBCiZJCMk"
           },
           "editorMode": "code",
-          "expr": "max by (flow_id, ophid, account_id, container_name) (cdc_flow_timestamp_out{ophid=~\"$ophid\",flow_id=~\"$flow_id\",account_id=~\"$account_id\"})",
+          "expr": "max by (flow_id, ophid, account_id, container_name) (cdc_flow_timestamp_out{ophid=~\"$ophid\",flow_id=~\"$flow_id\",account_id=~\"$account_id\"}) * 1000",
           "legendFormat": "Account {{account_id}} - OpHID {{ophid}} - Flow {{flow_id}} - Container {{container_name}}",
           "range": true,
           "refId": "A"
@@ -560,6 +562,10 @@
               {
                 "id": "custom.filterable",
                 "value": false
+              },
+              {
+                "id": "unit",
+                "value": "dateTimeAsIso"
               }
             ]
           },
@@ -643,7 +649,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max by (account_id, ophid, flow_id, container_name) (max by (account_id, ophid, flow_id, container_name) (cdc_flow_timestamp_in{account_id=~\"$account_id\",ophid=~\"$ophid\",flow_id=~\"$flow_id\"}) or max by (account_id, ophid, flow_id, container_name) (cdc_flow_timestamp_out{account_id=~\"$account_id\",ophid=~\"$ophid\",flow_id=~\"$flow_id\"}))",
+          "expr": "max by (account_id, ophid, flow_id, container_name) (max by (account_id, ophid, flow_id, container_name) (cdc_flow_timestamp_in{account_id=~\"$account_id\",ophid=~\"$ophid\",flow_id=~\"$flow_id\"}) or max by (account_id, ophid, flow_id, container_name) (cdc_flow_timestamp_out{account_id=~\"$account_id\",ophid=~\"$ophid\",flow_id=~\"$flow_id\"})) * 1000",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",

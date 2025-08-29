@@ -562,6 +562,49 @@
                 "value": false
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Change Rate"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": {
+                        "text": "🔴 FROZEN"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "color-background"
+                }
+              }
+            ]
           }
         ]
       },
@@ -606,11 +649,29 @@
           "legendFormat": "__auto",
           "range": false,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "lBCiZJCMk"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max by (account_id, ophid, flow_id, container_name) (deriv(max by (account_id, ophid, flow_id, container_name) (cdc_flow_timestamp_in{account_id=~\"$account_id\",ophid=~\"$ophid\",flow_id=~\"$flow_id\"})[30m:]) or deriv(max by (account_id, ophid, flow_id, container_name) (cdc_flow_timestamp_out{account_id=~\"$account_id\",ophid=~\"$ophid\",flow_id=~\"$flow_id\"})[30m:]))",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "B"
         }
       ],
-      "title": "🟠 CDC Flow Timestamps",
+      "title": "🟠 CDC Flow Timestamps - Frozen Detection",
       "transparent": true,
       "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
         {
           "id": "organize",
           "options": {
@@ -639,10 +700,12 @@
               "ophid": 1,
               "flow_id": 2,
               "container_name": 3,
-              "Value": 4
+              "Value #A": 4,
+              "Value #B": 5
             },
             "renameByName": {
-              "Value": "Timestamp",
+              "Value #A": "Timestamp",
+              "Value #B": "Change Rate",
               "account_id": "Account ID",
               "ophid": "OpHID",
               "flow_id": "Flow ID",
@@ -652,6 +715,189 @@
         }
       ],
       "type": "table"
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0.001
+              ],
+              "type": "lt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "20m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_last_state",
+        "for": "5m",
+        "frequency": "2m",
+        "handler": 1,
+        "message": "🔴 **CDC Flow Frozen Timestamp Alert**\n\n**Alert Status:** FIRING\n**Issue:** Frozen timestamp detected\n\n**Details:**\n- One or more CDC flows have frozen timestamps (no change detected in 30+ minutes)\n- Data processing may be stuck or halted\n- Immediate investigation required\n- Check the dashboard for specific flow details\n\n**Alert Rule:** CDC Flow Frozen Timestamp Detection\n**Dashboard:** CDC Flow In-Out Time Dashboard\n\n**Action Required:**\n- Check affected flows in the table below\n- Investigate CDC service status\n- Verify data pipeline health\n- Check container/service logs for errors",
+        "name": "CDC Flow Frozen Timestamp Alert",
+        "noDataState": "keep_last_state",
+        "notifications": [
+          {
+            "uid": "ad291b89-fa23-4c37-a0cc-b78982eaba71"
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "lBCiZJCMk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 4,
+      "hiddenSeries": false,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.5.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "lBCiZJCMk"
+          },
+          "editorMode": "code",
+          "expr": "max by (account_id, ophid, flow_id, container_name) (deriv(max by (account_id, ophid, flow_id, container_name) (cdc_flow_timestamp_in{})[30m:]) or deriv(max by (account_id, ophid, flow_id, container_name) (cdc_flow_timestamp_out{})[30m:]))",
+          "legendFormat": "{{account_id}} - {{ophid}} - {{flow_id}} - {{container_name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "eq",
+          "value": 0,
+          "visible": true
+        }
+      ],
+      "title": "🔴 CDC Flow Frozen Timestamp Alert",
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
     }
   ],
   "refresh": "30s",
@@ -754,8 +1000,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CDC Flow In-Out Time Dashboard",
-  "uid": "cdc-flow-in-out-time",
+  "title": "CDC Timestamp Alert",
+  "uid": "cdc-timestamp-alert",
   "version": 1,
   "weekStart": ""
 }

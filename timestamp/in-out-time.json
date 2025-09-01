@@ -598,7 +598,7 @@
                   {
                     "options": {
                       "0": {
-                        "text": "🔴 FROZEN"
+                        "text": "⚠️ FROZEN"
                       }
                     },
                     "type": "value"
@@ -673,7 +673,7 @@
           "refId": "B"
         }
       ],
-      "title": "🟠 CDC Timestamps - Frozen Detection",
+      "title": "CDC Timestamps - Frozen Detection",
       "transparent": true,
       "transformations": [
         {
@@ -756,7 +756,7 @@
         "for": "5m",
         "frequency": "2m",
         "handler": 1,
-        "message": "🔴 **CDC Frozen Timestamp Alert**\n\n**Alert Status:** FIRING\n**Issue:** Frozen timestamp detected\n\n**Details:**\n- One or more CDC flows have frozen timestamps (no change detected in 30+ minutes)\n- Data processing may be stuck or halted\n- Immediate investigation required\n- Check the dashboard for specific flow details\n\n**Alert Rule:** CDC Frozen Timestamp Detection\n**Dashboard:** CDC In-Out Time Dashboard\n\n**Action Required:**\n- Check affected flows in the table below\n- Investigate CDC service status\n- Verify data pipeline health\n- Check container/service logs for errors",
+        "message": "**CDC Frozen Timestamp Alert**\n\n**Alert Status:** FIRING\n**Issue:** Frozen timestamp detected\n\n**Details:**\n- CDC flows have frozen timestamps (no change detected in 30+ minutes)\n\n**Action Required:**\n- Check Received / Delivered timestamps for affected flows",
         "name": "CDC Frozen Timestamp Alert",
         "noDataState": "keep_last_state",
         "notifications": [
@@ -884,7 +884,7 @@
           "visible": true
         }
       ],
-      "title": "🔴 CDC Frozen Timestamp Alert",
+      "title": "CDC Frozen Timestamp Alert",
       "type": "graph",
       "xaxis": {
         "mode": "time",
@@ -939,7 +939,7 @@
         "for": "2m",
         "frequency": "1m",
         "handler": 1,
-        "message": "🟡 **CDC Timestamp Lag Alert**\n\n**Alert Status:** FIRING\n**Issue:** High processing lag detected between received and delivered timestamps\n\n**Details:**\n- Processing lag is greater than 30 minutes (1800 seconds)\n- Data flow may be experiencing delays or bottlenecks\n- Check affected flows for processing issues\n\n**Alert Rule:** CDC Timestamp Lag Detection\n**Dashboard:** CDC In-Out Time Dashboard\n**Threshold:** 30 minutes (1800 seconds)\n\n**Action Required:**\n- Check affected flows in the dashboard\n- Investigate CDC processing pipeline\n- Verify container/service performance\n- Check for resource constraints\n- Monitor queue depths and processing rates",
+        "message": "**CDC Timestamp Lag Alert**\n\n**Alert Status:** FIRING\n**Issue:** High processing lag detected between received and delivered timestamps\n\n**Details:**\n- Processing lag is greater than 30 minutes (1800 seconds)\n\n**Action Required:**\n- Check Received / Delivered timestamps for affected flows",
         "name": "CDC Timestamp Lag Alert",
         "noDataState": "keep_last_state",
         "notifications": [
@@ -1072,7 +1072,7 @@
           "visible": true
         }
       ],
-      "title": "🟡 CDC Timestamp Lag Alert",
+      "title": "CDC Timestamp Lag Alert",
       "type": "graph",
       "xaxis": {
         "mode": "time",

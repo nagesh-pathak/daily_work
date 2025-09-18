@@ -1,0 +1,189 @@
+CDC ALERT FREQUENCY AND FOR VALUES SUMMARY
+==============================================
+Generated: September 17, 2025
+
+1. REFER-CDC-API-ALERT.JSON
+---------------------------
+Alert Name: CDC API dependent service(s) failure alert
+Frequency: 1m
+For: 5m
+Severity: Critical
+
+Alert Name: CDC API service down alert (5xx)
+Frequency: 30s
+For: 0m
+Severity: Critical
+
+Alert Name: CDC API pod restart alert
+Frequency: 1m
+For: 0m
+Severity: Critical
+
+Alert Name: CDC API 4xx error alert
+Frequency: 30s
+For: 1m
+Severity: Warning
+
+2. REFER-CDC-FLOW-ALERTS.JSON
+-----------------------------
+Alert Name: CDC Flow - Dependent service(s) failure alert
+Frequency: 1m
+For: 1m
+Severity: Critical
+
+Alert Name: CDC Flow - Service down alert (5xx)
+Frequency: 30s
+For: 0m
+Severity: Critical
+
+Alert Name: CDC Flow - Pod Restart Alert
+Frequency: 30s
+For: 0m
+Severity: Critical
+
+Alert Name: CDC Flow - 4xx Error Alert
+Frequency: 1m
+For: 10s
+Severity: Warning
+
+3. REFER-CDC-COMPREHENSIVE-ALERT.JSON
+------------------------------------
+Alert Name: CDC OnPrem - Low EPS Alert
+Frequency: 5m
+For: 5m
+Severity: Warning
+
+Alert Name: CDC OnPrem - Pending Event Alert
+Frequency: 1m
+For: 2m
+Severity: Critical
+
+Alert Name: CDC OnPrem - Zero Open Sockets Alert
+Frequency: 5m
+For: 5m
+Severity: Warning
+
+Alert Name: No Active Flows Alert
+Frequency: 1m
+For: 5m
+Severity: Critical
+
+Alert Name: CDC Cloud - High QPS Alert
+Frequency: 5m
+For: 5m
+Severity: Warning
+
+Alert Name: CDC Cloud - Persistent Unhealthy Pods Alert
+Frequency: 5m
+For: 1m
+Severity: Warning
+
+Alert Name: CDC OnPrem - No Event Alert
+Frequency: 3m
+For: 3m
+Severity: Critical
+
+4. REFER-CDC-CLOUD2CLOUD-ALERTS.JSON
+------------------------------------
+Alert Name: CDC C2C Pod Restart Alert
+Frequency: 30s
+For: 0m
+Severity: Critical
+
+Alert Name: CDC C2C Pod Failed Alert
+Frequency: 30s
+For: 0
+Severity: Critical
+
+Alert Name: CDC C2C High CPU Usage Alert
+Frequency: 5m
+For: 1m
+Severity: Warning
+
+Alert Name: CDC C2C High Memory Usage Alert
+Frequency: 5m
+For: 1m
+Severity: Warning
+
+Alert Name: CDC C2C Network Inactivity Alert
+Frequency: 1m
+For: 5m
+Severity: Critical
+
+5. REFER-CDC-ONPREM-RES-ALERTS.JSON
+-----------------------------------
+Alert Name: CDC OnPrem - Memory Usage Alert
+Frequency: 5m
+For: 1m
+Severity: Critical
+
+Alert Name: prd-1 CDC Onprem CPU Usage alert
+Frequency: 5m
+For: 1m
+Severity: Critical
+
+Alert Name: CDC OnPrem - Volume Usage Alert
+Frequency: 5m
+For: 1m
+Severity: Critical
+
+6. REFER-SERVICE-STATUS-ALERT.JSON
+----------------------------------
+Alert Name: prd-1 CDC Onprem Host Status alert
+Frequency: 30s
+For: 5m
+Severity: Critical
+
+7. REFER-TIMESTAMP-ALERT.JSON
+-----------------------------
+Alert Name: CDC OnPrem - Event Received/Delivered Timestamp Alert
+Frequency: 5m
+For: 5m
+Severity: Warning
+
+Alert Name: CDC OnPrem - Event Received/Delivered Timestamp Lag Alert
+Frequency: 1m
+For: 3m
+Severity: Warning
+
+8. REFER-CDC-FLOW-STATUS.JSON
+-----------------------------
+Alert Name: CDC Flow - Status Alert
+Frequency: 1m
+For: 30s
+Severity: Warning
+
+==============================================
+SUMMARY STATISTICS
+==============================================
+Total Alerts: 22 alert panels
+Total Files: 8 JSON files
+
+FREQUENCY DISTRIBUTION:
+- 30s: 5 alerts
+- 1m: 8 alerts
+- 3m: 1 alert
+- 5m: 8 alerts
+
+FOR VALUE DISTRIBUTION:
+- 0m: 4 alerts
+- 10s: 1 alert
+- 30s: 1 alert
+- 1m: 8 alerts
+- 2m: 1 alert
+- 3m: 2 alerts
+- 5m: 5 alerts
+
+SEVERITY DISTRIBUTION:
+- Critical: 12 alerts
+- Warning: 10 alerts
+
+ALERT RESPONSE TIME PATTERNS:
+- Immediate Response (For: 0m): 4 alerts - Pod restarts and service down alerts
+- Quick Response (For: 30s-1m): 8 alerts - Resource usage and error alerts
+- Standard Response (For: 2m-5m): 10 alerts - Performance and trend alerts
+
+Most Common Frequency: 1m and 5m (8 alerts each)
+Most Common For Value: 1m (8 alerts)
+Frequency Range: 30s to 5m
+For Value Range: 0m to 5m

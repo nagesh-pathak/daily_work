@@ -1,0 +1,35 @@
+High Priority (Immediate action)
+- [Cloud] API Service Down : >5% 5xx indicates outage/user impact.
+- [Cloud] Flow Service Down : >5% 5xx indicates outage/user impact.
+- [Cloud] API Dep Failures : Downstream dependency failures degrade core service.
+- [Cloud] Flow Dep Failures : Downstream dependency failures degrade core service.
+- [Cloud] Pod Failed : Pod in Failed phase; functionality likely impaired.
+- [Cloud] Network Inactive : Sustained near-zero traffic suggests stalled data pipeline.
+- [On-Prem] Flow Status Degraded : Flows stuck in non-active states; early service impact.
+- [On-Prem] Unhealthy Pods Persist : >3 pods unhealthy >1h; systemic issue forming.
+
+Low Priority (Monitoring / trend / early signals)
+- [On-Prem] Host Inactive : Core service not running; ingestion/processing stopped.
+- [On-Prem] No Active Flows : End-to-end processing halted.
+- [On-Prem] No Events Received : Ingestion stopped; risk of data loss/gaps.
+- [On-Prem] Event Queue Backlog : Backlog >50k risks overflow/data loss & latency.
+- [On-Prem] High Disk Usage : >90% disk risks imminent write failures.
+- [On-Prem] High CPU : >90% sustained CPU causes throttling & processing delays.
+- [On-Prem] High Memory : >90% mem risks OOM kills and instability.
+- [On-Prem] Frozen Flow Timestamp : Stalled flow component; data not progressing.
+- [On-Prem] Flow Processing Lag : >30m lag indicates severe throughput bottleneck.
+- [On-Prem] No Open Sockets : Lost upstream/downstream connectivity.
+- [On-Prem] High QPS : Elevated load; watch for saturation.
+- [On-Prem] Low EPS : Potential ingestion slowdown; may precede No Events state.
+- [Cloud] High CPU : >60% sustained; capacity planning signal.
+- [Cloud] High Memory : >60% sustained; possible leak or sizing issue.
+- [Cloud] Pod Restart : Single/few restarts; watch for increase.
+- [Cloud] Flow Pod Restart : Same as above for flow pods.
+- [Cloud] API Pod Restart : Same as above for API/status pods.
+- [Cloud] API 4xx Errors : Client/request issues; usually not service fault.
+- [Cloud] Flow 4xx Errors : Client/request issues; monitor patterns.
+
+Notes
+- Escalate low-priority items if frequency spikes or correlates with user impact.
+- Consider tuning thresholds (e.g., High QPS / Low EPS) once baselines stabilize.
+- Ensure runbooks exist for every High priority alert to reduce MTTR.

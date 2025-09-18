@@ -1,0 +1,284 @@
+CDC ALERT THRESHOLD VALUES SUMMARY
+====================================
+Generated: September 17, 2025
+
+1. REFER-CDC-API-ALERT.JSON
+---------------------------
+Alert Name: CDC API dependent service(s) failure alert
+Frequency: 1m
+For: 5m
+Threshold: > 5% (greater than 5)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC API service down alert (5xx)
+Frequency: 30s
+For: 0m
+Threshold: > 0 (any 5xx errors)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC API pod restart alert
+Frequency: 1m
+For: 0m
+Threshold: > 0 (any pod restarts)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC API 4xx error alert
+Frequency: 30s
+For: 1m
+Threshold: > 0 (any 4xx errors)
+Condition: gt (greater than)
+Severity: Warning
+
+2. REFER-CDC-FLOW-ALERTS.JSON
+-----------------------------
+Alert Name: CDC Flow - Dependent service(s) failure alert
+Frequency: 1m
+For: 1m
+Threshold: > 5% (greater than 5)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC Flow - Service down alert (5xx)
+Frequency: 30s
+For: 0m
+Threshold: > 0 (any 5xx errors)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC Flow - Pod Restart Alert
+Frequency: 30s
+For: 0m
+Threshold: > 0 (any pod restarts)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC Flow - 4xx Error Alert
+Frequency: 1m
+For: 10s
+Threshold: > 0 (any 4xx errors)
+Condition: gt (greater than)
+Severity: Warning
+
+3. REFER-CDC-COMPREHENSIVE-ALERT.JSON
+------------------------------------
+Alert Name: CDC OnPrem - Low EPS Alert
+Frequency: 5m
+For: 5m
+Threshold: < 300 EPS (less than 300)
+Condition: lt (less than)
+Severity: Warning
+
+Alert Name: CDC OnPrem - Pending Event Alert
+Frequency: 1m
+For: 2m
+Threshold: > 50,000 pending events (greater than 50000)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC OnPrem - Zero Open Sockets Alert
+Frequency: 5m
+For: 5m
+Threshold: < 1 socket (less than 1)
+Condition: lt (less than)
+Severity: Warning
+
+Alert Name: No Active Flows Alert
+Frequency: 1m
+For: 5m
+Threshold: < 1 active flow (less than 1)
+Condition: lt (less than)
+Severity: Critical
+
+Alert Name: CDC Cloud - High QPS Alert
+Frequency: 5m
+For: 5m
+Threshold: > 100 QPS (greater than 100)
+Condition: gt (greater than)
+Severity: Warning
+
+Alert Name: CDC Cloud - Persistent Unhealthy Pods Alert
+Frequency: 5m
+For: 1m
+Threshold: > 3 unhealthy pods (greater than 3)
+Condition: gt (greater than)
+Severity: Warning
+
+Alert Name: CDC OnPrem - No Event Alert
+Frequency: 3m
+For: 3m
+Threshold: < 0.1 events/sec (less than 0.1)
+Condition: lt (less than)
+Severity: Critical
+
+4. REFER-CDC-CLOUD2CLOUD-ALERTS.JSON
+------------------------------------
+Alert Name: CDC C2C Pod Restart Alert
+Frequency: 30s
+For: 0m
+Threshold: > 0 pod restarts (greater than 0)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC C2C Pod Failed Alert
+Frequency: 30s
+For: 0
+Threshold: > 0 pod failures (greater than 0)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC C2C High CPU Usage Alert
+Frequency: 5m
+For: 1m
+Threshold: > 60% CPU usage (greater than 60)
+Condition: gt (greater than)
+Severity: Warning
+
+Alert Name: CDC C2C High Memory Usage Alert
+Frequency: 5m
+For: 1m
+Threshold: > 60% memory usage (greater than 60)
+Condition: gt (greater than)
+Severity: Warning
+
+Alert Name: CDC C2C Network Inactivity Alert
+Frequency: 1m
+For: 5m
+Threshold: = 0 network activity (equals 0)
+Condition: eq (equals)
+Severity: Critical
+
+5. REFER-CDC-ONPREM-RES-ALERTS.JSON
+-----------------------------------
+Alert Name: CDC OnPrem - Memory Usage Alert
+Frequency: 5m
+For: 1m
+Threshold: > 80% memory usage (greater than 80)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: prd-1 CDC Onprem CPU Usage alert
+Frequency: 5m
+For: 1m
+Threshold: > 80% CPU usage (greater than 80)
+Condition: gt (greater than)
+Severity: Critical
+
+Alert Name: CDC OnPrem - Volume Usage Alert
+Frequency: 5m
+For: 1m
+Threshold: > 50% volume usage (greater than 50)
+Condition: gt (greater than)
+Severity: Critical
+
+6. REFER-SERVICE-STATUS-ALERT.JSON
+----------------------------------
+Alert Name: prd-1 CDC Onprem Host Status alert
+Frequency: 30s
+For: 5m
+Threshold: < 1 (host inactive, less than 1)
+Condition: lt (less than)
+Severity: Critical
+
+7. REFER-TIMESTAMP-ALERT.JSON
+-----------------------------
+Alert Name: CDC OnPrem - Event Received/Delivered Timestamp Alert
+Frequency: 5m
+For: 5m
+Threshold: < 0.001 (timestamp frozen, less than 0.001)
+Condition: lt (less than)
+Severity: Warning
+
+Alert Name: CDC OnPrem - Event Received/Delivered Timestamp Lag Alert
+Frequency: 1m
+For: 3m
+Threshold: > 300 seconds lag (greater than 300)
+Condition: gt (greater than)
+Severity: Warning
+
+8. REFER-CDC-FLOW-STATUS.JSON
+-----------------------------
+Alert Name: CDC Flow - Status Alert
+Frequency: 1m
+For: 30s
+Threshold: > 0 flows in review/pending state (greater than 0)
+Condition: gt (greater than)
+Severity: Warning
+
+==============================================
+THRESHOLD SUMMARY BY CATEGORY
+==============================================
+
+PERFORMANCE THRESHOLDS:
+- High QPS: > 100 QPS
+- Low EPS: < 300 EPS
+- Timestamp Lag: > 300 seconds (5 minutes)
+
+RESOURCE USAGE THRESHOLDS:
+- Memory Usage: > 80% (OnPrem), > 60% (Cloud)
+- CPU Usage: > 80% (OnPrem), > 60% (Cloud)  
+- Volume Usage: > 50%
+
+SERVICE AVAILABILITY THRESHOLDS:
+- API/Flow Failures: > 5%
+- 4xx/5xx Errors: > 0 (any errors)
+- Pod Restarts/Failures: > 0 (any restarts)
+- Host Status: < 1 (inactive)
+
+DATA FLOW THRESHOLDS:
+- Active Flows: < 1 (no active flows)
+- Open Sockets: < 1 (no connections)
+- Pending Events: > 50,000 events
+- Event Sources: < 0.1 events/sec per source
+- Timestamp Updates: < 0.001 (frozen)
+
+OPERATIONAL THRESHOLDS:
+- Unhealthy Pods: > 3 pods
+- Flow Status Issues: > 0 flows in review/pending
+- Network Activity: = 0 (no activity)
+
+==============================================
+THRESHOLD PATTERNS BY SEVERITY
+==============================================
+
+CRITICAL THRESHOLDS (Immediate Action Required):
+- Service Failures: > 5%
+- 5xx Errors: Any occurrence (> 0)
+- Pod Failures: Any occurrence (> 0)
+- No Active Flows: < 1
+- High Pending Events: > 50,000
+- No Event Sources: < 0.1 events/sec
+- Resource Critical: > 80% (Memory/CPU OnPrem)
+- Host Down: < 1 (inactive)
+- Network Failure: = 0 (no activity)
+
+WARNING THRESHOLDS (Monitor & Investigate):
+- 4xx Errors: Any occurrence (> 0)
+- Low Performance: < 300 EPS, > 100 QPS
+- Resource Warning: > 60% (Cloud), > 50% (Volume)
+- Connectivity Issues: < 1 socket
+- Processing Lag: > 300 seconds
+- Multiple Unhealthy Pods: > 3
+- Flow Issues: > 0 in review/pending
+- Timestamp Frozen: < 0.001 updates
+
+==============================================
+EVALUATION WINDOW PATTERNS
+==============================================
+
+IMMEDIATE RESPONSE (For: 0m):
+- Service down alerts (5xx errors)
+- Pod restart/failure alerts
+- API/Flow dependency failures
+
+QUICK RESPONSE (For: 10s-1m):
+- 4xx error alerts
+- Resource usage alerts
+- Performance degradation
+
+STANDARD RESPONSE (For: 2m-5m):
+- Trend-based alerts
+- Capacity planning alerts
+- Network connectivity issues

@@ -1,0 +1,190 @@
+CDC Dashboard Alert Panels - Frequency and For Values Analysis
+================================================================
+Generated: September 17, 2025
+
+This document lists all alert panels found in the CDC dashboard files with their evaluation frequency and "for" duration values.
+
+SUMMARY OF ALERT DASHBOARDS:
+============================
+1. cdc-api-alerts.json - 4 alerts
+2. cdc-cloud-alerts.json - 5 alerts  
+3. cdc-flow-alerts.json - 4 alerts
+4. cdc-onprem-container-timestamp-alerts.json - 2 alerts
+5. cdc-onprem-flow-status-alerts.json - 1 alert
+6. cdc-onprem-host-status-alerts.json - 1 alert
+7. cdc-onprem-resource-alerts.json - 3 alerts
+8. cdc-onprem-comprehensive-alert.json - 7 alerts
+
+TOTAL ALERTS: 27 alert panels
+
+DETAILED ALERT CONFIGURATIONS:
+===============================
+
+1. cdc-api-alerts.json
+----------------------
+Alert 1: [Cloud] API Dep Failures
+rename -> [Cloud] CDC API dependent service(s) failure alert
+- Frequency: 1m
+- For: 1m
+
+Alert 2: [Cloud] API Service Down  
+- Frequency: 30s
+- For: 0m
+
+Alert 3: [Cloud] API Pod Restart
+- Frequency: 1m
+- For: 0m
+
+Alert 4: [Cloud] API 4xx Errors
+- Frequency: 30s
+- For: 1m
+
+2. cdc-cloud-alerts.json
+------------------------
+Alert 1: [Cloud] Pod Restart
+rename -> [C2C] Pod Restart
+- Frequency: 30s
+- For: 0m
+
+Alert 2: [Cloud] Pod Failed
+rename -> [C2C] Pod Failed
+- Frequency: 30s
+- For: 0m
+
+Alert 3: [Cloud] High CPU
+rename -> [C2C] High CPU
+- Frequency: 5m
+- For: 1m
+
+Alert 4: [Cloud] High Memory
+rename -> [C2C] High Memory
+- Frequency: 5m
+- For: 1m
+
+Alert 5: [Cloud] Network Inactive
+rename -> [C2C] Network Inactive
+- Frequency: 1m
+- For: 5m
+
+3. cdc-flow-alerts.json
+-----------------------
+Alert 1: [Cloud] Flow Dep Failures
+rename -> [Cloud] - Dependent service(s) failure alert
+- Frequency: 1m
+- For: 1m
+
+Alert 2: [Cloud] Flow Service Down
+- Frequency: 30s
+- For: 0m
+
+Alert 3: [Cloud] Flow Pod Restart
+- Frequency: 30s
+- For: 0m
+
+Alert 4: [Cloud] Flow 4xx Errors
+- Frequency: 1m
+- For: 10s
+
+4. cdc-onprem-container-timestamp-alerts.json
+----------------------------------------------
+Alert 1: [On-Prem] Frozen Flow Timestamp
+rename to -> [On-Prem] - Event Received/Delivered Timestamp Lag Alert
+- Frequency: 2m
+- For: 5m
+
+Alert 2: [On-Prem] Flow Processing Lag
+rename to -> [On-Prem] - Event Received/Delivered Timestamp Lag Alert
+- Frequency: 1m
+- For: 2m
+
+5. cdc-onprem-flow-status-alerts.json
+-------------------------------------
+Alert 1: [On-Prem] Flow Status Degraded
+- Frequency: 1m
+- For: 30s
+
+6. cdc-onprem-host-status-alerts.json
+-------------------------------------
+Alert 1: [On-Prem] Host Inactive
+- Frequency: 30s
+- For: 5m
+
+7. cdc-onprem-resource-alerts.json
+----------------------------------
+Alert 1: [On-Prem] High Memory
+- Frequency: 5m
+- For: 1m
+
+Alert 2: [On-Prem] High CPU
+- Frequency: 5m
+- For: 1m
+
+Alert 3: [On-Prem] High Disk Usage
+- Frequency: 5m
+- For: 1m
+
+8. cdc-onprem-comprehensive-alert.json
+--------------------------------------
+Alert 1: [On-Prem] Low EPS
+- Frequency: 5m
+- For: 5m
+
+Alert 2: [On-Prem] Event Queue Backlog
+rename to -> [On-Prem] Pending Event Backlog
+- Frequency: 1m
+- For: 2m
+
+Alert 3: [On-Prem] No Open Sockets
+- Frequency: 5m
+- For: 5m
+
+Alert 4: [On-Prem] No Active Flows
+- Frequency: 1m
+- For: 5m
+
+Alert 5: [On-Prem] High QPS
+rename to -> [C2C] - High QPS
+- Frequency: 5m
+- For: 5m
+
+Alert 6: [On-Prem] Unhealthy Pods Persist
+rename to -> [C2C] - Unhealthy Pods Persist
+- Frequency: 5m
+- For: 1m
+
+Alert 7: [On-Prem] No Events Received
+- Frequency: 3m
+- For: 3m
+
+FREQUENCY ANALYSIS:
+===================
+Most Common Frequencies:
+- 1m: 8 alerts
+- 5m: 7 alerts  
+- 30s: 4 alerts
+- 2m: 4 alerts
+- 15m: 1 alert
+
+FOR Duration Analysis:
+======================
+Most Common For Values:
+- 1m: 6 alerts
+- 5m: 6 alerts
+- 0m: 4 alerts
+- 10m: 3 alerts
+- 2m: 2 alerts
+- 30s: 1 alert
+- 10s: 1 alert
+- 15m: 1 alert
+- 1h: 1 alert
+- 0 (no unit): 1 alert
+
+OBSERVATIONS:
+=============
+1. Most alerts use either 1-minute or 5-minute evaluation frequencies
+2. Immediate alerts (for: 0m) are typically used for service down conditions
+3. Resource-based alerts (CPU, Memory, Disk) consistently use 5m frequency with 1m for duration
+4. On-premise alerts generally have longer evaluation periods than cloud alerts
+5. The most critical alert (Unhealthy Pods Persist) has the longest evaluation cycle (15m frequency, 1h for duration)
+6. Pod restart and service down alerts typically fire immediately (for: 0m) to ensure rapid notification
+7. Performance and threshold-based alerts use moderate for durations (1-5m) to avoid false positives

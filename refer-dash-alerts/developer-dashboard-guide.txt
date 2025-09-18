@@ -1,0 +1,71 @@
+CDC Grafana Dashboard Developer Quick Guide
+====================================
+
+Goal: Create or update Grafana dashboards & alerts for CDC quickly and consistently.
+Keep noise low. Only commit stable dashboards.
+
+
+Prerequisites
+- Access to Grafana (edit rights)
+- Prometheus data sources available (cloud UID: 000000001, on‑prem UID: federatedUID)
+- Basic PromQL knowledge
+
+Option 1: Create Dashboard via UI
+1. Grafana: Dashboards > New > New dashboard.
+2. Click Add visualization.
+3. Choose data source (cloud or on‑prem).
+4. Write PromQL query; verify graph looks correct for recent time range.
+5. (Optional) Add more panels; keep clear titles (e.g., CPU Usage %, Flow Processing Lag).
+6. Add Alert (classic panel alert):
+   - Edit panel > Alert > Create alert rule.
+   - Set evaluation every 1m (or suitable) and a hold period (for) to avoid flapping (e.g., 5m for 5xx% errors).
+   - Define condition (e.g., WHEN last() OF A IS ABOVE 5).
+   - Add message: [Cloud]|[On-Prem] <Condition> | <Trigger summary> | <Action>
+7. Save dashboard.
+8. Export JSON: Dashboard settings (gear) > JSON model > Copy.
+9. Paste into local file under repo/cdc-flow/dashboards/<descriptive-name>.json.
+10. Remove environment specific fields if present (id, uid if not needed, version) before commit.
+
+Option 2: Create / Modify via JSON (Import Method)
+1. Pick an existing similar JSON file as a template.
+2. Copy it to a new filename (cdc-<scope>-<purpose>-alerts.json).
+3. Adjust panel titles, PromQL expressions, alert thresholds, messages.
+4. Set id fields to null (or remove) if you want Grafana to assign new ones.
+5. Keep frequency and for values consistent with similar alerts.
+6. In Grafana: Dashboards > New > Import > Upload JSON (or paste).
+7. Verify panels render & alerts show OK state.
+8. Tweak in UI if needed, re-export, and sync changes back into the file.
+
+Alert Basics
+- Service Down / Error %: Use rate() over short window (1–2m) and percentage formula; require 5m for to reduce deploy noise.
+- Resource Saturation (CPU/Mem/Disk): Use longer averaging windows (e.g., 30m) + moderate for (5m).
+- Stalled / No Data Flow: Use derivative or rate near zero; add a short for (2–5m) to confirm real stall.
+- Include only one primary threshold per alert panel (keep logic simple).
+
+Export & Commit Checklist
+[ ] Names start with [Cloud] or [On-Prem]
+[ ] Clear message with condition + action
+[ ] No secrets / tokens
+[ ] id removed or null if new
+[ ] version reset to 1 for new dashboards
+[ ] Notification channel placeholder (notification-Id) unless intentional
+[ ] Matches High or Low priority classification
+
+Importing Updated JSON Later
+1. Make edits locally.
+2. Increment version number or leave (Grafana will bump internally).
+3. In Grafana: Import > Upload updated JSON (choose Overwrite existing if same uid).
+4. Confirm alerts still evaluating.
+
+Priority Mapping
+- Use alert-priorities.txt to decide if High (pages or immediate action) or Low (trend / watch).
+
+Tips
+- Keep panels minimal; group related alerts on a single dashboard (service, resource, flow processing).
+- Avoid expensive broad queries (always filter by namespace/service labels).
+- Start thresholds conservative; tighten later.
+
+Need More Detail?
+Refer to previous full guide version in Git history if deeper rationale required.
+
+End of Quick Guide.

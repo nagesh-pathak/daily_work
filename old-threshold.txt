@@ -1,0 +1,306 @@
+# CDC Dashboard Alert Threshold Values Report
+Generated on: September 17, 2025
+
+## Summary of Alert Panels and Their Threshold Values
+
+Based on analysis of all dashboard files in the dashboards folder, here are the threshold values for each alert panel:
+
+---
+
+## 1. CDC API Alerts (cdc-api-alerts.json)
+
+### Alert 1: CDC API Dependent Service(s) Failure Alert
+- **Alert Name**: [Cloud] CDC API dependent service(s) failure alert
+- **Message**: [Cloud] API Dependent Failures | >5% failed due to downstream errors (1m). Check dependencies.
+- **Threshold**: 5 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 1m
+- **Reducer**: avg
+
+### Alert 2: API Service Down
+- **Alert Name**: [Cloud] API Service Down
+- **Message**: [Cloud] API Service Down | >5% 5xx responses (5m). Possible outage.
+- **Threshold**: 0 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 1m
+- **Reducer**: avg
+
+### Alert 3: API Pod Restart
+- **Alert Name**: [Cloud] API Pod Restart
+- **Message**: [Cloud] Pod Restart | API / status pods restarting. Monitor stability.
+- **Threshold**: 0 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 1m
+- **Reducer**: avg
+
+### Alert 4: API 4xx Errors
+- **Alert Name**: [Cloud] API 4xx Errors
+- **Message**: [Cloud] 4xx Client Errors | Sustained client errors. Check auth, routes, request formats.
+- **Threshold**: 0 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 1m
+- **Reducer**: avg
+
+---
+
+## 2. CDC Cloud Alerts (cdc-cloud-alerts.json)
+
+### Alert 1: [C2C] Pod Restart
+- **Alert Name**: [C2C] Pod Restart
+- **Message**: [C2C] Pod Restart | cdc-data-flow pod restarted in last 5m. Investigate stability if frequent.
+- **Threshold**: 0 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 5m
+- **Reducer**: max
+
+### Alert 2: [C2C] Pod Failed
+- **Alert Name**: [C2C] Pod Failed
+- **Message**: [C2C] Pod Failed | cdc-data-flow pod in Failed state. Check crash logs & scheduling.
+- **Threshold**: 0 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 5m
+- **Reducer**: last
+
+### Alert 3: [C2C] High CPU
+- **Alert Name**: [C2C] High CPU
+- **Message**: [C2C] High CPU | Avg CPU >60% for 5m. Review workload / scaling.
+- **Threshold**: 60 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 5m
+- **Reducer**: avg
+
+### Alert 4: [C2C] High Memory
+- **Alert Name**: [C2C] High Memory
+- **Message**: [C2C] High Memory | Memory >60% for 5m. Check leaks / limits.
+- **Threshold**: 60 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 5m
+- **Reducer**: avg
+
+### Alert 5: [C2C] Network Inactive
+- **Alert Name**: [C2C] Network Inactive
+- **Message**: [C2C] Network Inactive | 5m near-zero net traffic (C2C). Verify data flow, networking, pod health.
+- **Threshold**: 1 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 10m
+- **Reducer**: max
+
+---
+
+## 3. CDC Flow Alerts (cdc-flow-alerts.json)
+
+### Alert 1: [Cloud] - Dependent service(s) failure alert
+- **Alert Name**: [Cloud] - Dependent service(s) failure alert
+- **Message**: [Cloud] Flow Dependent Failures | >5% failed due to downstream errors (5m). Investigate dependency health.
+- **Threshold**: 5 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 1m
+- **Reducer**: avg
+
+### Alert 2: [Cloud] Flow Service Down
+- **Alert Name**: [Cloud] Flow Service Down
+- **Message**: [Cloud] Flow Service Down | >5% 5xx responses (5m). Possible outage.
+- **Threshold**: 0 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 1m
+- **Reducer**: avg
+
+### Alert 3: [Cloud] Flow Pod Restart
+- **Alert Name**: [Cloud] Flow Pod Restart
+- **Message**: [Cloud] Pod Restart | Flow pods restarting. Monitor stability.
+- **Threshold**: 0 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 1m
+- **Reducer**: avg
+
+### Alert 4: [Cloud] Flow 4xx Errors
+- **Alert Name**: [Cloud] Flow 4xx Errors
+- **Message**: [Cloud] 4xx Errors | Client errors detected. Check auth / request validity.
+- **Threshold**: 0 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 1m
+- **Reducer**: avg
+
+---
+
+## 4. CDC OnPrem Resource Alerts (cdc-onprem-resource-alerts.json)
+
+### Alert 1: [On-Prem] High Memory
+- **Alert Name**: [On-Prem] High Memory
+- **Message**: [On-Prem] High Memory | Usage >90% (avg 30m) | Performance risk. Investigate process usage.
+- **Threshold**: 80 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 30m
+- **Reducer**: avg
+
+### Alert 2: [On-Prem] High CPU
+- **Alert Name**: [On-Prem] High CPU
+- **Message**: [On-Prem] High CPU | CPU >90% (avg 30m) | Performance impact likely. Check load & threads.
+- **Threshold**: 80 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 30m
+- **Reducer**: avg
+
+### Alert 3: [On-Prem] High Disk Usage
+- **Alert Name**: [On-Prem] High Disk Usage
+- **Message**: [On-Prem] Low Disk Space | Volume usage >90% (3h window) | Risk of outage. Clean or expand storage.
+- **Threshold**: 50 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 3h
+- **Reducer**: avg
+
+---
+
+## 5. CDC OnPrem Host Status Alerts (cdc-onprem-host-status-alerts.json)
+
+### Alert 1: [On-Prem] Host Inactive
+- **Alert Name**: [On-Prem] Host Inactive
+- **Message**: [On-Prem] Host Service Inactive | Status=0 for >5m | Check connectivity & service health.
+- **Threshold**: 1 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 5m
+- **Reducer**: last
+
+---
+
+## 6. CDC OnPrem Container Timestamp Alerts (cdc-onprem-container-timestamp-alerts.json)
+
+### Alert 1: [On-Prem] - Event Received/Delivered Timestamp Lag Alert (Frozen Flow)
+- **Alert Name**: [On-Prem] - Event Received/Delivered Timestamp Lag Alert
+- **Message**: [On-Prem] Frozen Flow Timestamp | No change >30m | Check received/delivered times.
+- **Threshold**: 0.001 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 20m
+- **Reducer**: last
+
+### Alert 2: [On-Prem] - Event Received/Delivered Timestamp Lag Alert (Processing Lag)
+- **Alert Name**: [On-Prem] - Event Received/Delivered Timestamp Lag Alert
+- **Message**: [On-Prem] Processing Lag | Lag >30m between received & delivered | Investigate bottlenecks.
+- **Threshold**: 300 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 10m
+- **Reducer**: last
+
+---
+
+## 7. CDC OnPrem Flow Status Alerts (cdc-onprem-flow-status-alerts.json)
+
+### Alert 1: [On-Prem] Flow Status Degraded
+- **Alert Name**: [On-Prem] Flow Status Degraded
+- **Message**: [On-Prem] Flow Status Degraded | Flows stuck in Review (>30s) or Pending (>1m). Investigate affected accounts.
+- **Threshold**: 0 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 5m
+- **Reducer**: last
+
+---
+
+## 8. CDC OnPrem Comprehensive Alert (cdc-onprem-comprehensive-alert.json)
+
+### Alert 1: [On-Prem] Low EPS
+- **Alert Name**: [On-Prem] Low EPS
+- **Message**: [On-Prem] Low EPS | Total EPS <300 for 5m | Check ingestion sources, network, filters.
+- **Threshold**: 300 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 10m
+- **Reducer**: avg
+
+### Alert 2: [On-Prem] Pending Event Backlog
+- **Alert Name**: [On-Prem] Pending Event Backlog
+- **Message**: [On-Prem] Event Queue Backlog | Pending events >50k for 2m | Possible processing bottleneck or downstream/resource issue; risk of data loss.
+- **Threshold**: 50000 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 2m
+- **Reducer**: avg
+
+### Alert 3: [On-Prem] No Open Sockets
+- **Alert Name**: [On-Prem] No Open Sockets
+- **Message**: [On-Prem] No Open Sockets | 15m with zero open sockets | Check network, service discovery, config.
+- **Threshold**: 1 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 15m
+- **Reducer**: last
+
+### Alert 4: [On-Prem] No Active Flows
+- **Alert Name**: [On-Prem] No Active Flows
+- **Message**: [On-Prem] No Active Flows | 5m with 0 active flows | Possible outage; investigate immediately.
+- **Threshold**: 1 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 5m
+- **Reducer**: last
+
+### Alert 5: [C2C] - High QPS
+- **Alert Name**: [C2C] - High QPS
+- **Message**: [C2C] High QPS | Queries >100/s for 5m | Watch performance, resources, potential abuse.
+- **Threshold**: 100 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 10m
+- **Reducer**: avg
+
+### Alert 6: [C2C] - Unhealthy Pods Persist
+- **Alert Name**: [C2C] - Unhealthy Pods Persist
+- **Message**: [C2C] Persistent Unhealthy Pods | >3 pods unhealthy >1m | Check systemic issues, resources, config.
+- **Threshold**: 3 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 1h
+- **Reducer**: avg
+
+### Alert 7: [Cloud] No Events Received
+- **Alert Name**: [Cloud] No Events Received
+- **Message**: [Cloud] No Events Received | 3m no events from one or more sources | Check BloxOne / NIOS connectivity and upstream systems.
+- **Threshold**: 0.1 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 5m
+- **Reducer**: avg
+
+### Alert 8: [Cloud] No Events Received (Additional Check)
+- **Alert Name**: [Cloud] No Events Received
+- **Message**: [Cloud] No Events Received | 3m no events from one or more sources | Check BloxOne / NIOS connectivity and upstream systems.
+- **Threshold**: 0.1 (greater than)
+- **Evaluation Type**: gt (greater than)
+- **Time Window**: 5m
+- **Reducer**: avg
+
+---
+
+## Summary Statistics
+
+- **Total Alert Dashboard Files**: 8
+- **Total Alert Panels**: 25
+- **Most Common Threshold Values**: 
+  - 0 (8 occurrences)
+  - 1 (3 occurrences)
+  - 3 (1 occurrence)
+  - 5 (2 occurrences)
+  - 50 (1 occurrence)
+  - 60 (2 occurrences)
+  - 80 (2 occurrences)
+  - 100 (1 occurrence)
+  - 300 (2 occurrences)
+  - 50000 (1 occurrence)
+- **Most Common Time Windows**: 
+  - 1m (6 occurrences)
+  - 5m (7 occurrences)
+  - 10m (4 occurrences)
+- **Most Common Evaluation Types**: 
+  - gt (greater than) - all alerts
+- **Most Common Reducers**: 
+  - avg (14 occurrences)
+  - last (8 occurrences)
+  - max (3 occurrences)
+
+---
+
+## Notes
+
+1. All thresholds use "greater than" (gt) evaluation type
+2. Time windows range from 1 minute to 3 hours
+3. Most alerts use average or last value reducers
+4. Threshold values vary significantly based on the metric being monitored
+5. Resource usage alerts typically use 80% as threshold for OnPrem systems and 60% for Cloud systems
+6. Error rate alerts typically use 0% as threshold (any errors trigger alert) for 5xx and 4xx errors, while dependency failures use 5% threshold
+7. Container and host status alerts use binary thresholds (0 or 1)
+
+---
+
+*End of Report*

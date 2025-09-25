@@ -1,0 +1,389 @@
+Dashboard: CDC-API-Alerts
+1. Alert Name: [CDC][Cloud] API Requests Unable to Fulfill Alert
+   Panel Title: Requests Unable to Fulfill
+   Severity: Critical
+   Priority: High
+   Message: CDC API requests unable to fulfill (>5% failure rate over 2m).
+   Frequency: 2m
+   For: 1m
+   Queries:
+     A: (sum(rate(grpc_server_handled_total{app="cdc-api", grpc_code!~"OK|Unauthenticated|PermissionDenied|InvalidArgument|NotFound|Unknown"}[$__interval]))/(sum(rate(grpc_server_handled_total{app="cdc-api"}[$__interval]))>0)*100) or vector (0)
+     B: (sum(rate(grpc_server_handled_total{app="cdc-api", grpc_code!~"OK|Unauthenticated|PermissionDenied|InvalidArgument|NotFound|Unknown"}[2m]))/(sum(rate(grpc_server_handled_total{app="cdc-api"}[2m]))>0)*100) or vector (0)
+   Alert Evaluation:
+     Condition: avg of query B over (B, 5m, now) gt 5
+     Evaluated Query Ref: B
+
+2. Alert Name: [CDC][Cloud] API Service Down Alert
+   Panel Title: Service Down (HTTP Status 5xx from Ingress Controller)
+   Severity: Critical
+   Priority: High
+   Message: CDC API service returning >1% 5xx errors for 30s.
+   Frequency: 2m
+   For: 30s
+   Queries:
+     A: (sum(rate(nginx_ingress_controller_requests{service="cdc-api",status=~"5[0-9][0-9]"}[$__interval]))/(sum (rate(nginx_ingress_controller_requests{service="cdc-api",status!~"4[0-9][0-9]"}[$__interval])) > 0)*100) or vector(0)
+     B: (sum(rate(nginx_ingress_controller_requests{service="cdc-api",status=~"5[0-9][0-9]"}[2m]))/(sum(rate(nginx_ingress_controller_requests{service="cdc-api",status!~"4[0-9][0-9]"}[2m])) > 0)*100) or vector(0)
+   Alert Evaluation:
+     Condition: avg of query B over (B, 5m, now) gt 1
+     Evaluated Query Ref: B
+
+3. Alert Name: [CDC][Cloud] API Pod Restart Alert
+   Panel Title: Pod Restarts
+   Severity: Warning
+   Priority: Low
+   Message: CDC API pod restarted in the last 1m.
+   Frequency: 1m
+   For: 0m
+   Queries:
+     A: rate(kube_pod_container_status_restarts_total{namespace="cdc-flow", container="cdc-api", pod=~"cdc-api-.+"}[$__interval])
+     C: rate(kube_pod_container_status_restarts_total{namespace="cdc-flow", container="cdc-status-reporter", pod=~"cdc-status-reporter.*"}[$__interval])
+     B (hidden): rate(kube_pod_container_status_restarts_total{namespace="cdc-flow", container="cdc-api", pod=~"cdc-api-.+"}[1m])
+     D (hidden): rate(kube_pod_container_status_restarts_total{namespace="cdc-flow", container="cdc-status-reporter", pod=~"cdc-status-reporter.*"}[1m])
+   Alert Evaluation:
+     Condition: avg of query B over (B, 5m, now) gt 0
+     Evaluated Query Ref: B
+     Condition: avg of query D over (D, 5m, now) gt 0
+     Evaluated Query Ref: D
+
+4. Alert Name: [CDC][Cloud] API 4xx Error Alert
+   Panel Title: 4xx Error Rate
+   Severity: Warning
+   Priority: Low
+   Message: Sustained 4xx client errors detected.
+   Frequency: 10m
+   For: 5m
+   Queries:
+     A: sum(rate(nginx_ingress_controller_requests{namespace="cdc-flow", status=~"4[0-9][0-9]", service="cdc-api"}[1m]))
+   Alert Evaluation:
+     Condition: avg of query A over (A, 15m, now) gt 20
+     Evaluated Query Ref: A
+
+Dashboard: CDC Cloud to Cloud Alerts
+1. Alert Name: [CDC][C2C] Pod Restart Alert
+   Panel Title: Pod Restart Events
+   Severity: Warning
+   Priority: Low
+   Message: cdc-data-flow pod restarted in the last 1m.
+   Frequency: 1m
+   For: 0m
+   Queries:
+     A: increase(kube_pod_container_status_restarts_total{namespace="cdc-data-flow"}[5m])
+   Alert Evaluation:
+     Condition: max of query A over (A, 5m, now) gt 0
+     Evaluated Query Ref: A
+
+2. Alert Name: [CDC][C2C] Pod Failed Alert
+   Panel Title: Pod Failed Alert
+   Severity: Critical
+   Priority: High
+   Message: cdc-data-flow pod is in Failed state.
+   Frequency: 1m
+   For: 0m
+   Queries:
+     A: (kube_pod_status_phase{namespace="cdc-data-flow", phase=~"Failed"})
+   Alert Evaluation:
+     Condition: last of query A over (A, 5m, now) gt 0
+     Evaluated Query Ref: A
+
+3. Alert Name: [CDC][C2C] High CPU Usage Alert
+   Panel Title: CPU Usage Alert
+   Severity: Critical
+   Priority: High
+   Message: Average CPU usage >60% for 1m.
+   Frequency: 5m
+   For: 1m
+   Queries:
+     A: (sum(rate(container_cpu_usage_seconds_total{namespace="cdc-data-flow", pod=~".*-.*-.*-.*"}[2m])) by (pod, container)) * 100
+   Alert Evaluation:
+     Condition: avg of query A over (A, 10m, now) gt 60
+     Evaluated Query Ref: A
+
+4. Alert Name: [CDC][C2C] High Memory Usage Alert
+   Panel Title: Memory Usage Alert
+   Severity: Critical
+   Priority: High
+   Message: Memory usage >60% for 1m.
+   Frequency: 5m
+   For: 1m
+   Queries:
+     A: (sum(container_memory_working_set_bytes{namespace="cdc-data-flow", pod=~".*-.*-.*-.*"}) by (pod, container)) / (sum(container_spec_memory_limit_bytes{namespace="cdc-data-flow", pod=~".*-.*-.*-.*"}) by (pod, container)) * 100
+   Alert Evaluation:
+     Condition: avg of query A over (A, 10m, now) gt 60
+     Evaluated Query Ref: A
+
+5. Alert Name: [CDC][C2C] Network Inactive Alert
+   Panel Title: Network Inactivity Alert
+   Severity: Critical
+   Priority: High
+   Message: C2C network traffic near 0 KB/sec for 5m.
+   Frequency: 1m
+   For: 5m
+   Queries:
+     A: sum(rate(container_network_receive_bytes_total{namespace="cdc-data-flow"}[1m]) + rate(container_network_transmit_bytes_total{namespace="cdc-data-flow"}[1m])) by (pod)
+   Alert Evaluation:
+     Condition: max of query A over (A, 10m, now) lt 1
+     Evaluated Query Ref: A
+
+Dashboard: CDC-Flow-Alerts
+1. Alert Name: [CDC][Cloud] Flow Requests Unable to Fulfill Alert
+   Panel Title: Requests Unable to Fulfill
+   Severity: Critical
+   Priority: High
+   Message: CDC flow requests unable to fulfill (>5% failure rate over 2m).
+   Frequency: 2m
+   For: 1m
+   Queries:
+     A: (sum(rate(grpc_server_handled_total{app="cdc-flow", grpc_code!~"OK|Unauthenticated|PermissionDenied|InvalidArgument|NotFound|Unknown"}[$__interval]))/(sum(rate(grpc_server_handled_total{app="cdc-flow"}[$__interval]))>0)*100) or vector (0)
+     B: (sum(rate(grpc_server_handled_total{app="cdc-flow", grpc_code!~"OK|Unauthenticated|PermissionDenied|InvalidArgument|NotFound|Unknown"}[2m]))/(sum(rate(grpc_server_handled_total{app="cdc-flow"}[2m]))>0)*100) or vector (0)
+   Alert Evaluation:
+     Condition: avg of query B over (B, 5m, now) gt 5
+     Evaluated Query Ref: B
+
+2. Alert Name: [CDC][Cloud] Flow Service Down Alert
+   Panel Title: Service Down (HTTP Status 5xx from Ingress Controller)
+   Severity: Critical
+   Priority: High
+   Message: CDC Flow service returning >1% 5xx errors over 30s.
+   Frequency: 2m
+   For: 30s
+   Queries:
+     A: (sum(rate(nginx_ingress_controller_requests{service="cdc-flow-api",status=~"5[0-9][0-9]"}[$__interval]))/(sum (rate(nginx_ingress_controller_requests{service="cdc-flow-api",status!~"4[0-9][0-9]"}[$__interval])) > 0)*100) or vector(0)
+     B: (sum(rate(nginx_ingress_controller_requests{service="cdc-flow-api",status=~"5[0-9][0-9]"}[2m]))/(sum(rate(nginx_ingress_controller_requests{service="cdc-flow-api",status!~"4[0-9][0-9]"}[2m])) > 0)*100) or vector(0)
+   Alert Evaluation:
+     Condition: avg of query B over (B, 1m, now) gt 1
+     Evaluated Query Ref: B
+
+3. Alert Name: [CDC][Cloud] Flow Pod Restart Alert
+   Panel Title: Pod Restarts
+   Severity: Warning
+   Priority: Low
+   Message: CDC Flow pod restarted in the last 1m.
+   Frequency: 1m
+   For: 0m
+   Queries:
+     A: rate(kube_pod_container_status_restarts_total{namespace="cdc-flow", container="cdc-flow-api", pod=~"cdc-flow-.+"}[$__interval])
+     C: rate(kube_pod_container_status_restarts_total{namespace="cdc-flow", container="cdc-flow-hostapp-sync", pod=~"cdc-flow-hostapp-sync.*"}[$__interval])
+     B (hidden): rate(kube_pod_container_status_restarts_total{namespace="cdc-flow", container="cdc-flow-api", pod=~"cdc-flow-.+"}[1m])
+     D (hidden): rate(kube_pod_container_status_restarts_total{namespace="cdc-flow", container="cdc-flow-hostapp-sync", pod=~"cdc-flow-hostapp-sync.*"}[1m])
+   Alert Evaluation:
+     Condition: avg of query B over (B, 5m, now) gt 0
+     Evaluated Query Ref: B
+     Condition: avg of query D over (D, 5m, now) gt 0
+     Evaluated Query Ref: D
+
+4. Alert Name: [CDC][Cloud] Flow 4xx Error Alert
+   Panel Title: 4xx Error Rate
+   Severity: Warning
+   Priority: Low
+   Message: Sustained 4xx client errors detected.
+   Frequency: 10m
+   For: 5m
+   Queries:
+     A: sum(rate(nginx_ingress_controller_requests{namespace="cdc-flow", status=~"4[0-9][0-9]", service="cdc-flow-api"}[1m]))
+   Alert Evaluation:
+     Condition: avg of query A over (A, 15m, now) gt 20
+     Evaluated Query Ref: A
+
+Dashboard: CDC Comprehensive Alerts
+1. Alert Name: [CDC][OnPrem] Low EPS Alert
+   Panel Title: Low Events Per Second Alert
+   Severity: Warning
+   Priority: High
+   Message: Total EPS < 300 for 5m | Action: Verify ingestion sources, network status, and applied filters. | Priority: High
+   Frequency: 5m
+   For: 5m
+   Queries:
+     A: sum by (ophid) (rate(onprem_cdc_received_events_from_bloxone{ophid!="", source="bloxone"}[1m]))
+     B: sum by (ophid) (rate(onprem_cdc_received_events_from_nios{ophid!=""}[1m]))
+     C: sum(rate(onprem_cdc_received_events_from_bloxone{ophid!="", source="bloxone"}[1m])) + sum(rate(onprem_cdc_received_events_from_nios{ophid!=""}[1m]))
+   Alert Evaluation:
+     Condition: avg of query A over (A, 10m, now) lt 300
+     Evaluated Query Ref: A
+
+2. Alert Name: [CDC][OnPrem] Pending Event Backlog Alert
+   Panel Title: High Pending Events Alert
+   Severity: Critical
+   Priority: Low
+   Message: Pending events > 50k for 2m | Possible processing bottleneck or downstream/resource issue; risk of data loss | Priority: Low
+   Frequency: 5m
+   For: 2m
+   Queries:
+     A: sum by (ophid) (onprem_cdc_pending_events{ophid!=""})
+     B: sum(onprem_cdc_pending_events{ophid!=""})
+   Alert Evaluation:
+     Condition: avg of query A over (A, 2m, now) gt 50000
+     Evaluated Query Ref: A
+
+3. Alert Name: [CDC][OnPrem] No Open Sockets Alert
+   Panel Title: Zero Open Sockets Alert
+   Severity: Warning
+   Priority: Low
+   Message: Zero open sockets detected for 15m | Action: Check network connectivity, service discovery, and configuration | Priority: Low
+   Frequency: 5m
+   For: 15m
+   Queries:
+     A: sum by (ophid) (onprem_container_sockets{onprem_pod=~".*cdc.*", ophid!=""})
+     B: sum(onprem_container_sockets{onprem_pod=~".*cdc.*", ophid!=""})
+   Alert Evaluation:
+     Condition: last of query A over (A, 15m, now) lt 1
+     Evaluated Query Ref: A
+
+4. Alert Name: [CDC][OnPrem] No Active Flows Alert
+   Panel Title: No Active Flows Alert
+   Severity: Critical
+   Priority: Low
+   Message: Zero active flows for 5m | Possible outage detected; investigate immediately. | Priority: Low
+   Frequency: 5m
+   For: 5m
+   Queries:
+     A: sum by (ophid) (cdc_flow_status{ophid!=""} == 1) or on(ophid) (0 * group by (ophid) (cdc_flow_status{ophid!=""}))
+     B: count(cdc_flow_status == 1) or vector(0)
+   Alert Evaluation:
+     Condition: last of query A over (A, 5m, now) lt 1
+     Evaluated Query Ref: A
+
+5. Alert Name: [CDC][C2C] High QPS Alert
+   Panel Title: High QPS Alert
+   Severity: Warning
+   Priority: High
+   Message: High QPS | Queries > 100/s for 5m | Action: Monitor performance, resource utilization, and check for potential abuse | Priority: High
+   Frequency: 5m
+   For: 10m
+   Queries:
+     A: sum by (grpc_method) (irate(grpc_server_started_total{app=~"cdc.*"}[2m]))
+     B: sum(irate(grpc_server_started_total{app=~"cdc.*"}[2m]))
+   Alert Evaluation:
+     Condition: avg of query A over (A, 10m, now) gt 100
+     Evaluated Query Ref: A
+
+6. Alert Name: [C2C] - Unhealthy Pods Persist
+   Panel Title: Persistent Unhealthy Pods Alert
+   Severity: Warning
+   Priority: Low
+   Message: One or more pods unhealthy for over 1m | Action: Check for systemic issues, resource constraints, or misconfiguration | Priority: Low
+   Frequency: 5m
+   For: 1m
+   Queries:
+     A: kube_pod_status_ready{namespace="cdc-flow", condition="false"}
+     B: count(kube_pod_status_ready{namespace="cdc-flow", condition="false"})
+   Alert Evaluation:
+     Condition: avg of query A over (A, 1h, now) gt 0
+     Evaluated Query Ref: A
+
+7. Alert Name: [CDC][Cloud] No Events Received from Source Alert
+   Panel Title: No Events Received Alert
+   Severity: Critical
+   Priority: High
+   Message: No events received for 3m | Action: Verify source connectivity, ingestion pipeline, and network status. | Priority: High
+   Frequency: 3m
+   For: 3m
+   Queries:
+     A: sum by (ophid) (rate(onprem_cdc_received_events_from_bloxone{ophid!="", source="bloxone"}[1m]) or vector(0))
+     B: sum by (ophid) (rate(onprem_cdc_received_events_from_nios{ophid!=""}[1m]) or vector(0))
+     C: (sum(rate(onprem_cdc_received_events_from_bloxone{ophid!="", source="bloxone"}[1m])) or vector(0)) + (sum(rate(onprem_cdc_received_events_from_nios{ophid!=""}[1m])) or vector(0))
+     E: sum(rate(onprem_cdc_received_events_from_bloxone{ophid!="", source="bloxone"}[1m])) or vector(0)
+     F: sum(rate(onprem_cdc_received_events_from_nios{ophid!=""}[1m])) or vector(0)
+   Alert Evaluation:
+     Condition 1: avg of query E over (E, 5m, now) lt 0.1
+     OR Condition 2: avg of query F over (F, 5m, now) lt 0.1
+     Evaluated Query Refs: E, F
+
+Dashboard: CDC Onprem Flow Status Alerts
+1. Alert Name: [CDC][OnPrem] Flow Status Degraded Alert
+   Panel Title: CDC Flow Status Alert
+   Severity: Unspecified
+   Priority: High
+   Message: Flows stuck in Review >5m or Pending >3m | Action: Investigate affected flows, review processing pipeline, and check downstream dependencies | Priority: High
+   Frequency: 5m
+   For: 3m
+   Queries:
+     A: count by (account_id) (cdc_flow_status{account_id!="0"} == 0)
+     B: count by (account_id) (cdc_flow_status{account_id!="0"} == 0.5)
+   Alert Evaluation:
+     Condition: last of query A over (A, 5m, now) gt 0
+     Evaluated Query Ref: A
+
+Dashboard: CDC Service Status Onprem Alert
+1. Alert Name: [CDC][OnPrem] Host Inactive Alert
+   Panel Title: CDC Onprem Host Status Alert
+   Severity: Unspecified
+   Priority: High
+   Message: Host service inactive for more than 5m. | Action: Check network connectivity, service health, and system logs | Priority: High
+   Frequency: 30s
+   For: 5m
+   Queries:
+     A: onprem_host_service_status{service=~"cdc.*"}
+   Alert Evaluation:
+     Condition: last of query A over (A, 5m, now) lt 1
+     Evaluated Query Ref: A
+
+Dashboard: CDC Onprem Resources Alert
+1. Alert Name: [CDC][OnPrem] High Memory Usage Alert
+   Panel Title: CDC Onprem Memory Usage Alert
+   Severity: Unspecified
+   Priority: High
+   Message: Sustained usage >80% for 1m | Potential performance risk | Action: Investigate high resource/process utilization | Priority: High
+   Frequency: 5m
+   For: 1m
+   Queries:
+     A: (
+        onprem_host_memory_usage_used{} * on(ophid) group_left(service) onprem_host_service_status{service=~"cdc.*"}
+     ) / (
+        onprem_host_memory_usage_total{} * on(ophid) group_left(service) onprem_host_service_status{service=~"cdc.*"}
+     ) * 100
+   Alert Evaluation:
+     Condition: avg of query A over (A, 30m, now) gt 80
+     Evaluated Query Ref: A
+
+2. Alert Name: [CDC][OnPrem] High CPU Usage Alert
+   Panel Title: CDC Onprem CPU Usage Alert
+   Severity: Unspecified
+   Priority: High
+   Message: Sustained CPU usage >80% for 1m | Performance impact likely | Action: Check system load, active threads, and running processes | Priority: High
+   Frequency: 5m
+   For: 1m
+   Queries:
+     A: onprem_cpu_percentage{} * on(ophid) group_left(service) onprem_host_service_status{service=~"cdc.*"}
+   Alert Evaluation:
+     Condition: avg of query A over (A, 30m, now) gt 80
+     Evaluated Query Ref: A
+
+3. Alert Name: [CDC][OnPrem] High Disk Usage Alert
+   Panel Title: CDC Onprem Disk Space Alert
+   Severity: Unspecified
+   Priority: High
+   Message: Sustained volume usage >50% for 1m | Risk of outage | Action: Clean up unused data or expand storage capacity. | Priority: High
+   Frequency: 5m
+   For: 1m
+   Queries:
+     A: onprem_cdc_volume_used_percent{} * on(ophid) group_left(service) onprem_host_service_status{service=~"cdc.*"}
+   Alert Evaluation:
+     Condition: avg of query A over (A, 3h, now) gt 50
+     Evaluated Query Ref: A
+
+Dashboard: CDC Timestamp Alerts
+1. Alert Name: [CDC][OnPrem] Event Received/Delivered Timestamp Alert
+   Panel Title: CDC Frozen Timestamp Alert
+   Severity: Unspecified
+   Priority: High
+   Message: Event received/delivered timestamps unchanged for over 5m. | Action: Verify event ingestion, processing pipeline, and downstream delivery. | Priority: High
+   Frequency: 5m
+   For: 5m
+   Queries:
+     A: max by (account_id, ophid, flow_id, container_name) (deriv(max by (account_id, ophid, flow_id, container_name) (cdc_container_timestamp)[30m:]))
+   Alert Evaluation:
+     Condition: last of query A over (A, 20m, now) lt 0.001
+     Evaluated Query Ref: A
+
+2. Alert Name: [CDC][OnPrem] Event Received/Delivered Timestamp Lag Alert
+   Panel Title: CDC Timestamp Lag Alert
+   Severity: Unspecified
+   Priority: High
+   Message: Processing lag exceeded 5m. | Action: Investigate pipeline bottlenecks, resource constraints, and downstream system health | Priority: High
+   Frequency: 5m
+   For: 5m
+   Queries:
+     A: abs(max by (account_id, ophid, flow_id) (cdc_container_timestamp{container_name=~".*_out.*|soar_light"}) - max by (account_id, ophid, flow_id) (cdc_container_timestamp{container_name=~".*_in.*|flume"}))
+   Alert Evaluation:
+     Condition: last of query A over (A, 10m, now) gt 300
+     Evaluated Query Ref: A

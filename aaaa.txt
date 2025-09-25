@@ -1,0 +1,279 @@
+=====================================
+
+1. CDC OnPrem Comprehensive Alerts
+-----------------------------------
+Dashboard: cdc-onprem-comprehensive-alert.json
+
+1.1) [CDC][OnPrem] Low EPS Alert
+     Frequency: 5m
+     For: 5m
+     Severity: Warning
+     Message: Total EPS < 300 for 5m | Action: Verify ingestion sources, network status, and applied filters.
+     Priority: High
+
+1.2) [CDC][OnPrem] Pending Event Backlog Alert
+     Frequency: 5m
+     For: 2m
+     Severity: Critical
+     Message: Pending events > 50k for 2m | Possible processing bottleneck or downstream/resource issue; risk of data loss
+     Priority: Low
+
+1.3) [CDC][OnPrem] No Open Sockets Alert
+     Frequency: 5m
+     For: 15m
+     Severity: Warning
+     Message: Zero open sockets detected for 15m | Action: Check network connectivity, service discovery, and configuration
+     Priority: Low
+
+1.4) [CDC][OnPrem] No Active Flows Alert
+     Frequency: 5m
+     For: 5m
+     Severity: Critical
+     Message: Zero active flows for 5m | Possible outage detected; investigate immediately.
+     Priority: Low
+
+1.5) [CDC][C2C] High QPS Alert
+     Frequency: 5m
+     For: 10m
+     Severity: Warning
+     Message: High QPS | Queries > 100/s for 5m | Action: Monitor performance, resource utilization, and check for potential abuse
+     Priority: High
+
+1.6) [C2C] - Unhealthy Pods Persist Alert
+     Frequency: 5m
+     For: 1m
+     Severity: Warning
+     Message: More than 3 pods unhealthy for over 1m | Action: Check for systemic issues, resource constraints, or misconfiguration
+     Priority: Low
+
+1.7) [CDC][Cloud] No Events Received Alert
+     Frequency: 3m
+     For: 3m
+     Severity: Critical
+     Message: No events received for 3m | Action: Verify source connectivity, ingestion pipeline, and network status.
+     Priority: High
+
+=====================================
+
+2. CDC OnPrem Flow Status Alerts
+---------------------------------
+Dashboard: cdc-onprem-flow-status-alerts.json
+
+2.1) [CDC][OnPrem] Flow Status Degraded Alert
+     Frequency: 5m
+     For: 3m
+     Severity: N/A
+     Message: Flows stuck in Review >5m or Pending >3m | Action: Investigate affected flows, review processing pipeline, and check downstream dependencies
+     Priority: High
+
+=====================================
+
+3. CDC OnPrem Resource Alerts
+------------------------------
+Dashboard: cdc-onprem-resource-alerts.json
+
+3.1) [CDC][OnPrem] High Memory Usage Alert
+     Frequency: 5m
+     For: 1m
+     Severity: N/A
+     Message: Sustained usage >80% for 1m | Potential performance risk | Action: Investigate high resource/process utilization
+     Priority: High
+
+3.2) [CDC][OnPrem] High CPU Usage Alert
+     Frequency: 5m
+     For: 1m
+     Severity: N/A
+     Message: Sustained CPU usage >80% for 1m | Performance impact likely | Action: Check system load, active threads, and running processes
+     Priority: High
+
+3.3) [CDC][OnPrem] High Disk Usage Alert
+     Frequency: 5m
+     For: 1m
+     Severity: N/A
+     Message: Sustained volume usage >50% for 1m | Risk of outage | Action: Clean up unused data or expand storage capacity.
+     Priority: High
+
+=====================================
+
+4. CDC Flow Alerts (Cloud)
+---------------------------
+Dashboard: cdc-flow-alerts.json
+
+4.1) [CDC][Cloud] Flow Requests Unable to Fulfill Alert
+     Frequency: 1m
+     For: 1m
+     Severity: Critical
+     Message: CDC flow requests unable to fulfill (>5% failure rate over 1m). Likely downstream dependency issue.
+     Action: Investigate impacted dependencies and restore service
+     Priority: High
+
+4.2) [CDC][Cloud] Flow Service Down Alert
+     Frequency: 30s
+     For: 0m
+     Severity: Critical
+     Message: CDC Flow service returning >5% 5xx errors over 0m. Possible outage.
+     Action: Investigate service health, upstream dependencies, and error logs immediately.
+     Priority: High
+
+4.3) [CDC][Cloud] Flow Pod Restart Alert
+     Frequency: 30s
+     For: 0m
+     Severity: Warning
+     Message: Investigate stability if restarts are frequent. Check pod logs, resource limits, and node health.
+     Priority: High
+
+4.4) [CDC][Cloud] Flow 4xx Error Alert
+     Frequency: 5m
+     For: 2m
+     Severity: N/A
+     Message: CDC Flow pods are restarting frequently.
+     Action: Monitor pod stability, check resource utilization, logs, and underlying node health.
+     Priority: High
+
+=====================================
+
+5. CDC Cloud Alerts
+--------------------
+Dashboard: cdc-cloud-alerts.json
+
+5.1) [CDC][C2C] Pod Restart Alert
+     Frequency: 30s
+     For: 0m
+     Severity: Warning
+     Message: cdc-data-flow pod restarted in the last 0m. 
+     Action: Investigate stability if restarts are frequent. Check pod logs, resource limits, and node health.
+     Priority: High
+
+5.2) [CDC][C2C] Pod Failed Alert
+     Frequency: 30s
+     For: 0m
+     Severity: Critical
+     Message: cdc-data-flow pod is in Failed state.
+     Action: Check crash logs, scheduling issues, and resource constraints. Immediate investigation required
+     Priority: High
+
+5.3) [CDC][C2C] High CPU Usage Alert
+     Frequency: 5m
+     For: 1m
+     Severity: N/A
+     Message: Average CPU usage >60% for 1m. 
+     Action: Review workload distribution, pod scaling, and resource limits.
+     Priority: High
+
+5.4) [CDC][C2C] High Memory Usage Alert
+     Frequency: 5m
+     For: 1m
+     Severity: N/A
+     Message: Memory usage >60% for 1m. 
+     Action: Check for memory leaks, resource limits, and optimize workloads as needed.
+     Priority: High
+
+5.5) [CDC][C2C] Network Inactive Alert
+     Frequency: 1m
+     For: 5m
+     Severity: Warning
+     Message: C2C network traffic near zero for 5m. 
+     Action: Verify data flow, network connectivity, and pod health
+     Priority: High
+
+=====================================
+
+6. CDC API Alerts
+-----------------
+Dashboard: cdc-api-alerts.json
+
+6.1) [CDC][Cloud] API Requests Unable to Fulfill Alert
+     Frequency: 1m
+     For: 1m
+     Severity: Critical
+     Message: CDC API requests unable to fulfill (>5% failure rate over 1m).
+     Action: Investigate impacted dependencies, check service health, and restore functionality.
+     Priority: High
+
+6.2) [CDC][Cloud] API Service Down Alert
+     Frequency: 30s
+     For: 0m
+     Severity: Critical
+     Message: CDC API service returning >5% 5xx errors for 5m. Possible outage.
+     Action: Investigate service health, upstream dependencies, and error logs immediately.
+     Priority: High
+
+6.3) [CDC][Cloud] API Pod Restart Alert
+     Frequency: 1m
+     For: 0m
+     Severity: Warning
+     Message: CDC API pods are restarting. 
+     Action: Monitor pod stability, check resource usage, logs, and node health
+     Priority: High
+
+6.4) [CDC][Cloud] API 4xx Error Alert
+     Frequency: 5m
+     For: 2m
+     Severity: Warning
+     Message: Sustained 4xx client errors detected.
+     Action: Check authentication, API routes, and request formats.
+     Priority: High
+
+=====================================
+
+7. CDC OnPrem Container Timestamp Alerts
+-----------------------------------------
+Dashboard: cdc-onprem-container-timestamp-alerts.json
+
+7.1) [CDC][OnPrem] Event Received/Delivered Timestamp Alert
+     Frequency: 5m
+     For: 5m
+     Severity: N/A
+     Message: Event received/delivered timestamps unchanged for over 5m.
+     Action: Verify event ingestion, processing pipeline, and downstream delivery.
+     Priority: High
+
+7.2) [CDC][OnPrem] Event Received/Delivered Timestamp Lag Alert
+     Frequency: 5m
+     For: 5m
+     Severity: N/A
+     Message: Processing lag exceeded 5m.
+     Action: Investigate pipeline bottlenecks, resource constraints, and downstream system health
+     Priority: High
+
+=====================================
+
+8. CDC OnPrem Host Status Alerts
+---------------------------------
+Dashboard: cdc-onprem-host-status-alerts.json
+
+8.1) [CDC][OnPrem] Host Inactive Alert
+     Frequency: 30s
+     For: 5m
+     Severity: N/A
+     Message: Host service inactive for more than 5m.
+     Action: Check network connectivity, service health, and system logs
+     Priority: High
+
+=====================================
+
+SUMMARY STATISTICS:
+===================
+Total Alerts: 24
+Total Dashboard Files: 8
+
+Frequency Distribution:
+- 30s: 5 alerts
+- 1m: 6 alerts  
+- 2m: 1 alert
+- 3m: 1 alert
+- 5m: 11 alerts
+
+Severity Distribution:
+- Critical: 7 alerts
+- Warning: 7 alerts
+- N/A (not specified): 10 alerts
+
+Component Distribution:
+- OnPrem: 9 alerts
+- Cloud: 8 alerts
+- C2C (Cloud-to-Cloud): 7 alerts
+
+=====================================
+
+ 

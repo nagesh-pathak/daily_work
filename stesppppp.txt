@@ -1,0 +1,548 @@
+CDC / SaaS Ecosystem Alert Troubleshooting Runbook
+(Extracted & enriched from Teams transcript – 2025-09-25)
+
+Format per alert:
+- Description
+- Typical Severity / Priority (if stated or inferred)
+- Primary Signals / Metrics
+- Common Causes
+- Immediate Triage Steps (Do first)
+- Deep-Dive / Diagnostics
+- Remediation / Recovery
+- Post-Resolution Validation
+- Escalation Criteria / Notes
+
+----------------------------------------------------------------------
+1. Alert: Flow Request Unable To Fulfill
+Description: Elevated failed flow method invocations (gRPC / REST) returning non-OK codes.
+Severity: Medium → High (depends on error volume & tenant impact)
+Primary Signals: gRPC code != OK; HTTP 4xx/5xx; Method-specific failure rates
+Common Causes:
+- Downstream dependency failure (DB, token, certificate, external service)
+- AuthN/AuthZ issues (Unauthenticated / PermissionDenied)
+- Input validation errors (InvalidArgument)
+- Recent deployment regression
+Immediate Triage:
+1. Identify failing methods (Prometheus: increase by (method, code)).
+2. Check recent deployment / config changes.
+3. Inspect logs (Grafana Loki) filtered by method + non-OK codes.
+Deep-Dive:
+- kubectl logs <pod> | grep -i "<MethodName>"
+- Compare error distribution (codes) before/after spike.
+- Trace dependency latency/error panels (DB/queue/HTTP downstream).
+Remediation:
+- Fix bad configuration / roll back recent change.
+- Restart affected pod if stuck (after confirming non-stateful).
+Validation:
+- Error rate returns to baseline; no sustained retry storms.
+Escalation:
+- Sustained >5–10 min impact or multi-tenant effect → escalate to platform/DB owners.
+
+----------------------------------------------------------------------
+2. Alert: Flow Service Down (500 / Internal Error)
+Description: Core Flow service returning 500 / unhealthy; consumers cannot connect.
+Severity: Critical (multi-tenant impact)
+Primary Signals: 500 rate spike; readiness/liveness failing; Pod restarts
+Common Causes:
+- Panic / crash loop
+- Out Of Memory (OOMKilled)
+- Dependency outage (token/cert expiry, DB unreachable)
+- Config push inconsistency
+Immediate Triage:
+1. kubectl get pods -n cdc-flow
+2. kubectl describe pod <flow-pod>
+3. kubectl logs <flow-pod> --previous (if restarted)
+Deep-Dive:
+- Check events for: Context deadline exceeded / readiness probe failures.
+- Inspect dependency endpoints (DNS/network).
+- Resource pressure: kubectl top pod
+Remediation:
+- Replace bad secret/cert; restart deployment.
+- Scale replicas if saturation; tune probes if too aggressive.
+- Roll back last deployment if correlated.
+Validation:
+- Readiness = True; 500 rate normal; latency stable.
+Escalation:
+- >5 min outage or cascading failures (API / status reporter).
+
+----------------------------------------------------------------------
+3. Alert: Pod Restart (CDC Flow / CDC API / Cloud-to-Cloud / Status Reporter)
+Description: Unexpected restarts beyond acceptable threshold.
+Severity: Medium (single); High (pattern / multiple components)
+Primary Signals: kube_pod_container_status_restarts_total increase
+Common Causes:
+- OOMKilled / memory leak
+- Crash (panic stack trace)
+- Node eviction / preemption
+- Failing readiness → restart loop
+Immediate Triage:
+1. kubectl describe pod <pod>
+2. kubectl logs <pod> --previous
+3. Check node condition (kubectl describe node)
+Deep-Dive:
+- Correlate with resource graphs (CPU, memory).
+- OOM? Check last GC / heap growth logs.
+- Look for repeating panic signature.
+Remediation:
+- Increase limits (temporary) if genuine workload growth.
+- Fix crash root cause (bad nil deref, etc.).
+- Drain problematic node if node-level.
+Validation:
+- Restart counter stabilizes; error logs subdued.
+Escalation:
+- >3 restarts in 10 min for multiple pods.
+
+----------------------------------------------------------------------
+4. Alert: 400 Errors (Elevated 4xx)
+Description: Spike in client-side errors (Bad Request, Validation, Auth issues).
+Severity: Low → Medium (watch for volume trend)
+Common Causes:
+- Malformed requests (new client rollout).
+- Schema/version mismatch.
+- Auth header issues.
+Immediate Triage:
+- Identify dominant 4xx code & method.
+- Contact client owner if single tenant.
+Deep-Dive:
+- Compare traffic vs success ratio.
+- Extract sample payload (if logged, ensure no PII exposure).
+Remediation:
+- Provide correct API usage guidance.
+- Add defensive validation + clearer errors.
+Validation:
+- 4xx rate returns to previous baseline.
+Escalation:
+- If misclassified and masking server fault (e.g. 400 used for server errors).
+
+----------------------------------------------------------------------
+5. Alert: 500 Errors (General Internal Failures)
+Description: Internal server faults across API / Flow.
+Severity: High
+Common Causes:
+- Dependency failure chain.
+- Unhandled exceptions / panic.
+- Resource starvation (thread pools exhausted).
+Immediate Triage:
+- Compare 500 % of total calls.
+- Inspect recent deployment diff.
+Deep-Dive:
+- Stack traces; dependency saturation (DB connection pool).
+Remediation:
+- Patch failing build / rollback.
+- Hotfix nil/edge case.
+Validation:
+- 500 falls < baseline threshold.
+Escalation:
+- Continuous >1% of total volume for 5+ min.
+
+----------------------------------------------------------------------
+6. Alert: Cloud-to-Cloud Pod Failed
+Description: Specific flow instance (per account/flow) pod failed (stateful set style).
+Severity: Medium (single tenant) → High (pattern)
+Common Causes:
+- Per-flow config invalid.
+- Destination endpoint unreachable.
+- Credential / token expiration.
+Immediate Triage:
+1. Identify accountID + flowID from pod naming.
+2. kubectl logs <flow-instance-pod>
+3. Inspect config map: kubectl describe cm <flow-config>
+Deep-Dive:
+- Compare config vs previous revision (git diff).
+- Check outbound error (timeout, TLS).
+Remediation:
+- Fix config & re-trigger reconcile.
+- Restart only affected pod (avoid broad churn).
+Validation:
+- Flow metrics (events processed) incrementing again.
+Escalation:
+- Multiple distinct flows failing across tenants.
+
+----------------------------------------------------------------------
+7. Alert: Pod Failed (Generic)
+Description: Kubernetes Pod enters Failed phase.
+Severity: Context dependent
+Immediate Triage:
+- kubectl get pod <name> -o yaml | grep reason
+- kubectl describe pod
+Causes & Remediation:
+- ImagePullBackOff → registry / tag issue (fix image ref).
+- CrashLoopBackOff → analyze previous logs.
+Validation:
+- Pod reaches Running and Ready.
+
+----------------------------------------------------------------------
+8. Alert: High CPU Usage (Cloud Components)
+Description: Sustained CPU > configured threshold (e.g. >60% avg, >61% triggers).
+Severity: Medium
+Common Causes:
+- Traffic spike
+- Tight loops / inefficient query
+- GC pressure
+Immediate Triage:
+- kubectl top pod -n cdc-flow
+- Correlate with QPS / request latency
+Deep-Dive:
+- pprof (if enabled) / flame graph
+- Check GC logs / allocations
+Remediation:
+- Horizontal scale (HPA) or raise limits
+- Optimize hot path / add caching
+Validation:
+- CPU normalizes; no throttling
+Escalation:
+- CPU saturation causing latency / errors.
+
+----------------------------------------------------------------------
+9. Alert: High Memory Usage (Cloud Components)
+Description: Memory above safe threshold (example >60%)
+Severity: Medium → High (if OOM risk)
+Common Causes:
+- Unbounded buffers / queues
+- Large payload bursts
+Immediate Triage:
+- kubectl top pod
+- Check restarts (OOMKilled?)
+Deep-Dive:
+- Heap profiling (if available)
+- Track object growth pattern
+Remediation:
+- Optimize buffering; cap queue size
+- Increase limit short-term
+Validation:
+- Stable RSS; no OOM
+Escalation:
+- Recurrent growth after restart.
+
+----------------------------------------------------------------------
+10. Alert: Network In/Out Anomaly
+Description: Unexpected drop or spike in ingress/egress.
+Severity: Medium
+Causes:
+- Upstream quiet period
+- Downstream backpressure
+- Network policy / firewall issues
+Triage:
+- Compare with request volume & pending events
+- Check downstream error counters
+Remediation:
+- Resolve destination throttling
+Validation:
+- Traffic aligns with historical baseline.
+
+----------------------------------------------------------------------
+11. Alert: Event Received vs Delivered Timestamp Lag
+Description: Delivered timestamp not advancing while received updates (processing lag).
+Severity: High (if lag growing)
+Signals:
+- received_timestamp advancing
+- delivered_timestamp static
+Common Causes:
+- Out container stalled
+- Destination unreachable / slow
+- Queue backlog
+Immediate Triage:
+1. Inspect per-stage metrics (in-container vs out-container processed).
+2. Check pending event count trend.
+Deep-Dive:
+- Outbound retry logs
+- Destination latency panels
+Remediation:
+- Fix destination auth/connectivity
+- Drain / flush stuck worker
+Validation:
+- Gap reduces; delivered catches up
+Escalation:
+- Lag > SLA window (e.g. >5–10 min) with growth.
+
+----------------------------------------------------------------------
+12. Alert: Timestamp Lag Issue (Both Stalled)
+Description: Neither received nor delivered advancing.
+Causes:
+- Source ingestion stopped
+- Global pipeline halt (dependency outage)
+Triage:
+- Verify source system health
+- Check upstream pull errors
+Remediation:
+- Restart ingestion worker
+- Fix credential / connector
+Validation:
+- Both timestamps resume increasing.
+
+----------------------------------------------------------------------
+13. Alert: On-Prem Host Status Unhealthy
+Description: Host agent/service health check failing.
+Severity: High (tenant data pipeline risk)
+Causes:
+- Resource exhaustion (CPU/mem/disk)
+- Container crash
+- Network unreachable
+Immediate Triage:
+1. Teleport → SSH (OPHID)
+2. Check: df -h; free -m; top
+3. Inspect container status script / supervisor logs
+Deep-Dive:
+- Journal / service logs
+- Disk IO wait
+Remediation:
+- Restart failing container
+- Free disk; rotate logs
+Validation:
+- Health flag flips healthy; events flow resumes
+Escalation:
+- Recurrent within 24h or systemic host class issue.
+
+----------------------------------------------------------------------
+14. Alert: Flow Status Change (Unexpected: Online → Pending/Failed)
+Description: Flow not remaining Active/Online; transitions to Pending/Failed.
+Severity: High (data not moving)
+Causes:
+- Config push failed (API → On-prem)
+- Version incompatibility / backward incompat
+- Credential / permission issue
+Triage:
+- Check CDC Flow logs for push attempt
+- Check CDC API status generation
+- On-prem logs for apply errors
+Deep-Dive:
+- Diff config version vs last good one
+- Validate secrets / cert validity
+Remediation:
+- Correct bad config & re-apply
+- Trigger re-sync / status reconcile
+Validation:
+- Status stable in Online
+Escalation:
+- Multiple flows failing same transition.
+
+----------------------------------------------------------------------
+15. Alert: Host Inactive (On-Prem)
+Description: Host no longer reporting heartbeat/status.
+Severity: Critical (data halt risk)
+Causes:
+- Host offline / network partition
+- Agent stopped
+Triage:
+- Teleport attempt (unreachable?)
+- Infra team confirm host up
+Remediation:
+- Restart agent / container
+- Recover host or reassign workload
+Validation:
+- Heartbeat resumes
+Escalation:
+- Host absent > SLA (e.g. >10 min).
+
+----------------------------------------------------------------------
+16. Alert: Low EPS / QPS Drop
+Description: Throughput sudden decline from normal baseline (e.g. 50k → 20k).
+Severity: Medium → High (depending on delta & duration)
+Causes:
+- Source quiet / customer schedule
+- Processing slowdown (CPU throttling)
+- Backpressure from destination
+Triage:
+- Compare with source metrics; check errors
+- Examine queue depth / pending events
+Deep-Dive:
+- Latency histograms
+- Resource utilization correlation
+Remediation:
+- Scale workers
+- Remove bottleneck (DB index, network)
+Validation:
+- EPS returns to historical band
+Escalation:
+- Sustained >30% drop >5–10 min unexplained.
+
+----------------------------------------------------------------------
+17. Alert: No Active Flows
+Description: Service enabled but zero active flows configured.
+Severity: Info → Low
+Causes:
+- Customer misconfiguration
+- Flows deleted inadvertently
+Actions:
+- Confirm business intent with support
+- Suggest disabling unused service
+Escalation:
+- If billing / contractual mismatch.
+
+----------------------------------------------------------------------
+18. Alert: Pending Event Backlog High / Growing
+Description: pending_events increasing while processed_events flat.
+Severity: High (risk of data delay)
+Causes:
+- Downstream slowness
+- Worker saturation / deadlock
+- Stuck retry loop
+Triage:
+- Check per-stage queue depth
+- Confirm workers Running & not crash looping
+Deep-Dive:
+- Thread pool / goroutine dump (if enabled)
+- Retry error types (auth? timeout?)
+Remediation:
+- Scale consumers
+- Clear poison messages (if supported)
+- Fix downstream latency root cause
+Validation:
+- Backlog drains steadily to prior level
+Escalation:
+- Backlog growth accelerates or hits SLA limit.
+
+----------------------------------------------------------------------
+19. Alert: High CPU (On-Prem)
+Description: Host or container CPU near saturation.
+Severity: Medium → High (if impacting latency)
+Triage:
+- top / pidstat to identify process
+- Check flow distribution (hot tenant)
+Remediation:
+- Rebalance / shard flows
+- Optimize parsing / batching
+Validation:
+- Sustained CPU < threshold
+Escalation:
+- Persistent after balancing.
+
+----------------------------------------------------------------------
+20. Alert: High Memory (On-Prem)
+Description: Memory usage nearing limit (risk OOM).
+Causes:
+- Large batch accumulation
+- Memory leak
+Triage:
+- ps aux --sort=-%mem
+- Container cgroup stats (if available)
+Remediation:
+- Restart leaking process (short-term)
+- Patch leak / reduce batch size
+Validation:
+- Stable RSS
+Escalation:
+- Re-occurs cyclically.
+
+----------------------------------------------------------------------
+21. Alert: Disk Usage High (On-Prem)
+Description: Host disk near capacity.
+Causes:
+- Log growth
+- Stale temp / backlog files
+Triage:
+- du -sh /var/log/... /data/*
+Remediation:
+- Rotate/compress logs
+- Purge stale temp
+Validation:
+- Usage below threshold
+Escalation:
+- Structural capacity issue.
+
+----------------------------------------------------------------------
+22. Alert: Dependent Services Failure
+Description: Failures invoking external / internal service dependencies.
+Severity: High (if causing request failures)
+Causes:
+- Downstream outage
+- TLS / cert expiration
+Triage:
+- Identify failing endpoint & error type
+- Test curl from pod (if allowed)
+Remediation:
+- Renew cert / reconfigure endpoint
+- Circuit-break temporarily (if supported)
+Validation:
+- Dependency call success rate restored
+Escalation:
+- Cross-team dependency outage.
+
+----------------------------------------------------------------------
+23. Alert: Config Push Failure / Flow Pending
+Description: Config not applied to on-prem / flow stuck in Pending.
+Severity: High (data path blocked)
+Causes:
+- Incompatible schema
+- Serialization error
+- Connectivity to on-prem agent
+Triage:
+- CDC API logs for config generation
+- On-prem logs for apply error
+Remediation:
+- Fix config content & re-push
+Validation:
+- Flow transitions to Active
+Escalation:
+- Repeated failures across multiple flows.
+
+----------------------------------------------------------------------
+24. Alert: Cloud-to-Cloud Pod Failed (Destination Specific)
+(Refined—destination channel errors)
+Add’l Causes:
+- Destination auth revocation
+- Rate limiting
+Diagnostics:
+- Examine retry/backoff logs
+- Check destination HTTP status distribution
+Remediation:
+- Refresh credentials / reduce rate
+Validation:
+- Delivery success % improves.
+
+----------------------------------------------------------------------
+25. Alert: Network Backpressure (Implicit via Lag + Throughput Drop)
+Description: Combination symptom (lag + low delivered).
+Triage:
+- Compare inbound vs outbound processed rates.
+Remediation:
+- Throttle source intake temporarily
+- Increase outbound concurrency
+Validation:
+- Queues stabilize.
+
+----------------------------------------------------------------------
+Prometheus / Loki Query Examples (Adjust label names accordingly):
+- gRPC errors by code:
+  sum by (method, code) (rate(grpc_server_handled_total{namespace="cdc-flow"}[5m]) > 0)
+- HTTP 5xx ratio:
+  sum(rate(http_requests_total{code=~"5..",app="cdc-api"}[5m])) / sum(rate(http_requests_total{app="cdc-api"}[5m]))
+- Pod restarts (recent):
+  increase(kube_pod_container_status_restarts_total{namespace="cdc-flow"}[10m]) > 0
+- CPU usage % (container):
+  100 * sum(rate(container_cpu_usage_seconds_total{namespace="cdc-flow"}[5m])) by (pod) / sum(kube_pod_container_resource_limits{resource="cpu",namespace="cdc-flow"}) by (pod)
+- Memory working set:
+  sum(container_memory_working_set_bytes{namespace="cdc-flow"}) by (pod)
+- Pending vs processed events:
+  rate(cdc_pending_events_total[5m]) - rate(cdc_processed_events_total[5m])
+- Timestamp lag seconds:
+  cdc_event_received_timestamp - cdc_event_delivered_timestamp
+- High backlog:
+  cdc_pending_events_total > <threshold>
+
+Kubernetes Command Snippets:
+- kubectl get pods -n cdc-flow
+- kubectl describe pod <pod> -n cdc-flow
+- kubectl logs <pod> -n cdc-flow --previous
+- kubectl top pod -n cdc-flow
+- kubectl rollout restart deployment/flow-api -n cdc-flow
+
+    On-Prem (Teleport Host) Quick Checks:
+    - df -h
+    - free -m
+    - top / htop
+    - tail -n 300 /var/log/<service>.log
+    - Check agent service status (systemctl status <svc> if applicable)
+
+Escalation Guidelines (General):
+Escalate when:
+- Multi-tenant impact persists >5–10 minutes.
+- Data loss risk (backlog growth with risk of retention expiry).
+- Security / credential expiry blocking flows.
+- Repeated cyclic failures post remediation.
+Include:
+- Alert name(s)
+- Time window
+- Affected tenants (account IDs)
+- Metrics snapshot
+- Actions already taken

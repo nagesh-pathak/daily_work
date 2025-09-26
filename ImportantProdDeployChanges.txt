@@ -187,95 +187,97 @@ Dashboard: CDC-Flow-Alerts
 Dashboard: CDC Comprehensive Alerts
 1. Alert Name: [CDC][OnPrem] Low EPS Alert
    Panel Title: Low Events Per Second Alert
-   Severity: Warning
+   Severity: Critical
    Priority: High
-   Message: Total EPS < 300 for 5m | Action: Verify ingestion sources, network status, and applied filters. | Priority: High
-   Frequency: 5m
+   Message: Total EPS < 300 for 5m
+   Frequency: 10m
    For: 5m
    Queries:
      A: sum by (ophid) (rate(onprem_cdc_received_events_from_bloxone{ophid!="", source="bloxone"}[1m]))
      B: sum by (ophid) (rate(onprem_cdc_received_events_from_nios{ophid!=""}[1m]))
      C: sum(rate(onprem_cdc_received_events_from_bloxone{ophid!="", source="bloxone"}[1m])) + sum(rate(onprem_cdc_received_events_from_nios{ophid!=""}[1m]))
    Alert Evaluation:
-     Condition: avg of query A over (A, 10m, now) lt 300
+     Condition: avg of query A over (A, 20m, now) lt 300
      Evaluated Query Ref: A
+     Condition: avg of query B over (B, 20m, now) lt 300
+     Evaluated Query Ref: B
 
-2. Alert Name: [CDC][OnPrem] Pending Event Backlog Alert
+2. Alert Name: [CDC][OnPrem] High Pending Events Alert
    Panel Title: High Pending Events Alert
-   Severity: Critical
+   Severity: Warning
    Priority: Low
-   Message: Pending events > 50k for 2m | Possible processing bottleneck or downstream/resource issue; risk of data loss | Priority: Low
-   Frequency: 5m
-   For: 2m
+   Message: Pending events > 50k for 2m
+   Frequency: 10m
+   For: 5m
    Queries:
      A: sum by (ophid) (onprem_cdc_pending_events{ophid!=""})
      B: sum(onprem_cdc_pending_events{ophid!=""})
    Alert Evaluation:
-     Condition: avg of query A over (A, 2m, now) gt 50000
+     Condition: avg of query A over (A, 20m, now) gt 50000
      Evaluated Query Ref: A
 
-3. Alert Name: [CDC][OnPrem] No Open Sockets Alert
+3. Alert Name: [CDC][OnPrem] Zero Open Sockets Alert
    Panel Title: Zero Open Sockets Alert
    Severity: Warning
    Priority: Low
-   Message: Zero open sockets detected for 15m | Action: Check network connectivity, service discovery, and configuration | Priority: Low
-   Frequency: 5m
-   For: 15m
+   Message: Zero open sockets detected for 10m
+   Frequency: 15m
+   For: 10m
    Queries:
      A: sum by (ophid) (onprem_container_sockets{onprem_pod=~".*cdc.*", ophid!=""})
      B: sum(onprem_container_sockets{onprem_pod=~".*cdc.*", ophid!=""})
    Alert Evaluation:
-     Condition: last of query A over (A, 15m, now) lt 1
+     Condition: last of query A over (A, 20m, now) lt 1
      Evaluated Query Ref: A
 
-4. Alert Name: [CDC][OnPrem] No Active Flows Alert
-   Panel Title: No Active Flows Alert
-   Severity: Critical
+4. Alert Name: [CDC][OnPrem] Zero Active Flows Alert
+   Panel Title: Zero Active Flows Alert
+   Severity: Warning
    Priority: Low
-   Message: Zero active flows for 5m | Possible outage detected; investigate immediately. | Priority: Low
-   Frequency: 5m
-   For: 5m
+   Message: Zero active flows for 5m
+   Frequency: 15m
+   For: 10m
    Queries:
      A: sum by (ophid) (cdc_flow_status{ophid!=""} == 1) or on(ophid) (0 * group by (ophid) (cdc_flow_status{ophid!=""}))
      B: count(cdc_flow_status == 1) or vector(0)
    Alert Evaluation:
-     Condition: last of query A over (A, 5m, now) lt 1
+     Condition: last of query A over (A, 20m, now) lt 1
      Evaluated Query Ref: A
 
-5. Alert Name: [CDC][C2C] High QPS Alert
-   Panel Title: High QPS Alert
-   Severity: Warning
+5. Alert Name: [CDC][Cloud] High RPS Alert
+   Panel Title: High RPS Alert
+   Severity: Critical
    Priority: High
-   Message: High QPS | Queries > 100/s for 5m | Action: Monitor performance, resource utilization, and check for potential abuse | Priority: High
-   Frequency: 5m
-   For: 10m
+   Message: High QPS | Queries > 100/s for 5m
+   Frequency: 10m
+   For: 5m
    Queries:
      A: sum by (grpc_method) (irate(grpc_server_started_total{app=~"cdc.*"}[2m]))
      B: sum(irate(grpc_server_started_total{app=~"cdc.*"}[2m]))
    Alert Evaluation:
-     Condition: avg of query A over (A, 10m, now) gt 100
+     Condition: avg of query A over (A, 20m, now) gt 100
      Evaluated Query Ref: A
 
-6. Alert Name: [C2C] - Unhealthy Pods Persist
+6. Alert Name: [CDC][C2C] - Persistent Unhealthy Pods Alert
    Panel Title: Persistent Unhealthy Pods Alert
-   Severity: Warning
-   Priority: Low
-   Message: One or more pods unhealthy for over 1m | Action: Check for systemic issues, resource constraints, or misconfiguration | Priority: Low
+   Severity: Critical
+   Priority: High
+   Message: One or more pods unhealthy for over 1m
    Frequency: 5m
    For: 1m
    Queries:
-     A: kube_pod_status_ready{namespace="cdc-flow", condition="false"}
-     B: count(kube_pod_status_ready{namespace="cdc-flow", condition="false"})
+     A: kube_pod_status_ready{namespace="cdc-flow", condition="false", pod!~".*db-migrations.*"}
+     B: count(kube_pod_status_ready{namespace="cdc-flow", condition="false", pod!~".*db-migrations.*"})
    Alert Evaluation:
-     Condition: avg of query A over (A, 1h, now) gt 0
+     Condition: avg of query A over (A, 20m, now) gt 0
      Evaluated Query Ref: A
 
 7. Alert Name: [CDC][Cloud] No Events Received from Source Alert
-   Panel Title: No Events Received Alert
+   Panel Title: No Events Received from Source Alert
    Severity: Critical
    Priority: High
-   Message: No events received for 3m | Action: Verify source connectivity, ingestion pipeline, and network status. | Priority: High
-   Frequency: 3m
+   Message: No events received from Source [BloxOne/NIOS] for 3m
+   Frequency: 5m
    For: 3m
    Queries:
      A: sum by (ophid) (rate(onprem_cdc_received_events_from_bloxone{ophid!="", source="bloxone"}[1m]) or vector(0))
@@ -289,40 +291,42 @@ Dashboard: CDC Comprehensive Alerts
      Evaluated Query Refs: E, F
 
 Dashboard: CDC Onprem Flow Status Alerts
-1. Alert Name: [CDC][OnPrem] Flow Status Degraded Alert
+1. Alert Name: [CDC][OnPrem] Flow Status Alert
    Panel Title: CDC Flow Status Alert
-   Severity: Unspecified
+   Severity: Critical
    Priority: High
-   Message: Flows stuck in Review >5m or Pending >3m | Action: Investigate affected flows, review processing pipeline, and check downstream dependencies | Priority: High
-   Frequency: 5m
-   For: 3m
+   Message: Flows stuck in Review or Pending
+   Frequency: 10m
+   For: 5m
    Queries:
      A: count by (account_id) (cdc_flow_status{account_id!="0"} == 0)
      B: count by (account_id) (cdc_flow_status{account_id!="0"} == 0.5)
    Alert Evaluation:
-     Condition: last of query A over (A, 5m, now) gt 0
+     Condition: last of query A over (A, 15m, now) gt 0
      Evaluated Query Ref: A
+     Condition: last of query B over (B, 15m, now) gt 0
+     Evaluated Query Ref: B
 
 Dashboard: CDC Service Status Onprem Alert
 1. Alert Name: [CDC][OnPrem] Host Inactive Alert
-   Panel Title: CDC Onprem Host Status Alert
-   Severity: Unspecified
+   Panel Title: CDC Onprem Host Inactive Alert
+   Severity: Critical
    Priority: High
-   Message: Host service inactive for more than 5m. | Action: Check network connectivity, service health, and system logs | Priority: High
-   Frequency: 30s
+   Message: Host service inactive for more than 5m
+   Frequency: 5m
    For: 5m
    Queries:
      A: onprem_host_service_status{service=~"cdc.*"}
    Alert Evaluation:
-     Condition: last of query A over (A, 5m, now) lt 1
+     Condition: last of query A over (A, 10m, now) lt 1
      Evaluated Query Ref: A
 
 Dashboard: CDC Onprem Resources Alert
 1. Alert Name: [CDC][OnPrem] High Memory Usage Alert
-   Panel Title: CDC Onprem Memory Usage Alert
-   Severity: Unspecified
+   Panel Title: CDC Onprem High Memory Usage Alert
+   Severity: Critical
    Priority: High
-   Message: Sustained usage >80% for 1m | Potential performance risk | Action: Investigate high resource/process utilization | Priority: High
+   Message: Onprem High Memory usage >80% for 1m
    Frequency: 5m
    For: 1m
    Queries:
@@ -336,10 +340,10 @@ Dashboard: CDC Onprem Resources Alert
      Evaluated Query Ref: A
 
 2. Alert Name: [CDC][OnPrem] High CPU Usage Alert
-   Panel Title: CDC Onprem CPU Usage Alert
-   Severity: Unspecified
+   Panel Title: CDC Onprem High CPU Usage Alert
+   Severity: Critical
    Priority: High
-   Message: Sustained CPU usage >80% for 1m | Performance impact likely | Action: Check system load, active threads, and running processes | Priority: High
+   Message: Onprem High CPU Usage >80% for 1m
    Frequency: 5m
    For: 1m
    Queries:
@@ -349,41 +353,41 @@ Dashboard: CDC Onprem Resources Alert
      Evaluated Query Ref: A
 
 3. Alert Name: [CDC][OnPrem] High Disk Usage Alert
-   Panel Title: CDC Onprem Disk Space Alert
-   Severity: Unspecified
+   Panel Title: CDC Onprem High Disk Usage Alert
+   Severity: Critical
    Priority: High
-   Message: Sustained volume usage >50% for 1m | Risk of outage | Action: Clean up unused data or expand storage capacity. | Priority: High
+   Message: Onprem High Disk Usage >50% for 1m
    Frequency: 5m
    For: 1m
    Queries:
      A: onprem_cdc_volume_used_percent{} * on(ophid) group_left(service) onprem_host_service_status{service=~"cdc.*"}
    Alert Evaluation:
-     Condition: avg of query A over (A, 3h, now) gt 50
+     Condition: avg of query A over (A, 30m, now) gt 50
      Evaluated Query Ref: A
 
 Dashboard: CDC Timestamp Alerts
 1. Alert Name: [CDC][OnPrem] Event Received/Delivered Timestamp Alert
-   Panel Title: CDC Frozen Timestamp Alert
-   Severity: Unspecified
+   Panel Title: CDC Event Received/Delivered Timestamp Alert
+   Severity: Critical
    Priority: High
-   Message: Event received/delivered timestamps unchanged for over 5m. | Action: Verify event ingestion, processing pipeline, and downstream delivery. | Priority: High
+   Message: Event received/delivered timestamps unchanged for over 5m.
    Frequency: 5m
    For: 5m
    Queries:
-     A: max by (account_id, ophid, flow_id, container_name) (deriv(max by (account_id, ophid, flow_id, container_name) (cdc_container_timestamp)[30m:]))
+     A: max by (account_id, ophid, flow_id, container_name) (deriv(max by (account_id, ophid, flow_id, container_name) (cdc_container_timestamp{account_id!=""})[30m:]))
    Alert Evaluation:
      Condition: last of query A over (A, 20m, now) lt 0.001
      Evaluated Query Ref: A
 
 2. Alert Name: [CDC][OnPrem] Event Received/Delivered Timestamp Lag Alert
-   Panel Title: CDC Timestamp Lag Alert
-   Severity: Unspecified
+   Panel Title: CDC Event Received/Delivered Timestamp Lag Alert
+   Severity: Critical
    Priority: High
-   Message: Processing lag exceeded 5m. | Action: Investigate pipeline bottlenecks, resource constraints, and downstream system health | Priority: High
+   Message: Event Received/Delivered timestamps lag exceeded 5m.
    Frequency: 5m
    For: 5m
    Queries:
-     A: abs(max by (account_id, ophid, flow_id) (cdc_container_timestamp{container_name=~".*_out.*|soar_light"}) - max by (account_id, ophid, flow_id) (cdc_container_timestamp{container_name=~".*_in.*|flume"}))
+     A: abs(max by (account_id, ophid, flow_id) (cdc_container_timestamp{container_name=~".*_out.*|soar_light", account_id!=""}) - max by (account_id, ophid, flow_id) (cdc_container_timestamp{container_name=~".*_in.*|flume", account_id!=""}))
    Alert Evaluation:
      Condition: last of query A over (A, 10m, now) gt 300
      Evaluated Query Ref: A

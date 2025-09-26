@@ -248,7 +248,7 @@ Dashboard: CDC Comprehensive Alerts
    Panel Title: High RPS Alert
    Severity: Critical
    Priority: High
-   Message: High QPS | Queries > 100/s for 5m
+   Message: High RPS | Requests > 100/s for 5m
    Frequency: 10m
    For: 5m
    Queries:

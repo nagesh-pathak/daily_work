@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1200" height="800" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1200" height="50" fill="#00695C"/>
+  <text x="600" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.syslog-out — Syslog Forwarding Service (TCP/UDP/TLS)</text>
+
+  <!-- CLOUD MODE -->
+  <rect x="20" y="65" width="570" height="320" rx="8" fill="#E0F2F1" stroke="#00695C" stroke-width="2" filter="url(#s)"/>
+  <text x="305" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#00695C">Cloud Mode (Kubernetes)</text>
+
+  <rect x="40" y="110" width="140" height="45" rx="5" fill="white" stroke="#00695C"/>
+  <text x="110" y="128" text-anchor="middle" font-size="10" font-weight="bold" fill="#00695C">Dapr PubSub</text>
+  <text x="110" y="143" text-anchor="middle" font-size="8" fill="#555">port 8082</text>
+  <line x1="182" y1="132" x2="200" y2="132" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="202" y="110" width="140" height="45" rx="5" fill="white" stroke="#00695C"/>
+  <text x="272" y="128" text-anchor="middle" font-size="10" font-weight="bold" fill="#00695C">Kafka Consumer</text>
+  <text x="272" y="143" text-anchor="middle" font-size="8" fill="#555">per-flow groups</text>
+  <line x1="344" y1="132" x2="362" y2="132" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="364" y="110" width="110" height="45" rx="5" fill="white" stroke="#00695C"/>
+  <text x="419" y="128" text-anchor="middle" font-size="10" font-weight="bold" fill="#00695C">Formatter</text>
+  <text x="419" y="143" text-anchor="middle" font-size="8" fill="#555">CEF/LEEF/JSON</text>
+  <line x1="476" y1="132" x2="486" y2="132" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="488" y="105" width="90" height="55" rx="5" fill="white" stroke="#00695C"/>
+  <text x="533" y="125" text-anchor="middle" font-size="10" font-weight="bold" fill="#00695C">Syslog</text>
+  <text x="533" y="140" text-anchor="middle" font-size="10" font-weight="bold" fill="#00695C">Forwarder</text>
+  <text x="533" y="152" text-anchor="middle" font-size="8" fill="#555">TCP/UDP/TLS</text>
+
+  <!-- Syslog Protocols -->
+  <rect x="40" y="170" width="530" height="85" rx="5" fill="white" stroke="#00695C" stroke-width="1"/>
+  <text x="305" y="190" text-anchor="middle" font-size="11" font-weight="bold" fill="#00695C">Syslog Transport Protocols</text>
+  <text x="55" y="210" font-size="9" fill="#555">TCP: Persistent connection, newline-delimited messages, reconnect on failure</text>
+  <text x="55" y="226" font-size="9" fill="#555">UDP: Stateless datagrams, max 64KB per message, no delivery guarantee</text>
+  <text x="55" y="242" font-size="9" fill="#555">TLS: x509 certificate validation, mTLS optional, SNI support, min TLS 1.2</text>
+
+  <!-- Cloud Formats -->
+  <rect x="40" y="270" width="530" height="100" rx="5" fill="#FFF3E0" stroke="#E65100" stroke-width="1"/>
+  <text x="305" y="290" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Output Formats</text>
+  <text x="55" y="310" font-size="9" fill="#1565C0" font-weight="bold">CEF (Common Event Format):</text>
+  <text x="260" y="310" font-size="9" fill="#555">CEF:0|Infoblox|BloxOne|1.0|DNS|query|3|src=... dst=... cs1=...</text>
+  <text x="55" y="328" font-size="9" fill="#2E7D32" font-weight="bold">LEEF (Log Event Extended Format):</text>
+  <text x="280" y="328" font-size="9" fill="#555">LEEF:2.0|Infoblox|BloxOne|1.0|DNS|src=... dst=...</text>
+  <text x="55" y="346" font-size="9" fill="#6A1B9A" font-weight="bold">JSON:</text>
+  <text x="100" y="346" font-size="9" fill="#555">{"timestamp":"...","query":"...","client_ip":"...","response_code":"..."}</text>
+  <text x="55" y="362" font-size="9" fill="#888">CEF → ArcSight/SIEM | LEEF → QRadar | JSON → Generic SIEM</text>
+
+  <!-- ON-PREM MODE -->
+  <rect x="610" y="65" width="570" height="320" rx="8" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="2" filter="url(#s)"/>
+  <text x="895" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#6A1B9A">On-Prem Mode (File-Based)</text>
+
+  <rect x="630" y="110" width="140" height="45" rx="5" fill="white" stroke="#6A1B9A"/>
+  <text x="700" y="128" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Config File</text>
+  <text x="700" y="143" text-anchor="middle" font-size="8" fill="#555">inotify watch</text>
+  <line x1="772" y1="132" x2="790" y2="132" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="792" y="110" width="140" height="45" rx="5" fill="white" stroke="#6A1B9A"/>
+  <text x="862" y="128" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Dir Monitor</text>
+  <text x="862" y="143" text-anchor="middle" font-size="8" fill="#555">/data/out/syslog/</text>
+  <line x1="934" y1="132" x2="952" y2="132" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="954" y="110" width="140" height="45" rx="5" fill="white" stroke="#6A1B9A"/>
+  <text x="1024" y="128" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Worker Pool</text>
+  <text x="1024" y="143" text-anchor="middle" font-size="8" fill="#555">persistent conn</text>
+
+  <!-- On-Prem Dirs -->
+  <rect x="630" y="170" width="530" height="70" rx="5" fill="white" stroke="#6A1B9A" stroke-width="1"/>
+  <text x="895" y="190" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">Input Directories</text>
+  <text x="645" y="210" font-size="9" fill="#555">/infoblox/data/out/syslog/{nios/dns, nios/rpz, bloxone/dns, bloxone/dhcp}/</text>
+  <text x="645" y="226" font-size="9" fill="#555">Config: /infoblox/etc/syslog-out.json (host, port, protocol, format, TLS certs)</text>
+
+  <!-- Connection Management -->
+  <rect x="630" y="255" width="530" height="115" rx="5" fill="white" stroke="#C62828" stroke-width="1"/>
+  <text x="895" y="278" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Connection Management</text>
+  <text x="645" y="298" font-size="9" fill="#555">• Persistent TCP/TLS connections (reused across messages)</text>
+  <text x="645" y="314" font-size="9" fill="#555">• Auto-reconnect on connection drop with exponential backoff</text>
+  <text x="645" y="330" font-size="9" fill="#555">• Connection pool: 1 connection per destination per flow</text>
+  <text x="645" y="346" font-size="9" fill="#555">• Idle timeout: configurable, default 60s</text>
+  <text x="645" y="362" font-size="9" fill="#555">• TLS: x509 cert/key pair, CA bundle, skip verification option</text>
+
+  <!-- Syslog Destinations -->
+  <rect x="20" y="405" width="1160" height="180" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="600" y="430" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Syslog Destination Targets</text>
+
+  <rect x="40" y="445" width="270" height="55" rx="5" fill="#E0F2F1" stroke="#00695C"/>
+  <text x="175" y="465" text-anchor="middle" font-size="11" font-weight="bold" fill="#00695C">ArcSight (CEF over Syslog)</text>
+  <text x="55" y="485" font-size="9" fill="#555">TCP/TLS port 514/6514, CEF format</text>
+  <text x="55" y="497" font-size="9" fill="#555">Used by HP ArcSight SIEM</text>
+
+  <rect x="330" y="445" width="270" height="55" rx="5" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="465" y="465" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">QRadar (LEEF over Syslog)</text>
+  <text x="345" y="485" font-size="9" fill="#555">TCP/TLS, LEEF format</text>
+  <text x="345" y="497" font-size="9" fill="#555">Used by IBM QRadar SIEM</text>
+
+  <rect x="620" y="445" width="270" height="55" rx="5" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="755" y="465" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Generic SIEM (JSON Syslog)</text>
+  <text x="635" y="485" font-size="9" fill="#555">TCP/UDP/TLS, JSON format</text>
+  <text x="635" y="497" font-size="9" fill="#555">Any syslog-compatible SIEM</text>
+
+  <rect x="910" y="445" width="250" height="55" rx="5" fill="#FCE4EC" stroke="#C62828"/>
+  <text x="1035" y="465" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Custom Syslog</text>
+  <text x="925" y="485" font-size="9" fill="#555">Configurable format &amp; protocol</text>
+  <text x="925" y="497" font-size="9" fill="#555">Customer-defined syslog server</text>
+
+  <!-- Error Handling -->
+  <rect x="40" y="515" width="530" height="60" rx="5" fill="#FCE4EC" stroke="#C62828"/>
+  <text x="305" y="535" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Error Handling</text>
+  <text x="55" y="555" font-size="9" fill="#555">Exponential backoff on connection failure | Health: 3 consecutive failures → pause | Auto-recovery with probe</text>
+  <text x="55" y="568" font-size="9" fill="#555">Failed messages buffered in memory queue | Queue overflow → oldest messages dropped (configurable limit)</text>
+
+  <!-- Data Types -->
+  <rect x="590" y="515" width="570" height="60" rx="5" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="875" y="535" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">Supported Data Types</text>
+  <text x="605" y="555" font-size="9" fill="#555">TD_QUERY_RESP_LOG | TD_THREAT_FEEDS_HITS_LOG | DDI_QUERY_RESP_LOG | DDI_DHCP_LEASE_LOG</text>
+  <text x="605" y="568" font-size="9" fill="#555">AUDIT_LOG | SERVICE_LOG | SOC_INSIGHTS | SOC_INSIGHTS_V2 | ATLAS_NOTIFICATIONS</text>
+
+  <!-- Dependencies -->
+  <rect x="20" y="600" width="1160" height="180" rx="6" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="600" y="625" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Dependencies &amp; Architecture Context</text>
+  <text x="40" y="650" font-size="10" fill="#555">• Dapr PubSub (Cloud) — Kafka consumer via Dapr subscription for per-flow syslog forwarding</text>
+  <text x="40" y="670" font-size="10" fill="#555">• Config Manager (On-Prem) — Delivers syslog-out config (host, port, protocol, certs) to on-prem agent</text>
+  <text x="40" y="690" font-size="10" fill="#555">• cdc.common — Shared health checks, crypt (AES-256-GCM), datamonitor, logger, cleanup</text>
+  <text x="40" y="710" font-size="10" fill="#555">• Flume Pipeline (On-Prem) — Produces formatted CSV files that syslog-out reads and forwards</text>
+  <text x="40" y="730" font-size="10" fill="#555">• HashiCorp Vault — TLS private key and certificate decryption for customer syslog servers</text>
+  <text x="600" y="650" font-size="10" fill="#555">• Kafka topic (Cloud): {acctId}_{flowId}_syslog_{dataType}</text>
+  <text x="600" y="670" font-size="10" fill="#555">• On-Prem config: /infoblox/etc/syslog-out.json</text>
+  <text x="600" y="690" font-size="10" fill="#555">• Packages: cmd/, pkg/syslog/, pkg/formatter/</text>
+  <text x="600" y="710" font-size="10" fill="#555">• Packages: pkg/connection/, pkg/health/, pkg/worker/</text>
+  <text x="40" y="760" font-size="9" fill="#888">Ports: Dapr 8082 (Cloud) | Health 10001 | Syslog: 514 (TCP/UDP), 6514 (TLS) — customer-defined targets</text>
+</svg>

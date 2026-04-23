@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1200" height="850" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1200" height="50" fill="#E65100"/>
+  <text x="600" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.http-out — HTTP Destination (Splunk HEC &amp; MS Sentinel)</text>
+
+  <!-- CLOUD MODE -->
+  <rect x="20" y="65" width="570" height="370" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#s)"/>
+  <text x="305" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565C0">Cloud Mode (Kubernetes)</text>
+
+  <rect x="40" y="105" width="160" height="50" rx="5" fill="white" stroke="#1565C0"/>
+  <text x="120" y="125" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Dapr PubSub</text>
+  <text x="120" y="142" text-anchor="middle" font-size="9" fill="#555">Subscriber port 8082</text>
+
+  <line x1="202" y1="130" x2="228" y2="130" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="230" y="105" width="160" height="50" rx="5" fill="white" stroke="#1565C0"/>
+  <text x="310" y="125" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Kafka Consumer</text>
+  <text x="310" y="142" text-anchor="middle" font-size="9" fill="#555">Per-flow consumer groups</text>
+
+  <line x1="392" y1="130" x2="418" y2="130" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="420" y="105" width="150" height="50" rx="5" fill="white" stroke="#1565C0"/>
+  <text x="495" y="125" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Worker Pool</text>
+  <text x="495" y="142" text-anchor="middle" font-size="9" fill="#555">Concurrent HTTP senders</text>
+
+  <!-- Splunk HEC -->
+  <rect x="40" y="175" width="250" height="125" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="165" y="198" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">Splunk HEC Destination</text>
+  <text x="55" y="218" font-size="9" fill="#555">POST /services/collector/event</text>
+  <text x="55" y="234" font-size="9" fill="#555">Auth: Bearer {HEC token}</text>
+  <text x="55" y="250" font-size="9" fill="#555">Batch: 100 events per request</text>
+  <text x="55" y="266" font-size="9" fill="#555">Content-Type: application/json</text>
+  <text x="55" y="282" font-size="9" fill="#555">TLS: configurable cert validation</text>
+
+  <!-- MS Sentinel -->
+  <rect x="310" y="175" width="260" height="125" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="440" y="198" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">MS Sentinel Destination</text>
+  <text x="325" y="218" font-size="9" fill="#555">POST to DCR ingestion endpoint</text>
+  <text x="325" y="234" font-size="9" fill="#555">Auth: OAuth2 Azure AD (client_credentials)</text>
+  <text x="325" y="250" font-size="9" fill="#555">Format: ASIM (Azure Sentinel Info Model)</text>
+  <text x="325" y="266" font-size="9" fill="#555">Tenant: {tenant_id}, App: {client_id}</text>
+  <text x="325" y="282" font-size="9" fill="#555">DCR Rule: {dcr_id}, Stream: {stream_name}</text>
+
+  <!-- Error/Retry Cloud -->
+  <rect x="40" y="315" width="530" height="100" rx="5" fill="#FCE4EC" stroke="#C62828" stroke-width="1"/>
+  <text x="305" y="338" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Error Handling &amp; Retry (Cloud Mode)</text>
+  <text x="55" y="358" font-size="9" fill="#555">• Exponential backoff: 500ms × 2^n (max 5 retries)</text>
+  <text x="55" y="374" font-size="9" fill="#555">• Health monitoring: tracks consecutive failures → pauses flow when unhealthy</text>
+  <text x="55" y="390" font-size="9" fill="#555">• Recovery: auto-resumes when destination responds with 2xx</text>
+  <text x="55" y="406" font-size="9" fill="#555">• Dead letter: undeliverable events logged, offset committed to prevent reprocessing</text>
+
+  <!-- ON-PREM MODE -->
+  <rect x="610" y="65" width="570" height="370" rx="8" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="2" filter="url(#s)"/>
+  <text x="895" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#6A1B9A">On-Prem Mode (File-Based)</text>
+
+  <rect x="630" y="105" width="160" height="50" rx="5" fill="white" stroke="#6A1B9A"/>
+  <text x="710" y="125" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Config File</text>
+  <text x="710" y="142" text-anchor="middle" font-size="9" fill="#555">inotify watch</text>
+
+  <line x1="792" y1="130" x2="818" y2="130" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="820" y="105" width="160" height="50" rx="5" fill="white" stroke="#6A1B9A"/>
+  <text x="900" y="125" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Directory Monitor</text>
+  <text x="900" y="142" text-anchor="middle" font-size="9" fill="#555">Watches output dirs</text>
+
+  <line x1="982" y1="130" x2="1008" y2="130" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="1010" y="105" width="150" height="50" rx="5" fill="white" stroke="#6A1B9A"/>
+  <text x="1085" y="125" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">HTTP Sender</text>
+  <text x="1085" y="142" text-anchor="middle" font-size="9" fill="#555">Worker pool</text>
+
+  <!-- On-Prem Data Sources -->
+  <rect x="630" y="175" width="530" height="80" rx="5" fill="white" stroke="#6A1B9A" stroke-width="1"/>
+  <text x="895" y="198" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">On-Prem Input Directories</text>
+  <text x="645" y="218" font-size="9" fill="#555">/infoblox/data/out/http/{nios/dns, nios/rpz, bloxone/dns, bloxone/dhcp}</text>
+  <text x="645" y="234" font-size="9" fill="#555">Files: CSV format from Flume pipeline → picked up by directory monitor → sent via HTTP POST</text>
+  <text x="645" y="250" font-size="9" fill="#555">Config: /infoblox/etc/http-out.json (destination URL, auth, batch, TLS settings)</text>
+
+  <!-- On-Prem Error -->
+  <rect x="630" y="270" width="530" height="140" rx="5" fill="#FCE4EC" stroke="#C62828" stroke-width="1"/>
+  <text x="895" y="293" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">On-Prem Error Handling</text>
+  <text x="645" y="313" font-size="9" fill="#555">• Same exponential backoff strategy as cloud mode</text>
+  <text x="645" y="329" font-size="9" fill="#555">• Files moved to retry directory on failure</text>
+  <text x="645" y="345" font-size="9" fill="#555">• Successful files moved to done/ then cleaned by cdc.agent</text>
+  <text x="645" y="361" font-size="9" fill="#555">• Health state tracked: {healthy, unhealthy, paused}</text>
+  <text x="645" y="377" font-size="9" fill="#555">• Unhealthy threshold: 3 consecutive failures → pause sending</text>
+  <text x="645" y="393" font-size="9" fill="#555">• Recovery probe: periodic test requests to check destination availability</text>
+
+  <!-- Configuration -->
+  <rect x="20" y="455" width="1160" height="180" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="600" y="480" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Configuration &amp; Format Details</text>
+
+  <rect x="40" y="495" width="360" height="125" rx="5" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="220" y="515" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Splunk HEC Configuration</text>
+  <text x="55" y="535" font-size="9" fill="#555">url: https://{splunk_host}:8088/services/collector</text>
+  <text x="55" y="550" font-size="9" fill="#555">token: {HEC_TOKEN}</text>
+  <text x="55" y="565" font-size="9" fill="#555">index: {target_index}</text>
+  <text x="55" y="580" font-size="9" fill="#555">sourcetype: infoblox:cloud:dns | infoblox:cloud:rpz</text>
+  <text x="55" y="595" font-size="9" fill="#555">batch_size: 100 (events per POST)</text>
+  <text x="55" y="610" font-size="9" fill="#555">ssl_verify: true | false</text>
+
+  <rect x="420" y="495" width="380" height="125" rx="5" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="610" y="515" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">MS Sentinel Configuration</text>
+  <text x="435" y="535" font-size="9" fill="#555">tenant_id: {azure_tenant_id}</text>
+  <text x="435" y="550" font-size="9" fill="#555">client_id: {azure_app_id}</text>
+  <text x="435" y="565" font-size="9" fill="#555">client_secret: {azure_app_secret} (Vault encrypted)</text>
+  <text x="435" y="580" font-size="9" fill="#555">dcr_endpoint: https://{dcr_host}.ingest.monitor.azure.com</text>
+  <text x="435" y="595" font-size="9" fill="#555">dcr_rule_id: dcr-{rule_id}</text>
+  <text x="435" y="610" font-size="9" fill="#555">stream_name: Custom-InfobloxDNS_CL</text>
+
+  <rect x="820" y="495" width="340" height="125" rx="5" fill="#E8EAF6" stroke="#283593"/>
+  <text x="990" y="515" text-anchor="middle" font-size="11" font-weight="bold" fill="#283593">Output Formats</text>
+  <text x="835" y="535" font-size="9" fill="#555">Splunk HEC: JSON event envelope</text>
+  <text x="835" y="550" font-size="9" fill="#555">  {"event": {data}, "index": "...", "source": "..."}</text>
+  <text x="835" y="570" font-size="9" fill="#555">MS Sentinel: ASIM schema</text>
+  <text x="835" y="585" font-size="9" fill="#555">  Azure Sentinel Information Model</text>
+  <text x="835" y="600" font-size="9" fill="#555">  DnsQueryName, SrcIpAddr, DnsResponseCode</text>
+  <text x="835" y="615" font-size="9" fill="#555">  EventTimestamp, EventType, EventResult</text>
+
+  <!-- Dependencies -->
+  <rect x="20" y="655" width="1160" height="175" rx="6" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="600" y="680" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Dependencies &amp; Key Packages</text>
+  <text x="40" y="705" font-size="10" fill="#555">• Dapr PubSub (Cloud) — Kafka consumer via Dapr subscription, auto consumer group management</text>
+  <text x="40" y="725" font-size="10" fill="#555">• Config Manager (On-Prem) — Delivers http-out config to host, triggers reload via inotify</text>
+  <text x="40" y="745" font-size="10" fill="#555">• cdc.common — Shared health, crypt (AES-256-GCM), datamonitor, logger packages</text>
+  <text x="40" y="765" font-size="10" fill="#555">• HashiCorp Vault — Credential decryption for Splunk tokens and Azure client secrets</text>
+  <text x="600" y="705" font-size="10" fill="#555">• Packages: cmd/ (entry), pkg/http/ (sender), pkg/config/ (loader)</text>
+  <text x="600" y="725" font-size="10" fill="#555">• Packages: pkg/splunk/ (HEC), pkg/sentinel/ (Azure DCR)</text>
+  <text x="600" y="745" font-size="10" fill="#555">• Packages: pkg/health/ (monitoring), pkg/worker/ (pool)</text>
+  <text x="40" y="790" font-size="9" fill="#888">Ports: Dapr 8082 (Cloud) | Health 10001 | Metrics: Prometheus</text>
+  <text x="600" y="790" font-size="9" fill="#888">Kafka topic: {acctId}_{flowId}_http_{dataType} (Cloud) | Files: /data/out/http/ (On-Prem)</text>
+</svg>

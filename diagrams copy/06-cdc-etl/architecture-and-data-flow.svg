@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 650" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1100" height="650" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1100" height="50" fill="#4A148C"/>
+  <text x="550" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.etl — Parquet-to-CSV Transformation Library</text>
+
+  <!-- Note: Not a service -->
+  <rect x="30" y="65" width="1040" height="35" rx="4" fill="#FCE4EC" stroke="#C62828" stroke-width="1"/>
+  <text x="550" y="87" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">⚠ This is a standalone Go library — NOT a microservice. No Kafka, no Dapr, no gRPC. Imported by cdc.grpc-in and cdc.flume.</text>
+
+  <!-- Input -->
+  <rect x="30" y="115" width="250" height="130" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#s)"/>
+  <text x="155" y="140" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">Input: Parquet Files</text>
+  <text x="45" y="163" font-size="10" fill="#555">Apache Parquet columnar format</text>
+  <text x="45" y="183" font-size="10" fill="#555">DNS query/response logs</text>
+  <text x="45" y="203" font-size="10" fill="#555">BloxOne TD &amp; DDI events</text>
+  <text x="45" y="223" font-size="10" fill="#555">DHCP lease logs, Audit logs</text>
+
+  <!-- ETL Engine -->
+  <rect x="330" y="115" width="440" height="290" rx="8" fill="#F3E5F5" stroke="#4A148C" stroke-width="2" filter="url(#s)"/>
+  <text x="550" y="140" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A148C">ETL Processing Engine</text>
+
+  <!-- Column Reader -->
+  <rect x="350" y="155" width="190" height="80" rx="5" fill="white" stroke="#4A148C" stroke-width="1"/>
+  <text x="445" y="175" text-anchor="middle" font-size="11" font-weight="bold" fill="#4A148C">Column Reader</text>
+  <text x="360" y="195" font-size="9" fill="#555">Reads Parquet column-by-column</text>
+  <text x="360" y="210" font-size="9" fill="#555">Efficient for selective fields</text>
+  <text x="360" y="225" font-size="9" fill="#555">Used for DNS log extraction</text>
+
+  <!-- Row Reader -->
+  <rect x="560" y="155" width="190" height="80" rx="5" fill="white" stroke="#4A148C" stroke-width="1"/>
+  <text x="655" y="175" text-anchor="middle" font-size="11" font-weight="bold" fill="#4A148C">Row Reader</text>
+  <text x="570" y="195" font-size="9" fill="#555">Reads Parquet row-by-row</text>
+  <text x="570" y="210" font-size="9" fill="#555">Full record processing</text>
+  <text x="570" y="225" font-size="9" fill="#555">Used for complex transforms</text>
+
+  <!-- Worker Pool -->
+  <rect x="350" y="250" width="400" height="60" rx="5" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="550" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Worker Pool (10 goroutines)</text>
+  <text x="360" y="290" font-size="9" fill="#555">Parallel parquet processing | 40,000 records per output CSV file | Buffered channels</text>
+
+  <!-- DNS Field Processing -->
+  <rect x="350" y="325" width="400" height="65" rx="5" fill="white" stroke="#2E7D32" stroke-width="1"/>
+  <text x="550" y="345" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">DNS Log Field Processing</text>
+  <text x="360" y="362" font-size="9" fill="#555">16 boolean flags: qr, aa, tc, rd, ra, ad, cd, do, ecs, ...</text>
+  <text x="360" y="378" font-size="9" fill="#555">6 resource record arrays: answer, authority, additional, question, opt, tsig</text>
+
+  <!-- Arrows -->
+  <line x1="282" y1="180" x2="328" y2="180" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- Output -->
+  <rect x="820" y="115" width="250" height="130" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#s)"/>
+  <text x="945" y="140" text-anchor="middle" font-size="13" font-weight="bold" fill="#2E7D32">Output: CSV Files</text>
+  <text x="835" y="163" font-size="10" fill="#555">Comma-separated values</text>
+  <text x="835" y="183" font-size="10" fill="#555">40K records per file (default)</text>
+  <text x="835" y="203" font-size="10" fill="#555">Written to /data/out/ dirs</text>
+  <text x="835" y="223" font-size="10" fill="#555">Consumed by Flume/Splunk/SIEM</text>
+
+  <line x1="772" y1="260" x2="818" y2="180" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- Data Types Table -->
+  <rect x="30" y="425" width="1040" height="200" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="550" y="450" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Supported Data Types &amp; Field Mapping</text>
+
+  <!-- Headers -->
+  <rect x="50" y="465" width="200" height="25" rx="3" fill="#E3F2FD"/>
+  <text x="150" y="482" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Data Type</text>
+  <rect x="260" y="465" width="300" height="25" rx="3" fill="#E3F2FD"/>
+  <text x="410" y="482" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Source</text>
+  <rect x="570" y="465" width="200" height="25" rx="3" fill="#E3F2FD"/>
+  <text x="670" y="482" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Key Fields</text>
+  <rect x="780" y="465" width="270" height="25" rx="3" fill="#E3F2FD"/>
+  <text x="915" y="482" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Output Format</text>
+
+  <text x="60" y="510" font-size="9" fill="#555">TD_QUERY_RESP_LOG</text>
+  <text x="270" y="510" font-size="9" fill="#555">BloxOne Threat Defense DNS queries</text>
+  <text x="580" y="510" font-size="9" fill="#555">qname, qtype, rdata, rcode, client_ip</text>
+  <text x="790" y="510" font-size="9" fill="#555">CSV: timestamp, query, answer, flags</text>
+
+  <text x="60" y="530" font-size="9" fill="#555">TD_THREAT_FEEDS_HITS_LOG</text>
+  <text x="270" y="530" font-size="9" fill="#555">Threat feed match events</text>
+  <text x="580" y="530" font-size="9" fill="#555">threat_class, feed_name, confidence</text>
+  <text x="790" y="530" font-size="9" fill="#555">CSV: threat info, action, policy</text>
+
+  <text x="60" y="550" font-size="9" fill="#555">DDI_QUERY_RESP_LOG</text>
+  <text x="270" y="550" font-size="9" fill="#555">BloxOne DDI DNS queries</text>
+  <text x="580" y="550" font-size="9" fill="#555">qname, qtype, client, dns_view</text>
+  <text x="790" y="550" font-size="9" fill="#555">CSV: DNS response fields</text>
+
+  <text x="60" y="570" font-size="9" fill="#555">DDI_DHCP_LEASE_LOG</text>
+  <text x="270" y="570" font-size="9" fill="#555">DHCP lease events from DDI</text>
+  <text x="580" y="570" font-size="9" fill="#555">lease_ip, mac, hostname, state</text>
+  <text x="790" y="570" font-size="9" fill="#555">CSV: lease details, timestamps</text>
+
+  <text x="60" y="590" font-size="9" fill="#555">AUDIT_LOG / SERVICE_LOG</text>
+  <text x="270" y="590" font-size="9" fill="#555">System audit and service events</text>
+  <text x="580" y="590" font-size="9" fill="#555">user, action, resource, timestamp</text>
+  <text x="790" y="590" font-size="9" fill="#555">CSV: event details</text>
+
+  <text x="60" y="610" font-size="9" fill="#555">SOC_INSIGHTS / SOC_INSIGHTS_V2</text>
+  <text x="270" y="610" font-size="9" fill="#555">Security Operations Center insights</text>
+  <text x="580" y="610" font-size="9" fill="#555">insight_id, severity, indicators</text>
+  <text x="790" y="610" font-size="9" fill="#555">CSV: insight details, IOCs</text>
+</svg>

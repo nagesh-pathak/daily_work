@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 650" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1100" height="650" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1100" height="50" fill="#0097A7"/>
+  <text x="550" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.common — Shared Go Library for All CDC Components</text>
+
+  <rect x="20" y="65" width="1060" height="30" rx="4" fill="#E0F7FA" stroke="#0097A7"/>
+  <text x="550" y="85" text-anchor="middle" font-size="11" font-weight="bold" fill="#0097A7">NOT a service — Go package library imported by cdc.grpc-in, cdc.http-out, cdc.syslog-out, cdc.agent, and others.</text>
+
+  <!-- Packages Grid -->
+  <rect x="20" y="110" width="260" height="120" rx="6" fill="white" stroke="#C62828" stroke-width="1.5" filter="url(#s)"/>
+  <text x="150" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#C62828">health</text>
+  <text x="35" y="155" font-size="9" fill="#555">Process liveness checks</text>
+  <text x="35" y="171" font-size="9" fill="#555">Network connectivity probes</text>
+  <text x="35" y="187" font-size="9" fill="#555">TLS certificate validation</text>
+  <text x="35" y="203" font-size="9" fill="#555">WAPI health checks</text>
+  <text x="35" y="219" font-size="9" fill="#888">Returns JSON health status</text>
+
+  <rect x="300" y="110" width="240" height="120" rx="6" fill="white" stroke="#6A1B9A" stroke-width="1.5" filter="url(#s)"/>
+  <text x="420" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">crypt</text>
+  <text x="315" y="155" font-size="9" fill="#555">AES-256-GCM encryption</text>
+  <text x="315" y="171" font-size="9" fill="#555">Credential encrypt/decrypt</text>
+  <text x="315" y="187" font-size="9" fill="#555">Vault integration helpers</text>
+  <text x="315" y="203" font-size="9" fill="#555">Token/cert protection</text>
+  <text x="315" y="219" font-size="9" fill="#888">Used by all output services</text>
+
+  <rect x="560" y="110" width="250" height="120" rx="6" fill="white" stroke="#2E7D32" stroke-width="1.5" filter="url(#s)"/>
+  <text x="685" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">logger</text>
+  <text x="575" y="155" font-size="9" fill="#555">JSON structured logging</text>
+  <text x="575" y="171" font-size="9" fill="#555">logrus-based logger</text>
+  <text x="575" y="187" font-size="9" fill="#555">Log levels: debug→fatal</text>
+  <text x="575" y="203" font-size="9" fill="#555">Request ID correlation</text>
+  <text x="575" y="219" font-size="9" fill="#888">Standard across all components</text>
+
+  <rect x="830" y="110" width="250" height="120" rx="6" fill="white" stroke="#E65100" stroke-width="1.5" filter="url(#s)"/>
+  <text x="955" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">datamonitor</text>
+  <text x="845" y="155" font-size="9" fill="#555">Directory watching (inotify)</text>
+  <text x="845" y="171" font-size="9" fill="#555">File event notifications</text>
+  <text x="845" y="187" font-size="9" fill="#555">Recursive directory watch</text>
+  <text x="845" y="203" font-size="9" fill="#555">Debounce/throttle events</text>
+  <text x="845" y="219" font-size="9" fill="#888">Used by on-prem file-based services</text>
+
+  <!-- Row 2 -->
+  <rect x="20" y="250" width="260" height="120" rx="6" fill="white" stroke="#1565C0" stroke-width="1.5" filter="url(#s)"/>
+  <text x="150" y="273" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">monitor</text>
+  <text x="35" y="295" font-size="9" fill="#555">Disk usage monitoring</text>
+  <text x="35" y="311" font-size="9" fill="#555">Partition space tracking</text>
+  <text x="35" y="327" font-size="9" fill="#555">Threshold alerting</text>
+  <text x="35" y="343" font-size="9" fill="#555">Per-directory size calc</text>
+  <text x="35" y="359" font-size="9" fill="#888">Used by cdc.agent cleanup</text>
+
+  <rect x="300" y="250" width="240" height="120" rx="6" fill="white" stroke="#F57F17" stroke-width="1.5" filter="url(#s)"/>
+  <text x="420" y="273" text-anchor="middle" font-size="12" font-weight="bold" fill="#F57F17">cfg</text>
+  <text x="315" y="295" font-size="9" fill="#555">Flag/environment config</text>
+  <text x="315" y="311" font-size="9" fill="#555">Config file loading (JSON)</text>
+  <text x="315" y="327" font-size="9" fill="#555">Hot-reload on file change</text>
+  <text x="315" y="343" font-size="9" fill="#555">Environment variable override</text>
+  <text x="315" y="359" font-size="9" fill="#888">Standard config loading pattern</text>
+
+  <rect x="560" y="250" width="250" height="120" rx="6" fill="white" stroke="#AD1457" stroke-width="1.5" filter="url(#s)"/>
+  <text x="685" y="273" text-anchor="middle" font-size="12" font-weight="bold" fill="#AD1457">cleanup</text>
+  <text x="575" y="295" font-size="9" fill="#555">File retention management</text>
+  <text x="575" y="311" font-size="9" fill="#555">Threshold-based deletion</text>
+  <text x="575" y="327" font-size="9" fill="#555">FIFO oldest-first cleanup</text>
+  <text x="575" y="343" font-size="9" fill="#555">Multiplication factor calc</text>
+  <text x="575" y="359" font-size="9" fill="#888">Core of cdc.agent disk mgmt</text>
+
+  <rect x="830" y="250" width="250" height="120" rx="6" fill="white" stroke="#37474F" stroke-width="1.5" filter="url(#s)"/>
+  <text x="955" y="273" text-anchor="middle" font-size="12" font-weight="bold" fill="#37474F">util</text>
+  <text x="845" y="295" font-size="9" fill="#555">Splunk conf file parsing</text>
+  <text x="845" y="311" font-size="9" fill="#555">String/path helpers</text>
+  <text x="845" y="327" font-size="9" fill="#555">File I/O utilities</text>
+  <text x="845" y="343" font-size="9" fill="#555">Template helpers</text>
+  <text x="845" y="359" font-size="9" fill="#888">General-purpose utilities</text>
+
+  <!-- Consumers -->
+  <rect x="20" y="395" width="1060" height="230" rx="6" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="550" y="420" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Consumers (Services Importing cdc.common)</text>
+
+  <rect x="40" y="435" width="200" height="30" rx="4" fill="#E3F2FD"/><text x="140" y="455" text-anchor="middle" font-size="10" fill="#1565C0">cdc.grpc-in</text>
+  <rect x="260" y="435" width="200" height="30" rx="4" fill="#E3F2FD"/><text x="360" y="455" text-anchor="middle" font-size="10" fill="#1565C0">cdc.grpc-out</text>
+  <rect x="480" y="435" width="200" height="30" rx="4" fill="#E3F2FD"/><text x="580" y="455" text-anchor="middle" font-size="10" fill="#1565C0">cdc.http-out</text>
+  <rect x="700" y="435" width="200" height="30" rx="4" fill="#E3F2FD"/><text x="800" y="455" text-anchor="middle" font-size="10" fill="#1565C0">cdc.syslog-out</text>
+  <rect x="40" y="475" width="200" height="30" rx="4" fill="#E8F5E9"/><text x="140" y="495" text-anchor="middle" font-size="10" fill="#2E7D32">cdc.splunk-out</text>
+  <rect x="260" y="475" width="200" height="30" rx="4" fill="#E8F5E9"/><text x="360" y="495" text-anchor="middle" font-size="10" fill="#2E7D32">cdc.siem-out</text>
+  <rect x="480" y="475" width="200" height="30" rx="4" fill="#E8F5E9"/><text x="580" y="495" text-anchor="middle" font-size="10" fill="#2E7D32">cdc.agent</text>
+  <rect x="700" y="475" width="200" height="30" rx="4" fill="#E8F5E9"/><text x="800" y="495" text-anchor="middle" font-size="10" fill="#2E7D32">cdc.dns-in</text>
+  <rect x="40" y="515" width="200" height="30" rx="4" fill="#FFF3E0"/><text x="140" y="535" text-anchor="middle" font-size="10" fill="#E65100">cdc.rpz-in</text>
+  <rect x="260" y="515" width="200" height="30" rx="4" fill="#FFF3E0"/><text x="360" y="535" text-anchor="middle" font-size="10" fill="#E65100">cdc.wapi-in</text>
+  <rect x="480" y="515" width="200" height="30" rx="4" fill="#FFF3E0"/><text x="580" y="535" text-anchor="middle" font-size="10" fill="#E65100">cdc.reporting-out</text>
+  <rect x="700" y="515" width="200" height="30" rx="4" fill="#FFF3E0"/><text x="800" y="535" text-anchor="middle" font-size="10" fill="#E65100">soar-light</text>
+
+  <text x="40" y="575" font-size="9" fill="#888">Packages most used: health (all services), logger (all), cfg (all), crypt (output services), datamonitor (on-prem file services), cleanup (cdc.agent)</text>
+  <text x="40" y="595" font-size="9" fill="#888">Design: Pure Go library, zero external service dependencies, imported via go.mod replace directive or versioned module</text>
+</svg>

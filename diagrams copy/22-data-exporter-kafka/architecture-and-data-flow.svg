@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1200" height="780" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1200" height="50" fill="#1565C0"/>
+  <text x="600" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">data.exporter.kafka — Cloud gRPC Data Export Server</text>
+
+  <!-- Client Side -->
+  <rect x="20" y="65" width="280" height="250" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#s)"/>
+  <text x="160" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565C0">gRPC Clients (On-Prem)</text>
+  <rect x="40" y="105" width="240" height="35" rx="4" fill="white" stroke="#1565C0"/>
+  <text x="160" y="128" text-anchor="middle" font-size="10" fill="#555">cdc.grpc-out (OPHID auth)</text>
+  <rect x="40" y="150" width="240" height="35" rx="4" fill="white" stroke="#1565C0"/>
+  <text x="160" y="168" text-anchor="middle" font-size="10" fill="#555">Per-OPHID Consumer Group</text>
+  <text x="160" y="178" text-anchor="middle" font-size="8" fill="#888">Unique consumer per on-prem host</text>
+  <rect x="40" y="195" width="240" height="35" rx="4" fill="white" stroke="#1565C0"/>
+  <text x="160" y="218" text-anchor="middle" font-size="10" fill="#555">Chunked Stream (3.5 MB max)</text>
+  <rect x="40" y="240" width="240" height="35" rx="4" fill="white" stroke="#1565C0"/>
+  <text x="160" y="258" text-anchor="middle" font-size="10" fill="#555">Keep-Alive: 30s pings</text>
+  <text x="160" y="268" text-anchor="middle" font-size="8" fill="#888">Connection timeout: 120s</text>
+  <text x="160" y="300" font-size="9" fill="#888">Auth: OPHID mTLS certificates</text>
+
+  <line x1="302" y1="190" x2="340" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <text x="321" y="183" text-anchor="middle" font-size="8" fill="#555">gRPC</text>
+
+  <!-- gRPC Server -->
+  <rect x="342" y="65" width="340" height="250" rx="8" fill="white" stroke="#1565C0" stroke-width="2" filter="url(#s)"/>
+  <text x="512" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565C0">data.exporter.kafka Server</text>
+  <rect x="362" y="105" width="140" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="432" y="128" text-anchor="middle" font-size="10" fill="#555">gRPC Endpoint</text>
+  <rect x="520" y="105" width="140" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="590" y="128" text-anchor="middle" font-size="10" fill="#555">Auth Interceptor</text>
+  <rect x="362" y="155" width="300" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="512" y="178" text-anchor="middle" font-size="10" fill="#555">Kafka Consumer (per ophid consumer group)</text>
+  <rect x="362" y="200" width="300" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="512" y="218" text-anchor="middle" font-size="10" fill="#555">Message Chunker (3.5 MB chunks)</text>
+  <text x="512" y="228" text-anchor="middle" font-size="8" fill="#888">Split large messages for gRPC streaming</text>
+  <rect x="362" y="245" width="300" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="512" y="268" text-anchor="middle" font-size="10" fill="#555">Stream Manager (bidirectional)</text>
+  <text x="512" y="300" font-size="9" fill="#888">Ports: gRPC 8443 | Health 10001</text>
+
+  <line x1="684" y1="190" x2="720" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <text x="702" y="183" text-anchor="middle" font-size="8" fill="#555">consume</text>
+
+  <!-- Kafka -->
+  <rect x="722" y="65" width="240" height="250" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#s)"/>
+  <text x="842" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">Kafka Cluster</text>
+  <rect x="742" y="110" width="200" height="28" rx="4" fill="white" stroke="#E65100"/>
+  <text x="842" y="129" text-anchor="middle" font-size="9" fill="#555">TD_QUERY_RESP_LOG</text>
+  <rect x="742" y="143" width="200" height="28" rx="4" fill="white" stroke="#E65100"/>
+  <text x="842" y="162" text-anchor="middle" font-size="9" fill="#555">TD_THREAT_FEEDS_HITS_LOG</text>
+  <rect x="742" y="176" width="200" height="28" rx="4" fill="white" stroke="#E65100"/>
+  <text x="842" y="195" text-anchor="middle" font-size="9" fill="#555">DDI_QUERY_RESP_LOG</text>
+  <rect x="742" y="209" width="200" height="28" rx="4" fill="white" stroke="#E65100"/>
+  <text x="842" y="228" text-anchor="middle" font-size="9" fill="#555">DDI_DHCP_LEASE_LOG</text>
+  <rect x="742" y="242" width="200" height="28" rx="4" fill="white" stroke="#E65100"/>
+  <text x="842" y="261" text-anchor="middle" font-size="9" fill="#555">+ 5 more data types</text>
+  <text x="842" y="300" font-size="9" fill="#888">Topic: {acctId}_flowID{flow}_{type}</text>
+
+  <!-- Source -->
+  <rect x="980" y="65" width="200" height="250" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#s)"/>
+  <text x="1080" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#2E7D32">Data Sources</text>
+  <rect x="1000" y="110" width="160" height="35" rx="4" fill="white" stroke="#2E7D32"/>
+  <text x="1080" y="133" text-anchor="middle" font-size="10" fill="#555">BloxOne TD</text>
+  <rect x="1000" y="155" width="160" height="35" rx="4" fill="white" stroke="#2E7D32"/>
+  <text x="1080" y="178" text-anchor="middle" font-size="10" fill="#555">BloxOne DDI</text>
+  <rect x="1000" y="200" width="160" height="35" rx="4" fill="white" stroke="#2E7D32"/>
+  <text x="1080" y="223" text-anchor="middle" font-size="10" fill="#555">Audit Logs</text>
+  <rect x="1000" y="245" width="160" height="35" rx="4" fill="white" stroke="#2E7D32"/>
+  <text x="1080" y="268" text-anchor="middle" font-size="10" fill="#555">Service Logs</text>
+  <line x1="980" y1="190" x2="964" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <text x="972" y="183" text-anchor="middle" font-size="7" fill="#555">produce</text>
+
+  <!-- Data Flow Detail -->
+  <rect x="20" y="335" width="1160" height="200" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="600" y="360" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Data Flow Pipeline</text>
+
+  <rect x="40" y="380" width="160" height="45" rx="5" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="120" y="400" text-anchor="middle" font-size="10" fill="#555">BloxOne Cloud</text>
+  <text x="120" y="415" text-anchor="middle" font-size="8" fill="#888">DNS/DHCP/Threat data</text>
+  <line x1="202" y1="402" x2="230" y2="402" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="232" y="380" width="140" height="45" rx="5" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="302" y="400" text-anchor="middle" font-size="10" fill="#555">Kafka Broker</text>
+  <text x="302" y="415" text-anchor="middle" font-size="8" fill="#888">Per-acct topics</text>
+  <line x1="374" y1="402" x2="402" y2="402" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="404" y="380" width="160" height="45" rx="5" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="484" y="400" text-anchor="middle" font-size="10" fill="#555">data.exporter.kafka</text>
+  <text x="484" y="415" text-anchor="middle" font-size="8" fill="#888">Consume + chunk</text>
+  <line x1="566" y1="402" x2="594" y2="402" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="596" y="380" width="150" height="45" rx="5" fill="#F3E5F5" stroke="#6A1B9A"/>
+  <text x="671" y="400" text-anchor="middle" font-size="10" fill="#555">gRPC Stream</text>
+  <text x="671" y="415" text-anchor="middle" font-size="8" fill="#888">3.5MB chunks</text>
+  <line x1="748" y1="402" x2="776" y2="402" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="778" y="380" width="140" height="45" rx="5" fill="#FFF8E1" stroke="#FF6F00"/>
+  <text x="848" y="400" text-anchor="middle" font-size="10" fill="#555">cdc.grpc-out</text>
+  <text x="848" y="415" text-anchor="middle" font-size="8" fill="#888">On-Prem receiver</text>
+  <line x1="920" y1="402" x2="948" y2="402" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="950" y="380" width="140" height="45" rx="5" fill="#FFEBEE" stroke="#C62828"/>
+  <text x="1020" y="400" text-anchor="middle" font-size="10" fill="#555">On-Prem Outputs</text>
+  <text x="1020" y="415" text-anchor="middle" font-size="8" fill="#888">Splunk/SIEM/Syslog</text>
+
+  <text x="40" y="460" font-size="10" font-weight="bold" fill="#333">9 Supported Data Types:</text>
+  <text x="40" y="478" font-size="9" fill="#555">TD_QUERY_RESP_LOG, TD_THREAT_FEEDS_HITS_LOG, DDI_QUERY_RESP_LOG, DDI_DHCP_LEASE_LOG</text>
+  <text x="40" y="494" font-size="9" fill="#555">AUDIT_LOG, SERVICE_LOG, ATLAS_NOTIFICATIONS, SOC_INSIGHTS, SOC_INSIGHTS_V2</text>
+  <text x="40" y="516" font-size="10" font-weight="bold" fill="#333">Key Behaviors:</text>
+  <text x="260" y="516" font-size="9" fill="#555">Consumer groups ensure each on-prem host gets unique offset tracking — no data duplication</text>
+
+  <!-- Deployment -->
+  <rect x="20" y="555" width="1160" height="205" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="600" y="580" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Kubernetes Deployment</text>
+  <text x="40" y="605" font-size="10" font-weight="bold" fill="#333">Helm Chart:</text>
+  <text x="40" y="623" font-size="9" fill="#555">Replicas: 3 (default) — horizontal scaling for throughput</text>
+  <text x="40" y="640" font-size="9" fill="#555">Ingress: NGINX with sticky sessions (cookie-based affinity for gRPC streams)</text>
+  <text x="40" y="657" font-size="9" fill="#555">Service: ClusterIP port 8443 (gRPC TLS)</text>
+  <text x="40" y="674" font-size="9" fill="#555">HPA: CPU-based autoscaling with target 70% utilization</text>
+  <text x="600" y="605" font-size="10" font-weight="bold" fill="#333">Resources:</text>
+  <text x="600" y="623" font-size="9" fill="#555">CPU: 500m request / 2000m limit</text>
+  <text x="600" y="640" font-size="9" fill="#555">Memory: 512Mi request / 2Gi limit</text>
+  <text x="600" y="657" font-size="9" fill="#555">Kafka consumer: per-ophid group isolation</text>
+  <text x="600" y="674" font-size="9" fill="#555">TLS: mTLS certificates via cert-manager</text>
+  <text x="40" y="700" font-size="10" font-weight="bold" fill="#333">Dependencies:</text>
+  <text x="40" y="718" font-size="9" fill="#555">Kafka cluster, OPHID auth service, cert-manager, NGINX ingress controller, cdc.grpc-out clients</text>
+  <text x="40" y="740" font-size="9" fill="#888">Source code structure: cmd/ (main), pkg/ (server, consumer, chunker, health), deploy/ (Helm charts), docker/</text>
+</svg>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1100" height="600" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1100" height="50" fill="#1565C0"/>
+  <text x="550" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.dns-in — DNS Capture Ingestion via SSH/SCP from NIOS</text>
+
+  <rect x="20" y="65" width="1060" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0" stroke-width="1"/>
+  <text x="550" y="87" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">On-Prem Only — Receives captured DNS files from NIOS via SSH/SCP, validates, decompresses, stages for Flume.</text>
+
+  <!-- Pipeline -->
+  <rect x="20" y="115" width="1060" height="200" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#s)"/>
+  <text x="550" y="140" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565C0">Data Flow Pipeline</text>
+
+  <rect x="40" y="155" width="170" height="70" rx="6" fill="white" stroke="#E65100"/>
+  <text x="125" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">NIOS Appliance</text>
+  <text x="55" y="198" font-size="9" fill="#555">DNS packet capture</text>
+  <text x="55" y="213" font-size="9" fill="#555">compressed .gz files</text>
+  <line x1="212" y1="190" x2="238" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="240" y="155" width="170" height="70" rx="6" fill="white" stroke="#1565C0"/>
+  <text x="325" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">SSH/SCP Transfer</text>
+  <text x="255" y="198" font-size="9" fill="#555">OpenSSH 9.8p1</text>
+  <text x="255" y="213" font-size="9" fill="#555">Port 22 → CDC host</text>
+  <line x1="412" y1="190" x2="438" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="440" y="155" width="180" height="70" rx="6" fill="white" stroke="#6A1B9A"/>
+  <text x="530" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">SCP Landing Dir</text>
+  <text x="455" y="198" font-size="9" fill="#555">/infoblox/data/in/scp/</text>
+  <text x="455" y="213" font-size="9" fill="#555">captured-dns-*.gz</text>
+  <line x1="622" y1="190" x2="648" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="650" y="155" width="180" height="70" rx="6" fill="white" stroke="#C62828"/>
+  <text x="740" y="175" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Validate &amp; Decompress</text>
+  <text x="665" y="198" font-size="9" fill="#555">MD5 checksum verify</text>
+  <text x="665" y="213" font-size="9" fill="#555">gzip decompress</text>
+  <line x1="832" y1="190" x2="858" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="860" y="155" width="200" height="70" rx="6" fill="white" stroke="#2E7D32"/>
+  <text x="960" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">Flume Staging Dir</text>
+  <text x="875" y="198" font-size="9" fill="#555">/infoblox/data/in/flume/dns/</text>
+  <text x="875" y="213" font-size="9" fill="#555">Ready for Flume SpoolDir</text>
+
+  <!-- Processing -->
+  <rect x="40" y="240" width="1020" height="55" rx="5" fill="white" stroke="#1565C0"/>
+  <text x="550" y="260" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">Processing Details</text>
+  <text x="55" y="282" font-size="9" fill="#555">File pattern: captured-dns-{member}-{timestamp}.gz | MD5 file: captured-dns-{member}-{timestamp}.gz.md5 | Validates integrity before staging</text>
+
+  <!-- Details -->
+  <rect x="20" y="335" width="530" height="240" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="285" y="360" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">SSH/SCP Configuration</text>
+  <text x="40" y="385" font-size="10" fill="#555">• OpenSSH server 9.8p1 running on port 22</text>
+  <text x="40" y="405" font-size="10" fill="#555">• NIOS pushes captured DNS files via SCP</text>
+  <text x="40" y="425" font-size="10" fill="#555">• Key-based authentication (no passwords)</text>
+  <text x="40" y="445" font-size="10" fill="#555">• Landing directory: /infoblox/data/in/scp/</text>
+  <text x="40" y="465" font-size="10" fill="#555">• File naming: captured-dns-{member}-{ts}.gz</text>
+  <text x="40" y="490" font-size="10" font-weight="bold" fill="#333">Validation Steps:</text>
+  <text x="40" y="510" font-size="9" fill="#555">1. Wait for both .gz and .md5 files to arrive</text>
+  <text x="40" y="526" font-size="9" fill="#555">2. Compare computed MD5 against .md5 file</text>
+  <text x="40" y="542" font-size="9" fill="#555">3. On match: decompress → stage to flume/dns/</text>
+  <text x="40" y="558" font-size="9" fill="#555">4. On mismatch: log error, move to failed/</text>
+
+  <rect x="570" y="335" width="510" height="240" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="825" y="360" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Dependencies &amp; Architecture</text>
+  <text x="590" y="385" font-size="10" fill="#555">• NIOS DNS capture agent (data source)</text>
+  <text x="590" y="405" font-size="10" fill="#555">• Flume SpoolDirSource (downstream consumer)</text>
+  <text x="590" y="425" font-size="10" fill="#555">• cdc.agent (disk cleanup of processed files)</text>
+  <text x="590" y="445" font-size="10" fill="#555">• Config Manager (delivers dns-in config)</text>
+  <text x="590" y="470" font-size="10" font-weight="bold" fill="#333">Output Multiplication Factor:</text>
+  <text x="590" y="490" font-size="9" fill="#555">dns_in = 10x input size (compressed → decompressed)</text>
+  <text x="590" y="506" font-size="9" fill="#555">Used by cdc.agent for pre-check space estimation</text>
+  <text x="590" y="530" font-size="10" font-weight="bold" fill="#333">Docker Image:</text>
+  <text x="590" y="550" font-size="9" fill="#555">Based on Alpine Linux with OpenSSH 9.8p1</text>
+  <text x="590" y="566" font-size="9" fill="#555">supervisord manages sshd + file processor</text>
+</svg>

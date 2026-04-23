@@ -1,0 +1,446 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 2800" font-family="'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#1976D2"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#2E7D32"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#E65100"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#6A1B9A"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#C62828"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#616161"/>
+    </marker>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1565C0"/>
+      <stop offset="100%" stop-color="#0D47A1"/>
+    </linearGradient>
+    <linearGradient id="cronGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF3E0"/>
+      <stop offset="100%" stop-color="#FFE0B2"/>
+    </linearGradient>
+    <linearGradient id="pythonGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E3F2FD"/>
+      <stop offset="100%" stop-color="#BBDEFB"/>
+    </linearGradient>
+    <linearGradient id="healthGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8F5E9"/>
+      <stop offset="100%" stop-color="#C8E6C9"/>
+    </linearGradient>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <filter id="shadowSmall" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="2800" fill="#FAFAFA" rx="12"/>
+
+  <!-- Title -->
+  <rect x="40" y="20" width="1320" height="70" rx="10" fill="url(#headerGrad)" filter="url(#shadow)"/>
+  <text x="700" y="63" text-anchor="middle" font-size="26" font-weight="bold" fill="white">Scheduled C2C Flow — Cron Execution Lifecycle</text>
+  <text x="700" y="110" text-anchor="middle" font-size="14" fill="#616161">soar-light (release/v0.4.3) · SOURCE_SCHEDULE · Cloud-to-Cloud Mode</text>
+  <text x="700" y="128" text-anchor="middle" font-size="12" fill="#9E9E9E">Flow 3650 · Schedule: */5 * * * * * * (every 5 seconds) · IScheduler interface</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PHASE 1: POD STARTUP & FLOW CREATION -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="150" width="1320" height="520" rx="10" fill="white" stroke="#E0E0E0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="150" width="1320" height="40" rx="10" fill="#1565C0"/>
+  <rect x="40" y="170" width="1320" height="20" fill="#1565C0"/>
+  <text x="60" y="177" font-size="16" font-weight="bold" fill="white">PHASE 1 — Pod Startup &amp; Flow Initialization</text>
+  <text x="1340" y="177" text-anchor="end" font-size="12" fill="#BBDEFB">subscriber.go → service.go → driver.go</text>
+
+  <!-- Pod Box -->
+  <rect x="70" y="210" width="280" height="60" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="210" y="235" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">K8s StatefulSet Pod Starts</text>
+  <text x="210" y="253" text-anchor="middle" font-size="11" fill="#616161">cdc-soar-light-service-3006869-3650-0</text>
+
+  <line x1="350" y1="240" x2="400" y2="240" stroke="#1976D2" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- FLOW_JSON Parse -->
+  <rect x="400" y="210" width="280" height="60" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="540" y="233" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">Parse FLOW_JSON from ConfigMap</text>
+  <text x="540" y="251" text-anchor="middle" font-size="11" fill="#616161">subscriber.go → processEvent()</text>
+
+  <line x1="680" y1="240" x2="730" y2="240" stroke="#1976D2" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Detect Scheduled -->
+  <rect x="730" y="210" width="290" height="60" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="875" y="233" text-anchor="middle" font-size="13" font-weight="bold" fill="#E65100">Detect Scheduled Flow</text>
+  <text x="875" y="251" text-anchor="middle" font-size="11" fill="#616161">DataTypes==[] &amp;&amp; Schedule!="" → true</text>
+
+  <line x1="875" y1="270" x2="875" y2="300" stroke="#E65100" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <!-- runDataFlow -->
+  <rect x="730" y="300" width="290" height="60" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="875" y="323" text-anchor="middle" font-size="13" font-weight="bold" fill="#E65100">runDataFlow()</text>
+  <text x="875" y="341" text-anchor="middle" font-size="11" fill="#616161">subscriber.go:277 → ProcessScheduledScript()</text>
+
+  <line x1="875" y1="360" x2="875" y2="390" stroke="#E65100" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <!-- ProcessScheduledScript -->
+  <rect x="680" y="390" width="390" height="90" rx="8" fill="url(#cronGrad)" stroke="#E65100" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="875" y="413" text-anchor="middle" font-size="13" font-weight="bold" fill="#E65100">ProcessScheduledScript(flow) — service.go:376</text>
+  <text x="700" y="433" font-size="11" fill="#424242">1. ProcessFlow(key, "", flow, false) — creates handler, NO execute</text>
+  <text x="700" y="449" font-size="11" fill="#424242">2. go startHealthMonitor(flowId) — goroutine</text>
+  <text x="700" y="465" font-size="11" fill="#424242">3. GetCron().AddFunc(schedule, callback) — registers cron</text>
+
+  <!-- Venv creation box -->
+  <rect x="70" y="300" width="580" height="180" rx="8" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="80" y="323" font-size="13" font-weight="bold" fill="#6A1B9A">ProcessFlow() — Virtual Environment Setup (ONE TIME)</text>
+  <text x="80" y="347" font-size="11" fill="#424242">① mkdir -p /src/python/venv/venv-3650/src</text>
+  <text x="80" y="365" font-size="11" fill="#424242">② python3 -m venv /src/python/venv/venv-3650</text>
+  <text x="80" y="383" font-size="11" fill="#424242">③ cp -R /src/python/defaults/*.py* /src/python/venv/venv-3650/src</text>
+  <text x="80" y="401" font-size="11" fill="#424242">④ pip install -r ./requirements.txt (inside venv)</text>
+  <text x="80" y="419" font-size="11" fill="#424242">⑤ Template infoblox_driver.py.tmpl → infoblox_driver.py</text>
+  <text x="80" y="443" font-size="11" fill="#6A1B9A">Result: venv IS PERSISTENT — created once, reused by every cron tick</text>
+  <text x="80" y="461" font-size="11" fill="#6A1B9A">Script path: /src/python/venv/venv-3650/src/infoblox_driver.py</text>
+
+  <!-- Trim schedule note -->
+  <rect x="70" y="500" width="580" height="55" rx="8" fill="#FFFDE7" stroke="#F9A825" stroke-width="1" filter="url(#shadowSmall)"/>
+  <text x="80" y="520" font-size="11" font-weight="bold" fill="#F57F17">⚠ Cron Expression Trim (service.go:388)</text>
+  <text x="80" y="538" font-size="11" fill="#424242">"*/5 * * * * * *" (7 fields) → trims last 2 chars → "*/5 * * * * *" (6 fields: robfig/cron with seconds)</text>
+
+  <!-- Schedule registered note -->
+  <rect x="680" y="500" width="390" height="55" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1" filter="url(#shadowSmall)"/>
+  <text x="690" y="520" font-size="11" font-weight="bold" fill="#2E7D32">✓ Cron Registered (service.go:390)</text>
+  <text x="690" y="538" font-size="11" fill="#424242">GetCron().AddFunc("*/5 * * * * *", callback)</text>
+  <text x="690" y="548" font-size="10" fill="#9E9E9E">robfig/cron/v3 with SecondOptional parser</text>
+
+  <!-- Log line -->
+  <rect x="70" y="575" width="990" height="30" rx="5" fill="#263238" filter="url(#shadowSmall)"/>
+  <text x="80" y="595" font-size="11" fill="#4FC3F7" font-family="'SF Mono',Menlo,monospace">level=info msg="Cron job for flow 3650 is scheduled successfully, entry-id in cron instance: 1, schedule expression: */5 * * * * *"</text>
+
+  <!-- Venv to ProcessFlow arrow -->
+  <line x1="650" y1="390" x2="680" y2="420" stroke="#6A1B9A" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowPurple)"/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PHASE 2: CRON EXECUTION CYCLE (THE MAIN LOOP) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="690" width="1320" height="780" rx="10" fill="white" stroke="#E0E0E0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="690" width="1320" height="40" rx="10" fill="#E65100"/>
+  <rect x="40" y="710" width="1320" height="20" fill="#E65100"/>
+  <text x="60" y="717" font-size="16" font-weight="bold" fill="white">PHASE 2 — Cron Execution Cycle (repeats every 5 seconds)</text>
+  <text x="1340" y="717" text-anchor="end" font-size="12" fill="#FFCC80">robfig/cron → driver.go → infoblox_driver.py → script_schedule.py</text>
+
+  <!-- Timeline -->
+  <line x1="100" y1="760" x2="100" y2="1430" stroke="#E65100" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="100" y="752" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">CRON TICK</text>
+
+  <line x1="400" y1="760" x2="400" y2="1430" stroke="#1976D2" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="400" y="752" text-anchor="middle" font-size="11" font-weight="bold" fill="#1976D2">GO (driver.go)</text>
+
+  <line x1="700" y1="760" x2="700" y2="1430" stroke="#6A1B9A" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="700" y="752" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">PYTHON PROCESS</text>
+
+  <line x1="1050" y1="760" x2="1050" y2="1430" stroke="#2E7D32" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="1050" y="752" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">YOUR SCRIPT</text>
+
+  <!-- T=0s Cron fires -->
+  <circle cx="100" cy="790" r="14" fill="#E65100"/>
+  <text x="100" y="795" text-anchor="middle" font-size="11" font-weight="bold" fill="white">T0</text>
+  <line x1="114" y1="790" x2="370" y2="790" stroke="#E65100" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <text x="150" y="783" font-size="10" fill="#E65100">cron fires callback every 5s</text>
+
+  <!-- ExecuteJob -->
+  <rect x="370" y="775" width="260" height="40" rx="6" fill="url(#cronGrad)" stroke="#E65100" stroke-width="1.5"/>
+  <text x="500" y="793" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">ExecuteJob() → go func()</text>
+  <text x="500" y="808" text-anchor="middle" font-size="10" fill="#616161">driver.go:165 — spawns goroutine</text>
+
+  <line x1="500" y1="815" x2="500" y2="845" stroke="#1976D2" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Runner.Run spawns Python -->
+  <rect x="370" y="845" width="260" height="50" rx="6" fill="url(#pythonGrad)" stroke="#1976D2" stroke-width="1.5"/>
+  <text x="500" y="865" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">runner.Run("env", ...)</text>
+  <text x="500" y="882" text-anchor="middle" font-size="10" fill="#616161">-i python3 infoblox_driver.py</text>
+  <text x="500" y="892" text-anchor="middle" font-size="9" fill="#9E9E9E">--flow-id 3650 --script-schedule true</text>
+
+  <line x1="630" y1="870" x2="670" y2="870" stroke="#6A1B9A" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- Python Process starts -->
+  <rect x="670" y="838" width="290" height="70" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="815" y="858" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">New Python Process (PID N)</text>
+  <text x="680" y="876" font-size="10" fill="#424242">1. script_scanner validates script</text>
+  <text x="680" y="890" font-size="10" fill="#424242">2. restricted_env setup</text>
+  <text x="680" y="904" font-size="10" fill="#424242">3. main() parses args → --script-schedule=true</text>
+
+  <line x1="815" y1="908" x2="815" y2="938" stroke="#6A1B9A" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- main() routing -->
+  <rect x="670" y="938" width="290" height="55" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="815" y="958" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">main() routing (line 425)</text>
+  <text x="680" y="976" font-size="10" fill="#424242">if script_schedule == "true":</text>
+  <text x="700" y="988" font-size="10" fill="#6A1B9A" font-weight="bold">→ schedule_handler(args)</text>
+
+  <line x1="815" y1="993" x2="815" y2="1023" stroke="#6A1B9A" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- schedule_handler -->
+  <rect x="670" y="1023" width="290" height="55" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="815" y="1043" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">schedule_handler() (line 311)</text>
+  <text x="680" y="1061" font-size="10" fill="#424242">plugin = _initialize_plugin()</text>
+  <text x="680" y="1073" font-size="10" fill="#424242">sch = ScriptSchedule(..., plugin, log)</text>
+
+  <line x1="815" y1="1078" x2="815" y2="1108" stroke="#6A1B9A" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- _initialize_plugin -->
+  <rect x="670" y="1108" width="290" height="50" rx="6" fill="#EDE7F6" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="815" y="1128" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">_initialize_plugin() (line 156)</text>
+  <text x="680" y="1146" font-size="10" fill="#424242">Finds IScheduler → MyScheduler()</text>
+
+  <line x1="960" y1="1133" x2="1020" y2="1133" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ScriptSchedule.process -->
+  <rect x="670" y="1170" width="290" height="55" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="815" y="1190" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">ScriptSchedule.process(context)</text>
+  <text x="680" y="1208" font-size="10" fill="#424242">script_schedule.py:16 → loads session</text>
+  <text x="680" y="1220" font-size="10" fill="#6A1B9A" font-weight="bold">→ plugin.schedule(context)</text>
+
+  <line x1="815" y1="1158" x2="815" y2="1170" stroke="#6A1B9A" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <line x1="960" y1="1200" x2="1020" y2="1200" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Your schedule() method -->
+  <rect x="1020" y="1115" width="320" height="105" rx="6" fill="url(#healthGrad)" stroke="#2E7D32" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="1180" y="1135" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">MyScheduler (your script_1.py)</text>
+  <text x="1030" y="1155" font-size="11" fill="#424242">class MyScheduler:</text>
+  <text x="1030" y="1173" font-size="11" fill="#2E7D32" font-weight="bold">  def schedule(self, context):</text>
+  <text x="1030" y="1191" font-size="11" fill="#424242">    log.info("schedule triggered :</text>
+  <text x="1030" y="1207" font-size="11" fill="#424242">      current timestamp: ...")</text>
+
+  <!-- Process exits -->
+  <rect x="670" y="1240" width="290" height="35" rx="6" fill="#FFEBEE" stroke="#C62828" stroke-width="1.5"/>
+  <text x="815" y="1262" text-anchor="middle" font-size="12" font-weight="bold" fill="#C62828">Python process exits (PID N dies)</text>
+
+  <line x1="815" y1="1225" x2="815" y2="1240" stroke="#C62828" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- Go WaitGroup completes -->
+  <rect x="370" y="1240" width="260" height="35" rx="6" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
+  <text x="500" y="1262" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">wg.Wait() completes</text>
+
+  <line x1="670" y1="1257" x2="630" y2="1257" stroke="#1976D2" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Log line -->
+  <rect x="370" y="1285" width="590" height="25" rx="5" fill="#263238"/>
+  <text x="380" y="1302" font-size="10" fill="#4FC3F7" font-family="'SF Mono',Menlo,monospace">level=info "Executing cron job for flow-id: 3650, schedule expression: */5 * * * * *"</text>
+
+  <!-- Next tick -->
+  <circle cx="100" cy="1340" r="14" fill="#E65100"/>
+  <text x="100" y="1345" text-anchor="middle" font-size="11" font-weight="bold" fill="white">T5</text>
+  <text x="130" y="1345" font-size="10" fill="#E65100">+5 sec → repeat from ExecuteJob()</text>
+  <line x1="114" y1="1340" x2="370" y2="790" stroke="#E65100" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowOrange)"/>
+
+  <!-- Repeat note -->
+  <rect x="70" y="1380" width="300" height="60" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="1" filter="url(#shadowSmall)"/>
+  <text x="80" y="1400" font-size="11" font-weight="bold" fill="#E65100">🔄 Every 5 seconds (robfig/cron):</text>
+  <text x="80" y="1418" font-size="10" fill="#424242">• New goroutine → New Python process</text>
+  <text x="80" y="1432" font-size="10" fill="#424242">• Process runs schedule() → exits immediately</text>
+
+  <!-- Key timing -->
+  <rect x="390" y="1380" width="300" height="60" rx="8" fill="#FFFDE7" stroke="#F9A825" stroke-width="1" filter="url(#shadowSmall)"/>
+  <text x="400" y="1400" font-size="11" font-weight="bold" fill="#F57F17">⏱ Timing per cron tick:</text>
+  <text x="400" y="1418" font-size="10" fill="#424242">• Python startup + scanner: ~1-2s</text>
+  <text x="400" y="1432" font-size="10" fill="#424242">• schedule() execution: user-defined</text>
+
+  <!-- Venv note -->
+  <rect x="710" y="1380" width="300" height="60" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1" filter="url(#shadowSmall)"/>
+  <text x="720" y="1400" font-size="11" font-weight="bold" fill="#2E7D32">♻ Venv is RE-USED (not recreated):</text>
+  <text x="720" y="1418" font-size="10" fill="#424242">• /src/python/venv/venv-3650/ persists</text>
+  <text x="720" y="1432" font-size="10" fill="#424242">• Only Python process is new each tick</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PHASE 3: HEALTH MONITOR (PERSISTENT PROCESS) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="1470" width="1320" height="440" rx="10" fill="white" stroke="#E0E0E0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="1470" width="1320" height="40" rx="10" fill="#2E7D32"/>
+  <rect x="40" y="1490" width="1320" height="20" fill="#2E7D32"/>
+  <text x="60" y="1497" font-size="16" font-weight="bold" fill="white">PHASE 3 — Health Monitor (persistent, separate from cron)</text>
+  <text x="1340" y="1497" text-anchor="end" font-size="12" fill="#C8E6C9">service.go → driver.go → infoblox_driver.py (--health-monitor true)</text>
+
+  <!-- Health monitor timeline -->
+  <rect x="70" y="1530" width="550" height="90" rx="8" fill="url(#healthGrad)" stroke="#2E7D32" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="80" y="1550" font-size="13" font-weight="bold" fill="#2E7D32">startHealthMonitor(3650) — service.go:408</text>
+  <text x="80" y="1570" font-size="11" fill="#424242">• Runs as goroutine inside ProcessScheduledScript()</text>
+  <text x="80" y="1588" font-size="11" fill="#424242">• Calls pythonHandler.ExecuteHealthMonitor() → driver.go:194</text>
+  <text x="80" y="1606" font-size="11" fill="#424242">• Spawns ONE persistent Python process with --health-monitor true</text>
+
+  <line x1="345" y1="1620" x2="345" y2="1650" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Python health process -->
+  <rect x="70" y="1650" width="550" height="100" rx="8" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="80" y="1670" font-size="13" font-weight="bold" fill="#6A1B9A">Python Health Monitor Process (PERSISTENT — does NOT exit)</text>
+  <text x="80" y="1690" font-size="11" fill="#424242">main() → --health-monitor=true → schedule_health_monitor(args)</text>
+  <text x="80" y="1710" font-size="11" fill="#424242">• _initialize_plugin() → finds MyScheduler</text>
+  <text x="80" y="1728" font-size="11" fill="#424242">• while True: plugin.get_health_status(context) → sleep(300s)</text>
+  <text x="80" y="1742" font-size="10" fill="#9E9E9E">Writes metrics to /var/cache/cdc_metrics/cdc_soar_light/3650_SCHEDULED.json</text>
+
+  <!-- Health monitor loop diagram -->
+  <rect x="660" y="1530" width="680" height="240" rx="8" fill="#FAFAFA" stroke="#BDBDBD" stroke-width="1"/>
+  <text x="670" y="1550" font-size="12" font-weight="bold" fill="#424242">Health Monitor Loop (every 300 seconds):</text>
+
+  <!-- Loop boxes -->
+  <rect x="680" y="1565" width="180" height="35" rx="5" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="770" y="1587" text-anchor="middle" font-size="10" fill="#2E7D32">get_health_status(ctx)</text>
+
+  <line x1="860" y1="1582" x2="890" y2="1582" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <rect x="890" y="1565" width="180" height="35" rx="5" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="980" y="1587" text-anchor="middle" font-size="10" fill="#2E7D32">Validate result dict</text>
+
+  <line x1="1070" y1="1582" x2="1100" y2="1582" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <rect x="1100" y="1565" width="220" height="35" rx="5" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="1210" y="1587" text-anchor="middle" font-size="10" fill="#2E7D32">Update metrics JSON file</text>
+
+  <line x1="1210" y1="1600" x2="1210" y2="1620" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <rect x="1100" y="1620" width="220" height="35" rx="5" fill="#FFFDE7" stroke="#F9A825"/>
+  <text x="1210" y="1642" text-anchor="middle" font-size="10" fill="#F57F17">time.sleep(300) — 5 min</text>
+
+  <line x1="1100" y1="1637" x2="680" y2="1637" stroke="#616161" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="680" y1="1637" x2="680" y2="1582" stroke="#616161" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <text x="830" y="1655" font-size="9" fill="#616161">loop repeats</text>
+
+  <!-- Log lines for health -->
+  <rect x="680" y="1680" width="640" height="25" rx="5" fill="#263238"/>
+  <text x="690" y="1697" font-size="10" fill="#4FC3F7" font-family="'SF Mono',Menlo,monospace">"Calling get_health_status for scheduled flow 3650"</text>
+  <rect x="680" y="1710" width="640" height="25" rx="5" fill="#263238"/>
+  <text x="690" y="1727" font-size="10" fill="#81C784" font-family="'SF Mono',Menlo,monospace">"Scheduled flow 3650 health status: healthy"</text>
+  <rect x="680" y="1740" width="640" height="25" rx="5" fill="#263238"/>
+  <text x="690" y="1757" font-size="10" fill="#4FC3F7" font-family="'SF Mono',Menlo,monospace">"Updated health metrics for scheduled flow 3650_SCHEDULED"</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PHASE 4: LOG OUTPUT LOCATIONS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="1940" width="1320" height="330" rx="10" fill="white" stroke="#E0E0E0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="1940" width="1320" height="40" rx="10" fill="#37474F"/>
+  <rect x="40" y="1960" width="1320" height="20" fill="#37474F"/>
+  <text x="60" y="1967" font-size="16" font-weight="bold" fill="white">PHASE 4 — Where Do Logs Appear?</text>
+  <text x="1340" y="1967" text-anchor="end" font-size="12" fill="#B0BEC5">custom_logger.py → 3 output channels</text>
+
+  <!-- Python process box -->
+  <rect x="70" y="2000" width="200" height="60" rx="8" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5" filter="url(#shadowSmall)"/>
+  <text x="170" y="2025" text-anchor="middle" font-size="13" font-weight="bold" fill="#6A1B9A">Python log.info()</text>
+  <text x="170" y="2043" text-anchor="middle" font-size="10" fill="#616161">custom_logger.py</text>
+
+  <!-- 3 channels -->
+  <line x1="270" y1="2015" x2="370" y2="2000" stroke="#1976D2" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="270" y1="2030" x2="370" y2="2080" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <line x1="270" y1="2045" x2="370" y2="2155" stroke="#E65100" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <!-- Channel 1: stdout -->
+  <rect x="370" y="1990" width="340" height="50" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5"/>
+  <text x="540" y="2010" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">① stdout (StreamHandler)</text>
+  <text x="540" y="2028" text-anchor="middle" font-size="10" fill="#616161">captured by Go LogReceiver</text>
+
+  <line x1="710" y1="2015" x2="760" y2="2015" stroke="#1976D2" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <rect x="760" y="1990" width="580" height="50" rx="8" fill="#263238"/>
+  <text x="770" y="2008" font-size="10" fill="#4FC3F7" font-family="'SF Mono',Menlo,monospace">kubectl logs -f cdc-soar-light-service-3006869-3650-0</text>
+  <text x="770" y="2028" font-size="10" fill="#81C784" font-family="'SF Mono',Menlo,monospace">→ "Message received from script: schedule triggered ..."</text>
+
+  <!-- Channel 2: file -->
+  <rect x="370" y="2065" width="340" height="50" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="540" y="2085" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">② File (FileHandler)</text>
+  <text x="540" y="2103" text-anchor="middle" font-size="10" fill="#616161">/var/log/scripts-3650.log</text>
+
+  <line x1="710" y1="2090" x2="760" y2="2090" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <rect x="760" y="2065" width="580" height="50" rx="8" fill="#263238"/>
+  <text x="770" y="2083" font-size="10" fill="#4FC3F7" font-family="'SF Mono',Menlo,monospace">kubectl exec -it &lt;pod&gt; -- tail -f /var/log/scripts-3650.log</text>
+  <text x="770" y="2103" font-size="10" fill="#81C784" font-family="'SF Mono',Menlo,monospace">→ {"msg": "schedule triggered : current timestamp: ..."}</text>
+
+  <!-- Channel 3: syslog -->
+  <rect x="370" y="2140" width="340" height="50" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="540" y="2160" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">③ Syslog (SysLogHandler)</text>
+  <text x="540" y="2178" text-anchor="middle" font-size="10" fill="#616161">/dev/log → Service Logs UI</text>
+
+  <line x1="710" y1="2165" x2="760" y2="2165" stroke="#E65100" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <rect x="760" y="2140" width="580" height="50" rx="8" fill="#263238"/>
+  <text x="770" y="2158" font-size="10" fill="#4FC3F7" font-family="'SF Mono',Menlo,monospace">BloxOne Portal → Service Logs → flow 3650</text>
+  <text x="770" y="2178" font-size="10" fill="#81C784" font-family="'SF Mono',Menlo,monospace">→ syslog format: "cdc" + message</text>
+
+  <!-- Key Verification Commands -->
+  <rect x="70" y="2210" width="930" height="35" rx="5" fill="#FFFDE7" stroke="#F9A825" stroke-width="1"/>
+  <text x="80" y="2233" font-size="11" font-weight="bold" fill="#F57F17">TIP: To verify cron is firing, grep for Go-level log: kubectl logs &lt;pod&gt; | grep "Executing cron job"</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PHASE 5: COMPLETE PROCESS MAP -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="2300" width="1320" height="470" rx="10" fill="white" stroke="#E0E0E0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="2300" width="1320" height="40" rx="10" fill="#263238"/>
+  <rect x="40" y="2320" width="1320" height="20" fill="#263238"/>
+  <text x="60" y="2327" font-size="16" font-weight="bold" fill="white">COMPLETE PROCESS MAP — All Processes Inside the Pod</text>
+
+  <!-- Go process -->
+  <rect x="70" y="2360" width="1270" height="80" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="2" filter="url(#shadowSmall)"/>
+  <text x="80" y="2385" font-size="14" font-weight="bold" fill="#1565C0">Go Process (PID 1) — soar-light binary — PERSISTENT (lives for entire pod lifetime)</text>
+  <text x="80" y="2405" font-size="11" fill="#424242">• Parses FLOW_JSON • Creates venv • Registers cron • Manages handlers • Runs LogReceiver (captures Python stdout) • Exposes :8081 health + :9152 metrics</text>
+  <text x="80" y="2425" font-size="11" fill="#1565C0">Cron instance: robfig/cron/v3 with Second-precision parser → fires callback every N seconds → each callback calls ExecuteJob()</text>
+
+  <!-- Health monitor Python process -->
+  <rect x="70" y="2460" width="620" height="80" rx="8" fill="url(#healthGrad)" stroke="#2E7D32" stroke-width="2" filter="url(#shadowSmall)"/>
+  <text x="80" y="2485" font-size="14" font-weight="bold" fill="#2E7D32">Python Health Monitor (PID ~20) — PERSISTENT</text>
+  <text x="80" y="2505" font-size="11" fill="#424242">infoblox_driver.py --health-monitor true</text>
+  <text x="80" y="2523" font-size="11" fill="#424242">Runs: while True → get_health_status() → sleep(300) → loop</text>
+
+  <!-- Cron Python processes -->
+  <rect x="720" y="2460" width="620" height="80" rx="8" fill="url(#cronGrad)" stroke="#E65100" stroke-width="2" filter="url(#shadowSmall)"/>
+  <text x="730" y="2485" font-size="14" font-weight="bold" fill="#E65100">Python Cron Jobs — SHORT-LIVED (new PID each tick)</text>
+  <text x="730" y="2505" font-size="11" fill="#424242">infoblox_driver.py --script-schedule true</text>
+  <text x="730" y="2523" font-size="11" fill="#424242">Runs: scanner → plugin.schedule(ctx) → exits immediately</text>
+
+  <!-- Timeline at bottom -->
+  <line x1="70" y1="2580" x2="1320" y2="2580" stroke="#9E9E9E" stroke-width="2"/>
+  <text x="70" y="2575" font-size="10" fill="#616161">T=0s</text>
+  <text x="300" y="2575" font-size="10" fill="#616161">T=5s</text>
+  <text x="530" y="2575" font-size="10" fill="#616161">T=10s</text>
+  <text x="760" y="2575" font-size="10" fill="#616161">T=15s</text>
+  <text x="990" y="2575" font-size="10" fill="#616161">T=20s</text>
+  <text x="1220" y="2575" font-size="10" fill="#616161">T=25s ...</text>
+
+  <!-- Go bar -->
+  <rect x="70" y="2590" width="1250" height="18" rx="3" fill="#1976D2" opacity="0.7"/>
+  <text x="700" y="2603" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Go Process — always running</text>
+
+  <!-- Health bar -->
+  <rect x="70" y="2614" width="1250" height="18" rx="3" fill="#2E7D32" opacity="0.7"/>
+  <text x="700" y="2627" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Health Monitor — always running (checks every 5 min)</text>
+
+  <!-- Cron bars (short) -->
+  <rect x="70" y="2638" width="40" height="18" rx="3" fill="#E65100" opacity="0.8"/>
+  <rect x="300" y="2638" width="40" height="18" rx="3" fill="#E65100" opacity="0.8"/>
+  <rect x="530" y="2638" width="40" height="18" rx="3" fill="#E65100" opacity="0.8"/>
+  <rect x="760" y="2638" width="40" height="18" rx="3" fill="#E65100" opacity="0.8"/>
+  <rect x="990" y="2638" width="40" height="18" rx="3" fill="#E65100" opacity="0.8"/>
+  <rect x="1220" y="2638" width="40" height="18" rx="3" fill="#E65100" opacity="0.8"/>
+  <text x="700" y="2651" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Cron Python — short bursts every 5s</text>
+
+  <!-- Legend labels -->
+  <text x="70" y="2680" font-size="10" fill="#1976D2">■ Go (PID 1)</text>
+  <text x="220" y="2680" font-size="10" fill="#2E7D32">■ Health Monitor (persistent Python)</text>
+  <text x="500" y="2680" font-size="10" fill="#E65100">■ Cron (short-lived Python, ~1-2s each)</text>
+
+  <!-- Summary stats -->
+  <rect x="70" y="2700" width="400" height="55" rx="8" fill="#E3F2FD" stroke="#1976D2" stroke-width="1"/>
+  <text x="80" y="2720" font-size="11" font-weight="bold" fill="#1565C0">Process Count at any given time:</text>
+  <text x="80" y="2738" font-size="11" fill="#424242">1 Go process + 1 Health Python + 0-1 Cron Python = 2-3 processes</text>
+
+  <rect x="490" y="2700" width="400" height="55" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="1"/>
+  <text x="500" y="2720" font-size="11" font-weight="bold" fill="#E65100">Venv lifecycle:</text>
+  <text x="500" y="2738" font-size="11" fill="#424242">Created ONCE at startup. Destroyed ONLY when flow is deleted.</text>
+
+  <rect x="910" y="2700" width="430" height="55" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="920" y="2720" font-size="11" font-weight="bold" fill="#2E7D32">Session storage:</text>
+  <text x="920" y="2738" font-size="11" fill="#424242">SessionStorage(flow_id).load() — persists across cron ticks</text>
+</svg>

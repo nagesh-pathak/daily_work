@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1000" height="450" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1000" height="50" fill="#37474F"/>
+  <text x="500" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.data.flow — Helm Chart for K8s RBAC &amp; Flow Infrastructure</text>
+
+  <rect x="20" y="65" width="960" height="30" rx="4" fill="#ECEFF1" stroke="#37474F"/>
+  <text x="500" y="85" text-anchor="middle" font-size="11" font-weight="bold" fill="#37474F">NOT application code — Helm chart only. Creates K8s ServiceAccount, RBAC roles, Grafana dashboards.</text>
+
+  <rect x="20" y="110" width="460" height="160" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#s)"/>
+  <text x="250" y="135" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565C0">Kubernetes RBAC Setup</text>
+  <text x="40" y="160" font-size="10" fill="#555">ServiceAccount: cdc-data-flow-sa</text>
+  <text x="40" y="180" font-size="10" fill="#555">ClusterRole: StatefulSet CRUD operations</text>
+  <text x="40" y="200" font-size="10" fill="#555">ClusterRole: ConfigMap create/update/delete</text>
+  <text x="40" y="220" font-size="10" fill="#555">ClusterRole: Service create/delete</text>
+  <text x="40" y="240" font-size="10" fill="#555">ClusterRoleBinding: cdc-data-flow-sa ↔ roles</text>
+  <text x="40" y="258" font-size="9" fill="#888">Used by cdc.flow.api.service to create per-flow K8s resources</text>
+
+  <rect x="510" y="110" width="470" height="160" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#s)"/>
+  <text x="745" y="135" text-anchor="middle" font-size="14" font-weight="bold" fill="#2E7D32">Grafana Dashboard</text>
+  <text x="530" y="160" font-size="10" fill="#555">CPU utilization per flow pod</text>
+  <text x="530" y="180" font-size="10" fill="#555">Memory usage per flow pod</text>
+  <text x="530" y="200" font-size="10" fill="#555">Network I/O per flow pod</text>
+  <text x="530" y="220" font-size="10" fill="#555">StatefulSet replica status</text>
+  <text x="530" y="240" font-size="10" fill="#555">Pod restart count tracking</text>
+  <text x="530" y="258" font-size="9" fill="#888">Monitors all dynamically-created flow pods</text>
+
+  <rect x="20" y="290" width="960" height="130" rx="6" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="500" y="315" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">How It Fits in CDC Architecture</text>
+  <text x="40" y="340" font-size="10" fill="#555">1. cdc.data.flow Helm chart is deployed first → creates ServiceAccount &amp; RBAC roles</text>
+  <text x="40" y="360" font-size="10" fill="#555">2. cdc.flow.api.service uses the ServiceAccount to dynamically create K8s StatefulSets per flow</text>
+  <text x="40" y="380" font-size="10" fill="#555">3. Each StatefulSet runs flow containers (grpc-in, http-out, splunk-out, syslog-out, etc.)</text>
+  <text x="40" y="400" font-size="10" fill="#555">4. Grafana dashboard provides observability into all dynamically-created flow resources</text>
+  <text x="40" y="420" font-size="9" fill="#888">Helm values: namespace, serviceAccount.create, rbac.create, grafana.enabled, grafana.datasource</text>
+</svg>

@@ -1,0 +1,235 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1250" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#E65100"/></marker>
+    <marker id="b" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#6A1B9A"/></marker>
+    <marker id="c" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#2E7D32"/></marker>
+    <marker id="d" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#1565C0"/></marker>
+    <marker id="e" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <marker id="f" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#C62828"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="hdr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1B5E20"/><stop offset="100%" stop-color="#2E7D32"/></linearGradient>
+  </defs>
+  <rect width="1400" height="1250" fill="#f5f6f8" rx="8"/>
+
+  <rect x="0" y="0" width="1400" height="56" fill="url(#hdr)" rx="8 8 0 0"/>
+  <text x="700" y="36" text-anchor="middle" fill="white" font-size="20" font-weight="bold">SOAR-Light — Kafka Topics &amp; gRPC-In Complete Integration Map</text>
+  <text x="700" y="52" text-anchor="middle" fill="#A5D6A7" font-size="10">C2C Kafka Topics | On-Prem gRPC Topics | kafka.flow.processor Routing | grpc-in as On-Prem Broker</text>
+
+  <!-- ===== SECTION 1: C2C Kafka Topic Architecture ===== -->
+  <rect x="20" y="72" width="1360" height="360" rx="8" fill="white" stroke="#E65100" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="72" width="1360" height="28" rx="8 8 0 0" fill="#E65100"/>
+  <text x="700" y="91" text-anchor="middle" fill="white" font-size="13" font-weight="bold">C2C (Cloud) — Kafka Topic Architecture &amp; Message Routing</text>
+
+  <!-- Data Source -->
+  <rect x="40" y="118" width="200" height="50" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="140" y="140" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">BloxOne TD / DDI</text>
+  <text x="140" y="155" text-anchor="middle" font-size="8" fill="#555">DNS, DHCP, Threat, Audit</text>
+  <line x1="242" y1="143" x2="278" y2="143" stroke="#E65100" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- Raw Kafka Topics -->
+  <rect x="280" y="110" width="300" height="66" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="2"/>
+  <text x="430" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Raw Kafka Topics (Layer 1)</text>
+  <text x="430" y="148" text-anchor="middle" font-size="9" font-weight="bold" fill="#C62828">{acctId}_flowID{flowId}_{dataType}</text>
+  <text x="430" y="163" text-anchor="middle" font-size="8" fill="#888">e.g. acme-corp_flowID42_TD_QUERY_RESP_LOG</text>
+  <text x="430" y="174" text-anchor="middle" font-size="7" fill="#888">Created by cdc.api when flow is configured</text>
+  <line x1="582" y1="143" x2="618" y2="143" stroke="#E65100" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- kafka.flow.processor -->
+  <rect x="620" y="108" width="310" height="70" rx="6" fill="#FFECB3" stroke="#FF6F00" stroke-width="2"/>
+  <text x="775" y="128" text-anchor="middle" font-size="11" font-weight="bold" fill="#FF6F00">kafka.flow.processor</text>
+  <text x="775" y="145" text-anchor="middle" font-size="8" fill="#555">Consumer group per DataSource</text>
+  <text x="775" y="158" text-anchor="middle" font-size="8" fill="#555">Filters by ecosystem → Routes to destinations</text>
+  <text x="775" y="172" text-anchor="middle" font-size="7" fill="#888">Creates destination-specific topics dynamically</text>
+  <line x1="932" y1="143" x2="968" y2="143" stroke="#E65100" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- SOAR-Light Dest Topic -->
+  <rect x="970" y="106" width="390" height="74" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="2"/>
+  <text x="1165" y="126" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">SOAR-Light Kafka Topics (Layer 2)</text>
+  <text x="1165" y="146" text-anchor="middle" font-size="10" font-weight="bold" fill="#C62828">{acctId}_{flowId}_SOAR_LIGHT_{eventType}</text>
+  <text x="1165" y="162" text-anchor="middle" font-size="8" fill="#555">Consumer group: cdc-soar-light-{flowId}</text>
+  <text x="1165" y="176" text-anchor="middle" font-size="7" fill="#888">One per {flowId, eventType} combination</text>
+
+  <!-- Topic examples -->
+  <rect x="40" y="195" width="1320" height="225" rx="6" fill="#FAFAFA" stroke="#E65100" stroke-width="0.5"/>
+  <text x="50" y="215" font-size="10" font-weight="bold" fill="#E65100">Complete Kafka Topic Naming for SOAR-Light (C2C):</text>
+
+  <text x="50" y="238" font-size="9" font-weight="bold" fill="#333">Layer 1 — Raw Topics (published by cdc.api / BloxOne ingestion):</text>
+  <text x="60" y="254" font-size="8" font-family="Consolas, monospace" fill="#555">acme-corp_flowID42_TD_QUERY_RESP_LOG        ← All TD DNS query logs for flow 42</text>
+  <text x="60" y="267" font-size="8" font-family="Consolas, monospace" fill="#555">acme-corp_flowID42_DDI_DHCP_LEASE_LOG       ← All DDI DHCP lease logs for flow 42</text>
+  <text x="60" y="280" font-size="8" font-family="Consolas, monospace" fill="#555">acme-corp_flowID42_AUDIT_LOG                ← All audit logs for flow 42</text>
+  <text x="60" y="293" font-size="8" font-family="Consolas, monospace" fill="#555">acme-corp_flowID42_SOC_INSIGHTS             ← SOC insight events for flow 42</text>
+
+  <text x="50" y="316" font-size="9" font-weight="bold" fill="#333">Layer 2 — Destination Topics (published by kafka.flow.processor routing):</text>
+  <text x="60" y="332" font-size="8" font-family="Consolas, monospace" fill="#E65100">acme-corp_42_SOAR_LIGHT_TD_QUERY_RESP_LOG   ← SOAR-Light consumer: TD DNS queries</text>
+  <text x="60" y="345" font-size="8" font-family="Consolas, monospace" fill="#E65100">acme-corp_42_SOAR_LIGHT_DDI_DHCP_LEASE_LOG  ← SOAR-Light consumer: DDI DHCP leases</text>
+  <text x="60" y="358" font-size="8" font-family="Consolas, monospace" fill="#E65100">acme-corp_42_SOAR_LIGHT_AUDIT_LOG           ← SOAR-Light consumer: audit events</text>
+  <text x="60" y="371" font-size="8" font-family="Consolas, monospace" fill="#E65100">acme-corp_42_SOAR_LIGHT_SOC_INSIGHTS        ← SOAR-Light consumer: SOC insights</text>
+  <text x="60" y="384" font-size="8" font-family="Consolas, monospace" fill="#E65100">acme-corp_42_SOAR_LIGHT_SOC_INSIGHTS_V2     ← SOAR-Light consumer: SOC insights v2</text>
+
+  <text x="50" y="407" font-size="9" font-weight="bold" fill="#333">Consumer Group:</text>
+  <text x="190" y="407" font-size="8" font-family="Consolas, monospace" fill="#C62828">cdc-soar-light-42</text>
+  <text x="380" y="407" font-size="8" fill="#888">← Shared across all data types of flow 42 (each data type = separate consumer in same group)</text>
+
+  <!-- ===== SECTION 2: On-Prem gRPC Topic Architecture ===== -->
+  <rect x="20" y="450" width="1360" height="290" rx="8" fill="white" stroke="#6A1B9A" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="450" width="1360" height="28" rx="8 8 0 0" fill="#6A1B9A"/>
+  <text x="700" y="469" text-anchor="middle" fill="white" font-size="13" font-weight="bold">On-Prem — gRPC Internal Topic Architecture (grpc-in as Message Broker)</text>
+
+  <!-- Data sources to grpc-in -->
+  <rect x="40" y="495" width="160" height="90" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="120" y="515" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Data Sources</text>
+  <text x="120" y="532" text-anchor="middle" font-size="7" fill="#555">Cloud → data.exporter.kafka</text>
+  <text x="120" y="544" text-anchor="middle" font-size="7" fill="#555">→ cdc.grpc-out → files</text>
+  <text x="120" y="558" text-anchor="middle" font-size="7" fill="#555">NIOS → dns-in/rpz-in</text>
+  <text x="120" y="570" text-anchor="middle" font-size="7" fill="#555">→ flume → parsed files</text>
+  <line x1="202" y1="540" x2="248" y2="540" stroke="#6A1B9A" stroke-width="2" marker-end="url(#b)"/>
+
+  <!-- grpc-in -->
+  <rect x="250" y="490" width="340" height="100" rx="6" fill="#FFF8E1" stroke="#FF6F00" stroke-width="2"/>
+  <text x="420" y="512" text-anchor="middle" font-size="12" font-weight="bold" fill="#FF6F00">cdc.grpc-in (On-Prem Broker)</text>
+  <text x="420" y="530" text-anchor="middle" font-size="9" fill="#555">1. Receives Parquet/CSV from cloud (Dapr) or NIOS (file)</text>
+  <text x="420" y="545" text-anchor="middle" font-size="9" fill="#555">2. Parses data into events, caches by topic</text>
+  <text x="420" y="560" text-anchor="middle" font-size="9" fill="#555">3. Serves events via gRPC stream on port 9195</text>
+  <text x="420" y="575" text-anchor="middle" font-size="8" font-weight="bold" fill="#FF6F00">Internal topics: {flow_id}_{data_type}</text>
+  <text x="420" y="586" text-anchor="middle" font-size="7" fill="#888">Acts as Kafka replacement for on-prem deployments</text>
+  <line x1="592" y1="540" x2="628" y2="540" stroke="#6A1B9A" stroke-width="2" marker-end="url(#b)"/>
+
+  <!-- soar-light processes -->
+  <rect x="630" y="490" width="330" height="100" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="2"/>
+  <text x="795" y="512" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">soar-light Python Processes</text>
+  <text x="795" y="530" text-anchor="middle" font-size="9" fill="#555">soar_light.py:SoarLightClient</text>
+  <text x="795" y="545" text-anchor="middle" font-size="8" fill="#555">channel = grpc.insecure_channel("grpc-in:9195")</text>
+  <text x="795" y="558" text-anchor="middle" font-size="8" fill="#555">stub.Subscribe(Topics=["{flowId}_{eventType}"])</text>
+  <text x="795" y="574" text-anchor="middle" font-size="8" fill="#555">For each message: plugin.process(ctx, event)</text>
+  <text x="795" y="586" text-anchor="middle" font-size="7" fill="#888">Acknowledges: ServerCtrl_MarkMessages(ids)</text>
+  <line x1="962" y1="540" x2="998" y2="540" stroke="#2E7D32" stroke-width="2" marker-end="url(#c)"/>
+
+  <!-- External SOAR -->
+  <rect x="1000" y="503" width="180" height="74" rx="6" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="1090" y="530" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">External SOAR</text>
+  <text x="1090" y="548" text-anchor="middle" font-size="8" fill="#555">Slack, Teams, Jira</text>
+  <text x="1090" y="562" text-anchor="middle" font-size="8" fill="#555">ServiceNow, PagerDuty</text>
+
+  <!-- On-prem topic examples -->
+  <rect x="40" y="605" width="1320" height="125" rx="6" fill="#FAFAFA" stroke="#6A1B9A" stroke-width="0.5"/>
+  <text x="50" y="625" font-size="10" font-weight="bold" fill="#6A1B9A">On-Prem gRPC Internal Topics (NOT Kafka):</text>
+
+  <text x="50" y="648" font-size="9" font-weight="bold" fill="#333">Topic Format:</text>
+  <text x="180" y="648" font-size="9" font-family="Consolas, monospace" fill="#6A1B9A">{flow_id}_{data_type_name}</text>
+  <text x="420" y="648" font-size="8" fill="#888">← Note: NO account_id prefix (on-prem has single account)</text>
+
+  <text x="50" y="672" font-size="9" font-weight="bold" fill="#333">Examples:</text>
+  <text x="60" y="688" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">1_AUDIT_LOG            ← Flow 1, audit events from cloud</text>
+  <text x="500" y="688" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">1_DNS_LOG              ← Flow 1, DNS query events</text>
+  <text x="60" y="701" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">2_SOC_INSIGHTS         ← Flow 2, SOC insight events</text>
+  <text x="500" y="701" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">2_SOC_INSIGHTS_V2      ← Flow 2, SOC insights v2</text>
+  <text x="60" y="714" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">3_TD_THREAT_FEEDS_HITS ← Flow 3, threat feed hit logs</text>
+  <text x="500" y="714" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">3_DDI_DHCP_LEASE_LOG   ← Flow 3, DHCP lease logs</text>
+  <text x="50" y="728" font-size="7" fill="#888">Each Python process subscribes to exactly ONE topic. 3 data types = 3 Python processes connecting to grpc-in:9195.</text>
+
+  <!-- ===== SECTION 3: Side-by-Side Comparison ===== -->
+  <rect x="20" y="755" width="1360" height="235" rx="8" fill="white" stroke="#555" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="755" width="1360" height="28" rx="8 8 0 0" fill="#555"/>
+  <text x="700" y="774" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Side-by-Side: Cloud (C2C) vs On-Prem Topic &amp; Transport Comparison</text>
+
+  <!-- Cloud column -->
+  <rect x="40" y="798" width="640" height="180" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="360" y="818" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">Cloud (C2C) Mode</text>
+
+  <text x="55" y="840" font-size="9" font-weight="bold" fill="#333">Transport:</text>
+  <text x="160" y="840" font-size="9" fill="#555">Apache Kafka (managed MSK)</text>
+  <text x="55" y="858" font-size="9" font-weight="bold" fill="#333">Config Delivery:</text>
+  <text x="160" y="858" font-size="9" fill="#555">Dapr PubSub → topic: cdc-flow-{env}</text>
+  <text x="55" y="876" font-size="9" font-weight="bold" fill="#333">Topic Pattern:</text>
+  <text x="160" y="876" font-size="9" font-family="Consolas, monospace" fill="#E65100">{acctId}_{flowId}_SOAR_LIGHT_{type}</text>
+  <text x="55" y="894" font-size="9" font-weight="bold" fill="#333">Consumer Group:</text>
+  <text x="160" y="894" font-size="9" font-family="Consolas, monospace" fill="#E65100">cdc-soar-light-{flowId}</text>
+  <text x="55" y="912" font-size="9" font-weight="bold" fill="#333">Upstream Router:</text>
+  <text x="160" y="912" font-size="9" fill="#555">kafka.flow.processor (consumer groups per DataSource)</text>
+  <text x="55" y="930" font-size="9" font-weight="bold" fill="#333">Python CLI args:</text>
+  <text x="160" y="930" font-size="8" font-family="Consolas, monospace" fill="#555">--cloud-mode true --kafka-consumer --account-id</text>
+  <text x="55" y="948" font-size="9" font-weight="bold" fill="#333">Offset Tracking:</text>
+  <text x="160" y="948" font-size="9" fill="#555">Kafka consumer offsets (at-least-once)</text>
+  <text x="55" y="966" font-size="9" font-weight="bold" fill="#333">Binary:</text>
+  <text x="160" y="966" font-size="9" fill="#555">cmd/cloud/main.go (Dapr subscriber)</text>
+
+  <!-- On-Prem column -->
+  <rect x="720" y="798" width="640" height="180" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="1040" y="818" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">On-Prem Mode</text>
+
+  <text x="735" y="840" font-size="9" font-weight="bold" fill="#333">Transport:</text>
+  <text x="850" y="840" font-size="9" fill="#555">gRPC bidirectional stream (grpc-in:9195)</text>
+  <text x="735" y="858" font-size="9" font-weight="bold" fill="#333">Config Delivery:</text>
+  <text x="850" y="858" font-size="9" fill="#555">File: /opt/soar_light/conf/soar_light.json</text>
+  <text x="735" y="876" font-size="9" font-weight="bold" fill="#333">Topic Pattern:</text>
+  <text x="850" y="876" font-size="9" font-family="Consolas, monospace" fill="#6A1B9A">{flowId}_{dataType}</text>
+  <text x="735" y="894" font-size="9" font-weight="bold" fill="#333">Consumer Group:</text>
+  <text x="850" y="894" font-size="9" fill="#555">N/A (direct gRPC subscription per process)</text>
+  <text x="735" y="912" font-size="9" font-weight="bold" fill="#333">Upstream Router:</text>
+  <text x="850" y="912" font-size="9" fill="#555">grpc-in (parses + indexes by flow_id/data_type)</text>
+  <text x="735" y="930" font-size="9" font-weight="bold" fill="#333">Python CLI args:</text>
+  <text x="850" y="930" font-size="8" font-family="Consolas, monospace" fill="#555">--cloud-mode false --addr grpc-in:9195</text>
+  <text x="735" y="948" font-size="9" font-weight="bold" fill="#333">Offset Tracking:</text>
+  <text x="850" y="948" font-size="9" fill="#555">ServerCtrl_MarkMessages (ack per batch)</text>
+  <text x="735" y="966" font-size="9" font-weight="bold" fill="#333">Binary:</text>
+  <text x="850" y="966" font-size="9" fill="#555">cmd/onprem/main.go (file watcher + gRPC)</text>
+
+  <!-- ===== SECTION 4: Full End-to-End Data Path ===== -->
+  <rect x="20" y="1005" width="1360" height="228" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="1005" width="1360" height="28" rx="8 8 0 0" fill="#2E7D32"/>
+  <text x="700" y="1024" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Complete End-to-End: grpc-in's Role in SOAR-Light On-Prem Data Pipeline</text>
+
+  <!-- Full chain with annotations -->
+  <text x="40" y="1055" font-size="10" font-weight="bold" fill="#333">Path A: Cloud Data → On-Prem SOAR-Light</text>
+  <rect x="40" y="1065" width="120" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="100" y="1087" text-anchor="middle" font-size="8" fill="#555">BloxOne Cloud</text>
+  <line x1="162" y1="1082" x2="178" y2="1082" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <rect x="180" y="1065" width="120" height="35" rx="4" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="240" y="1087" text-anchor="middle" font-size="8" fill="#555">Kafka Raw Topic</text>
+  <line x1="302" y1="1082" x2="318" y2="1082" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <rect x="320" y="1065" width="130" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="385" y="1087" text-anchor="middle" font-size="8" fill="#555">data.exporter.kafka</text>
+  <line x1="452" y1="1082" x2="468" y2="1082" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <text x="460" y="1072" font-size="6" fill="#888">gRPC 3.5MB</text>
+  <rect x="470" y="1065" width="100" height="35" rx="4" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="520" y="1087" text-anchor="middle" font-size="8" fill="#555">cdc.grpc-out</text>
+  <line x1="572" y1="1082" x2="588" y2="1082" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <text x="580" y="1072" font-size="6" fill="#888">file write</text>
+  <rect x="590" y="1065" width="100" height="35" rx="4" fill="#FFECB3" stroke="#FF6F00" stroke-width="1.5"/>
+  <text x="640" y="1087" text-anchor="middle" font-size="8" font-weight="bold" fill="#FF6F00">cdc.grpc-in</text>
+  <line x1="692" y1="1082" x2="708" y2="1082" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <text x="700" y="1072" font-size="6" fill="#888">gRPC :9195</text>
+  <rect x="710" y="1065" width="130" height="35" rx="4" fill="#F3E5F5" stroke="#6A1B9A"/>
+  <text x="775" y="1087" text-anchor="middle" font-size="8" fill="#555">soar-light Python</text>
+  <line x1="842" y1="1082" x2="858" y2="1082" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <rect x="860" y="1065" width="130" height="35" rx="4" fill="#C8E6C9" stroke="#2E7D32"/>
+  <text x="925" y="1087" text-anchor="middle" font-size="8" fill="#555">Slack / Teams / Jira</text>
+
+  <text x="40" y="1125" font-size="10" font-weight="bold" fill="#333">Path B: NIOS Direct → On-Prem SOAR-Light</text>
+  <rect x="40" y="1135" width="100" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="90" y="1157" text-anchor="middle" font-size="8" fill="#555">NIOS Grid</text>
+  <line x1="142" y1="1152" x2="158" y2="1152" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <text x="150" y="1142" font-size="6" fill="#888">SSH/syslog</text>
+  <rect x="160" y="1135" width="120" height="35" rx="4" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="220" y="1157" text-anchor="middle" font-size="8" fill="#555">dns-in / rpz-in</text>
+  <line x1="282" y1="1152" x2="298" y2="1152" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <rect x="300" y="1135" width="100" height="35" rx="4" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="350" y="1157" text-anchor="middle" font-size="8" fill="#555">cdc.flume</text>
+  <line x1="402" y1="1152" x2="418" y2="1152" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <text x="410" y="1142" font-size="6" fill="#888">parse+format</text>
+  <rect x="420" y="1135" width="100" height="35" rx="4" fill="#FFECB3" stroke="#FF6F00" stroke-width="1.5"/>
+  <text x="470" y="1157" text-anchor="middle" font-size="8" font-weight="bold" fill="#FF6F00">cdc.grpc-in</text>
+  <line x1="522" y1="1152" x2="538" y2="1152" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <text x="530" y="1142" font-size="6" fill="#888">gRPC :9195</text>
+  <rect x="540" y="1135" width="130" height="35" rx="4" fill="#F3E5F5" stroke="#6A1B9A"/>
+  <text x="605" y="1157" text-anchor="middle" font-size="8" fill="#555">soar-light Python</text>
+  <line x1="672" y1="1152" x2="688" y2="1152" stroke="#555" stroke-width="1" marker-end="url(#e)"/>
+  <rect x="690" y="1135" width="130" height="35" rx="4" fill="#C8E6C9" stroke="#2E7D32"/>
+  <text x="755" y="1157" text-anchor="middle" font-size="8" fill="#555">ServiceNow / PD</text>
+
+  <!-- Key Notes -->
+  <text x="40" y="1195" font-size="9" font-weight="bold" fill="#C62828">KEY INSIGHT:</text>
+  <text x="145" y="1195" font-size="8" fill="#555">grpc-in serves as the on-prem equivalent of Kafka — it receives data from multiple upstream sources, indexes by {flowId}_{dataType},</text>
+  <text x="145" y="1208" font-size="8" fill="#555">and streams to soar-light via gRPC bidirectional stream. The Python consumer code path differs only in transport (Kafka vs gRPC), not in processing logic.</text>
+  <text x="40" y="1226" font-size="8" fill="#888">Both paths end at the same point: plugin.process(context, event) calling the user's IEventHandler implementation → sending alerts/tickets to external SOAR platforms.</text>
+</svg>

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1100" height="700" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1100" height="50" fill="#1B5E20"/>
+  <text x="550" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.agent — On-Prem Monitoring, Cleanup &amp; Health Agent</text>
+
+  <!-- Docker Container -->
+  <rect x="30" y="70" width="1040" height="290" rx="8" fill="#E8F5E9" stroke="#1B5E20" stroke-width="2" filter="url(#s)"/>
+  <text x="550" y="95" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Docker Container (supervisord manages 3 processes)</text>
+
+  <!-- cdcmonitor -->
+  <rect x="50" y="115" width="310" height="220" rx="6" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="205" y="138" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">cdcmonitor (File Watcher)</text>
+  <text x="65" y="160" font-size="10" fill="#555">rjeczalik/notify filesystem events</text>
+  <text x="65" y="180" font-size="10" fill="#555">Monitors /infoblox/data/ directories</text>
+  <text x="65" y="200" font-size="10" fill="#555">Events: Create, Write, Remove, Rename</text>
+  <text x="65" y="225" font-size="10" font-weight="bold" fill="#333">Watched Paths:</text>
+  <text x="65" y="243" font-size="9" fill="#555">/infoblox/data/in/scp/ (DNS captures)</text>
+  <text x="65" y="259" font-size="9" fill="#555">/infoblox/data/in/flume/ (staged data)</text>
+  <text x="65" y="275" font-size="9" fill="#555">/infoblox/data/out/splunk/ (Splunk out)</text>
+  <text x="65" y="291" font-size="9" fill="#555">/infoblox/data/out/siem/ (SIEM CEF/LEEF)</text>
+  <text x="65" y="307" font-size="9" fill="#555">/infoblox/data/out/cloud/ (REST upload)</text>
+  <text x="65" y="323" font-size="9" fill="#555">/infoblox/data/out/reporting/ (Reports)</text>
+
+  <!-- cleanup -->
+  <rect x="390" y="115" width="310" height="220" rx="6" fill="white" stroke="#E65100" stroke-width="1.5"/>
+  <text x="545" y="138" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">cleanup (Disk Manager)</text>
+  <text x="405" y="160" font-size="10" fill="#555">Retention: 4 hours (default)</text>
+  <text x="405" y="180" font-size="10" fill="#555">Disk threshold: 90% (system)</text>
+  <text x="405" y="200" font-size="10" fill="#555">CDC threshold: 70% (data partition)</text>
+  <text x="405" y="220" font-size="10" fill="#555">Incremental: 5-min step reduction</text>
+  <text x="405" y="245" font-size="10" font-weight="bold" fill="#333">Multiplication Factors:</text>
+  <text x="405" y="263" font-size="9" fill="#555">grpc_in output: 90x input size</text>
+  <text x="405" y="279" font-size="9" fill="#555">dns_in output: 10x input size</text>
+  <text x="405" y="300" font-size="9" fill="#888">Runs every 5 minutes</text>
+  <text x="405" y="316" font-size="9" fill="#888">Oldest files deleted first (FIFO)</text>
+  <text x="405" y="332" font-size="9" fill="#888">Pre-check: estimate space before ingest</text>
+
+  <!-- health -->
+  <rect x="730" y="115" width="320" height="220" rx="6" fill="white" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="890" y="138" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">health (HTTP Health Server)</text>
+  <text x="745" y="160" font-size="10" fill="#555">HTTP endpoint: :10001/health</text>
+  <text x="745" y="180" font-size="10" fill="#555">Returns JSON health status</text>
+  <text x="745" y="205" font-size="10" font-weight="bold" fill="#333">Health Checks:</text>
+  <text x="745" y="223" font-size="9" fill="#555">• Process liveness (supervisord)</text>
+  <text x="745" y="239" font-size="9" fill="#555">• Disk space availability</text>
+  <text x="745" y="255" font-size="9" fill="#555">• Container service status</text>
+  <text x="745" y="271" font-size="9" fill="#555">• Data directory accessibility</text>
+  <text x="745" y="291" font-size="9" fill="#888">Used by Kubernetes liveness probe</text>
+  <text x="745" y="307" font-size="9" fill="#888">Also used by on-prem health reporter</text>
+
+  <!-- Data Directories -->
+  <rect x="30" y="385" width="1040" height="140" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#s)"/>
+  <text x="550" y="410" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">On-Prem Data Directory Structure</text>
+
+  <rect x="50" y="425" width="200" height="85" rx="4" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="150" y="443" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">Input (/data/in/)</text>
+  <text x="60" y="460" font-size="9" fill="#555">scp/ → DNS captures (.gz)</text>
+  <text x="60" y="475" font-size="9" fill="#555">flume/dns/ → staged DNS</text>
+  <text x="60" y="490" font-size="9" fill="#555">flume/rpz/ → staged RPZ</text>
+  <text x="60" y="505" font-size="9" fill="#555">flume/ipmeta/ → staged IPAM</text>
+
+  <rect x="280" y="425" width="230" height="85" rx="4" fill="white" stroke="#2E7D32" stroke-width="1"/>
+  <text x="395" y="443" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">Output (/data/out/)</text>
+  <text x="290" y="460" font-size="9" fill="#555">splunk/nios/dns, splunk/bloxone</text>
+  <text x="290" y="475" font-size="9" fill="#555">siem/nios/dns/{cef,leef}</text>
+  <text x="290" y="490" font-size="9" fill="#555">cloud/{dns,rpz,ipmeta}</text>
+  <text x="290" y="505" font-size="9" fill="#555">reporting/nios/dns, reporting/bloxone</text>
+
+  <rect x="540" y="425" width="250" height="85" rx="4" fill="white" stroke="#6A1B9A" stroke-width="1"/>
+  <text x="665" y="443" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Cleanup Flow</text>
+  <text x="550" y="460" font-size="9" fill="#555">1. Check disk usage every 5 min</text>
+  <text x="550" y="475" font-size="9" fill="#555">2. If CDC &gt; 70%, reduce retention</text>
+  <text x="550" y="490" font-size="9" fill="#555">3. If system &gt; 90%, emergency cleanup</text>
+  <text x="550" y="505" font-size="9" fill="#555">4. Delete oldest files, recalculate</text>
+
+  <rect x="820" y="425" width="230" height="85" rx="4" fill="white" stroke="#1565C0" stroke-width="1"/>
+  <text x="935" y="443" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Metrics Reported</text>
+  <text x="830" y="460" font-size="9" fill="#555">• Disk usage percentage</text>
+  <text x="830" y="475" font-size="9" fill="#555">• Files processed count</text>
+  <text x="830" y="490" font-size="9" fill="#555">• Retention time (current)</text>
+  <text x="830" y="505" font-size="9" fill="#555">• Cleanup events (emergency)</text>
+
+  <!-- Architecture Context -->
+  <rect x="30" y="545" width="1040" height="135" rx="6" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="550" y="570" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Role in CDC Architecture</text>
+
+  <text x="50" y="595" font-size="10" fill="#555">• Runs as a Docker container on each on-prem CDC host alongside other CDC containers (grpc-in, flume, splunk-out, etc.)</text>
+  <text x="50" y="615" font-size="10" fill="#555">• NOT a Kubernetes operator — purely a monitoring/cleanup agent that runs via supervisord inside the Docker container</text>
+  <text x="50" y="635" font-size="10" fill="#555">• Works with atlas.onprem.health.reporter which aggregates health from multiple containers and reports to cloud</text>
+  <text x="50" y="655" font-size="10" fill="#555">• Critical for preventing disk exhaustion on CDC appliances processing high-volume DNS/DHCP/RPZ traffic</text>
+  <text x="50" y="675" font-size="10" fill="#555">• Uses rjeczalik/notify library for cross-platform filesystem event monitoring (inotify on Linux)</text>
+</svg>

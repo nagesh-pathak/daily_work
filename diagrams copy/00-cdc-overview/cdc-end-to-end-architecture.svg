@@ -1,0 +1,301 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1100" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <marker id="arrowBlue" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#2196F3"/></marker>
+    <marker id="arrowGreen" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#4CAF50"/></marker>
+    <marker id="arrowOrange" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#FF9800"/></marker>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#1a237e"/><stop offset="100%" style="stop-color:#283593"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/></filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1100" fill="#f5f7fa" rx="8"/>
+
+  <!-- Title -->
+  <rect x="0" y="0" width="1400" height="60" fill="url(#headerGrad)"/>
+  <text x="700" y="38" text-anchor="middle" fill="white" font-size="22" font-weight="bold">CDC (Cloud Data Connector) — End-to-End Architecture Overview</text>
+
+  <!-- ===== SOURCES SECTION (Left) ===== -->
+  <rect x="20" y="80" width="260" height="420" rx="10" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="20" y="80" width="260" height="35" rx="10" fill="#1565C0"/>
+  <text x="150" y="103" text-anchor="middle" fill="white" font-size="14" font-weight="bold">DATA SOURCES</text>
+
+  <!-- NIOS -->
+  <rect x="35" y="130" width="230" height="80" rx="6" fill="white" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="150" y="152" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">NIOS Grid Appliance</text>
+  <text x="150" y="170" text-anchor="middle" font-size="10" fill="#555">DNS Query/Response Logs</text>
+  <text x="150" y="183" text-anchor="middle" font-size="10" fill="#555">RPZ Policy Events (Syslog)</text>
+  <text x="150" y="196" text-anchor="middle" font-size="10" fill="#555">IPAM/WAPI Metadata (REST)</text>
+
+  <!-- BloxOne -->
+  <rect x="35" y="225" width="230" height="80" rx="6" fill="white" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="150" y="247" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">BloxOne Cloud (DDI/TD)</text>
+  <text x="150" y="265" text-anchor="middle" font-size="10" fill="#555">Threat Defense DNS Logs</text>
+  <text x="150" y="278" text-anchor="middle" font-size="10" fill="#555">DDI DHCP Lease Logs</text>
+  <text x="150" y="291" text-anchor="middle" font-size="10" fill="#555">Audit &amp; Service Logs</text>
+
+  <!-- SOC Insights -->
+  <rect x="35" y="320" width="230" height="60" rx="6" fill="white" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="150" y="342" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">SOC Analytics</text>
+  <text x="150" y="358" text-anchor="middle" font-size="10" fill="#555">SOC Insights v1/v2</text>
+  <text x="150" y="371" text-anchor="middle" font-size="10" fill="#555">Atlas Notifications</text>
+
+  <!-- Scheduled Sources -->
+  <rect x="35" y="395" width="230" height="45" rx="6" fill="white" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="150" y="415" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">Ingress / Scheduled</text>
+  <text x="150" y="430" text-anchor="middle" font-size="10" fill="#555">Custom data pull via Cron</text>
+
+  <!-- ===== INGESTION + ON-PREM LAYER ===== -->
+  <rect x="300" y="80" width="280" height="420" rx="10" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="300" y="80" width="280" height="35" rx="10" fill="#E65100"/>
+  <text x="440" y="103" text-anchor="middle" fill="white" font-size="14" font-weight="bold">ON-PREM INGESTION LAYER</text>
+
+  <rect x="315" y="130" width="250" height="40" rx="5" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="440" y="148" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">cdc.dns-in</text>
+  <text x="440" y="162" text-anchor="middle" font-size="9" fill="#555">SSH/SCP → Decompress .gz → Flume</text>
+
+  <rect x="315" y="180" width="250" height="40" rx="5" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="440" y="198" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">cdc.rpz-in</text>
+  <text x="440" y="212" text-anchor="middle" font-size="9" fill="#555">Syslog/TLS(6514) → stunnel → rsyslog</text>
+
+  <rect x="315" y="230" width="250" height="40" rx="5" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="440" y="248" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">cdc.wapi-in (ipmeta)</text>
+  <text x="440" y="262" text-anchor="middle" font-size="9" fill="#555">WAPI REST → Avro → Change tracking</text>
+
+  <rect x="315" y="285" width="250" height="50" rx="5" fill="#FFF8E1" stroke="#E65100" stroke-width="1.5"/>
+  <text x="440" y="303" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">cdc.flume (Apache Flume)</text>
+  <text x="440" y="318" text-anchor="middle" font-size="9" fill="#555">Transform &amp; Route: CSV, Parquet,</text>
+  <text x="440" y="329" text-anchor="middle" font-size="9" fill="#555">CEF/LEEF, JSON → Multi-destination</text>
+
+  <rect x="315" y="350" width="250" height="35" rx="5" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="440" y="368" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">cdc.grpc-out</text>
+  <text x="440" y="380" text-anchor="middle" font-size="9" fill="#555">Parquet files → gRPC → ti-proxy → Kafka</text>
+
+  <rect x="315" y="400" width="250" height="35" rx="5" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="440" y="418" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">cdc.agent</text>
+  <text x="440" y="430" text-anchor="middle" font-size="9" fill="#555">Disk cleanup, metrics, health monitoring</text>
+
+  <rect x="315" y="450" width="250" height="35" rx="5" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="440" y="468" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">cdc.rest-out</text>
+  <text x="440" y="480" text-anchor="middle" font-size="9" fill="#555">Parquet → HTTP POST → Cloud REST API</text>
+
+  <!-- ===== CLOUD PROCESSING LAYER ===== -->
+  <rect x="600" y="80" width="300" height="420" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="600" y="80" width="300" height="35" rx="10" fill="#2E7D32"/>
+  <text x="750" y="103" text-anchor="middle" fill="white" font-size="14" font-weight="bold">CLOUD PROCESSING LAYER</text>
+
+  <rect x="615" y="130" width="270" height="50" rx="5" fill="white" stroke="#2E7D32" stroke-width="1"/>
+  <text x="750" y="148" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">data.exporter.kafka</text>
+  <text x="750" y="163" text-anchor="middle" font-size="9" fill="#555">gRPC stream server → Kafka consumer →</text>
+  <text x="750" y="174" text-anchor="middle" font-size="9" fill="#555">On-prem host delivery (chunked 3.5MB)</text>
+
+  <rect x="615" y="195" width="270" height="50" rx="5" fill="white" stroke="#2E7D32" stroke-width="1"/>
+  <text x="750" y="213" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">cdc.kafka.flow.processor</text>
+  <text x="750" y="228" text-anchor="middle" font-size="9" fill="#555">Source Kafka topics → Flow filtering →</text>
+  <text x="750" y="239" text-anchor="middle" font-size="9" fill="#555">Fan-out to {acctId}_flowID{fId}_{type}</text>
+
+  <rect x="615" y="260" width="270" height="50" rx="5" fill="white" stroke="#2E7D32" stroke-width="1"/>
+  <text x="750" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">cdc.grpc-in (Cloud)</text>
+  <text x="750" y="293" text-anchor="middle" font-size="9" fill="#555">Kafka → Parquet parser → CSV/CEF/LEEF/</text>
+  <text x="750" y="304" text-anchor="middle" font-size="9" fill="#555">JSON/ASIM/Splunk → Output Kafka topics</text>
+
+  <rect x="615" y="325" width="270" height="45" rx="5" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="750" y="343" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">Kafka Message Bus</text>
+  <text x="750" y="360" text-anchor="middle" font-size="9" fill="#555">{acctId}_{flowId}_{dest}_{dataType} topics</text>
+
+  <rect x="615" y="385" width="130" height="35" rx="5" fill="white" stroke="#2E7D32" stroke-width="1"/>
+  <text x="680" y="403" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">cdc.crds</text>
+  <text x="680" y="415" text-anchor="middle" font-size="8" fill="#555">K8s CRD Registry</text>
+
+  <rect x="755" y="385" width="130" height="35" rx="5" fill="white" stroke="#2E7D32" stroke-width="1"/>
+  <text x="820" y="403" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">cdc.data.flow</text>
+  <text x="820" y="415" text-anchor="middle" font-size="8" fill="#555">K8s Helm/RBAC</text>
+
+  <rect x="615" y="435" width="270" height="50" rx="5" fill="white" stroke="#2E7D32" stroke-width="1"/>
+  <text x="750" y="453" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">Dapr PubSub (Kafka)</text>
+  <text x="750" y="468" text-anchor="middle" font-size="9" fill="#555">cdc-flow topic → Flow lifecycle events</text>
+  <text x="750" y="479" text-anchor="middle" font-size="9" fill="#555">cm-{container} topics → Config updates</text>
+
+  <!-- ===== API &amp; MANAGEMENT LAYER ===== -->
+  <rect x="920" y="80" width="240" height="420" rx="10" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="920" y="80" width="240" height="35" rx="10" fill="#6A1B9A"/>
+  <text x="1040" y="103" text-anchor="middle" fill="white" font-size="14" font-weight="bold">API &amp; MANAGEMENT</text>
+
+  <rect x="935" y="130" width="210" height="55" rx="5" fill="white" stroke="#6A1B9A" stroke-width="1"/>
+  <text x="1040" y="148" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">cdc.flow.api.service</text>
+  <text x="1040" y="163" text-anchor="middle" font-size="9" fill="#555">REST/gRPC: Flows, Sources,</text>
+  <text x="1040" y="176" text-anchor="middle" font-size="9" fill="#555">Destinations, ETL, Services CRUD</text>
+
+  <rect x="935" y="200" width="210" height="50" rx="5" fill="white" stroke="#6A1B9A" stroke-width="1"/>
+  <text x="1040" y="218" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">cdc.api</text>
+  <text x="1040" y="233" text-anchor="middle" font-size="9" fill="#555">Container config versioning</text>
+  <text x="1040" y="244" text-anchor="middle" font-size="9" fill="#555">ETL filters, Flume orchestration</text>
+
+  <rect x="935" y="265" width="210" height="45" rx="5" fill="white" stroke="#6A1B9A" stroke-width="1"/>
+  <text x="1040" y="283" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">cdc.infraservice</text>
+  <text x="1040" y="299" text-anchor="middle" font-size="9" fill="#555">Flume config templates → PubSub</text>
+
+  <rect x="935" y="325" width="210" height="45" rx="5" fill="white" stroke="#6A1B9A" stroke-width="1"/>
+  <text x="1040" y="343" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">atlas.config.manager</text>
+  <text x="1040" y="359" text-anchor="middle" font-size="9" fill="#555">Config delivery to on-prem hosts</text>
+
+  <rect x="935" y="385" width="210" height="45" rx="5" fill="white" stroke="#6A1B9A" stroke-width="1"/>
+  <text x="1040" y="403" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">atlas.status.service</text>
+  <text x="1040" y="419" text-anchor="middle" font-size="9" fill="#555">Flow/Host/Service status tracking</text>
+
+  <rect x="935" y="445" width="210" height="40" rx="5" fill="white" stroke="#6A1B9A" stroke-width="1"/>
+  <text x="1040" y="463" text-anchor="middle" font-size="12" font-weight="bold" fill="#6A1B9A">cdc.onboarding</text>
+  <text x="1040" y="478" text-anchor="middle" font-size="9" fill="#555">Setup guides, reporting tools</text>
+
+  <!-- ===== DESTINATIONS (Bottom) ===== -->
+  <rect x="20" y="530" width="1140" height="260" rx="10" fill="#FFEBEE" stroke="#C62828" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="20" y="530" width="1140" height="35" rx="10" fill="#C62828"/>
+  <text x="590" y="553" text-anchor="middle" fill="white" font-size="14" font-weight="bold">DESTINATION OUTPUTS — Cloud &amp; On-Premises</text>
+
+  <!-- Row 1: Cloud destinations -->
+  <rect x="40" y="580" width="170" height="65" rx="5" fill="white" stroke="#C62828" stroke-width="1"/>
+  <text x="125" y="598" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">cdc.syslog-out</text>
+  <text x="125" y="613" text-anchor="middle" font-size="9" fill="#555">Kafka/File → TCP/UDP/TLS</text>
+  <text x="125" y="626" text-anchor="middle" font-size="9" fill="#555">CEF/LEEF/JSON → Syslog servers</text>
+  <text x="125" y="639" text-anchor="middle" font-size="9" fill="#555">Cloud + On-Prem modes</text>
+
+  <rect x="225" y="580" width="170" height="65" rx="5" fill="white" stroke="#C62828" stroke-width="1"/>
+  <text x="310" y="598" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">cdc.http-out</text>
+  <text x="310" y="613" text-anchor="middle" font-size="9" fill="#555">Kafka/File → HTTP POST</text>
+  <text x="310" y="626" text-anchor="middle" font-size="9" fill="#555">Splunk HEC / MS Sentinel</text>
+  <text x="310" y="639" text-anchor="middle" font-size="9" fill="#555">Cloud + On-Prem modes</text>
+
+  <rect x="410" y="580" width="170" height="65" rx="5" fill="white" stroke="#C62828" stroke-width="1"/>
+  <text x="495" y="598" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">cdc.splunk-out</text>
+  <text x="495" y="613" text-anchor="middle" font-size="9" fill="#555">File → Splunk UF → TCP/TLS</text>
+  <text x="495" y="626" text-anchor="middle" font-size="9" fill="#555">On-Prem &amp; Cloud Splunk</text>
+  <text x="495" y="639" text-anchor="middle" font-size="9" fill="#555">TLS mutual auth (certs)</text>
+
+  <rect x="595" y="580" width="170" height="65" rx="5" fill="white" stroke="#C62828" stroke-width="1"/>
+  <text x="680" y="598" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">cdc.siem-out</text>
+  <text x="680" y="613" text-anchor="middle" font-size="9" fill="#555">File → Splunk UF → TLS</text>
+  <text x="680" y="626" text-anchor="middle" font-size="9" fill="#555">CEF (ArcSight) / LEEF (QRadar)</text>
+  <text x="680" y="639" text-anchor="middle" font-size="9" fill="#555">On-Prem SIEM systems</text>
+
+  <rect x="780" y="580" width="170" height="65" rx="5" fill="white" stroke="#C62828" stroke-width="1"/>
+  <text x="865" y="598" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">cdc.reporting-out</text>
+  <text x="865" y="613" text-anchor="middle" font-size="9" fill="#555">File → Splunk UF</text>
+  <text x="865" y="626" text-anchor="middle" font-size="9" fill="#555">Infoblox Reporting System</text>
+  <text x="865" y="639" text-anchor="middle" font-size="9" fill="#555">DNS/RPZ/BloxOne CSV</text>
+
+  <rect x="965" y="580" width="180" height="65" rx="5" fill="white" stroke="#C62828" stroke-width="1"/>
+  <text x="1055" y="598" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">soar-light</text>
+  <text x="1055" y="613" text-anchor="middle" font-size="9" fill="#555">Kafka/gRPC → Python scripts</text>
+  <text x="1055" y="626" text-anchor="middle" font-size="9" fill="#555">Custom SOAR automation</text>
+  <text x="1055" y="639" text-anchor="middle" font-size="9" fill="#555">Cloud + On-Prem modes</text>
+
+  <!-- Row 2: External targets -->
+  <rect x="40" y="660" width="155" height="50" rx="5" fill="#FFCDD2" stroke="#C62828" stroke-width="1"/>
+  <text x="117" y="682" text-anchor="middle" font-size="11" font-weight="bold" fill="#B71C1C">Splunk Enterprise</text>
+  <text x="117" y="700" text-anchor="middle" font-size="9" fill="#555">HEC / TCP / Cloud</text>
+
+  <rect x="210" y="660" width="155" height="50" rx="5" fill="#FFCDD2" stroke="#C62828" stroke-width="1"/>
+  <text x="287" y="682" text-anchor="middle" font-size="11" font-weight="bold" fill="#B71C1C">MS Sentinel</text>
+  <text x="287" y="700" text-anchor="middle" font-size="9" fill="#555">DCR / ASIM / OAuth2</text>
+
+  <rect x="380" y="660" width="155" height="50" rx="5" fill="#FFCDD2" stroke="#C62828" stroke-width="1"/>
+  <text x="457" y="682" text-anchor="middle" font-size="11" font-weight="bold" fill="#B71C1C">Syslog Servers</text>
+  <text x="457" y="700" text-anchor="middle" font-size="9" fill="#555">TCP/UDP/TLS (CEF/LEEF)</text>
+
+  <rect x="550" y="660" width="155" height="50" rx="5" fill="#FFCDD2" stroke="#C62828" stroke-width="1"/>
+  <text x="627" y="682" text-anchor="middle" font-size="11" font-weight="bold" fill="#B71C1C">ArcSight / QRadar</text>
+  <text x="627" y="700" text-anchor="middle" font-size="9" fill="#555">SIEM Platforms</text>
+
+  <rect x="720" y="660" width="155" height="50" rx="5" fill="#FFCDD2" stroke="#C62828" stroke-width="1"/>
+  <text x="797" y="682" text-anchor="middle" font-size="11" font-weight="bold" fill="#B71C1C">HTTP Endpoints</text>
+  <text x="797" y="700" text-anchor="middle" font-size="9" fill="#555">Webhooks / REST APIs</text>
+
+  <rect x="890" y="660" width="155" height="50" rx="5" fill="#FFCDD2" stroke="#C62828" stroke-width="1"/>
+  <text x="967" y="682" text-anchor="middle" font-size="11" font-weight="bold" fill="#B71C1C">SOAR Platforms</text>
+  <text x="967" y="700" text-anchor="middle" font-size="9" fill="#555">Slack/Teams/ServiceNow</text>
+
+  <!-- ===== SHARED LIBRARIES (Right bottom) ===== -->
+  <rect x="1180" y="80" width="200" height="420" rx="10" fill="#F1F8E9" stroke="#558B2F" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="1180" y="80" width="200" height="35" rx="10" fill="#558B2F"/>
+  <text x="1280" y="103" text-anchor="middle" fill="white" font-size="14" font-weight="bold">SHARED / INFRA</text>
+
+  <rect x="1195" y="130" width="170" height="55" rx="5" fill="white" stroke="#558B2F" stroke-width="1"/>
+  <text x="1280" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#558B2F">cdc.common</text>
+  <text x="1280" y="163" text-anchor="middle" font-size="9" fill="#555">Health, Crypto, Logger</text>
+  <text x="1280" y="176" text-anchor="middle" font-size="9" fill="#555">Metrics, Config, Cleanup</text>
+
+  <rect x="1195" y="200" width="170" height="45" rx="5" fill="white" stroke="#558B2F" stroke-width="1"/>
+  <text x="1280" y="218" text-anchor="middle" font-size="11" font-weight="bold" fill="#558B2F">cdc.appbase</text>
+  <text x="1280" y="235" text-anchor="middle" font-size="9" fill="#555">Base Docker image (Alpine)</text>
+
+  <rect x="1195" y="260" width="170" height="45" rx="5" fill="white" stroke="#558B2F" stroke-width="1"/>
+  <text x="1280" y="278" text-anchor="middle" font-size="11" font-weight="bold" fill="#558B2F">cdc.splunkforwarderbase</text>
+  <text x="1280" y="295" text-anchor="middle" font-size="9" fill="#555">Splunk UF 9.1.0 base</text>
+
+  <rect x="1195" y="320" width="170" height="45" rx="5" fill="white" stroke="#558B2F" stroke-width="1"/>
+  <text x="1280" y="338" text-anchor="middle" font-size="11" font-weight="bold" fill="#558B2F">cdc.etl</text>
+  <text x="1280" y="355" text-anchor="middle" font-size="9" fill="#555">Parquet → CSV library</text>
+
+  <rect x="1195" y="380" width="170" height="45" rx="5" fill="white" stroke="#558B2F" stroke-width="1"/>
+  <text x="1280" y="398" text-anchor="middle" font-size="11" font-weight="bold" fill="#558B2F">PostgreSQL</text>
+  <text x="1280" y="415" text-anchor="middle" font-size="9" fill="#555">Flow configs, ETL, status</text>
+
+  <rect x="1195" y="440" width="170" height="45" rx="5" fill="white" stroke="#558B2F" stroke-width="1"/>
+  <text x="1280" y="458" text-anchor="middle" font-size="11" font-weight="bold" fill="#558B2F">bloxone.automation</text>
+  <text x="1280" y="475" text-anchor="middle" font-size="9" fill="#555">SOAR script CI/CD sync</text>
+
+  <!-- ===== DATA FLOW ARROWS ===== -->
+  <!-- Sources → Ingestion -->
+  <line x1="265" y1="170" x2="313" y2="150" stroke="#2196F3" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="265" y1="190" x2="313" y2="200" stroke="#2196F3" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="265" y1="200" x2="313" y2="250" stroke="#2196F3" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Ingestion → Flume -->
+  <line x1="440" y1="170" x2="440" y2="283" stroke="#FF9800" stroke-width="1.5" marker-end="url(#arrowOrange)" stroke-dasharray="4"/>
+  <line x1="440" y1="220" x2="440" y2="283" stroke="#FF9800" stroke-width="1.5" stroke-dasharray="4"/>
+  <line x1="440" y1="270" x2="440" y2="283" stroke="#FF9800" stroke-width="1.5" stroke-dasharray="4"/>
+
+  <!-- Flume → grpc-out / dest outputs -->
+  <line x1="440" y1="335" x2="440" y2="348" stroke="#FF9800" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+
+  <!-- BloxOne → Cloud processing -->
+  <line x1="265" y1="265" x2="613" y2="155" stroke="#4CAF50" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <line x1="265" y1="275" x2="613" y2="220" stroke="#4CAF50" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Cloud processing internal -->
+  <line x1="750" y1="180" x2="750" y2="193" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="750" y1="245" x2="750" y2="258" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="750" y1="310" x2="750" y2="323" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Cloud Kafka → Destinations -->
+  <line x1="750" y1="370" x2="125" y2="578" stroke="#C62828" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="5,3"/>
+  <line x1="750" y1="370" x2="310" y2="578" stroke="#C62828" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="5,3"/>
+  <line x1="750" y1="370" x2="1055" y2="578" stroke="#C62828" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="5,3"/>
+
+  <!-- API → Cloud -->
+  <line x1="933" y1="157" x2="887" y2="157" stroke="#6A1B9A" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="3"/>
+
+  <!-- ===== LEGEND ===== -->
+  <rect x="20" y="820" width="1360" height="270" rx="10" fill="white" stroke="#ddd" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="700" y="848" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">CDC End-to-End Data Flow Pipeline</text>
+
+  <line x1="50" y1="870" x2="100" y2="870" stroke="#2196F3" stroke-width="3"/>
+  <text x="110" y="875" font-size="11" fill="#555">NIOS/BloxOne Source Data (DNS, RPZ, DHCP, WAPI)</text>
+
+  <line x1="50" y1="895" x2="100" y2="895" stroke="#FF9800" stroke-width="3" stroke-dasharray="4"/>
+  <text x="110" y="900" font-size="11" fill="#555">On-Prem Pipeline (File-based: SCP → Flume → File outputs)</text>
+
+  <line x1="50" y1="920" x2="100" y2="920" stroke="#4CAF50" stroke-width="3"/>
+  <text x="110" y="925" font-size="11" fill="#555">Cloud Pipeline (Kafka-based: Topics → Processing → Topics)</text>
+
+  <line x1="50" y1="945" x2="100" y2="945" stroke="#C62828" stroke-width="3" stroke-dasharray="5,3"/>
+  <text x="110" y="950" font-size="11" fill="#555">Destination Delivery (Kafka/File → External systems)</text>
+
+  <text x="50" y="985" font-size="12" font-weight="bold" fill="#333">Supported Data Types:</text>
+  <text x="50" y="1005" font-size="10" fill="#555">TD_QUERY_RESP_LOG | TD_THREAT_FEEDS_HITS_LOG | DDI_QUERY_RESP_LOG | DDI_DHCP_LEASE_LOG | AUDIT_LOG | SERVICE_LOG | ATLAS_NOTIFICATIONS | SOC_INSIGHTS | SOC_INSIGHTS_V2</text>
+
+  <text x="50" y="1035" font-size="12" font-weight="bold" fill="#333">Output Formats:</text>
+  <text x="50" y="1055" font-size="10" fill="#555">CSV (Splunk/Reporting) | CEF (ArcSight) | LEEF (QRadar) | JSON (HTTP/REST) | ASIM (Microsoft Sentinel) | Parquet (Cloud Analytics) | Splunk CIM</text>
+
+  <text x="50" y="1080" font-size="10" fill="#888">CDC Architecture Diagram — Based on actual codebase analysis of Infoblox-CTO repositories</text>
+</svg>

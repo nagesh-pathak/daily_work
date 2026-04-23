@@ -1,0 +1,238 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1200" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#2E7D32"/></marker>
+    <marker id="b" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#E65100"/></marker>
+    <marker id="c" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#6A1B9A"/></marker>
+    <marker id="d" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#AD1457"/></marker>
+    <marker id="e" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="hdr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#BF360C"/><stop offset="100%" stop-color="#E65100"/></linearGradient>
+  </defs>
+  <rect width="1400" height="1200" fill="#f5f6f8" rx="8"/>
+
+  <rect x="0" y="0" width="1400" height="56" fill="url(#hdr)" rx="8 8 0 0"/>
+  <text x="700" y="36" text-anchor="middle" fill="white" font-size="20" font-weight="bold">SOAR-Light — Script Execution Engine (Deep Dive)</text>
+  <text x="700" y="52" text-anchor="middle" fill="#FFCCBC" font-size="10">Python Interfaces | Virtual Environments | Template Engine | Process Lifecycle | Health Monitoring</text>
+
+  <!-- ===== Python Interfaces ===== -->
+  <rect x="20" y="72" width="670" height="260" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="72" width="670" height="28" rx="8 8 0 0" fill="#2E7D32"/>
+  <text x="355" y="91" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Python Script Interfaces (interface.py)</text>
+
+  <!-- IEventHandler -->
+  <rect x="40" y="115" width="305" height="200" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="193" y="138" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">IEventHandler (zope.interface)</text>
+  <text x="193" y="155" text-anchor="middle" font-size="8" fill="#888">Event-driven: triggered per message from Kafka/gRPC</text>
+  <rect x="52" y="165" width="280" height="25" rx="3" fill="white" stroke="#2E7D32"/>
+  <text x="60" y="182" font-size="8" font-family="Consolas, monospace" fill="#2E7D32">def process(context, event):</text>
+  <text x="252" y="182" font-size="7" fill="#888">→ main handler</text>
+  <rect x="52" y="195" width="280" height="25" rx="3" fill="white" stroke="#2E7D32"/>
+  <text x="60" y="212" font-size="8" font-family="Consolas, monospace" fill="#2E7D32">def get_health_status(context):</text>
+  <text x="268" y="212" font-size="7" fill="#888">→ health</text>
+  <text x="52" y="240" font-size="8" fill="#555">context: {request_id, ophid}</text>
+  <text x="52" y="255" font-size="8" fill="#555">event: JSON string from Kafka/gRPC</text>
+  <text x="52" y="270" font-size="8" fill="#555">Returns health: {status, timestamp, error}</text>
+  <text x="52" y="288" font-size="8" font-weight="bold" fill="#2E7D32">Used for: DNS logs, audit events, SOC insights</text>
+  <text x="52" y="303" font-size="7" fill="#888">Runs as long-lived process consuming stream</text>
+
+  <!-- IScheduler -->
+  <rect x="370" y="115" width="305" height="200" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="523" y="138" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">IScheduler (zope.interface)</text>
+  <text x="523" y="155" text-anchor="middle" font-size="8" fill="#888">Cron-scheduled: triggered on schedule, no stream</text>
+  <rect x="382" y="165" width="280" height="25" rx="3" fill="white" stroke="#E65100"/>
+  <text x="390" y="182" font-size="8" font-family="Consolas, monospace" fill="#E65100">def schedule(self, context):</text>
+  <text x="578" y="182" font-size="7" fill="#888">→ main handler</text>
+  <rect x="382" y="195" width="280" height="25" rx="3" fill="white" stroke="#E65100"/>
+  <text x="390" y="212" font-size="8" font-family="Consolas, monospace" fill="#E65100">def get_health_status(context):</text>
+  <text x="598" y="212" font-size="7" fill="#888">→ health</text>
+  <text x="382" y="240" font-size="8" fill="#555">context: {request_id, ophid}</text>
+  <text x="382" y="255" font-size="8" fill="#555">No event param — polls external systems</text>
+  <text x="382" y="270" font-size="8" fill="#555">Cron expression: flow.Schedule</text>
+  <text x="382" y="288" font-size="8" font-weight="bold" fill="#E65100">Used for: Vuln scans, periodic enrichment</text>
+  <text x="382" y="303" font-size="7" fill="#888">Spawned per cron tick, exits after completion</text>
+
+  <!-- ===== infoblox_driver.py Template ===== -->
+  <rect x="710" y="72" width="670" height="260" rx="8" fill="white" stroke="#AD1457" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="710" y="72" width="670" height="28" rx="8 8 0 0" fill="#AD1457"/>
+  <text x="1045" y="91" text-anchor="middle" fill="white" font-size="13" font-weight="bold">infoblox_driver.py.tmpl (Go Template → Python Entry Point)</text>
+
+  <text x="725" y="118" font-size="8" font-family="Consolas, monospace" fill="#555">import {{.Name}}                       # User's script module (e.g. my_audit_script_42)</text>
+  <text x="725" y="134" font-size="8" font-family="Consolas, monospace" fill="#555">MAX_RETRIES = {{.MaxRetries}}           # Default: 300000 (~5min with backoff)</text>
+  <text x="725" y="150" font-size="8" font-family="Consolas, monospace" fill="#555">DURATION_LIMIT = {{.DurationLimit}}     # Default: 3600 seconds</text>
+
+  <text x="725" y="172" font-size="9" font-weight="bold" fill="#AD1457">main() → determines execution mode:</text>
+  <rect x="725" y="180" width="640" height="22" rx="3" fill="#FCE4EC" stroke="#AD1457"/>
+  <text x="735" y="196" font-size="8" font-family="Consolas, monospace" fill="#AD1457">if args.cloud_mode and not args.script_schedule → event_handler()</text>
+  <rect x="725" y="206" width="640" height="22" rx="3" fill="#FCE4EC" stroke="#AD1457"/>
+  <text x="735" y="222" font-size="8" font-family="Consolas, monospace" fill="#AD1457">if not args.cloud_mode and not args.script_schedule → event_handler() [gRPC]</text>
+  <rect x="725" y="232" width="640" height="22" rx="3" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="735" y="248" font-size="8" font-family="Consolas, monospace" fill="#E65100">if args.script_schedule → schedule_handler()</text>
+  <rect x="725" y="258" width="640" height="22" rx="3" fill="#F3E5F5" stroke="#6A1B9A"/>
+  <text x="735" y="274" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">if args.health_monitor → schedule_health_monitor() [infinite loop]</text>
+
+  <text x="725" y="298" font-size="8" fill="#555">_initialize_plugin(): scans user's module for class implementing IEventHandler or IScheduler</text>
+  <text x="725" y="312" font-size="8" fill="#555">→ instantiates the first matching class → plugin object used throughout execution</text>
+  <text x="725" y="326" font-size="7" fill="#888">Template rendered by: pkg/svc/python/template_parser.go Template() function</text>
+
+  <!-- ===== Virtual Environment Lifecycle ===== -->
+  <rect x="20" y="350" width="1360" height="230" rx="8" fill="white" stroke="#6A1B9A" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="350" width="1360" height="28" rx="8 8 0 0" fill="#6A1B9A"/>
+  <text x="700" y="369" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Virtual Environment Lifecycle (driver.go — per Flow ID)</text>
+
+  <!-- Step 1 -->
+  <rect x="40" y="395" width="250" height="90" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="165" y="415" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">1. CreateVirtualEnvironment</text>
+  <text x="50" y="435" font-size="7" font-family="Consolas, monospace" fill="#555">mkdir -p /venv-{flowId}/src</text>
+  <text x="50" y="448" font-size="7" font-family="Consolas, monospace" fill="#555">python3 -m venv /venv-{flowId}</text>
+  <text x="50" y="461" font-size="7" font-family="Consolas, monospace" fill="#555">cp -R /plugins/python/src/*.py*</text>
+  <text x="50" y="474" font-size="7" font-family="Consolas, monospace" fill="#555">pip install -r requirements.txt</text>
+  <line x1="292" y1="440" x2="318" y2="440" stroke="#6A1B9A" stroke-width="1.5" marker-end="url(#c)"/>
+
+  <!-- Step 2 -->
+  <rect x="320" y="395" width="250" height="90" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="445" y="415" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">2. Decode &amp; Write Scripts</text>
+  <text x="330" y="435" font-size="7" fill="#555">base64.Decode(flow.Data)</text>
+  <text x="330" y="448" font-size="7" fill="#555">→ Scripts[]: [{filename, content}]</text>
+  <text x="330" y="461" font-size="7" fill="#555">Write each to: venv-{flowId}/src/</text>
+  <text x="330" y="474" font-size="7" fill="#555">Also decode: Context{}, Variables{}</text>
+  <line x1="572" y1="440" x2="598" y2="440" stroke="#6A1B9A" stroke-width="1.5" marker-end="url(#c)"/>
+
+  <!-- Step 3 -->
+  <rect x="600" y="395" width="260" height="90" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="730" y="415" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">3. Template()</text>
+  <text x="610" y="435" font-size="7" fill="#555">Parse infoblox_driver.py.tmpl</text>
+  <text x="610" y="448" font-size="7" fill="#555">Inject: {{.Name}} = script module name</text>
+  <text x="610" y="461" font-size="7" fill="#555">Inject: {{.MaxRetries}} from config</text>
+  <text x="610" y="474" font-size="7" fill="#555">Output: venv-{flowId}/src/infoblox_driver.py</text>
+  <line x1="862" y1="440" x2="888" y2="440" stroke="#6A1B9A" stroke-width="1.5" marker-end="url(#c)"/>
+
+  <!-- Step 4 -->
+  <rect x="890" y="395" width="230" height="90" rx="6" fill="#FCE4EC" stroke="#AD1457" stroke-width="1.5"/>
+  <text x="1005" y="415" text-anchor="middle" font-size="10" font-weight="bold" fill="#AD1457">4. Execute(runner)</text>
+  <text x="900" y="435" font-size="7" fill="#555">context.WithCancel() for cleanup</text>
+  <text x="900" y="448" font-size="7" fill="#555">go func() { runner.Run(...) }</text>
+  <text x="900" y="461" font-size="7" fill="#555">Track PID, add WaitGroup</text>
+  <text x="900" y="474" font-size="7" fill="#555">UpdateHandler(key, handler)</text>
+  <line x1="1122" y1="440" x2="1148" y2="440" stroke="#AD1457" stroke-width="1.5" marker-end="url(#d)"/>
+
+  <!-- Step 5 -->
+  <rect x="1150" y="395" width="210" height="90" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="1255" y="415" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">5. Running Process</text>
+  <text x="1160" y="435" font-size="7" fill="#555">Python process consuming</text>
+  <text x="1160" y="448" font-size="7" fill="#555">Kafka (cloud) or gRPC (onprem)</text>
+  <text x="1160" y="461" font-size="7" fill="#555">Calling plugin.process(ctx, evt)</text>
+  <text x="1160" y="474" font-size="7" fill="#555">Health check every 30s</text>
+
+  <!-- Venv dir structure -->
+  <rect x="40" y="500" width="1320" height="65" rx="5" fill="#FAFAFA" stroke="#CCC" stroke-dasharray="4,2"/>
+  <text x="50" y="518" font-size="8" font-family="Consolas, monospace" fill="#555">/src/python/venv/venv-42/                    ← One venv per flow_id (shared across data types)</text>
+  <text x="50" y="531" font-size="8" font-family="Consolas, monospace" fill="#555">  ├── bin/python3                            ← Isolated interpreter      ├── src/my_audit_script_42.py  ← User script (from base64)</text>
+  <text x="50" y="544" font-size="8" font-family="Consolas, monospace" fill="#555">  ├── src/infoblox_driver.py                 ← Generated from template   ├── src/{interface,kafka_consumer,soar_light,health_checker,metrics}.py</text>
+  <text x="50" y="557" font-size="7" fill="#888">virtualEnvs map[int]bool tracks created venvs — avoids re-creating for additional data types on same flow</text>
+
+  <!-- ===== Process Types ===== -->
+  <rect x="20" y="596" width="1360" height="270" rx="8" fill="white" stroke="#E65100" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="596" width="1360" height="28" rx="8 8 0 0" fill="#E65100"/>
+  <text x="700" y="615" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Three Process Types (spawned by Go binary via env -i)</text>
+
+  <!-- Event Handler Process -->
+  <rect x="40" y="640" width="420" height="210" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="250" y="662" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Event Handler Process (long-lived)</text>
+  <text x="50" y="682" font-size="8" font-family="Consolas, monospace" fill="#555">env -i /venv-42/bin/python3 /venv-42/src/infoblox_driver.py \</text>
+  <text x="62" y="695" font-size="8" font-family="Consolas, monospace" fill="#555">--flow-id 42 --event-type AUDIT_LOG \</text>
+  <text x="62" y="708" font-size="8" font-family="Consolas, monospace" fill="#E65100">--cloud-mode true                           ← Cloud: Kafka consumer</text>
+  <text x="62" y="721" font-size="8" font-family="Consolas, monospace" fill="#E65100">--kafka-consumer broker1:9092,broker2:9092</text>
+  <text x="62" y="734" font-size="8" font-family="Consolas, monospace" fill="#E65100">--account-id acme-corp</text>
+  <text x="50" y="756" font-size="8" fill="#555">OR (On-Prem):</text>
+  <text x="62" y="770" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">--cloud-mode false</text>
+  <text x="62" y="783" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">--addr cdc-grpc-in.service:9195             ← On-Prem: gRPC stream</text>
+  <text x="50" y="806" font-size="8" font-weight="bold" fill="#333">Key: "{flow_id}_{data_type}"</text>
+  <text x="50" y="820" font-size="8" fill="#888">1 process per data type per flow</text>
+  <text x="50" y="833" font-size="7" fill="#888">Runs indefinitely until SIGTERM</text>
+  <text x="50" y="845" font-size="7" fill="#888">health checker thread started in 1st alphabetical type</text>
+
+  <!-- Scheduled Script Process -->
+  <rect x="490" y="640" width="420" height="210" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="700" y="662" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">Scheduled Script Process (per cron tick)</text>
+  <text x="500" y="682" font-size="8" font-family="Consolas, monospace" fill="#555">env -i /venv-42/bin/python3 /venv-42/src/infoblox_driver.py \</text>
+  <text x="512" y="695" font-size="8" font-family="Consolas, monospace" fill="#555">--flow-id 42 \</text>
+  <text x="512" y="708" font-size="8" font-family="Consolas, monospace" fill="#6A1B9A">--script-schedule true</text>
+  <text x="500" y="733" font-size="8" fill="#555">Execution flow:</text>
+  <text x="510" y="748" font-size="8" fill="#555">1. main() → schedule_handler(args)</text>
+  <text x="510" y="763" font-size="8" fill="#555">2. _initialize_plugin() → find IScheduler class</text>
+  <text x="510" y="778" font-size="8" fill="#555">3. ScriptSchedule(plugin, context, variables)</text>
+  <text x="510" y="793" font-size="8" fill="#555">4. plugin.schedule(context) → runs user logic</text>
+  <text x="510" y="808" font-size="8" fill="#555">5. Process exits after completion</text>
+  <text x="500" y="830" font-size="8" font-weight="bold" fill="#333">Key: "{flow_id}"</text>
+  <text x="500" y="845" font-size="7" fill="#888">Managed by Go cron.AddFunc(flow.Schedule, ExecuteJob)</text>
+
+  <!-- Health Monitor Process -->
+  <rect x="940" y="640" width="420" height="210" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="1150" y="662" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">Health Monitor Process (persistent)</text>
+  <text x="950" y="682" font-size="8" font-family="Consolas, monospace" fill="#555">env -i /venv-42/bin/python3 /venv-42/src/infoblox_driver.py \</text>
+  <text x="962" y="695" font-size="8" font-family="Consolas, monospace" fill="#555">--flow-id 42 \</text>
+  <text x="962" y="708" font-size="8" font-family="Consolas, monospace" fill="#2E7D32">--health-monitor true</text>
+  <text x="950" y="733" font-size="8" fill="#555">Execution flow:</text>
+  <text x="960" y="748" font-size="8" fill="#555">1. main() → schedule_health_monitor(args)</text>
+  <text x="960" y="763" font-size="8" fill="#555">2. Infinite loop: sleep(300) → check health</text>
+  <text x="960" y="778" font-size="8" fill="#555">3. plugin.get_health_status(context)</text>
+  <text x="960" y="793" font-size="8" fill="#555">4. Write to metrics JSON file</text>
+  <text x="960" y="808" font-size="8" fill="#555">5. Never exits — runs background continuously</text>
+  <text x="950" y="830" font-size="8" font-weight="bold" fill="#333">Only for scheduled flows</text>
+  <text x="950" y="845" font-size="7" fill="#888">Event flows have health checker in the consumer thread</text>
+
+  <!-- ===== Process Lifecycle ===== -->
+  <rect x="20" y="882" width="1360" height="145" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <rect x="20" y="882" width="1360" height="28" rx="8 8 0 0" fill="#555"/>
+  <text x="700" y="901" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Process Lifecycle Management (Go Manager)</text>
+
+  <rect x="40" y="925" width="180" height="45" rx="5" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="130" y="945" text-anchor="middle" font-size="9" font-weight="bold" fill="#1565C0">FLOW CREATE</text>
+  <text x="130" y="960" text-anchor="middle" font-size="7" fill="#555">ProcessFlow(execScript=true)</text>
+  <line x1="222" y1="947" x2="248" y2="947" stroke="#555" stroke-width="1.5" marker-end="url(#e)"/>
+
+  <rect x="250" y="925" width="180" height="45" rx="5" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="340" y="945" text-anchor="middle" font-size="9" font-weight="bold" fill="#2E7D32">RUNNING</text>
+  <text x="340" y="960" text-anchor="middle" font-size="7" fill="#555">handlers[key] = *Handler</text>
+  <line x1="432" y1="947" x2="458" y2="947" stroke="#555" stroke-width="1.5" marker-end="url(#e)"/>
+
+  <rect x="460" y="925" width="200" height="45" rx="5" fill="#FFF8E1" stroke="#FF6F00"/>
+  <text x="560" y="945" text-anchor="middle" font-size="9" font-weight="bold" fill="#FF6F00">FLOW UPDATE</text>
+  <text x="560" y="960" text-anchor="middle" font-size="7" fill="#555">Terminate old → ProcessFlow new</text>
+  <line x1="662" y1="947" x2="688" y2="947" stroke="#555" stroke-width="1.5" marker-end="url(#e)"/>
+
+  <rect x="690" y="925" width="200" height="45" rx="5" fill="#FFEBEE" stroke="#C62828"/>
+  <text x="790" y="945" text-anchor="middle" font-size="9" font-weight="bold" fill="#C62828">FLOW DELETE</text>
+  <text x="790" y="960" text-anchor="middle" font-size="7" fill="#555">Terminate() → SIGTERM → rm venv</text>
+  <line x1="892" y1="947" x2="918" y2="947" stroke="#555" stroke-width="1.5" marker-end="url(#e)"/>
+
+  <rect x="920" y="925" width="200" height="45" rx="5" fill="#FCE4EC" stroke="#AD1457"/>
+  <text x="1020" y="945" text-anchor="middle" font-size="9" font-weight="bold" fill="#AD1457">Terminate()</text>
+  <text x="1020" y="960" text-anchor="middle" font-size="7" fill="#555">cancel() → SIGTERM → kill PID</text>
+  <line x1="1122" y1="947" x2="1148" y2="947" stroke="#555" stroke-width="1.5" marker-end="url(#e)"/>
+
+  <rect x="1150" y="925" width="210" height="45" rx="5" fill="#ECEFF1" stroke="#555"/>
+  <text x="1255" y="945" text-anchor="middle" font-size="9" font-weight="bold" fill="#555">Cleanup</text>
+  <text x="1255" y="960" text-anchor="middle" font-size="7" fill="#555">RemoveHandler + delete venv dir</text>
+
+  <text x="40" y="994" font-size="8" fill="#555">Manager.runningHandlers map[string]*Handler — keys: "{flow_id}_{data_type}" for events, "{flow_id}" for scheduled</text>
+  <text x="40" y="1008" font-size="8" fill="#555">Manager.virtualEnvs map[int]bool — tracks unique venvs per flow_id (one venv shared across all data types of flow)</text>
+  <text x="40" y="1022" font-size="8" fill="#888">On UPDATE: all processes for the flow are terminated and recreated with new config. On DELETE: all processes killed, venv removed.</text>
+
+  <!-- ===== Health + Metrics ===== -->
+  <rect x="20" y="1042" width="1360" height="140" rx="8" fill="white" stroke="#2E7D32" stroke-width="1" filter="url(#s)"/>
+  <rect x="20" y="1042" width="1360" height="28" rx="8 8 0 0" fill="#2E7D32"/>
+  <text x="700" y="1061" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Health &amp; Metrics Output (metrics.py / health_checker.py)</text>
+
+  <text x="40" y="1090" font-size="9" font-weight="bold" fill="#333">Metrics JSON Path:</text>
+  <text x="200" y="1090" font-size="8" font-family="Consolas, monospace" fill="#555">/var/cache/cdc_metrics/soar_light/flows/{flow_id}_{data_type}.json</text>
+  <text x="40" y="1108" font-size="9" font-weight="bold" fill="#333">Event Flow Health:</text>
+  <text x="200" y="1108" font-size="8" fill="#555">health_checker thread in first alphabetical data type process → checks every 30s → updates metrics for ALL data types in flow</text>
+  <text x="40" y="1126" font-size="9" font-weight="bold" fill="#333">Scheduled Flow Health:</text>
+  <text x="200" y="1126" font-size="8" fill="#555">Separate persistent process (--health-monitor true) → checks every 300s → writes {flow_id}_SCHEDULED.json</text>
+  <text x="40" y="1144" font-size="9" font-weight="bold" fill="#333">Metrics Fields:</text>
+  <text x="200" y="1144" font-size="8" font-family="Consolas, monospace" fill="#555">{topic, event_count:{pending,processed}, event_timestamp:{received,processed}, error_count:{script_exec_error}, health:{status,timestamp,error}}</text>
+  <text x="40" y="1162" font-size="9" font-weight="bold" fill="#333">HTTP Probes:</text>
+  <text x="200" y="1162" font-size="8" fill="#555">/health on :8081 (liveness — aggregates all flows), /ready on :8081 (readiness check)</text>
+  <text x="40" y="1180" font-size="7" fill="#888">Test event support: periodically publishes a test event to verify end-to-end pipeline works → metrics.test_event.status</text>
+</svg>

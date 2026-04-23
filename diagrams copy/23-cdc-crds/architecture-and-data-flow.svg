@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 550" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1000" height="550" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1000" height="50" fill="#0D47A1"/>
+  <text x="500" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.crds — Kubernetes Custom Resource Definitions</text>
+
+  <!-- CRD Definition -->
+  <rect x="20" y="65" width="450" height="310" rx="8" fill="#E3F2FD" stroke="#0D47A1" stroke-width="2" filter="url(#s)"/>
+  <text x="245" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#0D47A1">CloudDataSource CRD</text>
+  <text x="40" y="115" font-size="11" font-weight="bold" fill="#333">apiVersion: flow.cdc.infoblox.com/v1</text>
+  <text x="40" y="135" font-size="11" font-weight="bold" fill="#333">kind: CloudDataSource</text>
+  <rect x="40" y="150" width="410" height="210" rx="5" fill="white" stroke="#0D47A1"/>
+  <text x="55" y="172" font-size="10" font-weight="bold" fill="#333">spec:</text>
+  <text x="70" y="192" font-size="9" fill="#555">id: string — unique data source identifier</text>
+  <text x="70" y="208" font-size="9" fill="#555">title: string — human-readable name</text>
+  <text x="70" y="224" font-size="9" fill="#555">source_type: string — data source type (kafka, file)</text>
+  <text x="70" y="244" font-size="9" font-weight="bold" fill="#333">sources[]:</text>
+  <text x="85" y="260" font-size="9" fill="#555">kind: "kafka" — source transport type</text>
+  <text x="85" y="276" font-size="9" fill="#555">topics: [] — Kafka topic names to consume</text>
+  <text x="85" y="292" font-size="9" fill="#555">brokers: [] — Kafka broker addresses</text>
+  <text x="85" y="308" font-size="9" fill="#555">consumer_group: string — consumer group ID</text>
+  <text x="85" y="328" font-size="9" fill="#555">auth: {} — authentication configuration</text>
+  <text x="55" y="348" font-size="10" font-weight="bold" fill="#333">status:</text>
+  <text x="70" y="364" font-size="9" fill="#555">phase: Ready | Pending | Error</text>
+
+  <!-- Operator -->
+  <rect x="530" y="65" width="450" height="175" rx="8" fill="#FFF8E1" stroke="#FF6F00" stroke-width="2" filter="url(#s)"/>
+  <text x="755" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF6F00">CRD Controller (Operator)</text>
+  <rect x="550" y="105" width="200" height="35" rx="4" fill="white" stroke="#FF6F00"/>
+  <text x="650" y="128" text-anchor="middle" font-size="10" fill="#555">controller-runtime</text>
+  <rect x="760" y="105" width="200" height="35" rx="4" fill="white" stroke="#FF6F00"/>
+  <text x="860" y="128" text-anchor="middle" font-size="10" fill="#555">Reconciler Loop</text>
+  <text x="550" y="165" font-size="9" fill="#555">• Watches CloudDataSource resources</text>
+  <text x="550" y="182" font-size="9" fill="#555">• Reconciles desired state → actual state</text>
+  <text x="550" y="199" font-size="9" fill="#555">• Creates/updates Kafka consumer configs</text>
+  <text x="550" y="216" font-size="9" fill="#555">• Updates status.phase on state changes</text>
+
+  <line x1="472" y1="180" x2="528" y2="152" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="500" y="158" text-anchor="middle" font-size="8" fill="#555">watch</text>
+
+  <!-- Flow -->
+  <rect x="530" y="260" width="450" height="115" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#s)"/>
+  <text x="755" y="285" text-anchor="middle" font-size="14" font-weight="bold" fill="#2E7D32">Integration with CDC Components</text>
+  <text x="550" y="310" font-size="9" fill="#555">• flow.api.service creates CloudDataSource CRs for cloud data flows</text>
+  <text x="550" y="328" font-size="9" fill="#555">• kafka.flow.processor reads CRs to configure consumer groups</text>
+  <text x="550" y="346" font-size="9" fill="#555">• data.flow Helm chart provides RBAC to manage CRDs</text>
+  <text x="550" y="364" font-size="9" fill="#555">• CRD enables declarative data source management via kubectl/API</text>
+
+  <!-- File Structure -->
+  <rect x="20" y="395" width="960" height="135" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="500" y="420" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Repository Structure &amp; Deployment</text>
+  <text x="40" y="445" font-size="10" font-weight="bold" fill="#333">Key Files:</text>
+  <text x="40" y="463" font-size="9" fill="#555">config/crd/ — CRD YAML definitions (CloudDataSource schema)</text>
+  <text x="40" y="479" font-size="9" fill="#555">api/v1/ — Go types (CloudDataSource, CloudDataSourceSpec, CloudDataSourceStatus)</text>
+  <text x="40" y="495" font-size="9" fill="#555">controllers/ — Reconciler implementation (controller-runtime framework)</text>
+  <text x="40" y="511" font-size="9" fill="#555">deploy/ — Helm chart for CRD installation + operator deployment</text>
+  <text x="500" y="445" font-size="10" font-weight="bold" fill="#333">Dependencies:</text>
+  <text x="500" y="463" font-size="9" fill="#555">k8s.io/apimachinery — CRD schema generation</text>
+  <text x="500" y="479" font-size="9" fill="#555">sigs.k8s.io/controller-runtime — Operator framework</text>
+  <text x="500" y="495" font-size="9" fill="#555">Kafka (MSK) — Target system for data sources</text>
+  <text x="500" y="511" font-size="9" fill="#555">Kubernetes API server — CRD registration</text>
+</svg>

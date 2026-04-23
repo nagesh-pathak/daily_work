@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1100" height="700" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1100" height="50" fill="#4E342E"/>
+  <text x="550" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.infraservice — On-Prem Config Management for Flume</text>
+
+  <!-- API Layer -->
+  <rect x="20" y="70" width="530" height="270" rx="8" fill="#EFEBE9" stroke="#4E342E" stroke-width="2" filter="url(#s)"/>
+  <text x="285" y="95" text-anchor="middle" font-size="14" font-weight="bold" fill="#4E342E">gRPC/REST APIs (Gateway: 8080, gRPC: 9090)</text>
+
+  <rect x="40" y="110" width="240" height="100" rx="5" fill="white" stroke="#4E342E"/>
+  <text x="160" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#4E342E">Config CRUD APIs</text>
+  <text x="55" y="150" font-size="9" fill="#555">POST /infra/v1/config — Create config</text>
+  <text x="55" y="166" font-size="9" fill="#555">GET /infra/v1/config/{id} — Read</text>
+  <text x="55" y="182" font-size="9" fill="#555">PUT /infra/v1/config/{id} — Update</text>
+  <text x="55" y="198" font-size="9" fill="#555">DELETE /infra/v1/config/{id} — Delete</text>
+
+  <rect x="300" y="110" width="230" height="100" rx="5" fill="white" stroke="#4E342E"/>
+  <text x="415" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#4E342E">Template Rendering</text>
+  <text x="315" y="150" font-size="9" fill="#555">Go templates for Flume configs</text>
+  <text x="315" y="166" font-size="9" fill="#555">Renders: flume.conf, inputs/outputs</text>
+  <text x="315" y="182" font-size="9" fill="#555">Variables from flow metadata</text>
+  <text x="315" y="198" font-size="9" fill="#555">Versioned configs in PostgreSQL</text>
+
+  <rect x="40" y="225" width="490" height="95" rx="5" fill="white" stroke="#2E7D32"/>
+  <text x="285" y="245" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">Config Versioning &amp; Publishing</text>
+  <text x="55" y="265" font-size="9" fill="#555">• Auto-increment version per ophid/container</text>
+  <text x="55" y="281" font-size="9" fill="#555">• Publishes to Dapr PubSub topic: cm-cdc-infra</text>
+  <text x="55" y="297" font-size="9" fill="#555">• Config Manager consumes and delivers to on-prem hosts</text>
+  <text x="55" y="313" font-size="9" fill="#555">• PubSub message: {ophid, version, config_type, container_name}</text>
+
+  <!-- Database -->
+  <rect x="575" y="70" width="505" height="270" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#s)"/>
+  <text x="828" y="95" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">PostgreSQL Storage</text>
+
+  <rect x="595" y="115" width="465" height="90" rx="5" fill="white" stroke="#E65100"/>
+  <text x="828" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">infra_config table</text>
+  <text x="610" y="155" font-size="9" fill="#555">id | ophid | container_name | version (auto-inc)</text>
+  <text x="610" y="171" font-size="9" fill="#555">config_data (JSONB) | config_type | status</text>
+  <text x="610" y="187" font-size="9" fill="#555">created_at | updated_at | UNIQUE(ophid, version, container)</text>
+
+  <rect x="595" y="220" width="465" height="100" rx="5" fill="white" stroke="#E65100"/>
+  <text x="828" y="240" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Stored Config Types</text>
+  <text x="610" y="260" font-size="9" fill="#555">• flume_config — Complete Flume agent configuration</text>
+  <text x="610" y="276" font-size="9" fill="#555">• source_config — DNS/RPZ/IPMeta source params</text>
+  <text x="610" y="292" font-size="9" fill="#555">• sink_config — Output destination parameters</text>
+  <text x="610" y="308" font-size="9" fill="#555">• channel_config — Memory channel capacities</text>
+
+  <!-- Data Flow -->
+  <rect x="20" y="360" width="1060" height="130" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#s)"/>
+  <text x="550" y="385" text-anchor="middle" font-size="14" font-weight="bold" fill="#2E7D32">Config Delivery Flow</text>
+
+  <rect x="40" y="400" width="160" height="40" rx="5" fill="white" stroke="#4E342E"/>
+  <text x="120" y="425" text-anchor="middle" font-size="10" fill="#555">1. Config Created</text>
+  <line x1="202" y1="420" x2="228" y2="420" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="230" y="400" width="160" height="40" rx="5" fill="white" stroke="#4E342E"/>
+  <text x="310" y="425" text-anchor="middle" font-size="10" fill="#555">2. Stored + Versioned</text>
+  <line x1="392" y1="420" x2="418" y2="420" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="420" y="400" width="190" height="40" rx="5" fill="white" stroke="#2E7D32"/>
+  <text x="515" y="425" text-anchor="middle" font-size="10" fill="#555">3. Publish cm-cdc-infra</text>
+  <line x1="612" y1="420" x2="638" y2="420" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="640" y="400" width="180" height="40" rx="5" fill="white" stroke="#1565C0"/>
+  <text x="730" y="425" text-anchor="middle" font-size="10" fill="#555">4. Config Mgr Consumes</text>
+  <line x1="822" y1="420" x2="848" y2="420" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="850" y="400" width="210" height="40" rx="5" fill="white" stroke="#C62828"/>
+  <text x="955" y="425" text-anchor="middle" font-size="10" fill="#555">5. Delivered to On-Prem Host</text>
+
+  <text x="40" y="475" font-size="9" fill="#888">Flume config is rendered from templates → stored in PostgreSQL → published → Config Manager delivers → on-prem Flume reloads</text>
+
+  <!-- Dependencies -->
+  <rect x="20" y="510" width="1060" height="170" rx="6" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="550" y="535" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Dependencies &amp; Context</text>
+  <text x="40" y="560" font-size="10" fill="#555">• PostgreSQL — Config storage with GORM ORM and versioning</text>
+  <text x="40" y="580" font-size="10" fill="#555">• Dapr PubSub — Publishes to cm-cdc-infra topic</text>
+  <text x="40" y="600" font-size="10" fill="#555">• Config Manager (atlas.config.manager) — Consumes infra configs, delivers to hosts</text>
+  <text x="40" y="620" font-size="10" fill="#555">• Go templates — Renders Flume configurations from parameterized templates</text>
+  <text x="40" y="640" font-size="10" fill="#555">• CDC API — Calls infraservice to manage Flume configs when flows change</text>
+  <text x="550" y="560" font-size="10" fill="#555">• Atlas App Toolkit (GORM, validation, request IDs)</text>
+  <text x="550" y="580" font-size="10" fill="#555">• gRPC-Gateway (REST + gRPC dual serving)</text>
+  <text x="550" y="600" font-size="10" fill="#555">• Ports: REST 8080, gRPC 9090, Health 8086</text>
+  <text x="40" y="664" font-size="9" fill="#888">Manages the complete lifecycle of Flume configurations for on-prem CDC appliances</text>
+</svg>

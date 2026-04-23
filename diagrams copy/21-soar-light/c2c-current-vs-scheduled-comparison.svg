@@ -1,0 +1,257 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1050">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+    <marker id="arr-g" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#27ae60"/>
+    </marker>
+    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2980b9"/>
+    </marker>
+    <filter id="shd">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="hdr-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1B3A5C"/>
+      <stop offset="100%" style="stop-color:#2E75B6"/>
+    </linearGradient>
+    <linearGradient id="hdr-green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1B5E20"/>
+      <stop offset="100%" style="stop-color:#43A047"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1050" fill="#f5f7fa" rx="12"/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  DOCUMENT TITLE                                        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <text x="700" y="38" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="bold" fill="#1B3A5C">SOAR-Light C2C: Current Event-Driven vs Proposed Scheduled Flow</text>
+  <text x="700" y="60" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#666">How removing the grpc-in pod saves 50% of Kubernetes resources for scheduled flows</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  LEFT SIDE: CURRENT EVENT-DRIVEN (SOURCE_BLOXONE)      -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="25" y="80" width="660" height="930" fill="#fff" rx="10" stroke="#D0D0D0" stroke-width="1.5" filter="url(#shd)"/>
+
+  <!-- Header -->
+  <rect x="25" y="80" width="660" height="48" rx="10" fill="url(#hdr-blue)"/>
+  <rect x="25" y="104" width="660" height="24" fill="url(#hdr-blue)"/>
+  <text x="355" y="110" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="bold" fill="#fff">CURRENT: Event-Driven C2C Flow (SOURCE_BLOXONE)</text>
+
+  <!-- Step 1: CDC API -->
+  <rect x="50" y="145" width="610" height="60" fill="#E3F2FD" rx="8" stroke="#90CAF9" stroke-width="1"/>
+  <text x="70" y="168" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#1565C0">1  Customer creates flow via CDC API</text>
+  <text x="70" y="190" font-family="Consolas, monospace" font-size="11" fill="#333">source_type: SOURCE_BLOXONE    source_data_types: ["DNS"]    destination: PYTHON_SCRIPT</text>
+
+  <!-- Arrow -->
+  <line x1="355" y1="205" x2="355" y2="225" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 2: Flow API Service -->
+  <rect x="50" y="228" width="610" height="120" fill="#FFF8E1" rx="8" stroke="#FFD54F" stroke-width="1"/>
+  <text x="70" y="252" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#F57F17">2  cdc.flow.api.service processes FlowEvent</text>
+
+  <text x="80" y="275" font-family="Consolas, monospace" font-size="11" fill="#333">validateC2CService()  → SOURCE_BLOXONE allowed ✓</text>
+  <text x="80" y="293" font-family="Consolas, monospace" font-size="11" fill="#333">getSrcSvcConf()       → returns NewGrpcInSvcCli(config)  (not nil)</text>
+  <text x="80" y="311" font-family="Consolas, monospace" font-size="11" fill="#333">NewCDCFlowHandler()   → { InSvc: grpcInSvc, OutSvc: soarLightSvc }</text>
+  <text x="80" y="329" font-family="Consolas, monospace" font-size="11" fill="#333">CreateFlow()          → creates BOTH InSvc + OutSvc resources</text>
+
+  <!-- Arrow -->
+  <line x1="355" y1="348" x2="355" y2="368" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 3: Kubernetes resources -->
+  <text x="70" y="388" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#1B3A5C">3  Kubernetes Resources Created (2 pods, 2 ConfigMaps, 2 StatefulSets)</text>
+
+  <!-- Pod 1: grpc-in -->
+  <rect x="50" y="400" width="295" height="200" fill="#FFEBEE" rx="8" stroke="#EF5350" stroke-width="1.5"/>
+  <rect x="50" y="400" width="295" height="30" rx="8" fill="#EF5350"/>
+  <rect x="50" y="417" width="295" height="13" fill="#EF5350"/>
+  <text x="197" y="422" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#fff">Pod 1: grpc-in-service</text>
+
+  <rect x="65" y="438" width="120" height="70" fill="#fff" rx="5" stroke="#EF9A9A"/>
+  <text x="125" y="458" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#C62828">ConfigMap</text>
+  <text x="125" y="475" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">FLOW_JSON</text>
+  <text x="125" y="490" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">KAFKA_BROKERS</text>
+  <text x="125" y="502" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">WORKERS_COUNT</text>
+
+  <rect x="200" y="438" width="130" height="70" fill="#fff" rx="5" stroke="#EF9A9A"/>
+  <text x="265" y="458" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#C62828">StatefulSet</text>
+  <text x="265" y="475" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">Reads Kafka events</text>
+  <text x="265" y="490" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">Sends via gRPC</text>
+  <text x="265" y="502" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">~100Mi, ~30m CPU</text>
+
+  <text x="197" y="530" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#C62828">Consumes Kafka → forwards events</text>
+
+  <!-- Arrow between pods -->
+  <line x1="345" y1="495" x2="370" y2="495" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="358" y="488" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">gRPC</text>
+
+  <!-- Pod 2: soar-light -->
+  <rect x="375" y="400" width="280" height="200" fill="#E8F5E9" rx="8" stroke="#66BB6A" stroke-width="1.5"/>
+  <rect x="375" y="400" width="280" height="30" rx="8" fill="#43A047"/>
+  <rect x="375" y="417" width="280" height="13" fill="#43A047"/>
+  <text x="515" y="422" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#fff">Pod 2: soar-light-service</text>
+
+  <rect x="390" y="438" width="115" height="70" fill="#fff" rx="5" stroke="#A5D6A7"/>
+  <text x="447" y="458" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#2E7D32">ConfigMap</text>
+  <text x="447" y="475" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">FLOW_JSON</text>
+  <text x="447" y="490" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">KAFKA_CONSUMER</text>
+  <text x="447" y="502" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">_BROKERS</text>
+
+  <rect x="520" y="438" width="125" height="70" fill="#fff" rx="5" stroke="#A5D6A7"/>
+  <text x="582" y="458" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#2E7D32">StatefulSet</text>
+  <text x="582" y="475" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">Runs Python venv</text>
+  <text x="582" y="490" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">IEventHandler</text>
+  <text x="582" y="502" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">~100Mi, ~30m CPU</text>
+
+  <text x="515" y="530" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#2E7D32">process(event_data) per event</text>
+
+  <!-- Step 4: Execution flow -->
+  <line x1="355" y1="600" x2="355" y2="618" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="50" y="620" width="610" height="115" fill="#F3E5F5" rx="8" stroke="#CE93D8" stroke-width="1"/>
+  <text x="70" y="645" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#6A1B9A">4  Execution Flow (event-driven)</text>
+
+  <text x="80" y="668" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">BloxOne event → Kafka topic → grpc-in reads event → gRPC call → soar-light receives</text>
+  <text x="80" y="688" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">→ processEvent() → runDataFlow() → detects DataTypes=["DNS"] → IEventHandler path</text>
+  <text x="80" y="708" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">→ Python venv → infoblox_driver.py → IEventHandler.process(event_json)</text>
+  <text x="80" y="728" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">→ User Python script processes event data → sends to downstream API/SIEM</text>
+
+  <!-- Sync box -->
+  <rect x="50" y="750" width="610" height="65" fill="#E0F2F1" rx="8" stroke="#80CBC4" stroke-width="1"/>
+  <text x="70" y="773" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#00695C">5  syncCDCFlows() — Reconciliation</text>
+  <text x="80" y="798" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">Expects 2 ConfigMaps, 2 StatefulSets per flow. Reconciles both InSvc and OutSvc.</text>
+
+  <!-- Resource total -->
+  <rect x="50" y="835" width="610" height="55" fill="#FFCDD2" rx="8"/>
+  <text x="355" y="858" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="bold" fill="#B71C1C">Total per flow: 2 Pods  |  2 ConfigMaps  |  2 StatefulSets</text>
+  <text x="355" y="878" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#C62828">~200Mi memory  |  ~60m CPU  |  1 Kafka consumer connection</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  RIGHT SIDE: PROPOSED SCHEDULED (SOURCE_SCHEDULE)       -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="715" y="80" width="660" height="930" fill="#fff" rx="10" stroke="#D0D0D0" stroke-width="1.5" filter="url(#shd)"/>
+
+  <!-- Header -->
+  <rect x="715" y="80" width="660" height="48" rx="10" fill="url(#hdr-green)"/>
+  <rect x="715" y="104" width="660" height="24" fill="url(#hdr-green)"/>
+  <text x="1045" y="110" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="bold" fill="#fff">PROPOSED: Scheduled C2C Flow (SOURCE_SCHEDULE)</text>
+
+  <!-- Step 1: CDC API -->
+  <rect x="740" y="145" width="610" height="60" fill="#E8F5E9" rx="8" stroke="#A5D6A7" stroke-width="1"/>
+  <text x="760" y="168" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#2E7D32">1  Customer creates flow via CDC API</text>
+  <text x="760" y="190" font-family="Consolas, monospace" font-size="11" fill="#333">source_type: SOURCE_SCHEDULE   source_data_types: []   script_schedule: "*/5 * * * *"</text>
+
+  <!-- Arrow -->
+  <line x1="1045" y1="205" x2="1045" y2="225" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 2: Flow API Service -->
+  <rect x="740" y="228" width="610" height="145" fill="#FFF8E1" rx="8" stroke="#FFD54F" stroke-width="1"/>
+  <text x="760" y="252" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#F57F17">2  cdc.flow.api.service processes FlowEvent</text>
+
+  <text x="770" y="275" font-family="Consolas, monospace" font-size="11" fill="#333">validateC2CService()  → SOURCE_SCHEDULE now allowed ✓</text>
+  <text x="1230" y="275" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#E65100">Change 1</text>
+
+  <text x="770" y="293" font-family="Consolas, monospace" font-size="11" fill="#333">getSrcSvcConf()       → DataTypes==[] &amp;&amp; Schedule!="" → return nil</text>
+  <text x="1230" y="293" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#E65100">Change 2</text>
+
+  <text x="770" y="311" font-family="Consolas, monospace" font-size="11" fill="#333">NewCDCFlowHandler()   → { InSvc: nil, OutSvc: soarLightSvc }</text>
+  <text x="1230" y="311" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#E65100">Change 3</text>
+
+  <text x="770" y="329" font-family="Consolas, monospace" font-size="11" fill="#333">CreateFlow()          → InSvc==nil? skip. Only OutSvc created.</text>
+  <text x="1230" y="329" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#E65100">Change 4</text>
+
+  <!-- Highlight box -->
+  <rect x="770" y="340" width="560" height="25" fill="#FFF3E0" rx="4"/>
+  <text x="1050" y="358" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="bold" fill="#E65100">Key insight: grpc-in pod is completely skipped — no ConfigMap, no StatefulSet</text>
+
+  <!-- Arrow -->
+  <line x1="1045" y1="373" x2="1045" y2="393" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Step 3: Kubernetes resources -->
+  <text x="760" y="413" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#1B5E20">3  Kubernetes Resources Created (1 pod, 1 ConfigMap, 1 StatefulSet)</text>
+
+  <!-- No grpc-in pod -->
+  <rect x="740" y="425" width="295" height="175" fill="#ECEFF1" rx="8" stroke="#B0BEC5" stroke-width="1" stroke-dasharray="6,3"/>
+  <rect x="740" y="425" width="295" height="30" rx="8" fill="#B0BEC5"/>
+  <rect x="740" y="442" width="295" height="13" fill="#B0BEC5"/>
+  <text x="887" y="447" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#fff">grpc-in — NOT CREATED</text>
+
+  <text x="887" y="490" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#B0BEC5">✗</text>
+  <text x="887" y="520" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#78909C">No Kafka events to read</text>
+  <text x="887" y="540" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#78909C">InSvc = nil</text>
+  <text x="887" y="560" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#90A4AE">getSrcSvcConf() → nil</text>
+
+  <!-- soar-light pod only -->
+  <rect x="1060" y="425" width="290" height="175" fill="#E8F5E9" rx="8" stroke="#2E7D32" stroke-width="2"/>
+  <rect x="1060" y="425" width="290" height="30" rx="8" fill="#43A047"/>
+  <rect x="1060" y="442" width="290" height="13" fill="#43A047"/>
+  <text x="1205" y="447" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#fff">Only Pod: soar-light-service</text>
+
+  <rect x="1075" y="462" width="120" height="65" fill="#fff" rx="5" stroke="#A5D6A7"/>
+  <text x="1135" y="480" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#2E7D32">ConfigMap</text>
+  <text x="1135" y="496" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">FLOW_JSON (with</text>
+  <text x="1135" y="510" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">script_schedule)</text>
+  <text x="1135" y="522" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#2E7D32">"*/5 * * * *"</text>
+
+  <rect x="1210" y="462" width="130" height="65" fill="#fff" rx="5" stroke="#A5D6A7"/>
+  <text x="1275" y="480" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#2E7D32">StatefulSet</text>
+  <text x="1275" y="496" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">Runs Python venv</text>
+  <text x="1275" y="510" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">IScheduler</text>
+  <text x="1275" y="522" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#555">~100Mi, ~30m CPU</text>
+
+  <text x="1205" y="556" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#2E7D32">schedule(ctx) every 5 min</text>
+
+  <!-- Step 4: Execution flow -->
+  <line x1="1045" y1="600" x2="1045" y2="618" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="740" y="620" width="610" height="115" fill="#F3E5F5" rx="8" stroke="#CE93D8" stroke-width="1"/>
+  <text x="760" y="645" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#6A1B9A">4  Execution Flow (cron-scheduled)</text>
+
+  <text x="770" y="668" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">Pod starts → reads FLOW_JSON → svc.GetCron().Start()  (Change 7: starts ticker)</text>
+  <text x="770" y="688" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">→ processEvent() → runDataFlow() → detects DataTypes==[] &amp;&amp; Schedule!=""</text>
+  <text x="770" y="708" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">→ ProcessScheduledScript() → creates Python venv → robfig/cron registers job</text>
+  <text x="770" y="728" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">→ Every 5 min: cron ticker → infoblox_driver.py --script-schedule → IScheduler.schedule(ctx)</text>
+
+  <!-- Sync box -->
+  <rect x="740" y="750" width="610" height="65" fill="#E0F2F1" rx="8" stroke="#80CBC4" stroke-width="1"/>
+  <text x="760" y="773" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#00695C">5  syncCDCFlows() — Reconciliation (Changes 5-6)</text>
+  <text x="770" y="798" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#333">Expects 1 ConfigMap (not 2). Skips InSvc sync. Only reconciles OutSvc (soar-light).</text>
+
+  <!-- Resource total -->
+  <rect x="740" y="835" width="610" height="55" fill="#C8E6C9" rx="8"/>
+  <text x="1045" y="858" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1B5E20">Total per flow: 1 Pod  |  1 ConfigMap  |  1 StatefulSet</text>
+  <text x="1045" y="878" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#2E7D32">~100Mi memory  |  ~30m CPU  |  0 Kafka connections  ← 50% savings</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  BOTTOM: Change summary + Savings                       -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="25" y="915" width="1350" height="120" fill="#fff" rx="10" stroke="#D0D0D0" stroke-width="1" filter="url(#shd)"/>
+
+  <!-- Left: changes summary -->
+  <text x="50" y="940" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1B3A5C">Changes Required (7 total across 2 repos)</text>
+  <text x="50" y="960" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#555">cdc.flow.api.service (6 changes):  Unblock validation → nil InSvc → nil-safe CRUD → fix sync loop → fix CM count</text>
+  <text x="50" y="978" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#555">soar-light (1 change):  Add cron.Start() in cmd/cloud/main.go so robfig/cron ticker fires for scheduled jobs</text>
+  <text x="50" y="996" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#888">No changes needed: Python driver, CDC API contract, on-prem flows, existing event-driven C2C flows</text>
+
+  <!-- Right: savings box -->
+  <rect x="940" y="922" width="420" height="105" fill="#E8F5E9" rx="8" stroke="#43A047" stroke-width="1.5"/>
+  <text x="1150" y="947" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1B5E20">Per-Flow Resource Savings</text>
+
+  <text x="960" y="968" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#333">Pods saved:</text>
+  <text x="1100" y="968" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#2E7D32">1 (50%)</text>
+  <text x="1190" y="968" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#333">Memory saved:</text>
+  <text x="1320" y="968" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#2E7D32">~100Mi</text>
+
+  <text x="960" y="990" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#333">StatefulSets:</text>
+  <text x="1100" y="990" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#2E7D32">1 (50%)</text>
+  <text x="1190" y="990" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#333">CPU saved:</text>
+  <text x="1320" y="990" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#2E7D32">~30m</text>
+
+  <text x="960" y="1012" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#333">ConfigMaps:</text>
+  <text x="1100" y="1012" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#2E7D32">1 (50%)</text>
+  <text x="1190" y="1012" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#333">Kafka conns:</text>
+  <text x="1320" y="1012" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#2E7D32">1 (100%)</text>
+</svg>

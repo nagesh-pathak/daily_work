@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1200" height="750" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1200" height="50" fill="#283593"/>
+  <text x="600" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.kafka.flow.processor — Distributed Kafka Message Routing</text>
+
+  <rect x="20" y="60" width="1160" height="30" rx="4" fill="#E8EAF6" stroke="#283593"/>
+  <text x="600" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#283593">Cloud Only — Routes messages from DataSource topics to flow-specific output topics. Ecosystem filtering per flow.</text>
+
+  <!-- Input -->
+  <rect x="20" y="105" width="280" height="210" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#s)"/>
+  <text x="160" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">Kafka DataSource Topics</text>
+  <text x="40" y="155" font-size="9" fill="#555">TD_QUERY_RESP_LOG</text>
+  <text x="40" y="172" font-size="9" fill="#555">TD_THREAT_FEEDS_HITS_LOG</text>
+  <text x="40" y="189" font-size="9" fill="#555">DDI_QUERY_RESP_LOG</text>
+  <text x="40" y="206" font-size="9" fill="#555">DDI_DHCP_LEASE_LOG</text>
+  <text x="40" y="223" font-size="9" fill="#555">AUDIT_LOG</text>
+  <text x="40" y="240" font-size="9" fill="#555">SERVICE_LOG</text>
+  <text x="40" y="257" font-size="9" fill="#555">ATLAS_NOTIFICATIONS</text>
+  <text x="40" y="274" font-size="9" fill="#555">SOC_INSIGHTS / SOC_INSIGHTS_V2</text>
+  <text x="40" y="297" font-size="8" fill="#888">Consumer group per DataSource</text>
+
+  <!-- Processor -->
+  <rect x="330" y="105" width="480" height="210" rx="8" fill="#E8EAF6" stroke="#283593" stroke-width="2" filter="url(#s)"/>
+  <text x="570" y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#283593">Kafka Flow Processor Engine</text>
+
+  <rect x="350" y="145" width="200" height="55" rx="5" fill="white" stroke="#283593"/>
+  <text x="450" y="165" text-anchor="middle" font-size="10" font-weight="bold" fill="#283593">Consumer Groups</text>
+  <text x="360" y="183" font-size="8" fill="#555">1 group per DataSource type</text>
+  <text x="360" y="194" font-size="8" fill="#555">Parallel partition consumption</text>
+
+  <rect x="570" y="145" width="220" height="55" rx="5" fill="white" stroke="#283593"/>
+  <text x="680" y="165" text-anchor="middle" font-size="10" font-weight="bold" fill="#283593">Worker Pool</text>
+  <text x="580" y="183" font-size="8" fill="#555">Concurrent message processing</text>
+  <text x="580" y="194" font-size="8" fill="#555">Per-partition workers</text>
+
+  <rect x="350" y="215" width="200" height="55" rx="5" fill="white" stroke="#6A1B9A"/>
+  <text x="450" y="235" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Ecosystem Filtering</text>
+  <text x="360" y="253" font-size="8" fill="#555">Account ID filter per flow</text>
+  <text x="360" y="264" font-size="8" fill="#555">Data type matching</text>
+
+  <rect x="570" y="215" width="220" height="55" rx="5" fill="white" stroke="#2E7D32"/>
+  <text x="680" y="235" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">Topic Router</text>
+  <text x="580" y="253" font-size="8" fill="#555">Routes to flow-specific topics</text>
+  <text x="580" y="264" font-size="8" fill="#555">Creates/Deletes topics dynamically</text>
+
+  <rect x="350" y="280" width="440" height="22" rx="3" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="570" y="296" text-anchor="middle" font-size="9" fill="#555">Fetches flow metadata from CDC DataSource API &amp; CDC Flow API for routing decisions</text>
+
+  <!-- Output Topics -->
+  <rect x="840" y="105" width="340" height="210" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#s)"/>
+  <text x="1010" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#2E7D32">Flow-Specific Output Topics</text>
+  <text x="860" y="155" font-size="10" font-weight="bold" fill="#333">Topic Pattern:</text>
+  <text x="860" y="175" font-size="9" fill="#1565C0">{accountId}_flowID{flowId}_{dataSourceName}</text>
+  <text x="860" y="198" font-size="9" fill="#555">Example:</text>
+  <text x="860" y="215" font-size="8" fill="#555">acct123_flowID456_TD_QUERY_RESP_LOG</text>
+  <text x="860" y="232" font-size="8" fill="#555">acct123_flowID456_DDI_DHCP_LEASE_LOG</text>
+  <text x="860" y="255" font-size="9" fill="#888">Consumed by downstream:</text>
+  <text x="860" y="272" font-size="8" fill="#555">cdc.grpc-in, cdc.http-out, cdc.syslog-out</text>
+  <text x="860" y="289" font-size="8" fill="#555">(per-flow consumer groups)</text>
+
+  <!-- Arrows -->
+  <line x1="302" y1="210" x2="328" y2="210" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="812" y1="210" x2="838" y2="210" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- Topic Management -->
+  <rect x="20" y="340" width="1160" height="160" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#s)"/>
+  <text x="600" y="365" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">Topic Management &amp; Flow Lifecycle</text>
+
+  <rect x="40" y="385" width="350" height="95" rx="5" fill="white" stroke="#E65100"/>
+  <text x="215" y="405" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Manager Component</text>
+  <text x="55" y="425" font-size="9" fill="#555">• Creates topics when new flow activated</text>
+  <text x="55" y="441" font-size="9" fill="#555">• Deletes topics when flow deactivated</text>
+  <text x="55" y="457" font-size="9" fill="#555">• Rebalances consumers on topic changes</text>
+  <text x="55" y="473" font-size="9" fill="#555">• Monitors topic lag and health</text>
+
+  <rect x="420" y="385" width="370" height="95" rx="5" fill="white" stroke="#E65100"/>
+  <text x="605" y="405" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Flow Event Processing</text>
+  <text x="435" y="425" font-size="9" fill="#555">FLOW_CREATE → Create output topics + start consumers</text>
+  <text x="435" y="441" font-size="9" fill="#555">FLOW_UPDATE → Reconfigure routing rules</text>
+  <text x="435" y="457" font-size="9" fill="#555">FLOW_DELETE → Stop consumers + delete topics</text>
+  <text x="435" y="473" font-size="9" fill="#555">Events from Dapr PubSub: cdc-flow-{env} topic</text>
+
+  <rect x="820" y="385" width="340" height="95" rx="5" fill="white" stroke="#E65100"/>
+  <text x="990" y="405" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Routing Rules</text>
+  <text x="835" y="425" font-size="9" fill="#555">1. Match account_id from message</text>
+  <text x="835" y="441" font-size="9" fill="#555">2. Find active flows for account</text>
+  <text x="835" y="457" font-size="9" fill="#555">3. Check DataSource type subscription</text>
+  <text x="835" y="473" font-size="9" fill="#555">4. Produce to matching flow topics</text>
+
+  <!-- Dependencies -->
+  <rect x="20" y="520" width="1160" height="210" rx="6" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="600" y="545" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Dependencies &amp; External Services</text>
+  <text x="40" y="575" font-size="10" fill="#555">• CDC DataSource API — Fetches available data sources (type, topic, account mappings)</text>
+  <text x="40" y="595" font-size="10" fill="#555">• CDC Flow API — Fetches flow configuration (which DataSources subscribed, destinations, ETL filters)</text>
+  <text x="40" y="615" font-size="10" fill="#555">• Identity Service — Authentication/authorization for API calls</text>
+  <text x="40" y="635" font-size="10" fill="#555">• Kafka Cluster — Source/destination topics, consumer group coordination, admin operations</text>
+  <text x="40" y="655" font-size="10" fill="#555">• Dapr PubSub — Receives flow lifecycle events from cdc-flow-{env} topic</text>
+  <text x="600" y="575" font-size="10" fill="#555">• Prometheus — Metrics: message rate, consumer lag, routing latency</text>
+  <text x="600" y="595" font-size="10" fill="#555">• Key packages: cmd/, pkg/processor/, pkg/manager/</text>
+  <text x="600" y="615" font-size="10" fill="#555">• Key packages: pkg/consumer/, pkg/producer/, pkg/router/</text>
+  <text x="40" y="690" font-size="9" fill="#888">This is the cloud-mode equivalent of Flume's routing function — Flume routes on-prem, kafka.flow.processor routes in cloud via Kafka topics</text>
+  <text x="40" y="710" font-size="9" fill="#888">Scaling: Horizontal by adding more processor instances. Each DataSource consumer group rebalances automatically across instances.</text>
+</svg>

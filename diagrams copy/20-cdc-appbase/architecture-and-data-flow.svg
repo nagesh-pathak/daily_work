@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" font-family="Segoe UI, Arial, sans-serif">
+  <defs><filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter></defs>
+  <rect width="800" height="300" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="800" height="50" fill="#558B2F"/>
+  <text x="400" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.appbase — Base Docker Image for CDC Containers</text>
+
+  <rect x="20" y="70" width="760" height="90" rx="8" fill="#F1F8E9" stroke="#558B2F" stroke-width="2" filter="url(#s)"/>
+  <text x="400" y="95" text-anchor="middle" font-size="14" font-weight="bold" fill="#33691E">Alpine Linux Base Image</text>
+  <text x="40" y="120" font-size="10" fill="#555">• Minimal Alpine Linux distribution — small footprint for security and efficiency</text>
+  <text x="40" y="140" font-size="10" fill="#555">• Standard packages: bash, curl, ca-certificates, tzdata, supervisor</text>
+  <text x="40" y="155" font-size="9" fill="#888">Used as FROM in: cdc.grpc-in, cdc.grpc-out, cdc.http-out, cdc.syslog-out, cdc.agent, cdc.dns-in, cdc.rpz-in, cdc.wapi-in, soar-light</text>
+
+  <rect x="20" y="180" width="760" height="100" rx="6" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="400" y="205" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Included in Base Image</text>
+  <text x="40" y="228" font-size="10" fill="#555">• /infoblox/data/ directory structure (in/, out/, etc/, bin/, log/)</text>
+  <text x="40" y="248" font-size="10" fill="#555">• supervisord for process management | Non-root user: infoblox</text>
+  <text x="40" y="268" font-size="10" fill="#555">• Common entrypoint scripts and health check base | CA certificates for TLS</text>
+</svg>

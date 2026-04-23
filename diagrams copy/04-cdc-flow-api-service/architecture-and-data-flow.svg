@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 950" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <marker id="g" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#2E7D32"/></marker>
+    <marker id="r" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#C62828"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1300" height="950" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1300" height="50" fill="#0D47A1"/>
+  <text x="650" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.flow.api.service — Flow Lifecycle &amp; Configuration Management</text>
+
+  <!-- External Clients -->
+  <rect x="30" y="70" width="180" height="55" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5" filter="url(#s)"/>
+  <text x="120" y="93" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">CSP Portal / UI</text>
+  <text x="120" y="110" text-anchor="middle" font-size="9" fill="#555">Flow CRUD operations</text>
+
+  <rect x="230" y="70" width="180" height="55" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5" filter="url(#s)"/>
+  <text x="320" y="93" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">CDC API Service</text>
+  <text x="320" y="110" text-anchor="middle" font-size="9" fill="#555">gRPC: ReadFlow, ReadSource</text>
+
+  <rect x="430" y="70" width="180" height="55" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5" filter="url(#s)"/>
+  <text x="520" y="93" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">CDC Agent (on-prem)</text>
+  <text x="520" y="110" text-anchor="middle" font-size="9" fill="#555">Dapr subscriber</text>
+
+  <!-- Main Service Box -->
+  <rect x="30" y="145" width="850" height="440" rx="8" fill="#E8EAF6" stroke="#283593" stroke-width="2" filter="url(#s)"/>
+  <text x="455" y="172" text-anchor="middle" font-size="15" font-weight="bold" fill="#283593">cdc.flow.api.service (REST: 8080, gRPC: 9090)</text>
+
+  <!-- gRPC/REST APIs -->
+  <rect x="50" y="190" width="380" height="180" rx="5" fill="white" stroke="#283593" stroke-width="1"/>
+  <text x="240" y="210" text-anchor="middle" font-size="12" font-weight="bold" fill="#283593">API Layer (gRPC-Gateway + protobuf)</text>
+
+  <text x="65" y="232" font-size="10" font-weight="bold" fill="#1565C0">FlowApiV2</text>
+  <text x="160" y="232" font-size="9" fill="#555">Create | Read | Update | Delete | List flows</text>
+  <text x="65" y="250" font-size="10" font-weight="bold" fill="#1565C0">SourceApi</text>
+  <text x="160" y="250" font-size="9" fill="#555">Create | Read | Update | Delete sources</text>
+  <text x="65" y="268" font-size="10" font-weight="bold" fill="#1565C0">DestinationApi</text>
+  <text x="190" y="268" font-size="9" fill="#555">CRUD destinations (Splunk,Syslog,HTTP,...)</text>
+  <text x="65" y="286" font-size="10" font-weight="bold" fill="#1565C0">EtlFilterApi</text>
+  <text x="160" y="286" font-size="9" fill="#555">CRUD ETL filters per flow</text>
+  <text x="65" y="304" font-size="10" font-weight="bold" fill="#1565C0">HostApi</text>
+  <text x="130" y="304" font-size="9" fill="#555">Register/List/Delete CDC hosts</text>
+  <text x="65" y="322" font-size="10" font-weight="bold" fill="#1565C0">ServiceApi</text>
+  <text x="145" y="322" font-size="9" fill="#555">Container service management</text>
+  <text x="65" y="340" font-size="10" font-weight="bold" fill="#1565C0">ConfigApi</text>
+  <text x="145" y="340" font-size="9" fill="#555">Version configs per container</text>
+  <text x="65" y="358" font-size="10" font-weight="bold" fill="#1565C0">ApplicationApi</text>
+  <text x="165" y="358" font-size="9" fill="#555">SOAR/Reporting app lifecycle</text>
+
+  <!-- Business Logic -->
+  <rect x="450" y="190" width="410" height="180" rx="5" fill="white" stroke="#283593" stroke-width="1"/>
+  <text x="655" y="210" text-anchor="middle" font-size="12" font-weight="bold" fill="#283593">Business Logic &amp; Validation</text>
+
+  <text x="465" y="232" font-size="9" fill="#555">• Flow state machine: Draft → Active → Paused → Deleted</text>
+  <text x="465" y="250" font-size="9" fill="#555">• Source types: NIOS, BloxOne, Schedule, Ingress</text>
+  <text x="465" y="268" font-size="9" fill="#555">• Dest types: Splunk, SplunkCloud, Syslog, HTTP, App, Reporting</text>
+  <text x="465" y="286" font-size="9" fill="#555">• ETL filters: IP_NETWORK, FQDN, HOSTNAME, REGEX,</text>
+  <text x="480" y="300" font-size="9" fill="#555">THREAT_CLASS, OPHID, RECORD_TYPE, LOCAL_ZONES</text>
+  <text x="465" y="318" font-size="9" fill="#555">• HA state tracking (active/passive per ophid/container)</text>
+  <text x="465" y="336" font-size="9" fill="#555">• Credential management via Vault integration</text>
+  <text x="465" y="354" font-size="9" fill="#555">• Feature flag checks (atlas.feature.flag service)</text>
+
+  <!-- Dapr Publishing -->
+  <rect x="50" y="390" width="380" height="90" rx="5" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="240" y="410" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">Dapr PubSub Publisher</text>
+  <text x="65" y="432" font-size="9" fill="#555">Topic: cdc-flow-{env} (Kafka-backed)</text>
+  <text x="65" y="448" font-size="9" fill="#555">Events: FLOW_CREATE | FLOW_UPDATE | FLOW_DELETE</text>
+  <text x="65" y="464" font-size="9" fill="#555">Payload: {flow_id, ophid, account_id, action, container_type}</text>
+
+  <!-- K8s Integration -->
+  <rect x="450" y="390" width="410" height="90" rx="5" fill="#FFF3E0" stroke="#E65100" stroke-width="1"/>
+  <text x="655" y="410" text-anchor="middle" font-size="12" font-weight="bold" fill="#E65100">Kubernetes Integration</text>
+  <text x="465" y="432" font-size="9" fill="#555">• StatefulSet creation per flow (via data.flow Helm RBAC)</text>
+  <text x="465" y="448" font-size="9" fill="#555">• ConfigMap management for container configs</text>
+  <text x="465" y="464" font-size="9" fill="#555">• Service account for K8s API (cdc-data-flow-sa)</text>
+
+  <!-- Kafka Integration -->
+  <rect x="50" y="500" width="810" height="70" rx="5" fill="#FBE9E7" stroke="#BF360C" stroke-width="1"/>
+  <text x="455" y="520" text-anchor="middle" font-size="12" font-weight="bold" fill="#BF360C">Kafka Topic Management (Sarama Client)</text>
+  <text x="65" y="540" font-size="9" fill="#555">Create/Delete flow-specific topics: {accountId}_flowID{flowId}_{dataSourceName} • Cluster admin: CreateTopics, DeleteTopics, DescribeTopics</text>
+  <text x="65" y="556" font-size="9" fill="#555">Brokers from environment config • Partitions &amp; replication factor configurable per topic</text>
+
+  <!-- PostgreSQL Database -->
+  <rect x="910" y="145" width="370" height="440" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#s)"/>
+  <text x="1095" y="172" text-anchor="middle" font-size="15" font-weight="bold" fill="#E65100">PostgreSQL Database</text>
+
+  <rect x="925" y="190" width="340" height="70" rx="4" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="1095" y="208" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">flows</text>
+  <text x="935" y="225" font-size="8" fill="#555">id | account_id | name | description | source_type</text>
+  <text x="935" y="238" font-size="8" fill="#555">state (draft/active/paused/deleted) | created_at | updated_at</text>
+  <text x="935" y="251" font-size="8" fill="#555">data_types[] | schedule | tags | metadata (JSONB)</text>
+
+  <rect x="925" y="270" width="340" height="55" rx="4" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="1095" y="288" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">sources</text>
+  <text x="935" y="305" font-size="8" fill="#555">id | flow_id | source_type (NIOS|BloxOne|Schedule|Ingress)</text>
+  <text x="935" y="318" font-size="8" fill="#555">config (JSONB) | account_id | ophid</text>
+
+  <rect x="925" y="335" width="340" height="55" rx="4" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="1095" y="353" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">destinations</text>
+  <text x="935" y="370" font-size="8" fill="#555">id | flow_id | dest_type (Splunk|Syslog|HTTP|App|Reporting)</text>
+  <text x="935" y="383" font-size="8" fill="#555">config (JSONB) | credentials_id | account_id</text>
+
+  <rect x="925" y="400" width="165" height="55" rx="4" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="1008" y="418" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">cdc_hosts</text>
+  <text x="935" y="435" font-size="8" fill="#555">id | ophid | host_type</text>
+  <text x="935" y="448" font-size="8" fill="#555">account_id | ha_state</text>
+
+  <rect x="1100" y="400" width="165" height="55" rx="4" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="1183" y="418" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">cdc_services</text>
+  <text x="1110" y="435" font-size="8" fill="#555">id | service_name</text>
+  <text x="1110" y="448" font-size="8" fill="#555">container_name | ophid</text>
+
+  <rect x="925" y="465" width="165" height="55" rx="4" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="1008" y="483" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">etls</text>
+  <text x="935" y="500" font-size="8" fill="#555">id | flow_id | filter_type</text>
+  <text x="935" y="513" font-size="8" fill="#555">filter_data (JSONB)</text>
+
+  <rect x="1100" y="465" width="165" height="55" rx="4" fill="white" stroke="#E65100" stroke-width="1"/>
+  <text x="1183" y="483" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">flow_destinations</text>
+  <text x="1110" y="500" font-size="8" fill="#555">flow_id | destination_id</text>
+  <text x="1110" y="513" font-size="8" fill="#555">container_name</text>
+
+  <!-- Arrows -->
+  <line x1="120" y1="127" x2="120" y2="143" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="320" y1="127" x2="320" y2="143" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="520" y1="127" x2="520" y2="143" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="882" y1="300" x2="923" y2="300" stroke="#E65100" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- Flow Lifecycle -->
+  <rect x="30" y="610" width="1250" height="130" rx="8" fill="#FCE4EC" stroke="#C62828" stroke-width="2" filter="url(#s)"/>
+  <text x="655" y="635" text-anchor="middle" font-size="14" font-weight="bold" fill="#C62828">Flow Lifecycle &amp; Data Pipeline</text>
+
+  <!-- Flow steps -->
+  <rect x="50" y="650" width="120" height="40" rx="5" fill="#FFCDD2" stroke="#C62828"/>
+  <text x="110" y="675" text-anchor="middle" font-size="10" font-weight="bold" fill="#C62828">1. Create Flow</text>
+  <line x1="172" y1="670" x2="198" y2="670" stroke="#C62828" stroke-width="1.5" marker-end="url(#r)"/>
+
+  <rect x="200" y="650" width="120" height="40" rx="5" fill="#FFCDD2" stroke="#C62828"/>
+  <text x="260" y="675" text-anchor="middle" font-size="10" font-weight="bold" fill="#C62828">2. Validate</text>
+  <line x1="322" y1="670" x2="348" y2="670" stroke="#C62828" stroke-width="1.5" marker-end="url(#r)"/>
+
+  <rect x="350" y="650" width="120" height="40" rx="5" fill="#FFCDD2" stroke="#C62828"/>
+  <text x="410" y="675" text-anchor="middle" font-size="10" font-weight="bold" fill="#C62828">3. Store in DB</text>
+  <line x1="472" y1="670" x2="498" y2="670" stroke="#C62828" stroke-width="1.5" marker-end="url(#r)"/>
+
+  <rect x="500" y="650" width="145" height="40" rx="5" fill="#FFCDD2" stroke="#C62828"/>
+  <text x="572" y="675" text-anchor="middle" font-size="10" font-weight="bold" fill="#C62828">4. Create Kafka Topics</text>
+  <line x1="647" y1="670" x2="673" y2="670" stroke="#C62828" stroke-width="1.5" marker-end="url(#r)"/>
+
+  <rect x="675" y="650" width="140" height="40" rx="5" fill="#FFCDD2" stroke="#C62828"/>
+  <text x="745" y="675" text-anchor="middle" font-size="10" font-weight="bold" fill="#C62828">5. Publish Dapr Event</text>
+  <line x1="817" y1="670" x2="843" y2="670" stroke="#C62828" stroke-width="1.5" marker-end="url(#r)"/>
+
+  <rect x="845" y="650" width="165" height="40" rx="5" fill="#FFCDD2" stroke="#C62828"/>
+  <text x="928" y="675" text-anchor="middle" font-size="10" font-weight="bold" fill="#C62828">6. K8s StatefulSet Create</text>
+  <line x1="1012" y1="670" x2="1038" y2="670" stroke="#C62828" stroke-width="1.5" marker-end="url(#r)"/>
+
+  <rect x="1040" y="650" width="155" height="40" rx="5" fill="#FFCDD2" stroke="#C62828"/>
+  <text x="1118" y="675" text-anchor="middle" font-size="10" font-weight="bold" fill="#C62828">7. Agent Deploys Flow</text>
+
+  <text x="50" y="720" font-size="9" fill="#888">CDC Agent receives Dapr event → Downloads flow config from Flow API → Creates K8s ConfigMaps → Reconciles StatefulSets for each flow container (grpc-in, splunk-out, etc.)</text>
+
+  <!-- External Dependencies -->
+  <rect x="30" y="760" width="1250" height="170" rx="6" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="655" y="785" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">External Dependencies</text>
+  <text x="50" y="810" font-size="10" fill="#555">• atlas.status.service — Flow/host status aggregation and reporting</text>
+  <text x="50" y="830" font-size="10" fill="#555">• csp.host-app.service — Host appliance and service instance management</text>
+  <text x="50" y="850" font-size="10" fill="#555">• atlas.feature.flag — Feature toggles for new capabilities and A/B testing</text>
+  <text x="50" y="870" font-size="10" fill="#555">• Tide API / Threat Defense — Threat intelligence data source integration</text>
+  <text x="50" y="890" font-size="10" fill="#555">• HashiCorp Vault — Credential encryption/decryption for destinations (Splunk tokens, TLS certs, etc.)</text>
+  <text x="650" y="810" font-size="10" fill="#555">• Kafka Cluster — Topic management via Sarama admin client</text>
+  <text x="650" y="830" font-size="10" fill="#555">• Kubernetes API — StatefulSet/ConfigMap/Service RBAC operations</text>
+  <text x="650" y="850" font-size="10" fill="#555">• Dapr Sidecar — PubSub event publishing to cdc-flow-{env}</text>
+  <text x="650" y="870" font-size="10" fill="#555">• CSP Identity Service — Authentication/authorization (JWT bearer)</text>
+  <text x="650" y="890" font-size="10" fill="#555">• Atlas App Toolkit — GORM, validation, request ID, error handling</text>
+  <text x="50" y="918" font-size="9" fill="#888">Ports: REST 8080 | gRPC 9090 | Health 8086 | Metrics (Prometheus) configurable via atlas.prometheus.address</text>
+</svg>

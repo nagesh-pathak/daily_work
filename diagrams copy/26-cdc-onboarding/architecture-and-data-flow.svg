@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1100" height="700" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1100" height="50" fill="#00695C"/>
+  <text x="550" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.onboarding — Customer Setup &amp; Onboarding Tool</text>
+
+  <!-- Overview -->
+  <rect x="20" y="65" width="1060" height="170" rx="8" fill="#E0F2F1" stroke="#00695C" stroke-width="2" filter="url(#s)"/>
+  <text x="550" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#00695C">Onboarding Workflow</text>
+
+  <rect x="40" y="110" width="150" height="50" rx="5" fill="white" stroke="#00695C"/>
+  <text x="115" y="133" text-anchor="middle" font-size="10" fill="#555">CSP APIs</text>
+  <text x="115" y="148" text-anchor="middle" font-size="8" fill="#888">Accounts/Hosts/Flows</text>
+  <line x1="192" y1="135" x2="228" y2="135" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="230" y="110" width="150" height="50" rx="5" fill="white" stroke="#00695C"/>
+  <text x="305" y="133" text-anchor="middle" font-size="10" fill="#555">Fetch &amp; Validate</text>
+  <text x="305" y="148" text-anchor="middle" font-size="8" fill="#888">API calls to CSP</text>
+  <line x1="382" y1="135" x2="418" y2="135" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="420" y="110" width="150" height="50" rx="5" fill="white" stroke="#00695C"/>
+  <text x="495" y="133" text-anchor="middle" font-size="10" fill="#555">Generate Reports</text>
+  <text x="495" y="148" text-anchor="middle" font-size="8" fill="#888">CSV + guides</text>
+  <line x1="572" y1="135" x2="608" y2="135" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="610" y="110" width="150" height="50" rx="5" fill="white" stroke="#00695C"/>
+  <text x="685" y="133" text-anchor="middle" font-size="10" fill="#555">Setup Source</text>
+  <text x="685" y="148" text-anchor="middle" font-size="8" fill="#888">Configure NIOS/DDI</text>
+  <line x1="762" y1="135" x2="798" y2="135" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="800" y="110" width="150" height="50" rx="5" fill="white" stroke="#00695C"/>
+  <text x="875" y="133" text-anchor="middle" font-size="10" fill="#555">Setup Destination</text>
+  <text x="875" y="148" text-anchor="middle" font-size="8" fill="#888">Splunk/SIEM/Syslog</text>
+
+  <text x="40" y="190" font-size="10" font-weight="bold" fill="#333">Purpose:</text>
+  <text x="110" y="190" font-size="9" fill="#555">Automates customer onboarding for CDC — discovers accounts, hosts, and existing flows from CSP APIs, generates setup reports, and provides step-by-step configuration guides</text>
+  <text x="40" y="215" font-size="9" fill="#888">Typical use: TAM or customer runs this tool before deploying CDC on-prem host to validate prerequisites and generate configuration</text>
+
+  <!-- APIs Queried -->
+  <rect x="20" y="255" width="520" height="210" rx="8" fill="white" stroke="#00695C" stroke-width="1" filter="url(#s)"/>
+  <text x="280" y="280" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">CSP APIs Queried</text>
+  <text x="40" y="305" font-size="10" font-weight="bold" fill="#333">Account APIs:</text>
+  <text x="40" y="323" font-size="9" fill="#555">• /v2/current_user — authenticated user &amp; account info</text>
+  <text x="40" y="341" font-size="9" fill="#555">• /v2/users — list users in the account</text>
+  <text x="40" y="363" font-size="10" font-weight="bold" fill="#333">Host APIs:</text>
+  <text x="40" y="381" font-size="9" fill="#555">• /v2/hosts — list registered on-prem hosts (OPHID)</text>
+  <text x="40" y="399" font-size="9" fill="#555">• /v2/host_applications — CDC host apps per host</text>
+  <text x="40" y="421" font-size="10" font-weight="bold" fill="#333">Flow APIs (CDC):</text>
+  <text x="40" y="439" font-size="9" fill="#555">• /api/cdc/v2/flows — existing CDC flows for account</text>
+  <text x="40" y="457" font-size="9" fill="#555">• /api/cdc/v2/sources — data sources configured</text>
+
+  <!-- Reports -->
+  <rect x="560" y="255" width="520" height="210" rx="8" fill="white" stroke="#00695C" stroke-width="1" filter="url(#s)"/>
+  <text x="820" y="280" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Generated Reports</text>
+  <text x="580" y="305" font-size="10" font-weight="bold" fill="#333">CSV Reports:</text>
+  <text x="580" y="323" font-size="9" fill="#555">• account_summary.csv — account ID, name, tier, features</text>
+  <text x="580" y="341" font-size="9" fill="#555">• hosts_inventory.csv — all registered hosts + status</text>
+  <text x="580" y="359" font-size="9" fill="#555">• flows_summary.csv — existing flows, sources, destinations</text>
+  <text x="580" y="377" font-size="9" fill="#555">• prerequisites_check.csv — validation results</text>
+  <text x="580" y="403" font-size="10" font-weight="bold" fill="#333">Setup Guides:</text>
+  <text x="580" y="421" font-size="9" fill="#555">• Source configuration guide (NIOS DNS logging, DDI setup)</text>
+  <text x="580" y="439" font-size="9" fill="#555">• Destination configuration guide (Splunk HEC, SIEM, Syslog)</text>
+  <text x="580" y="457" font-size="9" fill="#555">• Network requirements (ports, firewall rules, TLS)</text>
+
+  <!-- Prerequisites -->
+  <rect x="20" y="485" width="520" height="195" rx="8" fill="white" stroke="#00695C" stroke-width="1" filter="url(#s)"/>
+  <text x="280" y="510" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Prerequisite Checks</text>
+  <text x="40" y="535" font-size="9" fill="#555">• Account has CDC feature enabled</text>
+  <text x="40" y="553" font-size="9" fill="#555">• At least one on-prem host registered with OPHID</text>
+  <text x="40" y="571" font-size="9" fill="#555">• Host has CDC host-app assigned</text>
+  <text x="40" y="589" font-size="9" fill="#555">• Network connectivity to CSP verified</text>
+  <text x="40" y="607" font-size="9" fill="#555">• DNS sources available (NIOS configured for logging)</text>
+  <text x="40" y="625" font-size="9" fill="#555">• Destination endpoint reachable (Splunk/SIEM/Syslog)</text>
+  <text x="40" y="648" font-size="9" fill="#888">• API token with admin or write permissions</text>
+  <text x="40" y="666" font-size="9" fill="#888">• Python 3.x with requests, csv, argparse packages</text>
+
+  <!-- Tech Stack -->
+  <rect x="560" y="485" width="520" height="195" rx="8" fill="white" stroke="#00695C" stroke-width="1" filter="url(#s)"/>
+  <text x="820" y="510" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Technology &amp; Dependencies</text>
+  <text x="580" y="535" font-size="10" font-weight="bold" fill="#333">Language:</text>
+  <text x="660" y="535" font-size="9" fill="#555">Python 3.x (CLI tool)</text>
+  <text x="580" y="558" font-size="10" font-weight="bold" fill="#333">Libraries:</text>
+  <text x="660" y="558" font-size="9" fill="#555">requests, csv, json, argparse, os</text>
+  <text x="580" y="581" font-size="10" font-weight="bold" fill="#333">Auth:</text>
+  <text x="660" y="581" font-size="9" fill="#555">CSP API key (Bearer token authentication)</text>
+  <text x="580" y="604" font-size="10" font-weight="bold" fill="#333">Input:</text>
+  <text x="660" y="604" font-size="9" fill="#555">API key, account ID, CSP endpoint URL</text>
+  <text x="580" y="627" font-size="10" font-weight="bold" fill="#333">Output:</text>
+  <text x="660" y="627" font-size="9" fill="#555">CSV files in ./reports/ directory</text>
+  <text x="580" y="650" font-size="10" font-weight="bold" fill="#333">Run as:</text>
+  <text x="660" y="650" font-size="9" fill="#555">python onboarding.py --api-key=&lt;key&gt; --account=&lt;id&gt;</text>
+  <text x="580" y="673" font-size="9" fill="#888">No persistent state — read-only CSP API queries + report generation</text>
+</svg>

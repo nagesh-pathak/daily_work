@@ -1,0 +1,69 @@
+object_ID:\"56291\" object_type:\"cdcflow\" account_ID:<value:2010112 > 
+source_service:\"cdc-flow\" timestamp:<seconds:1759928810 nanos:903175478 > 
+severity:INFO metadata:<value:\"{\\\"status\\\":\\\"UNHEALTHY\\\",\\\"timestamp\\\":null,
+\\\"host\\\":[{\\\"id\\\":0,\\\"ophid\\\":\\\"e0431b364db68d0738543c8db1c0b5dd\\\",
+\\\"state\\\":\\\"START\\\",\\\"status\\\":\\\"UNHEALTHY\\\",\\\"message\\\":\\\"\\\",
+\\\"source\\\":{\\\"status\\\":\\\"HEALTHY\\\",\\\"data_timestamp\\\":\\\"\\\",
+\\\"log_types\\\":[]},\\\"destination\\\":{\\\"status\\\":\\\"UNHEALTHY\\\",
+\\\"data_timestamp\\\":\\\"\\\",\\\"log_types\\\":[{\\\"type\\\":\\\"DESTINATION_APPLICATION\\\",
+\\\"message\\\":\\\"{\\\\\\\"service\\\\\\\":\\\\\\\"healthy\\\\\\\",\\\\\\\"destinations\\\\\\\":
+[{\\\\\\\"flowId\\\\\\\":\\\\\\\"56267\\\\\\\",\\\\\\\"status\\\\\\\":\\\\\\\"unknown\\\\\\\"},
+{\\\\\\\"flowId\\\\\\\":\\\\\\\"56291\\\\\\\",\\\\\\\"status\\\\\\\":\\\\\\\"unknown\\\\\\\"}]}
+\\\"}]},\\\"etl\\\":{\\\"status\\\":\\\"HEALTHY\\\",\\\"message\\\":\\\"\\\"},\\\"ha_state\\\":
+\\\"active\\\"}],\\\"event_status\\\":null}\" >
+
+
+
+
+
+host - destination - message -
+
+service - healthy
+destinations - flowId
+             - status
+
+
+
+
+
+
+
+object_ID:\"56291\" object_type:\"cdcflow\" account_ID:<value:2010112 > 
+source_service:\"cdc-flow\" timestamp:<seconds:1759995259 nanos:510497414 > 
+severity:INFO metadata:<value:\"{\\\"status\\\":\\\"UNHEALTHY\\\",\\\"timestamp\\\":null,
+\\\"host\\\":[{\\\"id\\\":0,\\\"ophid\\\":\\\"e0431b364db68d0738543c8db1c0b5dd\\\",
+\\\"state\\\":\\\"START\\\",\\\"status\\\":\\\"UNHEALTHY\\\",\\\"message\\\":\\\"\\\",
+\\\"source\\\":{\\\"status\\\":\\\"HEALTHY\\\",\\\"data_timestamp\\\":\\\"\\\",
+\\\"log_types\\\":[]},\\\"destination\\\":{\\\"status\\\":\\\"UNHEALTHY\\\",
+\\\"data_timestamp\\\":\\\"\\\",\\\"log_types\\\":[{\\\"type\\\":\\\"DESTINATION_APPLICATION\\\",
+\\\"message\\\":\\\"{\\\\\\\"service\\\\\\\":\\\\\\\"healthy\\\\\\\",
+\\\\\\\"destinations\\\\\\\":[{\\\\\\\"flowId\\\\\\\":\\\\\\\"56267\\\\\\\",\\\\\\\"status\\\\\\\":\\\\\\\"unknown\\\\\\\"},
+{\\\\\\\"flowId\\\\\\\":\\\\\\\"56291\\\\\\\",\\\\\\\"status\\\\\\\":\\\\\\\"unknown\\\\\\\"}]}\\\"}]},
+\\\"etl\\\":{\\\"status\\\":\\\"HEALTHY\\\",\\\"message\\\":\\\"\\\"},\\\"ha_state\\\":\\\"active\\\"}],
+\\\"event_status\\\":null}\" >
+
+
+
+
+
+
+<value:\"{\\\"status\\\":\\\"UNHEALTHY\\\",\\\"timestamp\\\":null,
+
+\\\"host\\\":[{\\\"id\\\":0,
+\\\"ophid\\\":\\\"e0431b364db68d0738543c8db1c0b5dd\\\",
+\\\"state\\\":\\\"START\\\",
+\\\"status\\\":\\\"UNHEALTHY\\\",
+\\\"message\\\":\\\"\\\",
+\\\"source\\\":{\\\"status\\\":\\\"HEALTHY\\\",\\\"data_timestamp\\\":\\\"\\\",
+\\\"log_types\\\":[]},
+
+\\\"destination\\\":{\\\"status\\\":\\\"UNHEALTHY\\\",
+\\\"data_timestamp\\\":\\\"\\\",
+\\\"log_types\\\":[{\\\"type\\\":\\\"DESTINATION_APPLICATION\\\",
+\\\"message\\\":\\\"{\\\\\\\"service\\\\\\\":\\\\\\\"healthy\\\\\\\",
+\\\\\\\"destinations\\\\\\\":[{\\\\\\\"flowId\\\\\\\":\\\\\\\"56267\\\\\\\",\\\\\\\"status\\\\\\\":\\\\\\\"unknown\\\\\\\"},
+{\\\\\\\"flowId\\\\\\\":\\\\\\\"56291\\\\\\\",\\\\\\\"status\\\\\\\":\\\\\\\"unknown\\\\\\\"}]}\\\"}]},
+
+\\\"etl\\\":{\\\"status\\\":\\\"HEALTHY\\\",\\\"message\\\":\\\"\\\"},\\\"ha_state\\\":\\\"active\\\"}],
+
+\\\"event_status\\\":null}\" >

@@ -1,0 +1,290 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1050">
+  <defs>
+    <style>
+      text { font-family: 'Segoe UI', Arial, sans-serif; }
+      .title { font-size: 26px; font-weight: 700; fill: #1a1a2e; }
+      .subtitle { font-size: 14px; fill: #666; }
+      .step-num { font-size: 22px; font-weight: 800; fill: #fff; }
+      .step-label { font-size: 13px; font-weight: 600; fill: #333; }
+      .step-desc { font-size: 11px; fill: #555; }
+      .box-label { font-size: 12px; font-weight: 700; fill: #fff; }
+      .box-desc { font-size: 10px; fill: #fff; opacity: 0.9; }
+      .flow-label { font-size: 10px; fill: #e74c3c; font-weight: 600; }
+      .note { font-size: 11px; fill: #666; font-style: italic; }
+      .code { font-family: 'Consolas', monospace; font-size: 10px; fill: #333; }
+      .zone-title { font-size: 14px; font-weight: 700; }
+    </style>
+    <marker id="arrow-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#e74c3c"/>
+    </marker>
+    <marker id="arrow-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2980b9"/>
+    </marker>
+    <marker id="arrow-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#27ae60"/>
+    </marker>
+    <marker id="arrow-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#e67e22"/>
+    </marker>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="1050" rx="12" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="600" y="35" text-anchor="middle" class="title">On-Prem Flow — Step by Step</text>
+  <text x="600" y="55" text-anchor="middle" class="subtitle">Data source: Physical NIOS appliance. More hops because data must travel: On-Prem → Cloud → Back to On-Prem</text>
+
+  <!-- ═══════════ ON-PREM ZONE ═══════════ -->
+  <rect x="20" y="70" width="565" height="520" rx="10" fill="#fff5f5" stroke="#e74c3c" stroke-width="1" stroke-dasharray="8,4"/>
+  <text x="40" y="92" class="zone-title" fill="#c0392b">ON-PREM (Customer's Data Center)</text>
+
+  <!-- ═══════════ CLOUD ZONE ═══════════ -->
+  <rect x="615" y="70" width="565" height="520" rx="10" fill="#f0f8ff" stroke="#2980b9" stroke-width="1" stroke-dasharray="8,4"/>
+  <text x="635" y="92" class="zone-title" fill="#2471a3">CLOUD (Infoblox Infrastructure)</text>
+
+  <!-- ═══════════ STEP 1: Config delivery ═══════════ -->
+  <circle cx="45" cy="118" r="16" fill="#e74c3c"/>
+  <text x="45" y="124" text-anchor="middle" class="step-num" font-size="16">1</text>
+  <text x="70" y="115" class="step-label">Customer creates flow in portal → Config is delivered as a JSON file</text>
+  <text x="70" y="129" class="step-desc">cdc.flow.api.service → config.generator → config.manager → JSON file on the on-prem box</text>
+
+  <!-- Cloud: API Service -->
+  <rect x="635" y="105" width="150" height="40" rx="6" fill="#2c3e50" filter="url(#shadow)"/>
+  <text x="710" y="123" text-anchor="middle" class="box-label">flow.api.service</text>
+  <text x="710" y="137" text-anchor="middle" class="box-desc">Saves flow to DB</text>
+
+  <line x1="785" y1="125" x2="825" y2="125" stroke="#2980b9" stroke-width="2" marker-end="url(#arrow-b)"/>
+
+  <!-- Cloud: Config Generator -->
+  <rect x="830" y="105" width="150" height="40" rx="6" fill="#2c3e50" filter="url(#shadow)"/>
+  <text x="905" y="123" text-anchor="middle" class="box-label">config.generator</text>
+  <text x="905" y="137" text-anchor="middle" class="box-desc">Generates config bundle</text>
+
+  <line x1="980" y1="125" x2="1020" y2="125" stroke="#2980b9" stroke-width="2" marker-end="url(#arrow-b)"/>
+
+  <!-- Cloud: Config Manager -->
+  <rect x="1025" y="105" width="140" height="40" rx="6" fill="#2c3e50" filter="url(#shadow)"/>
+  <text x="1095" y="123" text-anchor="middle" class="box-label">config.manager</text>
+  <text x="1095" y="137" text-anchor="middle" class="box-desc">Pushes to on-prem</text>
+
+  <!-- Arrow crossing zones: config.manager → on-prem file -->
+  <path d="M 1025 145 L 600 145 L 480 165" stroke="#e67e22" stroke-width="2.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrow-o)"/>
+
+  <!-- On-Prem: Config file -->
+  <rect x="350" y="155" width="200" height="35" rx="6" fill="#e67e22" filter="url(#shadow)"/>
+  <text x="450" y="177" text-anchor="middle" class="box-label" font-size="10">/etc/config/soar_light.json</text>
+
+  <!-- Arrow to soar-light -->
+  <line x1="450" y1="190" x2="450" y2="215" stroke="#e67e22" stroke-width="2" marker-end="url(#arrow-o)"/>
+  <text x="475" y="207" class="flow-label" fill="#e67e22">inotify</text>
+
+  <!-- On-Prem: soar-light binary -->
+  <rect x="350" y="220" width="200" height="45" rx="6" fill="#e67e22" filter="url(#shadow)"/>
+  <text x="450" y="240" text-anchor="middle" class="box-label">soar-light (Go binary)</text>
+  <text x="450" y="254" text-anchor="middle" class="box-desc">Creates venv, starts Python</text>
+
+  <!-- Arrow down to Python -->
+  <line x1="450" y1="265" x2="450" y2="295" stroke="#e67e22" stroke-width="2" marker-end="url(#arrow-o)"/>
+
+  <!-- On-Prem: Python process -->
+  <rect x="350" y="300" width="200" height="45" rx="6" fill="#3498db" filter="url(#shadow)"/>
+  <text x="450" y="320" text-anchor="middle" class="box-label">Python Process</text>
+  <text x="450" y="335" text-anchor="middle" class="box-desc">YOUR script runs here</text>
+
+  <!-- ═══════════ STEP 2: NIOS generates DNS data ═══════════ -->
+  <circle cx="45" cy="378" r="16" fill="#e74c3c"/>
+  <text x="45" y="384" text-anchor="middle" class="step-num" font-size="16">2</text>
+  <text x="70" y="372" class="step-label">NIOS appliance generates DNS logs</text>
+  <text x="70" y="386" class="step-desc">Compresses to .gz syslog → SCP to on-prem box → dns-in parses → Flume batches</text>
+
+  <!-- NIOS -->
+  <rect x="35" y="400" width="120" height="50" rx="6" fill="#1a5276" filter="url(#shadow)"/>
+  <text x="95" y="420" text-anchor="middle" class="box-label">NIOS Grid</text>
+  <text x="95" y="434" text-anchor="middle" class="box-desc">DNS appliance</text>
+  <text x="95" y="444" text-anchor="middle" class="box-desc">.gz syslog files</text>
+
+  <line x1="155" y1="425" x2="185" y2="425" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrow-r)"/>
+  <text x="170" y="418" class="flow-label">SCP</text>
+
+  <!-- dns-in -->
+  <rect x="190" y="400" width="100" height="50" rx="6" fill="#c0392b" filter="url(#shadow)"/>
+  <text x="240" y="420" text-anchor="middle" class="box-label">cdc.dns-in</text>
+  <text x="240" y="434" text-anchor="middle" class="box-desc">Decompress</text>
+  <text x="240" y="444" text-anchor="middle" class="box-desc">Parse → CSV</text>
+
+  <line x1="290" y1="425" x2="320" y2="425" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrow-r)"/>
+
+  <!-- Flume -->
+  <rect x="325" y="400" width="100" height="50" rx="6" fill="#a93226" filter="url(#shadow)"/>
+  <text x="375" y="420" text-anchor="middle" class="box-label">cdc.flume</text>
+  <text x="375" y="434" text-anchor="middle" class="box-desc">Batch CSV →</text>
+  <text x="375" y="444" text-anchor="middle" class="box-desc">Parquet files</text>
+
+  <line x1="425" y1="425" x2="455" y2="425" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrow-r)"/>
+
+  <!-- grpc-out -->
+  <rect x="460" y="400" width="110" height="50" rx="6" fill="#922b21" filter="url(#shadow)"/>
+  <text x="515" y="420" text-anchor="middle" class="box-label">cdc.grpc-out</text>
+  <text x="515" y="434" text-anchor="middle" class="box-desc">Upload Parquet</text>
+  <text x="515" y="444" text-anchor="middle" class="box-desc">to cloud</text>
+
+  <!-- ═══════════ STEP 3: Data goes UP to cloud ═══════════ -->
+  <circle cx="640" cy="378" r="16" fill="#e74c3c"/>
+  <text x="640" y="384" text-anchor="middle" class="step-num" font-size="16">3</text>
+  <text x="665" y="372" class="step-label">Data uploaded to cloud → stored in Kafka</text>
+  <text x="665" y="386" class="step-desc">grpc-out → data.exporter.kafka → Kafka topic</text>
+
+  <!-- Arrow crossing zones: grpc-out → cloud -->
+  <path d="M 570 425 L 600 425 L 650 425" stroke="#e74c3c" stroke-width="2.5" fill="none" marker-end="url(#arrow-r)"/>
+  <text x="608" y="418" class="flow-label">gRPC</text>
+
+  <!-- data.exporter.kafka -->
+  <rect x="655" y="400" width="165" height="50" rx="6" fill="#2471a3" filter="url(#shadow)"/>
+  <text x="738" y="420" text-anchor="middle" class="box-label">data.exporter.kafka</text>
+  <text x="738" y="434" text-anchor="middle" class="box-desc">Parquet → JSON</text>
+  <text x="738" y="444" text-anchor="middle" class="box-desc">→ Kafka messages</text>
+
+  <line x1="820" y1="425" x2="865" y2="425" stroke="#2980b9" stroke-width="2" marker-end="url(#arrow-b)"/>
+
+  <!-- Cloud Kafka -->
+  <rect x="870" y="400" width="290" height="50" rx="6" fill="#1a5276" filter="url(#shadow)"/>
+  <text x="1015" y="420" text-anchor="middle" class="box-label">Kafka Topic (in the cloud)</text>
+  <text x="1015" y="436" text-anchor="middle" class="box-desc" font-family="Consolas, monospace" font-size="9">acme-corp_flowID23809_DDI_QUERY_RESP_LOG</text>
+  <text x="1015" y="448" text-anchor="middle" class="box-desc">Data is now in the cloud! But the script is on-prem...</text>
+
+  <!-- ═══════════ STEP 4: Data comes BACK DOWN ═══════════ -->
+  <circle cx="640" cy="480" r="16" fill="#e74c3c"/>
+  <text x="640" y="486" text-anchor="middle" class="step-num" font-size="16">4</text>
+  <text x="665" y="476" class="step-label">Data streams BACK DOWN to on-prem via gRPC-IN</text>
+  <text x="665" y="490" class="step-desc">The "bridge": cloud Kafka → DataStream gRPC → cdc.grpc-in → Python</text>
+
+  <!-- DataStream arrow from Kafka down -->
+  <path d="M 1015 450 L 1015 510 L 670 510" stroke="#27ae60" stroke-width="2.5" fill="none" marker-end="url(#arrow-g)"/>
+  <text x="850" y="505" class="flow-label" fill="#27ae60">DataStream RPC (gRPC bidirectional)</text>
+
+  <!-- grpc-in (on-prem side) -->
+  <rect x="35" y="495" width="200" height="70" rx="6" fill="#27ae60" filter="url(#shadow)"/>
+  <text x="135" y="515" text-anchor="middle" class="box-label">cdc.grpc-in (on-prem)</text>
+  <text x="135" y="530" text-anchor="middle" class="box-desc">Two-way bridge:</text>
+  <text x="135" y="543" text-anchor="middle" class="box-desc">Cloud→On-Prem: events stream down</text>
+  <text x="135" y="556" text-anchor="middle" class="box-desc">On-Prem→Cloud: ACKs go back up</text>
+
+  <!-- Arrow from cloud to grpc-in (crossing zones) -->
+  <path d="M 655 510 L 600 510 L 600 530 L 235 530" stroke="#27ae60" stroke-width="2.5" fill="none" marker-end="url(#arrow-g)"/>
+
+  <!-- Arrow from grpc-in to Python -->
+  <path d="M 235 530 L 300 530 L 300 322 L 350 322" stroke="#3498db" stroke-width="2.5" fill="none" marker-end="url(#arrow-b)"/>
+  <text x="305" y="435" class="flow-label" fill="#3498db" transform="rotate(-90 305 435)">localhost:9195</text>
+
+  <!-- ═══════════ STEP 5: Python runs your script ═══════════ -->
+  <rect x="20" y="605" width="1160" height="130" rx="10" fill="#fff" stroke="#3498db" stroke-width="2" filter="url(#shadow)"/>
+
+  <circle cx="45" cy="595" r="16" fill="#e74c3c"/>
+  <text x="45" y="601" text-anchor="middle" class="step-num" font-size="16">5</text>
+  <text x="70" y="599" class="step-label">Python reads events from gRPC-IN and calls YOUR script</text>
+
+  <!-- Inside processing -->
+  <text x="40" y="633" class="step-label">Inside your Python process:</text>
+
+  <!-- gRPC message -->
+  <rect x="40" y="645" width="170" height="40" rx="5" fill="#eafaf1" stroke="#27ae60"/>
+  <text x="125" y="662" text-anchor="middle" class="code">gRPC-in sends message:</text>
+  <text x="125" y="676" text-anchor="middle" class="code">{"query":"evil.com",...}</text>
+
+  <line x1="210" y1="665" x2="240" y2="665" stroke="#2980b9" stroke-width="2"/>
+
+  <!-- Driver processes -->
+  <rect x="245" y="645" width="170" height="40" rx="5" fill="#ebf5fb" stroke="#3498db"/>
+  <text x="330" y="662" text-anchor="middle" class="code">Driver calls:</text>
+  <text x="330" y="676" text-anchor="middle" class="code">plugin.process(ctx, event)</text>
+
+  <line x1="415" y1="665" x2="445" y2="665" stroke="#2980b9" stroke-width="2"/>
+
+  <!-- Your code -->
+  <rect x="450" y="645" width="195" height="40" rx="5" fill="#d5f5e3" stroke="#27ae60" stroke-width="2"/>
+  <text x="548" y="660" text-anchor="middle" class="code" fill="#27ae60" font-weight="700">YOUR CODE RUNS!</text>
+  <text x="548" y="676" text-anchor="middle" class="code">if evil → block IP on firewall</text>
+
+  <line x1="645" y1="665" x2="675" y2="665" stroke="#27ae60" stroke-width="2"/>
+
+  <!-- External action -->
+  <rect x="680" y="645" width="120" height="40" rx="5" fill="#27ae60"/>
+  <text x="740" y="662" text-anchor="middle" class="box-label">Firewall API</text>
+  <text x="740" y="676" text-anchor="middle" class="box-desc">Block the IP!</text>
+
+  <line x1="800" y1="665" x2="830" y2="665" stroke="#27ae60" stroke-width="2" marker-end="url(#arrow-g)"/>
+
+  <!-- ACK back -->
+  <rect x="835" y="645" width="155" height="40" rx="5" fill="#ebf5fb" stroke="#3498db"/>
+  <text x="912" y="660" text-anchor="middle" class="code">Send ACK back:</text>
+  <text x="912" y="676" text-anchor="middle" class="code">Python→gRPC-in→Cloud</text>
+
+  <text x="40" y="725" class="note">After ACK: the cloud Kafka marks this message as "consumed". Python waits for the next message.</text>
+
+  <!-- ═══════════ BOTTOM SUMMARY ═══════════ -->
+  <rect x="20" y="750" width="1160" height="85" rx="10" fill="#2c3e50"/>
+
+  <text x="600" y="775" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">Complete On-Prem Data Path (7 hops):</text>
+
+  <!-- Summary boxes -->
+  <rect x="35" y="790" width="75" height="30" rx="4" fill="#1a5276"/>
+  <text x="73" y="809" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">NIOS</text>
+
+  <text x="118" y="809" fill="#7f8c8d" font-size="14">→</text>
+
+  <rect x="130" y="790" width="75" height="30" rx="4" fill="#c0392b"/>
+  <text x="168" y="809" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">dns-in</text>
+
+  <text x="213" y="809" fill="#7f8c8d" font-size="14">→</text>
+
+  <rect x="225" y="790" width="75" height="30" rx="4" fill="#a93226"/>
+  <text x="263" y="809" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Flume</text>
+
+  <text x="308" y="809" fill="#7f8c8d" font-size="14">→</text>
+
+  <rect x="320" y="790" width="75" height="30" rx="4" fill="#922b21"/>
+  <text x="358" y="809" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">grpc-out</text>
+
+  <text x="403" y="809" fill="#7f8c8d" font-size="14">→</text>
+
+  <rect x="415" y="790" width="110" height="30" rx="4" fill="#2471a3"/>
+  <text x="470" y="809" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Cloud Kafka</text>
+
+  <text x="533" y="809" fill="#7f8c8d" font-size="14">→</text>
+
+  <rect x="545" y="790" width="75" height="30" rx="4" fill="#27ae60"/>
+  <text x="583" y="809" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">grpc-in</text>
+
+  <text x="628" y="809" fill="#7f8c8d" font-size="14">→</text>
+
+  <rect x="640" y="790" width="75" height="30" rx="4" fill="#3498db"/>
+  <text x="678" y="809" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Python</text>
+
+  <text x="723" y="809" fill="#7f8c8d" font-size="14">→</text>
+
+  <rect x="735" y="790" width="90" height="30" rx="4" fill="#8e44ad"/>
+  <text x="780" y="809" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">YOUR Script</text>
+
+  <text x="833" y="809" fill="#7f8c8d" font-size="14">→</text>
+
+  <rect x="845" y="790" width="90" height="30" rx="4" fill="#27ae60"/>
+  <text x="890" y="809" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">Firewall</text>
+
+  <!-- Why so many? -->
+  <rect x="20" y="850" width="1160" height="60" rx="10" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>
+  <text x="600" y="875" text-anchor="middle" font-size="14" font-weight="700" fill="#856404">Why so many hops?</text>
+  <text x="600" y="895" text-anchor="middle" font-size="12" fill="#856404">The on-prem box has no Kafka. Data must go: On-Prem → Cloud Kafka → Back to On-Prem. This is the trade-off for centralized messaging.</text>
+
+  <!-- Key difference callout -->
+  <rect x="20" y="925" width="1160" height="110" rx="10" fill="#d4edda" stroke="#28a745" stroke-width="2"/>
+  <text x="600" y="950" text-anchor="middle" font-size="14" font-weight="700" fill="#155724">Key Difference from C2C</text>
+
+  <text x="40" y="975" font-size="12" fill="#155724">C2C:      Python reads directly from Kafka (SoarLightKafkaConsumer) — topic: {acctId}_{flowId}_SOAR_LIGHT_{type}</text>
+  <text x="40" y="995" font-size="12" fill="#155724">On-Prem:  Python reads from local gRPC-IN server (SoarLightClient) — topic: {flowId}_{type} (no account prefix)</text>
+  <text x="40" y="1015" font-size="12" fill="#155724">Config:   C2C gets config via Dapr PubSub (Kafka message)  |  On-Prem gets config via JSON file (inotify watch)</text>
+  <text x="40" y="1035" font-size="12" fill="#155724">Binary:   C2C = cmd/cloud/main.go  |  On-Prem = cmd/onprem/main.go  (same Python script, different Go wrapper)</text>
+</svg>

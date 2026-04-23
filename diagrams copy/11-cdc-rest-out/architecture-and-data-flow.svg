@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1100" height="600" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1100" height="50" fill="#0277BD"/>
+  <text x="550" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.rest-out — Python Uploader: Parquet Files → Cloud REST API</text>
+
+  <rect x="20" y="65" width="1060" height="35" rx="4" fill="#E3F2FD" stroke="#1565C0" stroke-width="1"/>
+  <text x="550" y="87" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">On-Prem Only — Python service. Uploads Parquet files from on-prem to cloud via HTTP POST. Uses grequests for async uploads.</text>
+
+  <!-- Pipeline -->
+  <rect x="20" y="115" width="1060" height="170" rx="8" fill="#E3F2FD" stroke="#0277BD" stroke-width="2" filter="url(#s)"/>
+  <text x="550" y="140" text-anchor="middle" font-size="14" font-weight="bold" fill="#0277BD">Data Flow Pipeline</text>
+
+  <rect x="40" y="155" width="180" height="70" rx="6" fill="white" stroke="#E65100"/>
+  <text x="130" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Flume CloudFileSink</text>
+  <text x="55" y="198" font-size="9" fill="#555">Writes Parquet to</text>
+  <text x="55" y="213" font-size="9" fill="#555">/data/out/cloud/</text>
+  <line x1="222" y1="190" x2="258" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="260" y="155" width="180" height="70" rx="6" fill="white" stroke="#0277BD"/>
+  <text x="350" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#0277BD">Directory Watcher</text>
+  <text x="275" y="198" font-size="9" fill="#555">inotify on /data/out/cloud/</text>
+  <text x="275" y="213" font-size="9" fill="#555">Detects new .parquet files</text>
+  <line x1="442" y1="190" x2="478" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="480" y="155" width="180" height="70" rx="6" fill="white" stroke="#6A1B9A"/>
+  <text x="570" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">grequests Uploader</text>
+  <text x="495" y="198" font-size="9" fill="#555">Async HTTP POST requests</text>
+  <text x="495" y="213" font-size="9" fill="#555">Parallel file uploads</text>
+  <line x1="662" y1="190" x2="698" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="700" y="155" width="180" height="70" rx="6" fill="white" stroke="#2E7D32"/>
+  <text x="790" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">Cloud REST API</text>
+  <text x="715" y="198" font-size="9" fill="#555">data.exporter endpoint</text>
+  <text x="715" y="213" font-size="9" fill="#555">HTTPS with auth token</text>
+  <line x1="882" y1="190" x2="908" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="910" y="155" width="150" height="70" rx="6" fill="white" stroke="#C62828"/>
+  <text x="985" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Kafka / Cloud</text>
+  <text x="925" y="198" font-size="9" fill="#555">Processing pipeline</text>
+  <text x="925" y="213" font-size="9" fill="#555">data consumers</text>
+
+  <!-- Retry -->
+  <rect x="40" y="240" width="1020" height="30" rx="4" fill="#FCE4EC" stroke="#C62828"/>
+  <text x="550" y="260" text-anchor="middle" font-size="9" fill="#C62828">Retry: run_retry.sh — failed uploads moved to retry/ dir, re-attempted on configurable schedule, exponential backoff</text>
+
+  <!-- Data Types -->
+  <rect x="20" y="300" width="530" height="270" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="285" y="325" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Input Directories &amp; Data Types</text>
+
+  <rect x="40" y="340" width="490" height="60" rx="5" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="285" y="358" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">/infoblox/data/out/cloud/dns/</text>
+  <text x="55" y="378" font-size="9" fill="#555">DNS query/response Parquet files from Flume CloudFileSink (dns-to-cloud channel)</text>
+  <text x="55" y="392" font-size="9" fill="#888">Upload headers: Content-Type: application/octet-stream, X-Data-Type: dns</text>
+
+  <rect x="40" y="410" width="490" height="60" rx="5" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="285" y="428" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">/infoblox/data/out/cloud/rpz/</text>
+  <text x="55" y="448" font-size="9" fill="#555">RPZ hit Parquet files from Flume CloudFileSink (rpz-to-cloud channel)</text>
+  <text x="55" y="462" font-size="9" fill="#888">Upload headers: Content-Type: application/octet-stream, X-Data-Type: rpz</text>
+
+  <rect x="40" y="480" width="490" height="70" rx="5" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="285" y="498" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">/infoblox/data/out/cloud/ipmeta/</text>
+  <text x="55" y="518" font-size="9" fill="#555">IPAM metadata Avro files from cdc.wapi-in (ipmeta snapshots + incremental updates)</text>
+  <text x="55" y="532" font-size="9" fill="#888">Special headers: X-Data-Type: ipmeta, X-Snapshot: true/false (snapshot vs incremental)</text>
+  <text x="55" y="546" font-size="9" fill="#888">IPMeta uses Avro format (not Parquet) — different upload handling</text>
+
+  <!-- Dependencies -->
+  <rect x="570" y="300" width="510" height="270" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="825" y="325" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Configuration &amp; Dependencies</text>
+  <text x="590" y="350" font-size="10" font-weight="bold" fill="#333">Python Packages:</text>
+  <text x="590" y="370" font-size="9" fill="#555">• grequests — async HTTP uploads (gevent-based)</text>
+  <text x="590" y="386" font-size="9" fill="#555">• requests — HTTP client library</text>
+  <text x="590" y="402" font-size="9" fill="#555">• watchdog — filesystem monitoring (inotify)</text>
+  <text x="590" y="418" font-size="9" fill="#555">• pyarrow — Parquet/Avro file reading</text>
+  <text x="590" y="440" font-size="10" font-weight="bold" fill="#333">Configuration:</text>
+  <text x="590" y="460" font-size="9" fill="#555">• /infoblox/etc/rest-out.json — upload URL, auth, batch size</text>
+  <text x="590" y="476" font-size="9" fill="#555">• Auth: Bearer token from Config Manager</text>
+  <text x="590" y="492" font-size="9" fill="#555">• Retry script: /infoblox/bin/run_retry.sh</text>
+  <text x="590" y="512" font-size="10" font-weight="bold" fill="#333">Architecture Dependencies:</text>
+  <text x="590" y="532" font-size="9" fill="#555">• Flume CloudFileSink (data source)</text>
+  <text x="590" y="548" font-size="9" fill="#555">• data.exporter.kafka / Cloud REST API (upload target)</text>
+  <text x="590" y="564" font-size="9" fill="#555">• cdc.agent (cleanup of uploaded files)</text>
+</svg>

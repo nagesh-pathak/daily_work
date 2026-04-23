@@ -1,0 +1,491 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 3200" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563EB"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#059669"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#D97706"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#DC2626"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7C3AED"/>
+    </marker>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF7ED"/>
+      <stop offset="100%" stop-color="#FEF3C7"/>
+    </linearGradient>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1500" height="3200" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- Title -->
+  <rect x="30" y="20" width="1440" height="85" rx="10" fill="#92400E" filter="url(#shadow)"/>
+  <text x="750" y="52" text-anchor="middle" fill="white" font-size="22" font-weight="bold">SOAR-Light On-Prem — Complete Data Flow Walkthrough</text>
+  <text x="750" y="78" text-anchor="middle" fill="#FED7AA" font-size="14">Example: NIOS Grid "nios-grid-01" → DNS query logs → On-Prem SOAR-Light Flow #23809 → Python script → Block malicious IPs</text>
+
+  <!-- ====================== STAGE 1: Config Generation ====================== -->
+  <rect x="30" y="125" width="1440" height="310" rx="8" fill="white" stroke="#3B82F6" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="125" width="1440" height="36" rx="8" fill="#3B82F6"/>
+  <text x="50" y="149" fill="white" font-size="15" font-weight="bold">STAGE 1 — Flow Created in Cloud, Config Generated for On-Prem Delivery</text>
+  <text x="1420" y="149" text-anchor="end" fill="#BFDBFE" font-size="12">atlas.onprem.config.generator + atlas.config.manager</text>
+
+  <!-- Cloud side -->
+  <rect x="60" y="175" width="680" height="240" rx="6" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="80" y="195" fill="#1E40AF" font-size="12" font-weight="bold">☁️ CLOUD (Same as C2C: User creates flow via CSP Portal)</text>
+
+  <rect x="80" y="210" width="280" height="65" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+  <text x="220" y="232" text-anchor="middle" fill="#1E40AF" font-size="12" font-weight="bold">cdc.flow.api.service</text>
+  <text x="220" y="250" text-anchor="middle" fill="#3B82F6" font-size="10">CreateFlowDataV2() → DB + Dapr pub</text>
+  <text x="220" y="265" text-anchor="middle" fill="#6B7280" font-size="9">Flow #23809, Account "acme-corp"</text>
+
+  <line x1="360" y1="242" x2="400" y2="242" stroke="#2563EB" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="405" y="210" width="320" height="65" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1"/>
+  <text x="565" y="232" text-anchor="middle" fill="#5B21B6" font-size="12" font-weight="bold">atlas.onprem.config.generator</text>
+  <text x="565" y="250" text-anchor="middle" fill="#7C3AED" font-size="10">Generates on-prem config bundle</text>
+  <text x="565" y="265" text-anchor="middle" fill="#6B7280" font-size="9">Includes soar_light.json config</text>
+
+  <line x1="565" y1="275" x2="565" y2="300" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow-purple)"/>
+
+  <rect x="405" y="305" width="320" height="95" rx="4" fill="#F5F3FF" stroke="#A78BFA" stroke-width="1"/>
+  <text x="565" y="325" text-anchor="middle" fill="#5B21B6" font-size="11" font-weight="bold">atlas.config.manager</text>
+  <text x="425" y="345" fill="#5B21B6" font-size="10">Subscribes to config change events</text>
+  <text x="425" y="363" fill="#5B21B6" font-size="10">Consumes from Kafka config topic</text>
+  <text x="425" y="381" fill="#5B21B6" font-size="10">Writes config → /etc/config/soar_light.json</text>
+  <text x="425" y="395" fill="#6B7280" font-size="9">on the On-Prem Host Appliance (OPH)</text>
+
+  <!-- Arrow to on-prem -->
+  <line x1="725" y1="352" x2="780" y2="352" stroke="#D97706" stroke-width="2" marker-end="url(#arrow-orange)"/>
+  <text x="752" y="342" text-anchor="middle" fill="#D97706" font-size="9">Config push</text>
+
+  <!-- On-Prem config file -->
+  <rect x="785" y="175" width="665" height="240" rx="6" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="805" y="195" fill="#92400E" font-size="12" font-weight="bold">🏢 ON-PREM HOST (OPH Appliance)</text>
+
+  <rect x="805" y="210" width="625" height="188" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <text x="825" y="230" fill="#92400E" font-size="11" font-weight="bold">/etc/config/soar_light.json (delivered by config.manager)</text>
+  <text x="815" y="248" fill="#78350F" font-size="10">{</text>
+  <text x="825" y="264" fill="#78350F" font-size="10">"flows": [{</text>
+  <text x="835" y="280" fill="#78350F" font-size="10">"id": 23809,</text>
+  <text x="835" y="296" fill="#78350F" font-size="10">"account_id": "acme-corp",</text>
+  <text x="835" y="312" fill="#DC2626" font-size="10" font-weight="bold">"data_types": [{"name": "DDI_QUERY_RESP_LOG"}, {"name": "AUDIT_LOG"}],</text>
+  <text x="835" y="328" fill="#78350F" font-size="10">"destination": "soar_light",</text>
+  <text x="835" y="344" fill="#78350F" font-size="10">"data": "base64_encoded_python_scripts",</text>
+  <text x="835" y="360" fill="#78350F" font-size="10">"context": "base64_encoded_auth_tokens",</text>
+  <text x="835" y="376" fill="#78350F" font-size="10">"variables": "base64_encoded_user_vars"</text>
+  <text x="825" y="392" fill="#78350F" font-size="10">}]</text>
+
+  <!-- ====================== STAGE 2: NIOS Data Collection ====================== -->
+  <rect x="30" y="455" width="1440" height="310" rx="8" fill="white" stroke="#D97706" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="455" width="1440" height="36" rx="8" fill="#D97706"/>
+  <text x="50" y="479" fill="white" font-size="15" font-weight="bold">STAGE 2 — NIOS Grid Generates DNS Data → On-Prem Collection</text>
+  <text x="1420" y="479" text-anchor="end" fill="#FEF3C7" font-size="12">Repositories: cdc.dns-in / cdc.rpz-in</text>
+
+  <!-- NIOS -->
+  <rect x="60" y="510" width="250" height="100" rx="6" fill="#F0F9FF" stroke="#0284C7" stroke-width="1.5"/>
+  <text x="185" y="535" text-anchor="middle" fill="#0C4A6E" font-size="13" font-weight="bold">NIOS Grid Master</text>
+  <text x="185" y="555" text-anchor="middle" fill="#0C4A6E" font-size="11">"nios-grid-01"</text>
+  <text x="80" y="575" fill="#6B7280" font-size="10">DNS query capture enabled</text>
+  <text x="80" y="592" fill="#6B7280" font-size="10">Generates compressed syslog files</text>
+
+  <!-- Arrow -->
+  <line x1="310" y1="560" x2="370" y2="560" stroke="#0284C7" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="340" y="548" text-anchor="middle" fill="#0284C7" font-size="9" font-weight="bold">SCP (SSH)</text>
+
+  <!-- dns-in -->
+  <rect x="375" y="505" width="420" height="115" rx="6" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/>
+  <text x="585" y="528" text-anchor="middle" fill="#065F46" font-size="12" font-weight="bold">cdc.dns-in (On-Prem Container)</text>
+  <text x="395" y="548" fill="#065F46" font-size="10" font-weight="bold">1. Receive .gz syslog files via SCP</text>
+  <text x="395" y="566" fill="#065F46" font-size="10" font-weight="bold">2. Decompress &amp; parse syslog format</text>
+  <text x="395" y="584" fill="#065F46" font-size="10" font-weight="bold">3. Extract: timestamp, query, response, client_ip</text>
+  <text x="395" y="602" fill="#065F46" font-size="10" font-weight="bold">4. Output → CSV records to filesystem</text>
+
+  <!-- Arrow -->
+  <line x1="795" y1="560" x2="855" y2="560" stroke="#059669" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="825" y="548" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">CSV files</text>
+
+  <!-- Flume -->
+  <rect x="860" y="505" width="590" height="115" rx="6" fill="#FFF7ED" stroke="#D97706" stroke-width="1.5"/>
+  <text x="1155" y="528" text-anchor="middle" fill="#92400E" font-size="12" font-weight="bold">Apache Flume (cdc.flume)</text>
+  <text x="880" y="548" fill="#92400E" font-size="10" font-weight="bold">Configured pipeline (flume.conf.tmpl):</text>
+  <text x="890" y="566" fill="#78350F" font-size="10">Source: SpoolDir watching dns-in output directory</text>
+  <text x="890" y="584" fill="#78350F" font-size="10">Channel: dns_parquet_mem (in-memory buffer, capacity: 10000)</text>
+  <text x="890" y="602" fill="#78350F" font-size="10">Sink: Parquet writer → ${FLUME_CLOUD_OUT_DNS_DIR}/*.parquet</text>
+
+  <!-- Syslog example -->
+  <rect x="60" y="630" width="590" height="115" rx="4" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1"/>
+  <text x="80" y="650" fill="#065F46" font-size="11" font-weight="bold">Example: Raw NIOS Syslog → Parsed CSV</text>
+  <text x="80" y="672" fill="#065F46" font-size="10" font-weight="bold">Input (compressed syslog):</text>
+  <text x="85" y="688" fill="#6B7280" font-size="9">Apr 1 14:23:05 nios-grid-01 named: query: evil.com IN A + (10.0.1.5)</text>
+  <text x="80" y="710" fill="#065F46" font-size="10" font-weight="bold">Output (parsed CSV record):</text>
+  <text x="85" y="726" fill="#6B7280" font-size="9">2026-04-01T14:23:05Z,evil.com,A,10.0.1.5,nios-grid-01,QUERY</text>
+
+  <!-- Parquet example -->
+  <rect x="680" y="630" width="770" height="115" rx="4" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1"/>
+  <text x="700" y="650" fill="#92400E" font-size="11" font-weight="bold">Example: CSV → Parquet (Flume output)</text>
+  <text x="700" y="672" fill="#92400E" font-size="10" font-weight="bold">Parquet file: /cloud-out/dns/1711968185_batch_001.parquet</text>
+  <text x="700" y="690" fill="#78350F" font-size="10">Schema: {timestamp: STRING, query: STRING, qtype: STRING,</text>
+  <text x="720" y="706" fill="#78350F" font-size="10">client_ip: STRING, source_host: STRING, log_type: STRING}</text>
+  <text x="700" y="728" fill="#78350F" font-size="10">Row: {2026-04-01T14:23:05Z, evil.com, A, 10.0.1.5, nios-grid-01, QUERY}</text>
+
+  <!-- ====================== STAGE 3: Cloud Upload ====================== -->
+  <rect x="30" y="785" width="1440" height="280" rx="8" fill="white" stroke="#7C3AED" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="785" width="1440" height="36" rx="8" fill="#7C3AED"/>
+  <text x="50" y="809" fill="white" font-size="15" font-weight="bold">STAGE 3 — On-Prem → Cloud Upload (Parquet → Kafka)</text>
+  <text x="1420" y="809" text-anchor="end" fill="#DDD6FE" font-size="12">Repositories: cdc.grpc-out → data.exporter.kafka</text>
+
+  <!-- On-Prem side -->
+  <rect x="60" y="835" width="600" height="210" rx="6" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="80" y="855" fill="#92400E" font-size="12" font-weight="bold">🏢 ON-PREM</text>
+
+  <rect x="80" y="870" width="280" height="80" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <text x="220" y="892" text-anchor="middle" fill="#92400E" font-size="12" font-weight="bold">Parquet Files</text>
+  <text x="100" y="912" fill="#78350F" font-size="10">/cloud-out/dns/*.parquet</text>
+  <text x="100" y="930" fill="#78350F" font-size="10">/cloud-out/rpz/*.parquet</text>
+
+  <line x1="360" y1="910" x2="400" y2="910" stroke="#D97706" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+  <rect x="405" y="870" width="235" height="80" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1"/>
+  <text x="522" y="892" text-anchor="middle" fill="#5B21B6" font-size="12" font-weight="bold">cdc.grpc-out</text>
+  <text x="425" y="912" fill="#5B21B6" font-size="10">Worker pool monitors dirs</text>
+  <text x="425" y="930" fill="#5B21B6" font-size="10">Uploads via gRPC stream</text>
+
+  <rect x="80" y="960" width="560" height="70" rx="4" fill="#F5F3FF" stroke="#A78BFA" stroke-width="1"/>
+  <text x="100" y="980" fill="#5B21B6" font-size="10" font-weight="bold">grpc-out dispatcher (monitor/dispatcher.go):</text>
+  <text x="110" y="998" fill="#5B21B6" font-size="10">Watches parquet directory → detects new files → assigns to worker → worker reads parquet</text>
+  <text x="110" y="1016" fill="#5B21B6" font-size="10">→ streams binary data via gRPC to cloud data.exporter.kafka service</text>
+
+  <!-- Arrow cloud -->
+  <line x1="660" y1="910" x2="720" y2="910" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow-purple)"/>
+  <text x="690" y="895" text-anchor="middle" fill="#7C3AED" font-size="9" font-weight="bold">gRPC Binary</text>
+  <text x="690" y="930" text-anchor="middle" fill="#7C3AED" font-size="8">Internet</text>
+
+  <!-- Cloud side -->
+  <rect x="725" y="835" width="725" height="210" rx="6" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="745" y="855" fill="#1E40AF" font-size="12" font-weight="bold">☁️ CLOUD</text>
+
+  <rect x="745" y="870" width="320" height="80" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+  <text x="905" y="892" text-anchor="middle" fill="#1E40AF" font-size="12" font-weight="bold">data.exporter.kafka</text>
+  <text x="765" y="912" fill="#1E40AF" font-size="10">Receives parquet via gRPC stream</text>
+  <text x="765" y="930" fill="#1E40AF" font-size="10">Converts → JSON → Produces to Kafka</text>
+
+  <line x1="1065" y1="910" x2="1105" y2="910" stroke="#2563EB" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="1110" y="870" width="320" height="80" rx="4" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/>
+  <text x="1270" y="892" text-anchor="middle" fill="#991B1B" font-size="12" font-weight="bold">Kafka — Raw Source Topic</text>
+  <text x="1130" y="912" fill="#991B1B" font-size="10" font-weight="bold">Topic: acme-corp_flowID23809_DDI_QUERY_RESP_LOG</text>
+  <text x="1130" y="930" fill="#991B1B" font-size="10">Message: {"timestamp": "2026-04-01T14:23:05Z",</text>
+  <text x="1145" y="945" fill="#991B1B" font-size="9">"query": "evil.com", "qtype": "A", "client_ip": "10.0.1.5"}</text>
+
+  <rect x="745" y="960" width="680" height="70" rx="4" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1"/>
+  <text x="765" y="980" fill="#1E40AF" font-size="10" font-weight="bold">data.exporter.kafka processing (cmd/server/grpc.go):</text>
+  <text x="775" y="998" fill="#1E40AF" font-size="10">RegisterDataExporterKafkaServer() → Receives parquet binary → Deserializes rows → Converts each row to JSON</text>
+  <text x="775" y="1016" fill="#1E40AF" font-size="10">→ sarama.Producer.SendMessage(topic: "acme-corp_flowID23809_DDI_QUERY_RESP_LOG", value: JSON bytes)</text>
+
+  <!-- ====================== STAGE 4: Cloud Kafka → On-Prem gRPC ====================== -->
+  <rect x="30" y="1085" width="1440" height="380" rx="8" fill="white" stroke="#DC2626" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="1085" width="1440" height="36" rx="8" fill="#DC2626"/>
+  <text x="50" y="1109" fill="white" font-size="15" font-weight="bold">STAGE 4 — Cloud Kafka → On-Prem gRPC-IN (Bidirectional Stream Bridge)</text>
+  <text x="1420" y="1109" text-anchor="end" fill="#FEE2E2" font-size="12">Repositories: data.exporter.kafka (DataStream) → cdc.grpc-in</text>
+
+  <!-- Cloud data stream -->
+  <rect x="60" y="1135" width="600" height="310" rx="6" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="80" y="1155" fill="#1E40AF" font-size="12" font-weight="bold">☁️ CLOUD — data.exporter.kafka (DataStream Service)</text>
+
+  <rect x="80" y="1170" width="560" height="50" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+  <text x="100" y="1190" fill="#1E40AF" font-size="10" font-weight="bold">RegisterServerServer() — DataStream RPC</text>
+  <text x="100" y="1206" fill="#1E40AF" font-size="10">Bidirectional gRPC stream: Subscribe(stream ServerCtrl) returns (stream ClientCtrl)</text>
+
+  <rect x="80" y="1230" width="560" height="60" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+  <text x="100" y="1250" fill="#1E40AF" font-size="10" font-weight="bold">Cloud Kafka Consumer (per subscription):</text>
+  <text x="100" y="1268" fill="#1E40AF" font-size="10">Consumes from: "acme-corp_flowID23809_DDI_QUERY_RESP_LOG"</text>
+  <text x="100" y="1282" fill="#6B7280" font-size="9">Reads JSON messages, wraps in protobuf Message{TopicIndex, Data, Identifier}</text>
+
+  <rect x="80" y="1300" width="560" height="130" rx="4" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1"/>
+  <text x="100" y="1320" fill="#065F46" font-size="10" font-weight="bold">Protobuf Message (sent to on-prem):</text>
+  <text x="100" y="1340" fill="#065F46" font-size="10">ClientCtrl {</text>
+  <text x="110" y="1356" fill="#065F46" font-size="10">  Messages {</text>
+  <text x="120" y="1372" fill="#065F46" font-size="10">    Sender: 1,</text>
+  <text x="120" y="1388" fill="#065F46" font-size="10">    Messages: [{TopicIndex: 0,</text>
+  <text x="130" y="1404" fill="#DC2626" font-size="10" font-weight="bold">      Data: '{"timestamp":"2026-04-01T14:23:05Z","query":"evil.com",...}',</text>
+  <text x="130" y="1420" fill="#065F46" font-size="10">      Identifier: &lt;kafka_offset_bytes&gt;}]</text>
+
+  <!-- Arrow -->
+  <line x1="660" y1="1290" x2="720" y2="1290" stroke="#DC2626" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <text x="690" y="1275" text-anchor="middle" fill="#DC2626" font-size="9" font-weight="bold">gRPC Stream</text>
+  <text x="690" y="1305" text-anchor="middle" fill="#DC2626" font-size="8">Bidirectional</text>
+
+  <!-- On-Prem grpc-in -->
+  <rect x="725" y="1135" width="725" height="310" rx="6" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="745" y="1155" fill="#92400E" font-size="12" font-weight="bold">🏢 ON-PREM — cdc.grpc-in</text>
+
+  <rect x="745" y="1170" width="320" height="115" rx="4" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="905" y="1190" text-anchor="middle" fill="#991B1B" font-size="11" font-weight="bold">dsclient (pkg/dsclient/)</text>
+  <text x="765" y="1210" fill="#991B1B" font-size="10">Connect to cloud DataStream</text>
+  <text x="765" y="1228" fill="#991B1B" font-size="10">dsclient.Subscribe(acme-corp, [23809])</text>
+  <text x="765" y="1246" fill="#991B1B" font-size="10">dsclient.Recv() → messages</text>
+  <text x="765" y="1264" fill="#991B1B" font-size="10">parser.GetEnrichedData() → enriched</text>
+  <text x="765" y="1278" fill="#6B7280" font-size="9">Store in StreamCache by topic</text>
+
+  <line x1="905" y1="1285" x2="905" y2="1310" stroke="#DC2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <rect x="745" y="1315" width="320" height="80" rx="4" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="905" y="1335" text-anchor="middle" fill="#991B1B" font-size="11" font-weight="bold">StreamCache</text>
+  <text x="765" y="1355" fill="#991B1B" font-size="10">map[topic] → chan LocalDataStream</text>
+  <text x="765" y="1375" fill="#991B1B" font-size="10">Buffered channels (capacity: 10)</text>
+  <text x="765" y="1390" fill="#6B7280" font-size="9">Topic: "23809_DDI_QUERY_RESP_LOG"</text>
+
+  <line x1="1065" y1="1355" x2="1105" y2="1355" stroke="#D97706" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+  <rect x="1110" y="1170" width="320" height="225" rx="4" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1"/>
+  <text x="1270" y="1190" text-anchor="middle" fill="#92400E" font-size="11" font-weight="bold">gRPC Server (soarlightserver/)</text>
+  <text x="1130" y="1210" fill="#92400E" font-size="10">Listens: localhost:9195</text>
+  <text x="1130" y="1230" fill="#92400E" font-size="10" font-weight="bold">Serves: datastream.Server.Subscribe</text>
+  <text x="1130" y="1252" fill="#92400E" font-size="10">Python connects here ↓</text>
+  <text x="1130" y="1278" fill="#92400E" font-size="10" font-weight="bold">Protocol (per Python client):</text>
+  <text x="1140" y="1296" fill="#92400E" font-size="10">1. Python sends Subscribe{Topics}</text>
+  <text x="1140" y="1314" fill="#92400E" font-size="10">2. Server reads from StreamCache</text>
+  <text x="1140" y="1332" fill="#92400E" font-size="10">3. Sends ClientCtrl{Messages}</text>
+  <text x="1140" y="1350" fill="#92400E" font-size="10">4. Python sends MarkMessages (ACK)</text>
+  <text x="1140" y="1368" fill="#92400E" font-size="10">5. ACK → dsclient → cloud Kafka</text>
+  <text x="1140" y="1386" fill="#6B7280" font-size="9">KeepAlive every 10s</text>
+
+  <!-- ====================== STAGE 5: soar-light On-Prem Binary ====================== -->
+  <rect x="30" y="1485" width="1440" height="330" rx="8" fill="white" stroke="#059669" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="1485" width="1440" height="36" rx="8" fill="#059669"/>
+  <text x="50" y="1509" fill="white" font-size="15" font-weight="bold">STAGE 5 — soar-light On-Prem Binary Receives Config &amp; Spawns Python</text>
+  <text x="1420" y="1509" text-anchor="end" fill="#D1FAE5" font-size="12">Repository: soar-light (cmd/onprem/main.go)</text>
+
+  <!-- On-Prem pod -->
+  <rect x="60" y="1535" width="1390" height="260" rx="6" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="80" y="1555" fill="#065F46" font-size="12" font-weight="bold">🏢 On-Prem Container: soar-light-onprem</text>
+
+  <!-- File Watcher -->
+  <rect x="80" y="1570" width="330" height="140" rx="6" fill="#F0FDF4" stroke="#059669" stroke-width="1.5"/>
+  <text x="245" y="1590" text-anchor="middle" fill="#065F46" font-size="12" font-weight="bold">File Watcher (cmd/onprem/main.go)</text>
+  <text x="100" y="1610" fill="#065F46" font-size="10">Monitors: $CONFIG_DIR/soar_light.json</text>
+  <text x="100" y="1630" fill="#065F46" font-size="10" font-weight="bold">inotify events:</text>
+  <text x="110" y="1648" fill="#065F46" font-size="10">• InCloseWrite (file written)</text>
+  <text x="110" y="1666" fill="#065F46" font-size="10">• InMovedTo (file replaced)</text>
+  <text x="110" y="1684" fill="#065F46" font-size="10">• InDeleteSelf (file deleted)</text>
+  <text x="100" y="1702" fill="#059669" font-size="10" font-weight="bold">→ Triggers config reload</text>
+
+  <!-- Arrow -->
+  <line x1="410" y1="1640" x2="470" y2="1640" stroke="#059669" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="440" y="1628" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Parse</text>
+
+  <!-- Config Parser -->
+  <rect x="475" y="1570" width="400" height="140" rx="6" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="675" y="1590" text-anchor="middle" fill="#1E40AF" font-size="12" font-weight="bold">Manager.ProcessFlow() for each data type</text>
+  <text x="495" y="1612" fill="#1E40AF" font-size="10" font-weight="bold">For flow #23809, 2 data types → 2 processes:</text>
+  <text x="505" y="1632" fill="#1E40AF" font-size="10">key1 = "23809_DDI_QUERY_RESP_LOG"</text>
+  <text x="505" y="1652" fill="#1E40AF" font-size="10">key2 = "23809_AUDIT_LOG"</text>
+  <text x="495" y="1675" fill="#1E40AF" font-size="10" font-weight="bold">Each key creates:</text>
+  <text x="505" y="1695" fill="#1E40AF" font-size="10">venv + infoblox_driver.py + Python subprocess</text>
+
+  <!-- Arrow -->
+  <line x1="875" y1="1640" x2="935" y2="1640" stroke="#2563EB" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="905" y="1628" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Spawn</text>
+
+  <!-- Python Processes -->
+  <rect x="940" y="1570" width="490" height="140" rx="6" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="1185" y="1590" text-anchor="middle" fill="#991B1B" font-size="12" font-weight="bold">Python Subprocesses Spawned</text>
+  <text x="960" y="1615" fill="#991B1B" font-size="10" font-weight="bold">Process 1:</text>
+  <text x="970" y="1633" fill="#DC2626" font-size="9">python3 infoblox_driver.py --flow_id=23809</text>
+  <text x="975" y="1649" fill="#DC2626" font-size="9">--event_type=DDI_QUERY_RESP_LOG --grpc_host=cdc-grpc-in:9195</text>
+  <text x="960" y="1670" fill="#991B1B" font-size="10" font-weight="bold">Process 2:</text>
+  <text x="970" y="1688" fill="#DC2626" font-size="9">python3 infoblox_driver.py --flow_id=23809</text>
+  <text x="975" y="1704" fill="#DC2626" font-size="9">--event_type=AUDIT_LOG --grpc_host=cdc-grpc-in:9195</text>
+
+  <!-- Note: key difference -->
+  <rect x="80" y="1720" width="1350" height="35" rx="4" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1"/>
+  <text x="100" y="1742" fill="#92400E" font-size="10" font-weight="bold">⚠️ KEY DIFFERENCE vs C2C: On-prem uses --grpc_host=cdc-grpc-in:9195 instead of --kafka_consumer=kafka1:9092. The Python code detects this and uses gRPC consumer instead of Kafka consumer.</text>
+
+  <!-- ====================== STAGE 6: Python gRPC Consumer ====================== -->
+  <rect x="30" y="1835" width="1440" height="470" rx="8" fill="white" stroke="#DC2626" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="1835" width="1440" height="36" rx="8" fill="#DC2626"/>
+  <text x="50" y="1859" fill="white" font-size="15" font-weight="bold">STAGE 6 — Python gRPC Consumer (Data Arrives at User's Script)</text>
+  <text x="1420" y="1859" text-anchor="end" fill="#FEE2E2" font-size="12">soar-light/plugins/python/src/soar_light.py</text>
+
+  <!-- Python Process -->
+  <rect x="60" y="1890" width="1390" height="395" rx="6" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="80" y="1910" fill="#991B1B" font-size="12" font-weight="bold">Python Subprocess: venv-23809/infoblox_driver.py (DDI_QUERY_RESP_LOG)</text>
+
+  <!-- gRPC Connection -->
+  <rect x="80" y="1925" width="430" height="175" rx="6" fill="#FFF1F2" stroke="#FDA4AF" stroke-width="1.5"/>
+  <text x="295" y="1945" text-anchor="middle" fill="#9F1239" font-size="12" font-weight="bold">SoarLightClient.__init__()</text>
+  <text x="100" y="1967" fill="#9F1239" font-size="10" font-weight="bold">gRPC Connection:</text>
+  <text x="110" y="1985" fill="#9F1239" font-size="10">channel = grpc.insecure_channel("cdc-grpc-in:9195")</text>
+  <text x="110" y="2003" fill="#9F1239" font-size="10">stub = datastream_pb2_grpc.ServerStub(channel)</text>
+  <text x="100" y="2028" fill="#9F1239" font-size="10" font-weight="bold">Topic Construction:</text>
+  <text x="110" y="2046" fill="#DC2626" font-size="10" font-weight="bold">topic = f"{flow_id}_{event_type}"</text>
+  <text x="110" y="2064" fill="#DC2626" font-size="10">= "23809_DDI_QUERY_RESP_LOG"</text>
+  <text x="100" y="2088" fill="#6B7280" font-size="9">Note: On-prem topics use flowId_dataType (no accountId prefix)</text>
+
+  <!-- Arrow -->
+  <line x1="510" y1="2010" x2="550" y2="2010" stroke="#DC2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <!-- Subscribe Loop -->
+  <rect x="555" y="1925" width="430" height="175" rx="6" fill="#FFF1F2" stroke="#FDA4AF" stroke-width="1.5"/>
+  <text x="770" y="1945" text-anchor="middle" fill="#9F1239" font-size="12" font-weight="bold">subscribe() — Bidirectional gRPC Stream</text>
+  <text x="575" y="1967" fill="#9F1239" font-size="10" font-weight="bold">Step-by-step:</text>
+  <text x="585" y="1985" fill="#9F1239" font-size="10">1. client_ctrl = stub.Subscribe(req_gen())</text>
+  <text x="585" y="2003" fill="#9F1239" font-size="10">2. Send: ServerCtrl(Subscribe(Topics=</text>
+  <text x="600" y="2019" fill="#DC2626" font-size="10">   ["23809_DDI_QUERY_RESP_LOG"]))</text>
+  <text x="585" y="2037" fill="#9F1239" font-size="10">3. for resp in client_ctrl:  # blocking recv</text>
+  <text x="600" y="2053" fill="#9F1239" font-size="10">  for msg in resp.Messages.Messages:</text>
+  <text x="615" y="2069" fill="#9F1239" font-size="10">event = json.loads(msg.Data.decode('utf-8'))</text>
+  <text x="615" y="2085" fill="#DC2626" font-size="10" font-weight="bold">self.plugin.process(ctx, event)</text>
+  <text x="585" y="2095" fill="#6B7280" font-size="9">4. Send ACK: MarkMessages(id=msg.Identifier, error="")</text>
+
+  <!-- Arrow -->
+  <line x1="985" y1="2010" x2="1025" y2="2010" stroke="#DC2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <!-- User Script -->
+  <rect x="1030" y="1925" width="400" height="175" rx="6" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/>
+  <text x="1230" y="1945" text-anchor="middle" fill="#065F46" font-size="12" font-weight="bold">User's Python Script</text>
+  <text x="1050" y="1967" fill="#065F46" font-size="10" font-weight="bold">class UserEventHandler(IEventHandler):</text>
+  <text x="1060" y="1987" fill="#065F46" font-size="10">def process(self, context, event):</text>
+  <text x="1070" y="2005" fill="#065F46" font-size="10">  data = json.loads(event)</text>
+  <text x="1070" y="2023" fill="#065F46" font-size="10">  if data["query"] in threat_list:</text>
+  <text x="1080" y="2041" fill="#065F46" font-size="10">    # Block the client IP:</text>
+  <text x="1080" y="2059" fill="#059669" font-size="10" font-weight="bold">    firewall.block_ip(</text>
+  <text x="1090" y="2077" fill="#059669" font-size="10" font-weight="bold">      data["client_ip"])</text>
+  <text x="1080" y="2095" fill="#059669" font-size="10" font-weight="bold">    # Log to SIEM</text>
+
+  <!-- ACK Flow -->
+  <rect x="80" y="2115" width="1350" height="80" rx="4" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1"/>
+  <text x="100" y="2135" fill="#92400E" font-size="11" font-weight="bold">ACK (Acknowledgment) Flow — After script processes each message:</text>
+  <text x="110" y="2157" fill="#78350F" font-size="10" font-weight="bold">Python script → MarkMessages(Identifier=offset, ErrorReason="") → gRPC stream → cdc.grpc-in server → dsclient → cloud data.exporter.kafka → Kafka offset commit</text>
+  <text x="110" y="2177" fill="#78350F" font-size="10">If script raises exception: MarkMessages(ErrorReason="Processing failed: ...") → message may be retried</text>
+
+  <!-- Message timeout -->
+  <rect x="80" y="2200" width="660" height="60" rx="4" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="100" y="2220" fill="#991B1B" font-size="10" font-weight="bold">Timeout Handling:</text>
+  <text x="110" y="2238" fill="#991B1B" font-size="10">message_connection_timeout = 30 minutes (default)</text>
+  <text x="110" y="2254" fill="#991B1B" font-size="10">If no data received → close stream → reconnect to gRPC-in</text>
+
+  <rect x="760" y="2200" width="670" height="60" rx="4" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1"/>
+  <text x="780" y="2220" fill="#065F46" font-size="10" font-weight="bold">KeepAlive:</text>
+  <text x="790" y="2238" fill="#065F46" font-size="10">Every 10 seconds: Send ServerCtrl(KeepAlive{})</text>
+  <text x="790" y="2254" fill="#065F46" font-size="10">Prevents cloud proxy from closing idle connection</text>
+
+  <!-- ====================== STAGE 7: Destination ====================== -->
+  <rect x="30" y="2325" width="1440" height="150" rx="8" fill="white" stroke="#059669" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="2325" width="1440" height="36" rx="8" fill="#059669"/>
+  <text x="50" y="2349" fill="white" font-size="15" font-weight="bold">STAGE 7 — External Destination (User's Script Takes Automated Action)</text>
+
+  <rect x="60" y="2380" width="260" height="70" rx="6" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="190" y="2400" text-anchor="middle" fill="#991B1B" font-size="12" font-weight="bold">Firewall (Block IP)</text>
+  <text x="80" y="2420" fill="#991B1B" font-size="10">firewall.block_ip("10.0.1.5")</text>
+  <text x="80" y="2438" fill="#6B7280" font-size="9">Isolate compromised host</text>
+
+  <rect x="340" y="2380" width="260" height="70" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="470" y="2400" text-anchor="middle" fill="#5B21B6" font-size="12" font-weight="bold">SIEM (Log Event)</text>
+  <text x="360" y="2420" fill="#5B21B6" font-size="10">siem.log(threat_event)</text>
+  <text x="360" y="2438" fill="#6B7280" font-size="9">Record in security log</text>
+
+  <rect x="620" y="2380" width="260" height="70" rx="6" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="750" y="2400" text-anchor="middle" fill="#1E40AF" font-size="12" font-weight="bold">Ticketing System</text>
+  <text x="640" y="2420" fill="#1E40AF" font-size="10">jira.create_ticket(alert)</text>
+  <text x="640" y="2438" fill="#6B7280" font-size="9">Create incident for SOC</text>
+
+  <rect x="900" y="2380" width="260" height="70" rx="6" fill="#FFF7ED" stroke="#D97706" stroke-width="1.5"/>
+  <text x="1030" y="2400" text-anchor="middle" fill="#92400E" font-size="12" font-weight="bold">NIOS (RPZ Update)</text>
+  <text x="920" y="2420" fill="#92400E" font-size="10">nios.add_rpz_rule("evil.com")</text>
+  <text x="920" y="2438" fill="#6B7280" font-size="9">Block domain at DNS level</text>
+
+  <rect x="1180" y="2380" width="270" height="70" rx="6" fill="#F0FDF4" stroke="#059669" stroke-width="1.5"/>
+  <text x="1315" y="2400" text-anchor="middle" fill="#065F46" font-size="12" font-weight="bold">Any API / Custom</text>
+  <text x="1200" y="2420" fill="#065F46" font-size="10">requests.post(any_endpoint)</text>
+  <text x="1200" y="2438" fill="#6B7280" font-size="9">User's custom automation</text>
+
+  <!-- ====================== Complete Summary ====================== -->
+  <rect x="30" y="2495" width="1440" height="450" rx="8" fill="white" stroke="#92400E" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="2495" width="1440" height="36" rx="8" fill="#92400E"/>
+  <text x="50" y="2519" fill="white" font-size="15" font-weight="bold">COMPLETE ON-PREM DATA JOURNEY — End-to-End Summary</text>
+
+  <rect x="60" y="2545" width="1390" height="385" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Step 1 -->
+  <circle cx="100" cy="2580" r="16" fill="#3B82F6"/>
+  <text x="100" y="2585" text-anchor="middle" fill="white" font-size="12" font-weight="bold">1</text>
+  <text x="130" y="2578" fill="#1E40AF" font-size="11" font-weight="bold">User creates SOAR-Light flow in cloud CSP Portal (#23809)</text>
+  <text x="130" y="2594" fill="#6B7280" font-size="10">config.generator → config.manager → writes /etc/config/soar_light.json on OPH appliance</text>
+
+  <!-- Step 2 -->
+  <circle cx="100" cy="2625" r="16" fill="#D97706"/>
+  <text x="100" y="2630" text-anchor="middle" fill="white" font-size="12" font-weight="bold">2</text>
+  <text x="130" y="2623" fill="#92400E" font-size="11" font-weight="bold">NIOS Grid generates DNS query syslog files</text>
+  <text x="130" y="2639" fill="#6B7280" font-size="10">Compressed .gz files → SCP to cdc.dns-in → Parse syslog → CSV records</text>
+
+  <!-- Step 3 -->
+  <circle cx="100" cy="2670" r="16" fill="#059669"/>
+  <text x="100" y="2675" text-anchor="middle" fill="white" font-size="12" font-weight="bold">3</text>
+  <text x="130" y="2668" fill="#065F46" font-size="11" font-weight="bold">Apache Flume batches CSV → Parquet files</text>
+  <text x="130" y="2684" fill="#6B7280" font-size="10">SpoolDir source → memory channel → Parquet sink → /cloud-out/dns/*.parquet</text>
+
+  <!-- Step 4 -->
+  <circle cx="100" cy="2715" r="16" fill="#7C3AED"/>
+  <text x="100" y="2720" text-anchor="middle" fill="white" font-size="12" font-weight="bold">4</text>
+  <text x="130" y="2713" fill="#5B21B6" font-size="11" font-weight="bold">cdc.grpc-out uploads Parquet to cloud data.exporter.kafka</text>
+  <text x="130" y="2729" fill="#6B7280" font-size="10">Worker pool → gRPC binary stream → Cloud receives → Deserialize → Produce to Kafka topic "acme-corp_flowID23809_DDI_QUERY_RESP_LOG"</text>
+
+  <!-- Step 5 -->
+  <circle cx="100" cy="2760" r="16" fill="#DC2626"/>
+  <text x="100" y="2765" text-anchor="middle" fill="white" font-size="12" font-weight="bold">5</text>
+  <text x="130" y="2758" fill="#991B1B" font-size="11" font-weight="bold">cdc.grpc-in bridges cloud Kafka → on-prem via bidirectional gRPC</text>
+  <text x="130" y="2774" fill="#6B7280" font-size="10">dsclient subscribes to cloud DataStream → receives Messages → stores in StreamCache → serves to Python via local gRPC server (:9195)</text>
+
+  <!-- Step 6 -->
+  <circle cx="100" cy="2805" r="16" fill="#0891B2"/>
+  <text x="100" y="2810" text-anchor="middle" fill="white" font-size="12" font-weight="bold">6</text>
+  <text x="130" y="2803" fill="#0E7490" font-size="11" font-weight="bold">soar-light on-prem binary watches config file → spawns Python per data type</text>
+  <text x="130" y="2819" fill="#6B7280" font-size="10">inotify → parse soar_light.json → CreateVirtualEnv → Generate driver → Exec: python3 --grpc_host=cdc-grpc-in:9195</text>
+
+  <!-- Step 7 -->
+  <circle cx="100" cy="2850" r="16" fill="#BE185D"/>
+  <text x="100" y="2855" text-anchor="middle" fill="white" font-size="12" font-weight="bold">7</text>
+  <text x="130" y="2848" fill="#9D174D" font-size="11" font-weight="bold">Python subscribes to gRPC-in, receives JSON events, executes user's script</text>
+  <text x="130" y="2864" fill="#6B7280" font-size="10">SoarLightClient.subscribe(topics=["23809_DDI_QUERY_RESP_LOG"]) → process(ctx, event) → sends MarkMessages ACK</text>
+
+  <!-- Step 8 -->
+  <circle cx="100" cy="2895" r="16" fill="#065F46"/>
+  <text x="100" y="2900" text-anchor="middle" fill="white" font-size="12" font-weight="bold">8</text>
+  <text x="130" y="2893" fill="#065F46" font-size="11" font-weight="bold">User's script takes automated action (block IP, create ticket, update RPZ)</text>
+  <text x="130" y="2909" fill="#6B7280" font-size="10">context has auth tokens + variables → requests.post() / firewall API / NIOS WAPI call</text>
+
+  <!-- Data format trace -->
+  <rect x="80" y="2830" width="1350" height="85" rx="4" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1"/>
+  <text x="100" y="2850" fill="#92400E" font-size="10" font-weight="bold">Data Format Transformations (7 hops):</text>
+  <text x="110" y="2870" fill="#78350F" font-size="10">NIOS Syslog (.gz) → cdc.dns-in (CSV) → Flume (Parquet) → grpc-out (gRPC binary) → data.exporter.kafka (JSON→Kafka)</text>
+  <text x="110" y="2888" fill="#78350F" font-size="10">→ grpc-in dsclient (protobuf Message) → gRPC server (ClientCtrl) → Python (json.loads → dict) → User script → HTTP POST to destination</text>
+
+  <!-- Legend -->
+  <rect x="30" y="2960" width="1440" height="80" rx="8" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="50" y="2985" fill="#374151" font-size="12" font-weight="bold">Key Identifiers for This Example Flow:</text>
+  <rect x="60" y="3000" width="180" height="22" rx="3" fill="#FFF7ED" stroke="#D97706" stroke-width="1"/>
+  <text x="70" y="3015" fill="#92400E" font-size="10">Account: acme-corp</text>
+  <rect x="255" y="3000" width="180" height="22" rx="3" fill="#F0FDF4" stroke="#059669" stroke-width="1"/>
+  <text x="265" y="3015" fill="#065F46" font-size="10">Flow ID: 23809</text>
+  <rect x="450" y="3000" width="260" height="22" rx="3" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/>
+  <text x="460" y="3015" fill="#991B1B" font-size="10">Data Type: DDI_QUERY_RESP_LOG</text>
+  <rect x="725" y="3000" width="300" height="22" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1"/>
+  <text x="735" y="3015" fill="#5B21B6" font-size="10">gRPC Topic: 23809_DDI_QUERY_RESP_LOG</text>
+  <rect x="1040" y="3000" width="250" height="22" rx="3" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+  <text x="1050" y="3015" fill="#1E40AF" font-size="10">gRPC Host: cdc-grpc-in:9195</text>
+  <rect x="1305" y="3000" width="150" height="22" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <text x="1315" y="3015" fill="#92400E" font-size="10">NIOS: nios-grid-01</text>
+
+  <!-- Copyright -->
+  <text x="750" y="3060" text-anchor="middle" fill="#9CA3AF" font-size="10">CDC SOAR-Light On-Prem Flow — Detailed Walkthrough with Example Flow #23809 from NIOS Grid</text>
+</svg>

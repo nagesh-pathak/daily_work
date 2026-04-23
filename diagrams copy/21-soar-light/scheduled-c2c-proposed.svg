@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 750">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#27ae60"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="750" fill="#f8f9fa" rx="12"/>
+
+  <!-- Title -->
+  <text x="550" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#2c3e50">Proposed: Scheduled C2C Flow Architecture (1 Pod)</text>
+  <text x="550" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#7f8c8d">Feature Request — Remove the grpc-in pod for SOURCE_SCHEDULE flows</text>
+
+  <!-- ======= LEFT SIDE: CURRENT (2 pods) ======= -->
+  <rect x="30" y="80" width="500" height="640" fill="#fff5f5" rx="10" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="280" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#e74c3c">CURRENT: Event-Driven C2C Flow (2 Pods)</text>
+
+  <!-- grpc-in pod (left) -->
+  <rect x="60" y="130" width="440" height="150" fill="#ffebee" rx="8" stroke="#ef5350" stroke-width="1.5"/>
+  <text x="280" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#c62828">Pod 1: cdc-grpc-in-service-{acctId}-{flowId}</text>
+
+  <rect x="80" y="170" width="190" height="90" fill="#fff" rx="6" stroke="#ef9a9a" stroke-width="1"/>
+  <text x="175" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#c62828">ConfigMap</text>
+  <text x="175" y="213" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">FLOW_JSON</text>
+  <text x="175" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">KAFKA_BROKERS</text>
+  <text x="175" y="243" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">WORKERS_COUNT</text>
+
+  <rect x="290" y="170" width="190" height="90" fill="#fff" rx="6" stroke="#ef9a9a" stroke-width="1"/>
+  <text x="385" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#c62828">StatefulSet</text>
+  <text x="385" y="213" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">Reads from Kafka</text>
+  <text x="385" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">Sends events to Pod 2</text>
+  <text x="385" y="243" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">~100Mi mem, ~30m CPU</text>
+
+  <!-- Arrow from pod 1 to pod 2 -->
+  <line x1="280" y1="285" x2="280" y2="310" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="290" y="302" font-family="Arial, sans-serif" font-size="10" fill="#555">events</text>
+
+  <!-- soar-light pod (left) -->
+  <rect x="60" y="315" width="440" height="150" fill="#e8f5e9" rx="8" stroke="#66bb6a" stroke-width="1.5"/>
+  <text x="280" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2e7d32">Pod 2: cdc-soar-light-service-{acctId}-{flowId}</text>
+
+  <rect x="80" y="355" width="190" height="90" fill="#fff" rx="6" stroke="#a5d6a7" stroke-width="1"/>
+  <text x="175" y="378" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2e7d32">ConfigMap</text>
+  <text x="175" y="396" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">FLOW_JSON</text>
+  <text x="175" y="411" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">KAFKA_CONSUMER_BROKERS</text>
+
+  <rect x="290" y="355" width="190" height="90" fill="#fff" rx="6" stroke="#a5d6a7" stroke-width="1"/>
+  <text x="385" y="378" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2e7d32">StatefulSet</text>
+  <text x="385" y="396" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">Runs Python script</text>
+  <text x="385" y="411" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">IEventHandler.process()</text>
+  <text x="385" y="426" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">for each Kafka event</text>
+
+  <!-- Resources (left) -->
+  <rect x="80" y="490" width="400" height="50" fill="#ffcdd2" rx="6"/>
+  <text x="280" y="510" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#c62828">Resources per flow: 2 Pods, 2 ConfigMaps, 2 StatefulSets</text>
+  <text x="280" y="528" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#c62828">+ 1 idle Kafka consumer (wasted for scheduled flows)</text>
+
+  <!-- Kafka (left) -->
+  <rect x="100" y="560" width="320" height="40" fill="#fff3e0" rx="6" stroke="#ff9800" stroke-width="1"/>
+  <text x="260" y="585" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#e65100">Kafka (BloxOne events topic) → grpc-in → soar-light</text>
+
+  <!-- X mark for scheduled -->
+  <text x="280" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e74c3c">✗ For scheduled flows, Pod 1 is 100% idle waste</text>
+  <text x="280" y="660" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#e74c3c">No Kafka events to read — script runs on a timer</text>
+
+  <!-- ======= RIGHT SIDE: PROPOSED (1 pod) ======= -->
+  <rect x="565" y="80" width="510" height="640" fill="#f1f8e9" rx="10" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="820" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#27ae60">PROPOSED: Scheduled C2C Flow (1 Pod)</text>
+
+  <!-- No grpc-in pod -->
+  <rect x="595" y="130" width="450" height="100" fill="#e8f5e9" rx="8" stroke="#a5d6a7" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="820" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#66bb6a">No grpc-in pod created</text>
+  <text x="820" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#81c784">getSrcSvcConf() returns nil for scheduled flows</text>
+  <text x="820" y="198" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#81c784">InSvc = nil → skipped in Create/Update/Delete</text>
+
+  <!-- soar-light pod (right) -->
+  <rect x="595" y="250" width="450" height="270" fill="#e8f5e9" rx="8" stroke="#2e7d32" stroke-width="2"/>
+  <text x="820" y="278" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1b5e20">Only Pod: cdc-soar-light-service-{acctId}-{flowId}</text>
+
+  <rect x="615" y="295" width="200" height="105" fill="#fff" rx="6" stroke="#a5d6a7" stroke-width="1"/>
+  <text x="715" y="318" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2e7d32">ConfigMap</text>
+  <text x="715" y="338" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">FLOW_JSON (includes</text>
+  <text x="715" y="353" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">script_schedule:</text>
+  <text x="715" y="368" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2e7d32">"*/5 * * * *"</text>
+  <text x="715" y="388" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">KAFKA_CONSUMER_BROKERS</text>
+
+  <rect x="835" y="295" width="200" height="105" fill="#fff" rx="6" stroke="#a5d6a7" stroke-width="1"/>
+  <text x="935" y="318" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#2e7d32">StatefulSet</text>
+  <text x="935" y="338" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">soar-light binary starts</text>
+  <text x="935" y="353" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">Reads FLOW_JSON</text>
+  <text x="935" y="368" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">Detects schedule cron</text>
+  <text x="935" y="383" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">Sets up cron timer</text>
+
+  <!-- Internal flow inside soar-light -->
+  <rect x="615" y="415" width="415" height="90" fill="#c8e6c9" rx="6"/>
+  <text x="822" y="435" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1b5e20">Inside soar-light (subscriber.go → runDataFlow):</text>
+  <text x="822" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">DataTypes == [] &amp;&amp; Schedule == "*/5 * * * *"</text>
+  <text x="822" y="472" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">→ ProcessScheduledScript(flow) → cron job → every 5 min:</text>
+  <text x="822" y="489" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1b5e20">python3 infoblox_driver.py --script-schedule true → IScheduler.schedule(ctx)</text>
+
+  <!-- Resources (right) -->
+  <rect x="615" y="540" width="400" height="50" fill="#c8e6c9" rx="6"/>
+  <text x="815" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1b5e20">Resources per flow: 1 Pod, 1 ConfigMap, 1 StatefulSet</text>
+  <text x="815" y="578" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#2e7d32">50% fewer resources — no idle Kafka consumer</text>
+
+  <!-- Check mark -->
+  <text x="820" y="625" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#27ae60">✓ soar-light already handles scheduled flows</text>
+  <text x="820" y="645" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2e7d32">Zero changes needed in soar-light binary</text>
+  <text x="820" y="665" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2e7d32">Changes only in cdc.flow.api.service (6 locations)</text>
+
+  <!-- Bottom legend -->
+  <rect x="30" y="700" width="1040" height="40" fill="#fff" rx="6" stroke="#ddd" stroke-width="1"/>
+  <text x="550" y="725" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#555">Key files: flow_handler_service.go (unblock) → utils.go (nil InSvc) → flow_handler.go (skip Create/Update/Delete) → utils.go (fix sync)</text>
+</svg>

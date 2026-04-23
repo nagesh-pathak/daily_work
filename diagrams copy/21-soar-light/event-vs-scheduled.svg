@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <style>
+      text { font-family: 'Segoe UI', Arial, sans-serif; }
+      .title { font-size: 28px; font-weight: 700; fill: #1a1a2e; }
+      .subtitle { font-size: 16px; fill: #555; }
+      .section-title { font-size: 20px; font-weight: 700; fill: #fff; }
+      .label { font-size: 14px; font-weight: 600; fill: #333; }
+      .desc { font-size: 12px; fill: #555; }
+      .code { font-family: 'Consolas', 'Courier New', monospace; font-size: 12px; fill: #333; }
+      .highlight { font-size: 13px; font-weight: 600; }
+      .vs-text { font-size: 36px; font-weight: 800; fill: #e74c3c; }
+    </style>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" rx="12" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" class="title">Two Types of SOAR-Light Scripts</text>
+  <text x="600" y="62" text-anchor="middle" class="subtitle">Your Python code can either REACT to events or RUN on a timer — never both at once</text>
+
+  <!-- VS badge -->
+  <text x="600" y="340" text-anchor="middle" class="vs-text">VS</text>
+
+  <!-- ═══════════ LEFT SIDE: EVENT HANDLER ═══════════ -->
+
+  <!-- Header -->
+  <rect x="30" y="85" width="540" height="48" rx="8" fill="#2980b9"/>
+  <text x="300" y="115" text-anchor="middle" class="section-title">EVENT HANDLER (IEventHandler)</text>
+
+  <!-- Main box -->
+  <rect x="30" y="140" width="540" height="410" rx="8" fill="#fff" stroke="#2980b9" stroke-width="2" filter="url(#shadow)"/>
+
+  <!-- When does it run? -->
+  <text x="50" y="170" class="label">When does it run?</text>
+  <text x="50" y="190" class="desc">Every time a NEW event arrives (DNS query, DHCP lease, audit log, etc.)</text>
+  <rect x="50" y="200" width="500" height="30" rx="4" fill="#ebf5fb"/>
+  <text x="60" y="220" class="code">Event arrives → Your process() is called → You handle it → Next event</text>
+
+  <!-- What data does it get? -->
+  <text x="50" y="255" class="label">What data does it get?</text>
+  <text x="50" y="275" class="desc">The ACTUAL event data as a JSON string:</text>
+  <rect x="50" y="283" width="500" height="40" rx="4" fill="#f0f0f0"/>
+  <text x="60" y="300" class="code">{"query": "evil.com", "client_ip": "10.0.1.5", "qtype": "A"}</text>
+  <text x="60" y="316" class="code">{"lease_type": "DHCP", "mac": "aa:bb:cc:dd:ee:ff", ...}</text>
+
+  <!-- Interface -->
+  <text x="50" y="345" class="label">Python interface you implement:</text>
+  <rect x="50" y="353" width="500" height="52" rx="4" fill="#f0f0f0"/>
+  <text x="60" y="370" class="code">class MyScript:</text>
+  <text x="60" y="386" class="code">    def process(self, context, event):  # called per event</text>
+  <text x="60" y="400" class="code">    def get_health_status(self, context):  # optional</text>
+
+  <!-- Use cases -->
+  <text x="50" y="430" class="label">Best for:</text>
+  <text x="50" y="450" class="desc">• Create a Jira ticket when someone visits a malicious domain</text>
+  <text x="50" y="468" class="desc">• Send a Slack alert for each suspicious DNS query</text>
+  <text x="50" y="486" class="desc">• Block an IP on your firewall in real-time</text>
+  <text x="50" y="504" class="desc">• Log every DHCP lease to an external database</text>
+
+  <!-- How data reaches it -->
+  <text x="50" y="534" class="label">How events reach your script:</text>
+  <text x="50" y="540" class="desc"> </text>
+
+  <!-- ═══════════ RIGHT SIDE: SCHEDULED ═══════════ -->
+
+  <!-- Header -->
+  <rect x="630" y="85" width="540" height="48" rx="8" fill="#27ae60"/>
+  <text x="900" y="115" text-anchor="middle" class="section-title">SCHEDULED SCRIPT (IScheduler)</text>
+
+  <!-- Main box -->
+  <rect x="630" y="140" width="540" height="410" rx="8" fill="#fff" stroke="#27ae60" stroke-width="2" filter="url(#shadow)"/>
+
+  <!-- When does it run? -->
+  <text x="650" y="170" class="label">When does it run?</text>
+  <text x="650" y="190" class="desc">On a TIMER that you set (cron expression), e.g. every 5 minutes</text>
+  <rect x="650" y="200" width="500" height="30" rx="4" fill="#eafaf1"/>
+  <text x="660" y="220" class="code">Cron fires → Your schedule() is called → You do your thing → Wait for next tick</text>
+
+  <!-- What data does it get? -->
+  <text x="650" y="255" class="label">What data does it get?</text>
+  <text x="650" y="275" class="desc">NOTHING! No event data. Just the timer firing.</text>
+  <rect x="650" y="283" width="500" height="40" rx="4" fill="#f0f0f0"/>
+  <text x="660" y="300" class="code">schedule(context)  ← no 'event' parameter!</text>
+  <text x="660" y="316" class="code">You must FETCH your own data (call an API, query a DB, etc.)</text>
+
+  <!-- Interface -->
+  <text x="650" y="345" class="label">Python interface you implement:</text>
+  <rect x="650" y="353" width="500" height="52" rx="4" fill="#f0f0f0"/>
+  <text x="660" y="370" class="code">class MyTask:</text>
+  <text x="660" y="386" class="code">    def schedule(self, context):  # called on each timer tick</text>
+  <text x="660" y="400" class="code">    def get_health_status(self, context):  # optional</text>
+
+  <!-- Use cases -->
+  <text x="650" y="430" class="label">Best for:</text>
+  <text x="650" y="450" class="desc">• Check a threat intelligence feed every 5 minutes</text>
+  <text x="650" y="468" class="desc">• Send a daily summary report of yesterday's activity</text>
+  <text x="650" y="486" class="desc">• Poll an external API for new data periodically</text>
+  <text x="650" y="504" class="desc">• Sync data between two systems on a schedule</text>
+
+  <!-- How it's triggered -->
+  <text x="650" y="534" class="label">How your script is triggered:</text>
+  <text x="650" y="540" class="desc"> </text>
+
+  <!-- ═══════════ BOTTOM: HOW THEY CONNECT ═══════════ -->
+
+  <!-- Event Handler flow -->
+  <rect x="30" y="560" width="540" height="120" rx="8" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+
+  <!-- Flow diagram for event handler -->
+  <rect x="50" y="575" width="105" height="40" rx="6" fill="#3498db"/>
+  <text x="103" y="599" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">DNS/DHCP Event</text>
+
+  <line x1="155" y1="595" x2="175" y2="595" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="180" y="575" width="80" height="40" rx="6" fill="#5dade2"/>
+  <text x="220" y="599" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Kafka</text>
+
+  <line x1="260" y1="595" x2="280" y2="595" stroke="#333" stroke-width="2"/>
+
+  <rect x="285" y="575" width="80" height="40" rx="6" fill="#5dade2"/>
+  <text x="325" y="599" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Python</text>
+
+  <line x1="365" y1="595" x2="385" y2="595" stroke="#333" stroke-width="2"/>
+
+  <rect x="390" y="575" width="80" height="40" rx="6" fill="#2980b9"/>
+  <text x="430" y="592" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">YOUR</text>
+  <text x="430" y="605" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">process()</text>
+
+  <line x1="470" y1="595" x2="490" y2="595" stroke="#333" stroke-width="2"/>
+
+  <rect x="495" y="575" width="60" height="40" rx="6" fill="#1a5276"/>
+  <text x="525" y="599" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Jira</text>
+
+  <text x="50" y="650" class="desc">One Python process per data type. Runs FOREVER, processing events as they come.</text>
+  <text x="50" y="666" class="desc">Cloud: Kafka → Python  |  On-Prem: gRPC-in → Python</text>
+
+  <!-- Scheduled flow -->
+  <rect x="630" y="560" width="540" height="120" rx="8" fill="#eafaf1" stroke="#27ae60" stroke-width="1"/>
+
+  <rect x="650" y="575" width="90" height="40" rx="6" fill="#27ae60"/>
+  <text x="695" y="592" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Cron Timer</text>
+  <text x="695" y="605" text-anchor="middle" fill="#fff" font-size="9">*/5 * * * * *</text>
+
+  <line x1="740" y1="595" x2="762" y2="595" stroke="#333" stroke-width="2"/>
+
+  <rect x="767" y="575" width="80" height="40" rx="6" fill="#2ecc71"/>
+  <text x="807" y="599" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Python</text>
+
+  <line x1="847" y1="595" x2="869" y2="595" stroke="#333" stroke-width="2"/>
+
+  <rect x="874" y="575" width="87" height="40" rx="6" fill="#27ae60"/>
+  <text x="917" y="592" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">YOUR</text>
+  <text x="917" y="605" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">schedule()</text>
+
+  <line x1="961" y1="595" x2="983" y2="595" stroke="#333" stroke-width="2"/>
+
+  <rect x="988" y="575" width="80" height="40" rx="6" fill="#1e8449"/>
+  <text x="1028" y="592" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Threat</text>
+  <text x="1028" y="605" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Feed API</text>
+
+  <text x="650" y="650" class="desc">New Python process spawned EACH time cron fires. Runs once, exits.</text>
+  <text x="650" y="666" class="desc">No Kafka, no gRPC. Just your code running on a timer.</text>
+
+  <!-- ═══════════ BOTTOM: KEY DECISION ═══════════ -->
+
+  <rect x="30" y="700" width="1140" height="80" rx="8" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>
+  <text x="600" y="725" text-anchor="middle" font-size="16" font-weight="700" fill="#856404">How does soar-light decide which type to use?</text>
+  <text x="600" y="748" text-anchor="middle" font-size="13" fill="#856404">It checks the flow config: if data_types is NOT empty → Event Handler  |  if data_types is EMPTY and schedule is set → Scheduled</text>
+  <text x="600" y="768" text-anchor="middle" font-size="12" fill="#856404" font-family="Consolas, monospace">Go code: if len(flow.DataTypes) == 0 &amp;&amp; flow.Schedule != "" → Scheduled  |  else → Event Handler</text>
+
+  <!-- Both supported callout -->
+  <rect x="30" y="795" width="1140" height="55" rx="8" fill="#f8d7da" stroke="#dc3545" stroke-width="2"/>
+  <text x="600" y="820" text-anchor="middle" font-size="15" font-weight="700" fill="#721c24">Scheduled scripts work ONLY in On-Prem — NOT in C2C (Cloud)!</text>
+  <text x="600" y="840" text-anchor="middle" font-size="12" fill="#721c24">C2C creates a "-in" pod (grpc-in) per flow — for scheduled flows this pod is wasted. So cdc.flow.api.service blocks SOURCE_SCHEDULE for C2C.</text>
+
+  <!-- Arrowhead marker -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

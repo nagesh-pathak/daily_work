@@ -1,0 +1,244 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1100" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#1565C0"/></marker>
+    <marker id="b" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#2E7D32"/></marker>
+    <marker id="c" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#E65100"/></marker>
+    <marker id="d" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#AD1457"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="hdr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0D47A1"/><stop offset="100%" stop-color="#1565C0"/></linearGradient>
+  </defs>
+  <rect width="1400" height="1100" fill="#f5f6f8" rx="8"/>
+
+  <!-- Title -->
+  <rect x="0" y="0" width="1400" height="56" fill="url(#hdr)" rx="8 8 0 0"/>
+  <text x="700" y="36" text-anchor="middle" fill="white" font-size="20" font-weight="bold">SOAR-Light — Cloud-to-Cloud (C2C) Data Flow</text>
+  <text x="700" y="52" text-anchor="middle" fill="#90CAF5" font-size="10">Dapr PubSub → Flow Config → Python venv → Kafka Consumer → Script Execution</text>
+
+  <!-- ===== PHASE 1: Flow Config Delivery ===== -->
+  <rect x="20" y="72" width="1360" height="200" rx="8" fill="white" stroke="#1565C0" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="72" width="1360" height="28" rx="8 8 0 0" fill="#1565C0"/>
+  <text x="700" y="91" text-anchor="middle" fill="white" font-size="13" font-weight="bold">PHASE 1 — Flow Configuration Delivery (Dapr PubSub)</text>
+
+  <!-- cdc.flow.api.service -->
+  <rect x="40" y="115" width="180" height="60" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="130" y="140" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">cdc.flow.api.service</text>
+  <text x="130" y="155" text-anchor="middle" font-size="8" fill="#555">Flow CRUD → Publishes event</text>
+  <text x="130" y="167" text-anchor="middle" font-size="7" fill="#888">resource=FLOW, op=CREATE</text>
+
+  <line x1="222" y1="145" x2="268" y2="145" stroke="#1565C0" stroke-width="2" marker-end="url(#a)"/>
+  <text x="245" y="139" text-anchor="middle" font-size="7" fill="#1565C0">publish</text>
+
+  <!-- Dapr PubSub -->
+  <rect x="270" y="112" width="200" height="66" rx="6" fill="#FFF8E1" stroke="#E65100" stroke-width="1.5"/>
+  <text x="370" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Dapr PubSub (Kafka)</text>
+  <text x="370" y="150" text-anchor="middle" font-size="9" fill="#555">Component: cud-dapr-component</text>
+  <text x="370" y="164" text-anchor="middle" font-size="9" font-weight="bold" fill="#E65100">Topic: cdc-flow-{env}</text>
+  <text x="370" y="175" text-anchor="middle" font-size="7" fill="#888">e.g. cdc-flow-prod</text>
+
+  <line x1="472" y1="145" x2="518" y2="145" stroke="#1565C0" stroke-width="2" marker-end="url(#a)"/>
+  <text x="495" y="139" text-anchor="middle" font-size="7" fill="#1565C0">subscribe</text>
+
+  <!-- Subscriber -->
+  <rect x="520" y="110" width="260" height="70" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="650" y="132" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">subscriber.go:EventHandler()</text>
+  <text x="650" y="148" text-anchor="middle" font-size="9" fill="#555">Parse FlowEvent → Validate cloud-only</text>
+  <text x="650" y="162" text-anchor="middle" font-size="8" fill="#888">Skip if len(cdc_hosts) &gt; 0 || len(cdc_services) &gt; 0</text>
+  <text x="650" y="175" text-anchor="middle" font-size="8" fill="#2E7D32">getParsedAndEncodedFlowConfig() → base64 decode</text>
+
+  <line x1="782" y1="145" x2="828" y2="145" stroke="#2E7D32" stroke-width="2" marker-end="url(#b)"/>
+
+  <!-- Config Store -->
+  <rect x="830" y="112" width="210" height="66" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="935" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">Config.AddFlow(&amp;flow)</text>
+  <text x="935" y="150" text-anchor="middle" font-size="8" fill="#555">Stores: Scripts[], Context{}, Variables{}</text>
+  <text x="935" y="164" text-anchor="middle" font-size="8" fill="#555">DataTypes[], AccountID, Schedule</text>
+  <text x="935" y="175" text-anchor="middle" font-size="7" fill="#888">All binary fields base64-encoded in transit</text>
+
+  <line x1="1042" y1="145" x2="1088" y2="145" stroke="#AD1457" stroke-width="2" marker-end="url(#d)"/>
+
+  <!-- Manager -->
+  <rect x="1090" y="112" width="270" height="66" rx="6" fill="#FCE4EC" stroke="#AD1457" stroke-width="1.5"/>
+  <text x="1225" y="132" text-anchor="middle" font-size="11" font-weight="bold" fill="#AD1457">Manager.ProcessFlow()</text>
+  <text x="1225" y="148" text-anchor="middle" font-size="8" fill="#555">For each DataType in flow.DataTypes:</text>
+  <text x="1225" y="162" text-anchor="middle" font-size="8" fill="#555">key = "{flow_id}_{data_type}"  (e.g. "42_AUDIT_LOG")</text>
+  <text x="1225" y="175" text-anchor="middle" font-size="8" fill="#AD1457">ProcessFlow(key, dataType, flow, execScript=true)</text>
+
+  <!-- Flow Config JSON -->
+  <rect x="40" y="195" width="740" height="68" rx="5" fill="#FAFAFA" stroke="#CCC" stroke-dasharray="4,2"/>
+  <text x="50" y="213" font-size="9" font-weight="bold" fill="#333">Dapr FlowConfig JSON:</text>
+  <text x="50" y="228" font-size="8" font-family="Consolas, monospace" fill="#555">{"resource":"FLOW", "operation":"CREATE", "flow":{"id":42, "account_id":"acme-corp",</text>
+  <text x="50" y="241" font-size="8" font-family="Consolas, monospace" fill="#555">  "source_data_types":["AUDIT_LOG","DNS_LOG"], "destinations":[{"type":"DESTINATION_APPLICATION",</text>
+  <text x="50" y="254" font-size="8" font-family="Consolas, monospace" fill="#555">  "application":{"type":"PYTHON_SCRIPT", "data":"&lt;base64_scripts&gt;", "variables":"&lt;base64_vars&gt;"}, "context":"&lt;base64_ctx&gt;"}]}}</text>
+
+  <!-- ===== PHASE 2: Venv + Script Setup ===== -->
+  <rect x="20" y="288" width="1360" height="230" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="288" width="1360" height="28" rx="8 8 0 0" fill="#2E7D32"/>
+  <text x="700" y="307" text-anchor="middle" fill="white" font-size="13" font-weight="bold">PHASE 2 — Virtual Environment &amp; Script Setup (driver.go)</text>
+
+  <!-- Step 1 -->
+  <rect x="40" y="330" width="200" height="75" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="140" y="350" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">1. CreateVirtualEnv</text>
+  <text x="140" y="366" text-anchor="middle" font-size="8" fill="#555">mkdir -p venv-{flowId}/src</text>
+  <text x="140" y="378" text-anchor="middle" font-size="8" fill="#555">python3 -m venv venv-{flowId}</text>
+  <text x="140" y="390" text-anchor="middle" font-size="8" fill="#555">cp *.py* → venv-{flowId}/src/</text>
+  <text x="140" y="400" text-anchor="middle" font-size="7" fill="#888">pip install -r requirements.txt</text>
+  <line x1="242" y1="367" x2="268" y2="367" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#b)"/>
+
+  <!-- Step 2 -->
+  <rect x="270" y="330" width="240" height="75" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="390" y="350" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">2. Base64 Decode Script</text>
+  <text x="390" y="366" text-anchor="middle" font-size="8" fill="#555">flow.Data → JSON: Scripts[].Value</text>
+  <text x="390" y="378" text-anchor="middle" font-size="8" fill="#555">Write: venv-{flowId}/src/{name}_{flowId}.py</text>
+  <text x="390" y="390" text-anchor="middle" font-size="8" fill="#555">flow.Context → ctxData dict</text>
+  <text x="390" y="400" text-anchor="middle" font-size="7" fill="#888">flow.Variables → varData dict</text>
+  <line x1="512" y1="367" x2="538" y2="367" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#b)"/>
+
+  <!-- Step 3 -->
+  <rect x="540" y="330" width="280" height="75" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="680" y="350" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">3. Template(infoblox_driver.py.tmpl)</text>
+  <text x="680" y="366" text-anchor="middle" font-size="8" fill="#555">{{.Name}} → my_audit_script_42</text>
+  <text x="680" y="378" text-anchor="middle" font-size="8" fill="#555">{{.MaxRetries}} → 300000 (5 min)</text>
+  <text x="680" y="390" text-anchor="middle" font-size="8" fill="#555">{{.DurationLimit}} → 3600 sec</text>
+  <text x="680" y="400" text-anchor="middle" font-size="7" fill="#888">Output: venv-{flowId}/src/infoblox_driver.py</text>
+  <line x1="822" y1="367" x2="848" y2="367" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#b)"/>
+
+  <!-- Step 4 -->
+  <rect x="850" y="330" width="510" height="75" rx="6" fill="#FCE4EC" stroke="#AD1457" stroke-width="1.5"/>
+  <text x="1105" y="350" text-anchor="middle" font-size="10" font-weight="bold" fill="#AD1457">4. Execute(runner) — Spawn Python Process</text>
+  <text x="1105" y="366" text-anchor="middle" font-size="8" font-family="Consolas, monospace" fill="#555">env -i /venv-42/bin/python3 /venv-42/src/infoblox_driver.py \</text>
+  <text x="1105" y="378" text-anchor="middle" font-size="8" font-family="Consolas, monospace" fill="#555">  --flow-id 42 --event-type AUDIT_LOG --cloud-mode true \</text>
+  <text x="1105" y="390" text-anchor="middle" font-size="8" font-family="Consolas, monospace" fill="#555">  --kafka-consumer broker1:9092,broker2:9092 --account-id acme-corp</text>
+  <text x="1105" y="400" text-anchor="middle" font-size="7" fill="#888">Launched via context.WithCancel() — SIGTERM on flow deletion</text>
+
+  <!-- Venv structure -->
+  <rect x="40" y="415" width="1320" height="92" rx="5" fill="#FAFAFA" stroke="#CCC" stroke-dasharray="4,2"/>
+  <text x="50" y="433" font-size="9" font-weight="bold" fill="#333">Virtual Environment Directory (per flow):</text>
+  <text x="50" y="450" font-size="8" font-family="Consolas, monospace" fill="#555">/src/python/venv/venv-42/                             ← Created once per flow_id</text>
+  <text x="50" y="463" font-size="8" font-family="Consolas, monospace" fill="#555">  ├── bin/python3                                      ← Isolated Python binary</text>
+  <text x="50" y="476" font-size="8" font-family="Consolas, monospace" fill="#555">  ├── src/infoblox_driver.py                            ← Generated from template (imports user script)</text>
+  <text x="50" y="489" font-size="8" font-family="Consolas, monospace" fill="#555">  ├── src/my_audit_script_42.py                         ← User's script (base64 decoded from flow.Data)</text>
+  <text x="50" y="502" font-size="8" font-family="Consolas, monospace" fill="#555">  ├── src/{interface.py, kafka_consumer.py, soar_light.py, health_checker.py, metrics.py}  ← Framework files</text>
+
+  <!-- ===== PHASE 3: Kafka Consumption ===== -->
+  <rect x="20" y="534" width="1360" height="220" rx="8" fill="white" stroke="#E65100" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="534" width="1360" height="28" rx="8 8 0 0" fill="#E65100"/>
+  <text x="700" y="553" text-anchor="middle" fill="white" font-size="13" font-weight="bold">PHASE 3 — Kafka Event Consumption (kafka_consumer.py)</text>
+
+  <!-- Python process -->
+  <rect x="40" y="575" width="200" height="55" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="140" y="598" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">infoblox_driver.py</text>
+  <text x="140" y="614" text-anchor="middle" font-size="8" fill="#555">main() → event_handler(args)</text>
+  <text x="140" y="626" text-anchor="middle" font-size="7" fill="#888">cloud_mode=True detected</text>
+  <line x1="242" y1="602" x2="268" y2="602" stroke="#E65100" stroke-width="1.5" marker-end="url(#c)"/>
+
+  <!-- connect_with_cloud_kafka -->
+  <rect x="270" y="575" width="230" height="55" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="385" y="595" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">connect_with_cloud_kafka()</text>
+  <text x="385" y="610" text-anchor="middle" font-size="8" fill="#555">_initialize_plugin() → scan classes</text>
+  <text x="385" y="624" text-anchor="middle" font-size="8" fill="#555">→ SoarLightKafkaConsumer()</text>
+  <line x1="502" y1="602" x2="528" y2="602" stroke="#E65100" stroke-width="1.5" marker-end="url(#c)"/>
+
+  <!-- KafkaConsumer -->
+  <rect x="530" y="572" width="290" height="62" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="675" y="592" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">SoarLightKafkaConsumer</text>
+  <text x="675" y="607" text-anchor="middle" font-size="9" font-weight="bold" fill="#C62828">Topic: {acct_id}_{flow_id}_SOAR_LIGHT_{event_type}</text>
+  <text x="675" y="620" text-anchor="middle" font-size="9" font-weight="bold" fill="#C62828">Group: cdc-soar-light-{flow_id}</text>
+  <text x="675" y="631" text-anchor="middle" font-size="7" fill="#888">bootstrap_servers from --kafka-consumer arg</text>
+  <line x1="822" y1="602" x2="848" y2="602" stroke="#E65100" stroke-width="1.5" marker-end="url(#c)"/>
+
+  <!-- Kafka Broker -->
+  <rect x="850" y="575" width="180" height="55" rx="6" fill="#FFECB3" stroke="#FF6F00" stroke-width="1.5"/>
+  <text x="940" y="598" text-anchor="middle" font-size="10" font-weight="bold" fill="#FF6F00">Kafka Broker</text>
+  <text x="940" y="614" text-anchor="middle" font-size="8" fill="#555">Topic messages from</text>
+  <text x="940" y="626" text-anchor="middle" font-size="7" fill="#888">kafka.flow.processor</text>
+  <line x1="1032" y1="602" x2="1058" y2="602" stroke="#E65100" stroke-width="1.5" marker-end="url(#c)"/>
+
+  <!-- Plugin call -->
+  <rect x="1060" y="575" width="300" height="55" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="1210" y="595" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">plugin.process(context, event)</text>
+  <text x="1210" y="610" text-anchor="middle" font-size="8" fill="#555">User's IEventHandler.process() called</text>
+  <text x="1210" y="624" text-anchor="middle" font-size="7" fill="#888">→ Sends to Slack / Teams / ServiceNow etc.</text>
+
+  <!-- Topic naming detail -->
+  <rect x="40" y="645" width="1320" height="98" rx="5" fill="#FAFAFA" stroke="#CCC" stroke-dasharray="4,2"/>
+  <text x="50" y="663" font-size="9" font-weight="bold" fill="#333">C2C Kafka Topic Construction (kafka_consumer.py:_get_topic):</text>
+  <text x="50" y="680" font-size="8" font-family="Consolas, monospace" fill="#555">def _get_topic(self): return f'{self.account_id}_{self.flow_id}_SOAR_LIGHT_{self.event_type}'</text>
+  <text x="50" y="697" font-size="9" font-weight="bold" fill="#333">Example topics for flow_id=42, account_id=acme-corp:</text>
+  <text x="50" y="712" font-size="8" font-family="Consolas, monospace" fill="#E65100">  acme-corp_42_SOAR_LIGHT_AUDIT_LOG          ← One Python process consuming this</text>
+  <text x="50" y="725" font-size="8" font-family="Consolas, monospace" fill="#E65100">  acme-corp_42_SOAR_LIGHT_DNS_LOG             ← Another Python process consuming this</text>
+  <text x="50" y="738" font-size="8" font-family="Consolas, monospace" fill="#888">  Consumer group: cdc-soar-light-42           ← Shared group across data types of same flow</text>
+
+  <!-- ===== PHASE 4: Health + Metrics ===== -->
+  <rect x="20" y="758" width="1360" height="155" rx="8" fill="white" stroke="#6A1B9A" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="758" width="1360" height="28" rx="8 8 0 0" fill="#6A1B9A"/>
+  <text x="700" y="777" text-anchor="middle" fill="white" font-size="13" font-weight="bold">PHASE 4 — Health Monitoring &amp; Metrics (health_checker.py / metrics.py)</text>
+
+  <rect x="40" y="800" width="300" height="55" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="190" y="820" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Health Checker (per flow)</text>
+  <text x="190" y="836" text-anchor="middle" font-size="8" fill="#555">Every 30s: plugin.get_health_status(ctx)</text>
+  <text x="190" y="848" text-anchor="middle" font-size="7" fill="#888">Started by first data type (alphabetically)</text>
+  <line x1="342" y1="827" x2="368" y2="827" stroke="#6A1B9A" stroke-width="1.5" marker-end="url(#d)"/>
+
+  <rect x="370" y="800" width="310" height="55" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="525" y="820" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Metrics Writer</text>
+  <text x="525" y="836" text-anchor="middle" font-size="8" font-family="Consolas, monospace" fill="#555">/var/cache/cdc_metrics/soar_light/flows/{flow_id}_{type}.json</text>
+  <text x="525" y="848" text-anchor="middle" font-size="7" fill="#888">{pending, processed, error_count, health status, timestamps}</text>
+  <line x1="682" y1="827" x2="708" y2="827" stroke="#6A1B9A" stroke-width="1.5" marker-end="url(#d)"/>
+
+  <rect x="710" y="800" width="240" height="55" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="830" y="820" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Liveness Probe</text>
+  <text x="830" y="836" text-anchor="middle" font-size="8" fill="#555">HTTP /health on :8081</text>
+  <text x="830" y="848" text-anchor="middle" font-size="7" fill="#888">Aggregates all flow health → 200/503</text>
+
+  <rect x="970" y="800" width="390" height="55" rx="6" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+  <text x="1165" y="820" text-anchor="middle" font-size="10" font-weight="bold" fill="#6A1B9A">Test Event (C2C only)</text>
+  <text x="1165" y="836" text-anchor="middle" font-size="8" fill="#555">Publishes test event → verifies end-to-end delivery</text>
+  <text x="1165" y="848" text-anchor="middle" font-size="7" fill="#888">Metrics: test_event.status, test_event.timestamp, test_event.logType</text>
+
+  <text x="40" y="890" font-size="9" fill="#888">One Python process is spawned PER data type PER flow. Flow with 3 data types = 3 Python processes + 1 health checker thread (in first process alphabetically).</text>
+  <text x="40" y="906" font-size="9" fill="#888">Manager tracks handlers map[string]*Handler keyed by "{flow_id}_{data_type}" — DELETE operation sends SIGTERM to all matching processes.</text>
+
+  <!-- ===== Upstream Data Source ===== -->
+  <rect x="20" y="924" width="1360" height="160" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <rect x="20" y="924" width="1360" height="28" rx="8 8 0 0" fill="#555"/>
+  <text x="700" y="943" text-anchor="middle" fill="white" font-size="13" font-weight="bold">C2C Upstream — How Events Reach SOAR-Light's Kafka Topics</text>
+
+  <rect x="40" y="965" width="170" height="48" rx="5" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="125" y="987" text-anchor="middle" font-size="9" fill="#555">BloxOne TD / DDI</text>
+  <text x="125" y="1000" text-anchor="middle" font-size="7" fill="#888">DNS/DHCP/Threat data</text>
+  <line x1="212" y1="989" x2="248" y2="989" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="250" y="965" width="190" height="48" rx="5" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="345" y="984" text-anchor="middle" font-size="9" fill="#555">Kafka Raw Topics</text>
+  <text x="345" y="1000" text-anchor="middle" font-size="8" fill="#E65100">{acctId}_flowID{flowId}_{type}</text>
+  <line x1="442" y1="989" x2="478" y2="989" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="480" y="965" width="210" height="48" rx="5" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="585" y="984" text-anchor="middle" font-size="9" fill="#555">kafka.flow.processor</text>
+  <text x="585" y="1000" text-anchor="middle" font-size="8" fill="#888">Routes to dest-specific topics</text>
+  <line x1="692" y1="989" x2="728" y2="989" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="730" y="965" width="310" height="48" rx="5" fill="#FFECB3" stroke="#FF6F00" stroke-width="1.5"/>
+  <text x="885" y="984" text-anchor="middle" font-size="10" font-weight="bold" fill="#FF6F00">SOAR-Light Kafka Topic</text>
+  <text x="885" y="1001" text-anchor="middle" font-size="9" font-weight="bold" fill="#C62828">{acctId}_{flowId}_SOAR_LIGHT_{type}</text>
+  <line x1="1042" y1="989" x2="1078" y2="989" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="1080" y="965" width="280" height="48" rx="5" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="1220" y="987" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">soar-light Python Consumer</text>
+  <text x="1220" y="1001" text-anchor="middle" font-size="8" fill="#555">group: cdc-soar-light-{flowId}</text>
+
+  <text x="40" y="1040" font-size="9" fill="#888">kafka.flow.processor reads raw topics, filters by ecosystem/dataType, and re-publishes to destination-specific topics including SOAR_LIGHT.</text>
+  <text x="40" y="1056" font-size="9" fill="#888">Each flow creates separate Kafka topics per data type — ensuring isolated consumption and offset tracking per flow.</text>
+
+  <!-- Legend -->
+  <rect x="40" y="1070" width="120" height="16" rx="3" fill="#E3F2FD" stroke="#1565C0"/>
+  <text x="108" y="1082" font-size="7" fill="#555">Config Source</text>
+  <rect x="170" y="1070" width="120" height="16" rx="3" fill="#FFF3E0" stroke="#E65100"/>
+  <text x="238" y="1082" font-size="7" fill="#555">Kafka / Message</text>
+  <rect x="300" y="1070" width="120" height="16" rx="3" fill="#E8F5E9" stroke="#2E7D32"/>
+  <text x="368" y="1082" font-size="7" fill="#555">Processing</text>
+  <rect x="430" y="1070" width="120" height="16" rx="3" fill="#FCE4EC" stroke="#AD1457"/>
+  <text x="498" y="1082" font-size="7" fill="#555">Execution</text>
+  <rect x="560" y="1070" width="120" height="16" rx="3" fill="#F3E5F5" stroke="#6A1B9A"/>
+  <text x="628" y="1082" font-size="7" fill="#555">Health / Metrics</text>
+</svg>

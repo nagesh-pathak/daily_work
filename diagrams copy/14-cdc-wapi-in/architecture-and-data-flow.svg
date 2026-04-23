@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 650" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#555"/></marker>
+    <filter id="s"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1100" height="650" fill="#f8f9fa" rx="6"/>
+  <rect x="0" y="0" width="1100" height="50" fill="#F57F17"/>
+  <text x="550" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">cdc.wapi-in — IPAM Metadata via WAPI REST Polling</text>
+
+  <rect x="20" y="65" width="1060" height="35" rx="4" fill="#FFF8E1" stroke="#F57F17" stroke-width="1"/>
+  <text x="550" y="87" text-anchor="middle" font-size="11" font-weight="bold" fill="#F57F17">On-Prem Only — Polls NIOS WAPI REST API for IPAM metadata. Incremental change tracking. Avro output for cloud upload.</text>
+
+  <!-- Pipeline -->
+  <rect x="20" y="115" width="1060" height="200" rx="8" fill="#FFF8E1" stroke="#F57F17" stroke-width="2" filter="url(#s)"/>
+  <text x="550" y="140" text-anchor="middle" font-size="14" font-weight="bold" fill="#F57F17">Data Flow Pipeline</text>
+
+  <rect x="40" y="155" width="170" height="70" rx="6" fill="white" stroke="#E65100"/>
+  <text x="125" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">NIOS WAPI</text>
+  <text x="55" y="198" font-size="9" fill="#555">REST API (HTTPS)</text>
+  <text x="55" y="213" font-size="9" fill="#555">IPAM object queries</text>
+  <line x1="212" y1="190" x2="238" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="240" y="155" width="180" height="70" rx="6" fill="white" stroke="#F57F17"/>
+  <text x="330" y="175" text-anchor="middle" font-size="11" font-weight="bold" fill="#F57F17">WAPI Poller</text>
+  <text x="255" y="198" font-size="9" fill="#555">Incremental tracking via</text>
+  <text x="255" y="213" font-size="9" fill="#555">sequence IDs per object type</text>
+  <line x1="422" y1="190" x2="448" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="450" y="155" width="180" height="70" rx="6" fill="white" stroke="#6A1B9A"/>
+  <text x="540" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#6A1B9A">Avro Serializer</text>
+  <text x="465" y="198" font-size="9" fill="#555">Apache Avro format</text>
+  <text x="465" y="213" font-size="9" fill="#555">Schema per object type</text>
+  <line x1="632" y1="190" x2="658" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="660" y="155" width="200" height="70" rx="6" fill="white" stroke="#2E7D32"/>
+  <text x="760" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#2E7D32">IPMeta Output Dir</text>
+  <text x="675" y="198" font-size="9" fill="#555">/data/out/cloud/ipmeta/</text>
+  <text x="675" y="213" font-size="9" fill="#555">ipmeta-{ts}-{id}.avro</text>
+  <line x1="862" y1="190" x2="888" y2="190" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="890" y="155" width="170" height="70" rx="6" fill="white" stroke="#1565C0"/>
+  <text x="975" y="178" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">cdc.rest-out</text>
+  <text x="905" y="198" font-size="9" fill="#555">Uploads to cloud</text>
+  <text x="905" y="213" font-size="9" fill="#555">X-Snapshot header</text>
+
+  <!-- Change tracking -->
+  <rect x="40" y="240" width="1020" height="55" rx="5" fill="white" stroke="#F57F17"/>
+  <text x="550" y="260" text-anchor="middle" font-size="11" font-weight="bold" fill="#F57F17">Incremental Change Tracking</text>
+  <text x="55" y="282" font-size="9" fill="#555">Initial: full snapshot of all objects | Subsequent: delta changes via sequence IDs | 7-day cache validity | Snapshot refresh after cache expiry</text>
+
+  <!-- WAPI Objects -->
+  <rect x="20" y="335" width="530" height="290" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="285" y="360" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">WAPI Objects Polled</text>
+
+  <rect x="40" y="375" width="490" height="40" rx="4" fill="#FFF8E1" stroke="#F57F17"/>
+  <text x="55" y="393" font-size="10" font-weight="bold" fill="#F57F17">DHCP Leases</text>
+  <text x="200" y="393" font-size="9" fill="#555">IP address, MAC, hostname, state, binding_state, starts, ends</text>
+
+  <rect x="40" y="425" width="490" height="40" rx="4" fill="#FFF8E1" stroke="#F57F17"/>
+  <text x="55" y="443" font-size="10" font-weight="bold" fill="#F57F17">Fixed Addresses</text>
+  <text x="200" y="443" font-size="9" fill="#555">IP, MAC, name, match_client (MAC/RESERVED/CIRCUIT), network_view</text>
+
+  <rect x="40" y="475" width="490" height="40" rx="4" fill="#FFF8E1" stroke="#F57F17"/>
+  <text x="55" y="493" font-size="10" font-weight="bold" fill="#F57F17">Host Records</text>
+  <text x="200" y="493" font-size="9" fill="#555">hostname, IP addresses[], aliases[], zone, view, TTL</text>
+
+  <rect x="40" y="525" width="490" height="40" rx="4" fill="#FFF8E1" stroke="#F57F17"/>
+  <text x="55" y="543" font-size="10" font-weight="bold" fill="#F57F17">DNS Records</text>
+  <text x="200" y="543" font-size="9" fill="#555">A, AAAA, CNAME, PTR, MX, TXT, SRV — name, rdata, zone, view</text>
+
+  <rect x="40" y="575" width="490" height="40" rx="4" fill="#FFF8E1" stroke="#F57F17"/>
+  <text x="55" y="593" font-size="10" font-weight="bold" fill="#F57F17">DHCP Ranges</text>
+  <text x="200" y="593" font-size="9" fill="#555">start_addr, end_addr, network, network_view, member, options</text>
+
+  <!-- Right details -->
+  <rect x="570" y="335" width="510" height="290" rx="8" fill="white" stroke="#555" stroke-width="1" filter="url(#s)"/>
+  <text x="825" y="360" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Configuration &amp; Dependencies</text>
+  <text x="590" y="390" font-size="10" font-weight="bold" fill="#333">WAPI Connection:</text>
+  <text x="590" y="410" font-size="9" fill="#555">• NIOS Grid Master IP / hostname</text>
+  <text x="590" y="426" font-size="9" fill="#555">• WAPI version: v2.x (REST API)</text>
+  <text x="590" y="442" font-size="9" fill="#555">• Auth: username/password (Vault encrypted)</text>
+  <text x="590" y="458" font-size="9" fill="#555">• TLS: certificate validation</text>
+  <text x="590" y="480" font-size="10" font-weight="bold" fill="#333">Avro Output:</text>
+  <text x="590" y="500" font-size="9" fill="#555">• File: ipmeta-{timestamp}-{sequence_id}.avro</text>
+  <text x="590" y="516" font-size="9" fill="#555">• Schema per object type (embedded in file)</text>
+  <text x="590" y="532" font-size="9" fill="#555">• Snapshot files marked with is_snapshot flag</text>
+  <text x="590" y="550" font-size="10" font-weight="bold" fill="#333">Dependencies:</text>
+  <text x="590" y="570" font-size="9" fill="#555">• NIOS WAPI REST API (data source)</text>
+  <text x="590" y="586" font-size="9" fill="#555">• cdc.rest-out (uploads to cloud)</text>
+  <text x="590" y="602" font-size="9" fill="#555">• Flume SpoolDir or direct cloud upload</text>
+  <text x="590" y="618" font-size="9" fill="#555">• 7-day cache validity, auto-refresh snapshots</text>
+</svg>

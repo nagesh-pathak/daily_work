@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 720" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f8a4c"/>
+    </marker>
+    <style>
+      .title  { font-size: 22px; font-weight: 700; }
+      .lane   { font-size: 14px; font-weight: 700; fill: #555; }
+      .box    { fill: #fff; stroke: #333; stroke-width: 1.5; rx: 8; ry: 8; }
+      .api    { fill: #eaf3ff; stroke: #1e6ad6; }
+      .db     { fill: #fff7e0; stroke: #b8860b; }
+      .mgr    { fill: #f3e8ff; stroke: #6b3fa0; }
+      .cons   { fill: #e6fbe6; stroke: #1f8a4c; }
+      .ext    { fill: #f0f0f0; stroke: #777; }
+      .saas   { fill: #fde8e8; stroke: #b3261e; }
+      .lbl    { fill: #222; }
+      .lblsm  { fill: #333; font-size: 11px; }
+      .pathlbl{ fill: #333; font-size: 12px; font-weight: 600; }
+      .arrow  { fill: none; stroke: #333; stroke-width: 1.6; }
+      .arrowG { fill: none; stroke: #1f8a4c; stroke-width: 1.6; }
+      .swim   { fill: #f8f8f8; stroke: #ccc; }
+    </style>
+  </defs>
+
+  <text x="700" y="34" text-anchor="middle" class="title">CDC Config Push — Cloud‑to‑Cloud Flow</text>
+  <text x="700" y="58" text-anchor="middle" class="lblsm">No onprem appliance. Same cdc_config table; the consumer runs as a cloud Deployment in the BloxOne CSP cluster.</text>
+
+  <!-- Swimlanes -->
+  <rect x="20"  y="80"  width="1360" height="320" class="swim"/>
+  <rect x="20"  y="410" width="1360" height="290" class="swim"/>
+  <text x="40" y="105" class="lane">BloxOne CSP CLUSTER (control plane)</text>
+  <text x="40" y="435" class="lane">BloxOne CSP CLUSTER (data plane)  /  External SaaS</text>
+
+  <!-- Control plane -->
+  <rect x="60"  y="140" width="200" height="80"  class="box api"/>
+  <text x="160" y="170" text-anchor="middle" class="lbl" font-weight="700">User / UI / API</text>
+  <text x="160" y="190" text-anchor="middle" class="lblsm">POST /cdc/v1/config/{name}</text>
+  <text x="160" y="206" text-anchor="middle" class="lblsm">e.g. splunkcloud_out, http_out</text>
+
+  <rect x="320" y="140" width="240" height="120" class="box api"/>
+  <text x="440" y="168" text-anchor="middle" class="lbl" font-weight="700">cdc.api</text>
+  <text x="440" y="188" text-anchor="middle" class="lblsm">CreateConfig</text>
+  <text x="440" y="204" text-anchor="middle" class="lblsm">• validate</text>
+  <text x="440" y="220" text-anchor="middle" class="lblsm">• dup check</text>
+  <text x="440" y="236" text-anchor="middle" class="lblsm">• INSERT cdc_config (tenant ophid)</text>
+  <text x="440" y="252" text-anchor="middle" class="lblsm">• PubSub publish</text>
+
+  <rect x="620" y="160" width="200" height="80"  class="box db"/>
+  <text x="720" y="188" text-anchor="middle" class="lbl" font-weight="700">Postgres cdc_config</text>
+  <text x="720" y="206" text-anchor="middle" class="lblsm">same schema as onprem case</text>
+  <text x="720" y="222" text-anchor="middle" class="lblsm">trigger set_version()</text>
+
+  <rect x="320" y="290" width="240" height="80" class="box ext"/>
+  <text x="440" y="318" text-anchor="middle" class="lbl" font-weight="700">PubSub / Kafka</text>
+  <text x="440" y="338" text-anchor="middle" class="lblsm">topic: atlas.pubsub.publish.&lt;name&gt;</text>
+  <text x="440" y="354" text-anchor="middle" class="lblsm">{ophid (tenant), version, app_name}</text>
+
+  <rect x="880" y="140" width="280" height="180" class="box mgr"/>
+  <text x="1020" y="168" text-anchor="middle" class="lbl" font-weight="700">atlas.config.manager (optional)</text>
+  <text x="1020" y="190" text-anchor="middle" class="lblsm">In C2C the manager is often bypassed</text>
+  <text x="1020" y="206" text-anchor="middle" class="lblsm">— the cloud consumer pulls directly</text>
+  <text x="1020" y="222" text-anchor="middle" class="lblsm">from cdc.api.</text>
+  <text x="1020" y="246" text-anchor="middle" class="lblsm">No UPS gating</text>
+  <text x="1020" y="262" text-anchor="middle" class="lblsm">No Subscribe stream over WAN</text>
+  <text x="1020" y="278" text-anchor="middle" class="lblsm">No 4 MB fragmentation needed</text>
+  <text x="1020" y="298" text-anchor="middle" class="lblsm">(in-cluster bandwidth is cheap)</text>
+
+  <!-- Arrows control plane -->
+  <path class="arrow" d="M260 180 H 320" marker-end="url(#arrow)"/>
+  <text x="290" y="172" text-anchor="middle" class="lblsm">1</text>
+  <path class="arrow" d="M560 195 H 620" marker-end="url(#arrow)"/>
+  <text x="590" y="187" text-anchor="middle" class="lblsm">2  INSERT</text>
+  <path class="arrow" d="M440 260 V 290" marker-end="url(#arrow)"/>
+  <text x="455" y="280" class="lblsm">3  publish</text>
+  <path class="arrow" d="M560 330 H 880 L 880 230" marker-end="url(#arrow)"/>
+  <text x="700" y="322" text-anchor="middle" class="lblsm">4  notification (subscriber)</text>
+
+  <!-- Data plane -->
+  <rect x="320" y="470" width="280" height="160" class="box cons"/>
+  <text x="460" y="498" text-anchor="middle" class="lbl" font-weight="700">Cloud CDC consumer pods</text>
+  <text x="460" y="518" text-anchor="middle" class="lblsm">cdc.splunk-out (splunkcloud_out build)</text>
+  <text x="460" y="534" text-anchor="middle" class="lblsm">cdc.http-out  /  cdc.siem-out</text>
+  <text x="460" y="550" text-anchor="middle" class="lblsm">cdc.grpc-in  /  cdc.flume (rare)</text>
+  <text x="460" y="572" text-anchor="middle" class="lblsm">K8s Deployment, multiple replicas</text>
+  <text x="460" y="588" text-anchor="middle" class="lblsm">filters by tenant ophid</text>
+  <text x="460" y="606" text-anchor="middle" class="lblsm">reload = K8s rolling update</text>
+
+  <rect x="700" y="470" width="240" height="100" class="box ext"/>
+  <text x="820" y="498" text-anchor="middle" class="lbl" font-weight="700">cdc.api  GET /config</text>
+  <text x="820" y="518" text-anchor="middle" class="lblsm">/cdc/v1/config/&lt;name&gt;/&lt;ophid&gt;/latest</text>
+  <text x="820" y="536" text-anchor="middle" class="lblsm">renders JSON via templates</text>
+  <text x="820" y="552" text-anchor="middle" class="lblsm">returns base64 configBody</text>
+
+  <rect x="1000" y="470" width="220" height="100" class="box saas"/>
+  <text x="1110" y="498" text-anchor="middle" class="lbl" font-weight="700">External SaaS targets</text>
+  <text x="1110" y="518" text-anchor="middle" class="lblsm">Splunk Cloud</text>
+  <text x="1110" y="534" text-anchor="middle" class="lblsm">customer SIEM</text>
+  <text x="1110" y="550" text-anchor="middle" class="lblsm">customer HTTP webhook</text>
+
+  <rect x="700" y="600" width="240" height="80" class="box ext"/>
+  <text x="820" y="628" text-anchor="middle" class="lbl" font-weight="700">cdc.api  POST /status</text>
+  <text x="820" y="648" text-anchor="middle" class="lblsm">UpdateConfigStatus</text>
+  <text x="820" y="664" text-anchor="middle" class="lblsm">UPDATE message + status_code</text>
+
+  <!-- Arrows data plane -->
+  <path class="arrow" d="M1020 320 V 470" marker-end="url(#arrow)"/>
+  <text x="1030" y="395" class="lblsm">5  notify (or direct subscribe)</text>
+
+  <path class="arrow" d="M600 540 H 700" marker-end="url(#arrow)"/>
+  <text x="650" y="532" text-anchor="middle" class="lblsm">6  GET latest</text>
+
+  <path class="arrow" d="M940 540 H 1000" marker-end="url(#arrow)"/>
+  <text x="970" y="532" text-anchor="middle" class="lblsm">7  forward data</text>
+
+  <path class="arrowG" d="M460 630 H 700" marker-end="url(#arrowGreen)"/>
+  <text x="580" y="622" text-anchor="middle" class="lblsm" fill="#1f8a4c">8  POST /status — applied / skipped</text>
+
+  <path class="arrow" d="M820 600 V 240" marker-end="url(#arrow)"/>
+  <text x="830" y="430" class="lblsm">9  UPDATE → cdc.api → DB</text>
+
+  <!-- Notes -->
+  <rect x="60" y="620" width="240" height="80" class="box ext"/>
+  <text x="180" y="640" text-anchor="middle" class="lbl" font-weight="700">Common C2C failure modes</text>
+  <text x="70" y="658" class="lblsm">• PubSub topic misconfigured</text>
+  <text x="70" y="673" class="lblsm">• consumer pod CrashLoop / unschedulable</text>
+  <text x="70" y="688" class="lblsm">• tenant ophid mismatch</text>
+</svg>

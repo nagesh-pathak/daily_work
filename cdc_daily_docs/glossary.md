@@ -20,3 +20,13 @@
 - **CEF / LEEF** — Common Event Format / Log Event Extended Format used by SIEMs.
 - **Flow** — A configured pipeline definition mapping a source to one or more destinations.
 - **Tenant** — A customer / account boundary used for routing and isolation.
+
+### Added 2026-05-11 14:07
+
+- **CDC** — Cloud Data Connector; pipeline that delivers DNS/DHCP/RPZ/security telemetry to customer destinations.
+- **RPZ** — Response Policy Zone; DNS firewall mechanism whose hits are valuable security events.
+- **WAPI** — Web API exposed by Infoblox NIOS appliances.
+- **HEC** — HTTP Event Collector (Splunk).
+- **CEF / LEEF** — Common Event Format / Log Event Extended Format used by SIEMs.
+- **Flow** — A configured pipeline definition mapping a source to one or more destinations.
+- **Tenant** — A customer / account boundary used for routing and isolation.

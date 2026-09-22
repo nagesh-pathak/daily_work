@@ -10,3 +10,13 @@ On-prem CDC agent that runs the data pipeline lifecycle on customer hosts.
 - **Outputs:** gRPC channel to cloud
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-09-22 17:00)
+
+On-prem CDC agent that runs the data pipeline lifecycle on customer hosts.
+
+- **Role in CDC pipeline:** Edge data collector
+- **Inputs:** Local DNS/DHCP/RPZ logs
+- **Outputs:** gRPC channel to cloud
+
+> Notes captured progressively as part of the daily CDC study log.

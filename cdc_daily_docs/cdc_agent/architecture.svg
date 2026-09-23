@@ -5,7 +5,7 @@
     </marker>
   </defs>
   <rect x="1" y="1" width="718" height="218" fill="#fafafa" stroke="#ccc"/>
-  <text x="360" y="28" text-anchor="middle" font-weight="bold" font-size="16">cdc.agent — architecture (2026-05-04 17:41)</text>
+  <text x="360" y="28" text-anchor="middle" font-weight="bold" font-size="16">cdc.agent — architecture (2026-09-23 11:24)</text>
 
   <rect x="30"  y="80" width="180" height="70" rx="8" fill="#e6f2ff" stroke="#1f6feb"/>
   <text x="120" y="110" text-anchor="middle" font-weight="bold">Input</text>
@@ -22,5 +22,5 @@
   <line x1="210" y1="115" x2="270" y2="115" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="450" y1="115" x2="510" y2="115" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
 
-  <text x="360" y="195" text-anchor="middle" fill="#666" font-size="12">Generated 2026-05-04 17:41 — daily CDC study log</text>
+  <text x="360" y="195" text-anchor="middle" fill="#666" font-size="12">Generated 2026-09-23 11:24 — daily CDC study log</text>
 </svg>

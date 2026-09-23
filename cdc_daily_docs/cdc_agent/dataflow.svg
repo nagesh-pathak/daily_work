@@ -5,7 +5,7 @@
     </marker>
   </defs>
   <rect x="1" y="1" width="758" height="318" fill="#ffffff" stroke="#ccc"/>
-  <text x="380" y="28" text-anchor="middle" font-weight="bold" font-size="16">cdc.agent — data flow (2026-05-05 18:49)</text>
+  <text x="380" y="28" text-anchor="middle" font-weight="bold" font-size="16">cdc.agent — data flow (2026-09-23 17:00)</text>
 
   <rect x="30"  y="70" width="160" height="60" rx="6" fill="#eef" stroke="#447"/><text x="110" y="105" text-anchor="middle">Source</text>
   <rect x="220" y="70" width="160" height="60" rx="6" fill="#eef" stroke="#447"/><text x="300" y="105" text-anchor="middle">Validate / Decode</text>
@@ -19,5 +19,5 @@
   <rect x="30"  y="200" width="710" height="70" rx="6" fill="#fdf6e3" stroke="#b58900"/>
   <text x="385" y="225" text-anchor="middle" font-weight="bold">Cross-cutting</text>
   <text x="385" y="248" text-anchor="middle">metrics · structured logs · tracing · retries · dead-letter</text>
-  <text x="385" y="265" text-anchor="middle" font-size="11" fill="#666">Generated 2026-05-05 18:49</text>
+  <text x="385" y="265" text-anchor="middle" font-size="11" fill="#666">Generated 2026-09-23 17:00</text>
 </svg>

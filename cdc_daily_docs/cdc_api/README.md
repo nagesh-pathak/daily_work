@@ -10,3 +10,13 @@ External REST API surface for CDC management and configuration.
 - **Outputs:** Backing services
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-09-28 11:00)
+
+External REST API surface for CDC management and configuration.
+
+- **Role in CDC pipeline:** Public API
+- **Inputs:** HTTPS clients
+- **Outputs:** Backing services
+
+> Notes captured progressively as part of the daily CDC study log.

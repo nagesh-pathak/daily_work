@@ -10,3 +10,13 @@ Common base image and shared scaffolding for CDC microservices.
 - **Outputs:** N/A
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-10-01 14:00)
+
+Common base image and shared scaffolding for CDC microservices.
+
+- **Role in CDC pipeline:** Base library / image
+- **Inputs:** N/A
+- **Outputs:** N/A
+
+> Notes captured progressively as part of the daily CDC study log.

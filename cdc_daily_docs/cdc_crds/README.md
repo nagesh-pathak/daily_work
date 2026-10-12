@@ -10,3 +10,13 @@ Kubernetes CustomResourceDefinitions used by CDC operators.
 - **Outputs:** K8s API
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-10-12 11:00)
+
+Kubernetes CustomResourceDefinitions used by CDC operators.
+
+- **Role in CDC pipeline:** K8s schema
+- **Inputs:** kubectl/operators
+- **Outputs:** K8s API
+
+> Notes captured progressively as part of the daily CDC study log.

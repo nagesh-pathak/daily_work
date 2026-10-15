@@ -10,3 +10,13 @@ Core data flow orchestrator that wires producers, processors and consumers.
 - **Outputs:** Kafka/processors
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-10-15 11:00)
+
+Core data flow orchestrator that wires producers, processors and consumers.
+
+- **Role in CDC pipeline:** Pipeline orchestrator
+- **Inputs:** Kafka/gRPC
+- **Outputs:** Kafka/processors
+
+> Notes captured progressively as part of the daily CDC study log.

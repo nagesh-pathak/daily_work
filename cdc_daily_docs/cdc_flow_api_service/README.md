@@ -10,3 +10,13 @@ Manages flow definitions and runtime state via API.
 - **Outputs:** Flow registry
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-10-20 17:21)
+
+Manages flow definitions and runtime state via API.
+
+- **Role in CDC pipeline:** Control plane
+- **Inputs:** API clients
+- **Outputs:** Flow registry
+
+> Notes captured progressively as part of the daily CDC study log.

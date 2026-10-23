@@ -10,3 +10,13 @@ Infrastructure facing service for cluster-level CDC concerns.
 - **Outputs:** CDC services
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-10-23 14:01)
+
+Infrastructure facing service for cluster-level CDC concerns.
+
+- **Role in CDC pipeline:** Infra glue
+- **Inputs:** K8s/cloud APIs
+- **Outputs:** CDC services
+
+> Notes captured progressively as part of the daily CDC study log.

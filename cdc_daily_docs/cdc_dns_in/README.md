@@ -10,3 +10,13 @@ Ingests DNS query/response logs into the CDC pipeline.
 - **Outputs:** Kafka topics
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-11-03 11:00)
+
+Ingests DNS query/response logs into the CDC pipeline.
+
+- **Role in CDC pipeline:** Ingestion (in)
+- **Inputs:** DNS log streams
+- **Outputs:** Kafka topics
+
+> Notes captured progressively as part of the daily CDC study log.

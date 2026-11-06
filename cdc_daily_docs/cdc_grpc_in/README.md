@@ -10,3 +10,13 @@ Ingests events over gRPC from on-prem agents.
 - **Outputs:** Kafka topics
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-11-06 14:00)
+
+Ingests events over gRPC from on-prem agents.
+
+- **Role in CDC pipeline:** Ingestion (in)
+- **Inputs:** gRPC streams from agents
+- **Outputs:** Kafka topics
+
+> Notes captured progressively as part of the daily CDC study log.

@@ -10,3 +10,13 @@ Ingests Response Policy Zone (RPZ) hit/feed events.
 - **Outputs:** Kafka topics
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-11-13 17:00)
+
+Ingests Response Policy Zone (RPZ) hit/feed events.
+
+- **Role in CDC pipeline:** Ingestion (in)
+- **Inputs:** RPZ event stream
+- **Outputs:** Kafka topics
+
+> Notes captured progressively as part of the daily CDC study log.

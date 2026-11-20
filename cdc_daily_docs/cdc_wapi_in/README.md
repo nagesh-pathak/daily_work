@@ -10,3 +10,13 @@ Ingests events from the Infoblox WAPI source.
 - **Outputs:** Kafka topics
 
 > Notes captured progressively as part of the daily CDC study log.
+
+## Overview (2026-11-20 11:00)
+
+Ingests events from the Infoblox WAPI source.
+
+- **Role in CDC pipeline:** Ingestion (in)
+- **Inputs:** WAPI source
+- **Outputs:** Kafka topics
+
+> Notes captured progressively as part of the daily CDC study log.
